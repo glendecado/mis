@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -10,7 +11,13 @@ class User extends Component
     public $email;
     public $password;
     public function login(){
-        dd([$this->email, $this->password]);
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            // Authentication successful
+            return redirect()->intended('/');
+        } else {
+            // Authentication failed
+            session()->flash('login-error', 'Invalid credentials');
+        }
     }
 
     #[Layout('layouts.app')] 
