@@ -1,0 +1,1 @@
+<button wire:click="logout">logout</button>

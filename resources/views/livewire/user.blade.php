@@ -5,6 +5,7 @@
 @endguest
 @auth
 <h1>hey</h1>
+@include('User.logout')
 @endauth
 
 </div>

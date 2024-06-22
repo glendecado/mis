@@ -10,6 +10,7 @@ class User extends Component
 {
     public $email;
     public $password;
+
     public function login(){
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             // Authentication successful
@@ -20,6 +21,10 @@ class User extends Component
         }
     }
 
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
     #[Layout('layouts.app')] 
     public function render()
     {
