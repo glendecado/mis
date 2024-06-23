@@ -2,14 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-input{
-    background: #c2c2c2;
-    border-radius: 20px;
+input {
+    background: #d7d7d7;
+    border-radius: 10px;
     padding: 5px 10px 5px 10px;
-    
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+input:focus {
+  border-color: rgb(101, 101, 101);
+}
+
+table,
+th,
+td {
+    border: 1px solid rgb(53, 53, 53);
+    border-collapse: collapse;
+}
+
+button {
+    background: #d7d7d7;
+    border: 2px rgb(101, 101, 101) solid;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
 }
