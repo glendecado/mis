@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input{
+    background: #c2c2c2;
+    border-radius: 20px;
+    padding: 5px 10px 5px 10px;
+    
+}
