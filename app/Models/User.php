@@ -53,7 +53,7 @@ class User extends Authenticatable
         return $this->hasOne(MisStaff::class);
     }
 
-/*     public function TechnicalStaff()
+    public function TechnicalStaff()
     {
         return $this->hasOne(TechnicalStaff::class);
     }
@@ -61,5 +61,5 @@ class User extends Authenticatable
     public function Faculty()
     {
         return $this->hasOne(Faculty::class);
-    } */
+    }
 }

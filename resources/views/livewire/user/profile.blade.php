@@ -6,7 +6,7 @@
         email: {{Auth::User()->email}}<br>
         password: {{Auth::User()->password}}<br>
 
-        <x-modal name="Edit User">
-            @include('User.update')
-        </x-modal>
+
+        @include('User.update')
+
 </div>
