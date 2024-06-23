@@ -11,14 +11,18 @@ use Livewire\Component;
 class MisStaff extends Component
 {
     public $name = '';
-
     public $email = '';
     public $role = 'Technical Staff';
     public $password = '';
     public $college = 'Cas';
     public $building = '';
     public $room = '';
-    public function addUser(){
+    public $users;
+
+    public function mount(){
+        $this->users = User::where('role', '!=', 'Mis Staff')->get();
+    }
+    public function AddUser(){
         $user = User::create([
             'role' => $this->role,
             'name' => $this->name,
@@ -52,6 +56,14 @@ class MisStaff extends Component
             $this->reset();
          return redirect('/manage/user');
         }
+
+    public function DeleteUser($id)
+    {
+        $user = User::find($id);
+
+        $user->delete();
+        return redirect('/manage/user');
+    }
     public function render()
     {
         return view('livewire.mis.mis-staff');

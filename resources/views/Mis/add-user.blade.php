@@ -4,15 +4,39 @@
 
 {{--modal--}}
 <x-modal name="example-modal">
-    <form wire:submit.prevent="addUser">
+
+    <form wire:submit.prevent="AddUser">
         <label for="role">Select Role:</label>
         <select wire:model.change="role">
             <option value="Technical Staff">Technical Staff</option>
             <option value="Faculty">Faculty</option>
         </select>
-        <input type="text" wire:model="name" placeholder="name">
-        <input type="text" wire:model="email" placeholder="name">
-        <input type="text" wire:model="password" placeholder="name">
-        <input type="text" wire:model="role" placeholder="name">
+        @php
+        $faculty = ['name','email', 'college', 'building','room', 'password'];
+        $techStaff = ['name','email', 'password'];
+        @endphp
+        <div class="flex flex-col items-center ">
+            @if ($role == 'Faculty')
+            @foreach ($faculty as $f)
+            <div>
+                <label for="{{$f}}">{{$f}}:</label>
+                <input type="text" wire.model="{{$f}}" placeholder="{{$f}}">
+            </div>
+            @endforeach
+
+            @elseif($role == 'Technical Staff')
+            @foreach ($techStaff as $t)
+            <div>
+                <label for="{{$t}}">{{$t}}:</label>
+                <input type="text" wire:model="{{$t}}" placeholder="{{$t}}">
+            </div>
+            @endforeach
+            @endif
+
+
+            <button type="submit">add user</button>
+        </div>
+
     </form>
+
 </x-modal>
