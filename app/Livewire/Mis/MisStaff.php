@@ -6,7 +6,10 @@ use App\Models\Faculty;
 use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+
 
 class MisStaff extends Component
 {
@@ -19,10 +22,24 @@ class MisStaff extends Component
     public $room = '';
     public $users;
 
-    public function mount(){
+    protected $rules = [
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'role' => 'required',
+        'password' => 'required|min:6',
+        'building' => 'required_if:role,Faculty',
+        'room' => 'required_if:role,Faculty',
+    ];
+
+    public function mount()
+    {
         $this->users = User::where('role', '!=', 'Mis Staff')->get();
     }
-    public function AddUser(){
+
+    public function AddUser()
+    {
+        $this->validate();
+
         $user = User::create([
             'role' => $this->role,
             'name' => $this->name,
@@ -30,39 +47,38 @@ class MisStaff extends Component
             'password' => Hash::make($this->password),
         ]);
 
-
-        //if the role is Tecnical Staff
         if ($this->role == "Technical Staff") {
             $Techstaff = TechnicalStaff::create([
                 'user_id' => $user->id,
                 'totalRate' => 0,
                 'totalTask' => 0,
             ]);
-            $Techstaff->User()->associate($user);
-            $Techstaff->save();
-        }
-            //if the role is Tecnical Staff
-         elseif ($this->role == "Faculty") {
-            $Faculty =Faculty::create([
+        } elseif ($this->role == "Faculty") {
+            $Faculty = Faculty::create([
                 'user_id' => $user->id,
                 'college' => $this->college,
                 'building' => $this->building,
                 'room' => $this->room,
             ]);
-            $Faculty->User()->associate($user);
-            $Faculty->save();
-            }
-            
-            $this->reset();
-         return redirect('/manage/user');
         }
+
+        $this->reset();
+
+        return redirect('/manage/user');
+    }
 
     public function DeleteUser($id)
     {
         $user = User::find($id);
-
         $user->delete();
+
         return redirect('/manage/user');
+    }
+
+    #[On('resetValidation')] 
+    public function resetValidationErrors()
+    {
+        $this->resetErrorBag();
     }
     public function render()
     {
