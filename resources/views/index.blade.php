@@ -11,7 +11,12 @@
 </head>
 
 <body>
-    {{ $slot }}
+    @guest
+    @livewire('User.login')
+    @endguest
+    @auth
+    @include('dashboard')
+    @endauth
 </body>
 @livewireScripts
 

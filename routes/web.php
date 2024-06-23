@@ -1,8 +1,9 @@
 <?php
 
-use App\Livewire\User;
+
+use App\Livewire\User\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', User::class);
-Route::view('/profile', 'User.profile');
-Route::get('/profile/{id}',User::class);
+Route::view('/', 'index');
+
+Route::get('/profile', Profile::class)->name('profile');
