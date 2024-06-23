@@ -47,4 +47,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function MisStaff()
+    {
+        return $this->hasOne(MisStaff::class);
+    }
+
+/*     public function TechnicalStaff()
+    {
+        return $this->hasOne(TechnicalStaff::class);
+    }
+
+    public function Faculty()
+    {
+        return $this->hasOne(Faculty::class);
+    } */
 }
