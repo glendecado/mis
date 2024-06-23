@@ -8,3 +8,8 @@ input{
     padding: 5px 10px 5px 10px;
     
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
