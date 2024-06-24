@@ -1,4 +1,4 @@
-<center>
+<center class="h-[565px]">
     <table>
         <thead>
             <tr>
@@ -23,9 +23,10 @@
             @endforeach
         </tbody>
     </table>
-    <div>
-        {{$users->onEachSide(5)->links() }}
 
-    </div>
 
 </center>
+<div>
+    {{$users->links('vendor.pagination.mis') }}
+
+</div>
