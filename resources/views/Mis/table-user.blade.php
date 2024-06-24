@@ -1,4 +1,5 @@
 <center class="h-[565px]">
+    {{--search--}}
     <input type="text" wire:model.live="search">
     <table>
 
@@ -29,6 +30,7 @@
 
 </center>
 <div>
+    {{--pagination imported from vender/pagination/mis.blade.php--}}
     {{$users->links('vendor.pagination.mis') }}
 
 </div>
