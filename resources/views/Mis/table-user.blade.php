@@ -1,5 +1,7 @@
 <center class="h-[565px]">
+    <input type="text" wire:model.live="search">
     <table>
+
         <thead>
             <tr>
                 <th>ID</th>
