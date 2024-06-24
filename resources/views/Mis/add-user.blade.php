@@ -1,6 +1,6 @@
 {{--button--}}
 
-<button type="button" @click="$dispatch('open-modal',  'example-modal')"> Add User </button>
+<button type="button" @click="$dispatch('open-modal',  'example-modal')" > Add User </button>
 
 {{--modal--}}
 <x-modal name="example-modal">
@@ -36,7 +36,7 @@
             @endif
 
 
-            <button type="submit">add user</button>
+            <button type="submit" @click="$dispatch('data-update')">add user</button>
         </div>
 
     </form>

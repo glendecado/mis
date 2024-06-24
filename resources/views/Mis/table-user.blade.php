@@ -23,4 +23,9 @@
             @endforeach
         </tbody>
     </table>
+    <div>
+        {{$users->onEachSide(5)->links() }}
+
+    </div>
+
 </center>

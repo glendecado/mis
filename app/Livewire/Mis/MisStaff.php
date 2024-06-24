@@ -7,12 +7,12 @@ use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
-
+use Livewire\WithPagination;
 
 class MisStaff extends Component
 {
+    use WithPagination;
     public $name = '';
     public $email = '';
     public $role = 'Technical Staff';
@@ -37,21 +37,33 @@ class MisStaff extends Component
     {
         $this->validate();
 
+        $user = User::create([
+            'role' => $this->role,
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+        ]);
 
-        if ($this->role == 'Faculty') {
-            $this->dispatch('add-faculty');
-        } elseif ($this->role == 'Technical Staff') {
-            $this->dispatch('add-techstaff', 
-            name:$this->name, role:$this->role, email:$this->email, password:$this->password, totalRate:0, totalTask:0);
+        if ($this->role == "Technical Staff") {
+            TechnicalStaff::create([
+                'user_id' => $user->id,
+                'totalRate' => 0,
+                'totalTask' => 0,
+            ]);
+        } elseif ($this->role == "Faculty") {
+            Faculty::create([
+                'user_id' => $user->id,
+                'college' => $this->college,
+                'building' => $this->building,
+                'room' => $this->room,
+            ]);
         }
 
         $this->reset();
         session()->flash('success', 'User had been added successfully.');
-
-       
     }
 
-    
+
     public function DeleteUser($id)
     {
         $user = User::find($id);
@@ -60,17 +72,17 @@ class MisStaff extends Component
         return redirect('/manage/user');
     }
 
-
+    #[On('reset-validation')]
     public function resetValidationErrors()
     {
-       $this->dispatch('resetValidation', Name: $this->users);
+        $this->dispatch('resetValidation', Name: $this->users);
     }
 
- 
+
     #[On('data-update')]
     public function render()
     {
 
-        return view('livewire.mis.mis-staff', ['users' => User::where('role', '!=', 'Mis Staff')->get()]);
+        return view('livewire.mis.mis-staff', ['users' => User::where('role', '!=', 'Mis Staff')->paginate(4)]);
     }
 }
