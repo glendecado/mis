@@ -66,13 +66,12 @@ class MisStaff extends Component
         session()->flash('success', 'User had been added successfully.');
     }
 
-
+    #[On('user-delete')]
     public function DeleteUser($id)
     {
         $user = User::find($id);
         $user->delete();
 
-        return redirect('/manage/user');
     }
 
     #[On('reset-validation')]

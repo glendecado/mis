@@ -1,3 +1,1 @@
-<button type="button" wire:click="DeleteUser({{$user->id}})" wire:confirm="Are you sure you want to delete this post?">
-    Delete User
-</button>
+<button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('user-delete', { id: '{{$user->id}}' })">Delete</button>

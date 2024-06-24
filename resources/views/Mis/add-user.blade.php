@@ -20,7 +20,7 @@
             @foreach ($faculty as $f)
             <div>
                 <label for="{{$f}}">{{$f}}:</label>
-                <input type="text" wire.model.blur="{{$f}}" placeholder="{{$f}}">
+                <input type="text" wire.model="{{$f}}" placeholder="{{$f}}">
                 @error($f) <span class="error">{{ $message }}</span> @enderror
             </div>
             @endforeach
@@ -29,7 +29,7 @@
             @foreach ($techStaff as $t)
             <div>
                 <label for="{{$t}}">{{$t}}:</label>
-                <input type="text" wire:model.blur="{{$t}}" placeholder="{{$t}}">
+                <input type="text" wire:model="{{$t}}" placeholder="{{$t}}">
                 @error($t) <span class="error">{{ $message }}</span> @enderror
             </div>
             @endforeach
