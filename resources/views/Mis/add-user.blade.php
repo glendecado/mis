@@ -1,10 +1,10 @@
 {{--button--}}
 
-<button wire:click.prevent="resetValidationErrors" type="button" @click="$dispatch('open-modal',  'example-modal', )"> Add User </button>
+<button type="button" @click="$dispatch('open-modal',  'example-modal')"> Add User </button>
 
 {{--modal--}}
 <x-modal name="example-modal">
-
+    <x-success />
     <form wire:submit.prevent="AddUser">
         <label for="role">Select Role:</label>
         <select wire:model.change="role">

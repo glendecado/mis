@@ -20,7 +20,8 @@ class MisStaff extends Component
     public $college = 'Cas';
     public $building = '';
     public $room = '';
-    public $users;
+
+
 
     protected $rules = [
         'name' => 'required',
@@ -31,42 +32,26 @@ class MisStaff extends Component
         'room' => 'required_if:role,Faculty',
     ];
 
-    public function mount()
-    {
-        $this->users = User::where('role', '!=', 'Mis Staff')->get();
-    }
 
     public function AddUser()
     {
         $this->validate();
 
-        $user = User::create([
-            'role' => $this->role,
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
 
-        if ($this->role == "Technical Staff") {
-            $Techstaff = TechnicalStaff::create([
-                'user_id' => $user->id,
-                'totalRate' => 0,
-                'totalTask' => 0,
-            ]);
-        } elseif ($this->role == "Faculty") {
-            $Faculty = Faculty::create([
-                'user_id' => $user->id,
-                'college' => $this->college,
-                'building' => $this->building,
-                'room' => $this->room,
-            ]);
+        if ($this->role == 'Faculty') {
+            $this->dispatch('add-faculty');
+        } elseif ($this->role == 'Technical Staff') {
+            $this->dispatch('add-techstaff', 
+            name:$this->name, role:$this->role, email:$this->email, password:$this->password, totalRate:0, totalTask:0);
         }
 
         $this->reset();
+        session()->flash('success', 'User had been added successfully.');
 
-        return redirect('/manage/user');
+       
     }
 
+    
     public function DeleteUser($id)
     {
         $user = User::find($id);
@@ -75,13 +60,17 @@ class MisStaff extends Component
         return redirect('/manage/user');
     }
 
-    #[On('resetValidation')] 
+
     public function resetValidationErrors()
     {
-        $this->resetErrorBag();
+       $this->dispatch('resetValidation', Name: $this->users);
     }
+
+ 
+    #[On('data-update')]
     public function render()
     {
-        return view('livewire.mis.mis-staff');
+
+        return view('livewire.mis.mis-staff', ['users' => User::where('role', '!=', 'Mis Staff')->get()]);
     }
 }
