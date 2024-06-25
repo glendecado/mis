@@ -64,6 +64,7 @@ class MisStaff extends Component
 
         $this->reset();
         session()->flash('success', 'User had been added successfully.');
+        $this->dispatch('notification', Name: 'ds');
     }
 
     #[On('user-delete')]
