@@ -48,18 +48,24 @@ class MisStaff extends Component
         ]);
 
         if ($this->role == "Technical Staff") {
-            TechnicalStaff::create([
+            $tech = TechnicalStaff::create([
                 'user_id' => $user->id,
                 'totalRate' => 0,
                 'totalTask' => 0,
             ]);
+            $tech->User()->associate($user);
+            $tech->save();
+
         } elseif ($this->role == "Faculty") {
-            Faculty::create([
+            $fac = Faculty::create([
                 'user_id' => $user->id,
                 'college' => $this->college,
                 'building' => $this->building,
                 'room' => $this->room,
             ]);
+
+            $fac->User()->associate($user);
+            $fac->save();
         }
 
         $this->reset();
@@ -71,14 +77,23 @@ class MisStaff extends Component
     {
         $user = User::find($id);
         $user->delete();
-        $this->dispatch('alert', name: 'User had been deleted successfully.');
+        $this->dispatch('alert', name: 'User had been added successfully.');
 
     }
+
+
+
+
+
+
+
+    
 
     #[On('reset-validation')]
     public function resetValidationErrors()
     {
-        $this->dispatch('resetValidation', Name: $this->users);
+        $this->resetErrorBag();
+        $this->reset();
     }
 
 

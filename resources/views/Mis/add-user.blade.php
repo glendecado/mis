@@ -20,33 +20,37 @@
 
         {{--inputs for faculty and techstaff--}}
         @php
-        $faculty = ['name','email', 'college', 'building','room', 'password'];
+        $faculty = ['name','email','college','building','room','password'];
         $techStaff = ['name','email', 'password'];
         @endphp
 
 
         <div class="flex flex-col items-center ">
 
+
+        
             {{--if faculty--}}
             @if ($role == 'Faculty')
-
             {{--foreach from array $faculty--}}
             @foreach ($faculty as $f)
             <div>
                 <label for="{{$f}}">{{$f}}:</label>
-                <input type="text" wire.model="{{$f}}" placeholder="{{$f}}">
+                <input type="text" wire:model.live="{{$f}}" placeholder="{{$f}}">
                 @error($f) <span class="error">{{ $message }}</span> @enderror
             </div>
             @endforeach
+            @endif
+
+
+
 
             {{--if techstaff--}}
-            @elseif($role == 'Technical Staff')
-
+            @if($role == 'Technical Staff')
             {{--foreach from array $techstaff--}}
             @foreach ($techStaff as $t)
             <div>
                 <label for="{{$t}}">{{$t}}:</label>
-                <input type="text" wire:model="{{$t}}" placeholder="{{$t}}">
+                <input type="text" wire:model.live="{{$t}}" placeholder="{{$t}}">
                 @error($t) <span class="error">{{ $message }}</span> @enderror
             </div>
             @endforeach
