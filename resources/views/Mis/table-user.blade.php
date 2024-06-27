@@ -1,6 +1,10 @@
 <center class="h-[565px]">
     {{--search--}}
-    <input type="text" wire:model.live="search">
+    <label for="search">Search:</label>
+    <input name="search" type="text" wire:model.live="search">
+    <br>
+    <br>
+    <br>
     <table>
 
         <thead>
