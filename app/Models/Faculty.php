@@ -15,4 +15,8 @@ class Faculty extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function Request(){
+        return $this->hasMany(Request::class);
+    }
 }
