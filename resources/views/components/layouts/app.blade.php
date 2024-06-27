@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <x-navbar/>
+    <x-navbar />
     {{ $slot }}
 </body>
 @livewireScripts
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

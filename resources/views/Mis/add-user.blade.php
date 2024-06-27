@@ -5,9 +5,6 @@
 {{--modal--}}
 <x-modal name="example-modal">
 
-    {{--when success--}}
-    <x-success />
-
     {{--form to be submitted at AddUser methon in misStaff class--}}
     <form wire:submit.prevent="AddUser">
 

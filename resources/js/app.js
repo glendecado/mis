@@ -1,5 +1,3 @@
+import { color } from 'three/examples/jsm/nodes/Nodes.js';
 import './bootstrap';
-
-window.addEventListener('notification', (event)=>{
-    console.log(event.detail);
-});
+import './alerts';

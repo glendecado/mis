@@ -63,8 +63,7 @@ class MisStaff extends Component
         }
 
         $this->reset();
-        session()->flash('success', 'User had been added successfully.');
-        $this->dispatch('notification', Name: 'ds');
+        $this->dispatch('alert', name: 'User had been added successfully.');
     }
 
     #[On('user-delete')]
@@ -72,6 +71,7 @@ class MisStaff extends Component
     {
         $user = User::find($id);
         $user->delete();
+        $this->dispatch('alert', name: 'User had been deleted successfully.');
 
     }
 
