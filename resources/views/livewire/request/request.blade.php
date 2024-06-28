@@ -1,3 +1,4 @@
 <div>
- <h1>reqwuest</h1>
+@include('request.add-request')
+@include('request.table-request')
 </div>
