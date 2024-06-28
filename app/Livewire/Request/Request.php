@@ -4,6 +4,7 @@ namespace App\Livewire\Request;
 
 use App\Models\Request as ModelsRequest;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Request extends Component
@@ -11,9 +12,8 @@ class Request extends Component
     public $faculty_id;
     public $category;
     public $concerns;
-    public $status;
+    public $status = 'waiting';
 
-    public $requests;
 
     protected $rules = [
         'category' => 'required|string|max:255',
@@ -21,9 +21,7 @@ class Request extends Component
         'status' => 'required|string|max:255',
     ];
 
-    public function mount(){
-        $this->requests = ModelsRequest::where('faculty_id', Auth::user()->faculty->id)->get();
-    }
+  
     public function addRequest()
     {
         $this->validate();
@@ -38,12 +36,14 @@ class Request extends Component
         $req->Faculty()->associate(Auth::user()->Faculty);
         $req->save();
 
-        // Optionally reset the form fields after submission
+       
         $this->reset();
     }
 
+    #[On('table-req-update')]
     public function render()
     {
-        return view('livewire.request.request');
+ 
+        return view('livewire.request.request', ['requests' => ModelsRequest::where('faculty_id', Auth::user()->faculty->id)->get()]);
     }
 }

@@ -17,9 +17,9 @@
             @endphp
             <td>{{$req->category}}</td>
             <td>{{$req->concerns}}</td>
-            <td>{{$req->created_at}}</td>
             <td>{{$created[0]}}</td>
             <td>{{$created[1]}}</td>
+            <td>{{$req->status}}</td>
             <td>view</td>
         </tr>
         @endforeach
