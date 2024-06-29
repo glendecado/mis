@@ -49,7 +49,7 @@ class MisStaff extends Component
 
         if ($this->role == "Technical Staff") {
             $tech = TechnicalStaff::create([
-                'user_id' => $user->id,
+                'technicalStaff_id' => $user->id,
                 'totalRate' => 0,
                 'totalTask' => 0,
             ]);
@@ -58,7 +58,7 @@ class MisStaff extends Component
 
         } elseif ($this->role == "Faculty") {
             $fac = Faculty::create([
-                'user_id' => $user->id,
+                'faculties_id' => $user->id,
                 'college' => $this->college,
                 'building' => $this->building,
                 'room' => $this->room,

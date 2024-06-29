@@ -8,14 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MisStaff extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'id',
-        'user_id',
-    ];
-
+    protected $primaryKey = 'misStaff_id';
+ 
     public function User()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'misStaff_id');
     }
 }

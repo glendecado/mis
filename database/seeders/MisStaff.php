@@ -14,19 +14,19 @@ class MisStaff extends Seeder
      */
     public function run(): void
     {
+        // Create a user
         $user = User::create([
-            'id' => 1,
             'name' => 'Mis Staff',
             'role' => 'Mis Staff',
-            'email' => 'mis@email.com',
-            'password' => 'mis'
+            'email' => 'mis@mis',
+            'password' => bcrypt('mis'), // Always hash passwords
         ]);
 
+        // Create a MisStaff record associated with the user
         $mis = ModelsMisStaff::create([
-            'id' => 1,
-            'user_id' => 1,
+            'misStaff_id' => $user->id,
         ]);
-
+        
         $mis->User()->associate($user);
         $mis->save();
     }

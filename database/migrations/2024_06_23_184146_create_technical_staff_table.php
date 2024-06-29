@@ -12,11 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('technical_staff', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->unsignedBigInteger('technicalStaff_id')->primary();
+            $table->foreign('technicalStaff_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('totalTask')->default(0);
             $table->integer('totalRate')->default(0);
             $table->timestamps();
