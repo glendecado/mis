@@ -44,6 +44,6 @@ class Request extends Component
     public function render()
     {
  
-        return view('livewire.request.request', ['requests' => ModelsRequest::where('faculty_id', Auth::user()->faculty->id)->get()]);
+        return view('livewire.request.request', ['requests' => ModelsRequest::where('faculty_id', Auth::user()->faculty->id)->paginate(6)]);
     }
 }
