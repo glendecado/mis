@@ -35,7 +35,7 @@ class Faculty extends Seeder
             'faculty_id' => $user->id,
             'category' => 'ds',
             'concerns' => 'dsfdfs',
-            'status' => 'dsf',
+            'status' => 'waiting',
         ]);
     }
 }
