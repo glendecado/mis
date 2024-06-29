@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('faculty_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->unsignedBigInteger('faculty_id');
+            $table->foreign('faculty_id')->references('faculty_id')->on('faculties')->onDelete('cascade');
             $table->string('category');
             $table->string('concerns');
             $table->string('status');

@@ -27,23 +27,27 @@ class Request extends Component
         $this->validate();
 
         $req = ModelsRequest::create([
-            'faculty_id' => Auth::user()->Faculty->id,
+            'faculty_id' => Auth::user()->id,
             'category' => $this->category,
             'concerns' => $this->concerns,
             'status' => $this->status,
         ]);
 
-        $req->Faculty()->associate(Auth::user()->Faculty);
-        $req->save();
-
+   
        
         $this->reset();
     }
 
     #[On('table-req-update')]
     public function render()
-    {
- 
-        return view('livewire.request.request', ['requests' => ModelsRequest::where('faculty_id', Auth::user()->faculty->id)->paginate(6)]);
+    {   
+
+        if(Auth::user()->role == 'Faculty'){
+            $requests = ModelsRequest::where('faculty_id', Auth::user()->id)->paginate(6);
+            $newRequest = ModelsRequest::where('faculty_id', Auth::user()->id)->where('status', 'waiting')->paginate(6);
+        }
+  
+
+        return view('livewire.request.request', ['requests' => $requests, 'newRequest' => $newRequest]);
     }
 }

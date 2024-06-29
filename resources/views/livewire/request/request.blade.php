@@ -1,4 +1,4 @@
 <div>
 @include('request.add-request')
-@include('request.table-request')
+@include('request.new-request')
 </div>

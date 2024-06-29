@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'faculty_id',
         'category',
@@ -17,6 +18,6 @@ class Request extends Model
 
     public function Faculty()
     {
-        return $this->belongsTo(Faculty::class);
+        return $this->belongsTo(Faculty::class, 'faculty_id');
     }
 }

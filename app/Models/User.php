@@ -49,16 +49,16 @@ class User extends Authenticatable
 
     public function MisStaff()
     {
-        return $this->hasOne(MisStaff::class);
+        return $this->hasOne(MisStaff::class, 'misStaff_id');
     }
 
     public function TechnicalStaff()
     {
-        return $this->hasOne(TechnicalStaff::class);
+        return $this->hasOne(TechnicalStaff::class, 'technicalSatff_id');
     }
 
     public function Faculty()
     {
-        return $this->hasOne(Faculty::class);
+        return $this->hasOne(Faculty::class, 'faculty_id');
     }
 }
