@@ -77,7 +77,7 @@ class Request extends Component
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
     public function req($e)
     {
-       /*  $this->dispatch('success', name: 'New Request'); */
+       $this->dispatch('success', name: 'New Request'); 
     }
 
 
