@@ -6,6 +6,8 @@
                 <th>Faculty ID</th>
                 <th>Category</th>
                 <th>Concerns</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -16,6 +18,8 @@
                 <td>{{$req['faculty_id']}}</td>
                 <td>{{$req['category']}}</td>
                 <td>{{$req['concerns']}}</td>
+                <td>{{date_format($req['created_at'], "Y/m/d")}}</td>
+                <td>{{date_format($req['created_at'], "g:i a")}}</td>
                 <td>{{$req['status']}}</td>
                 <td>@include('request.delete-request')</td>
             </tr>
