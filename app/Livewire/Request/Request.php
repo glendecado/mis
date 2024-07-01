@@ -82,13 +82,13 @@ class Request extends Component
 
         $this->reset('category');
         $this->reset('concerns');
-        $this->reload();
         $this->dispatch('alert', name: 'Request successfully sent.');
     }
 
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
     public function listenAddRequest($e)
     {
+        $this->dispatch('alert', name: 'New Request');
         $this->requestList[] = $e;
     }
 
