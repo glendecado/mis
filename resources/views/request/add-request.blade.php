@@ -12,6 +12,6 @@
             @error('concerns') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        <button type="submit" @click="$dispatch('table-req-update')">Submit</button>
+        <button @click="$dispatch('update-request')" type="submit">Submit</button>
     </form>
 </div>
