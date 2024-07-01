@@ -27,7 +27,7 @@ class Request extends Component
         'concerns' => 'required|string',
         'status' => 'required|string|max:255',
     ];
-    
+
 
     public function mount()
     {
@@ -61,24 +61,35 @@ class Request extends Component
         $this->validate();
 
         $req = ModelsRequest::create(
-            ['faculty_id' => Auth::user()->id,
-            'category' => $this->category,
-            'concerns' =>  $this->concerns,
-            'status' => $this->status,
-        ]);
+            [
+                'faculty_id' => Auth::user()->id,
+                'category' => $this->category,
+                'concerns' =>  $this->concerns,
+                'status' => $this->status,
+            ]
+        );
 
-        RequestEventMis::dispatch(Auth::user()->id, $this->category, $this->concerns, $this->status, 1); 
+        $req->save();
+
+
+        RequestEventMis::dispatch(
+            $req['id'], 
+            $req['faculty_id'], 
+            $req['category'], 
+            $req['concerns'], 
+            $req['status'], 
+            1); 
 
         $this->reset('category');
         $this->reset('concerns');
+        $this->reload();
+        $this->dispatch('alert', name: 'Request successfully sent.');
     }
 
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
     public function listenAddRequest($e)
     {
         $this->requestList[] = $e;
-
-
     }
 
 
@@ -86,7 +97,6 @@ class Request extends Component
     public function render()
     {
 
-        $requestList = $this->requestList;
-        return view('livewire.request.request',compact('requestList'));
+        return view('livewire.request.request');
     }
 }

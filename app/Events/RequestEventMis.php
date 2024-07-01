@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class RequestEventMis implements ShouldBroadcast
 {
@@ -19,9 +20,17 @@ class RequestEventMis implements ShouldBroadcast
      * Create a new event instance.
      */
     
-    public function __construct(public int $faculty_id, public string $category, public string $concerns, public string $status, public int $reciever )
+
+    public function __construct(
+        public int $id,
+        public string $faculty_id,
+        public string $category,
+        public string $concerns,
+        public string $status,    
+        public string $reciever)
     {
 
+     
     }
 
     /**

@@ -2,6 +2,7 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Request ID</th>
                 <th>Faculty ID</th>
                 <th>Category</th>
                 <th>Concerns</th>
@@ -11,6 +12,7 @@
         <tbody>
             @foreach ($requestList as $srs)
             <tr>
+                <td>{{$srs['id']}}</td>
                 <td>{{$srs['faculty_id']}}</td>
                 <td>{{$srs['category']}}</td>
                 <td>{{$srs['concerns']}}</td>
