@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use League\Flysystem\MountManager;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Throwable;
 
 class Request extends Component
 {
@@ -18,8 +19,6 @@ class Request extends Component
     public $status = 'waiting';
     public $selecStatus;
 
-    public $request;
-    public $requestList = [];
 
 
     protected $rules = [
@@ -32,27 +31,7 @@ class Request extends Component
     public function mount()
     {
 
-
         $this->faculty_id = Auth::user()->id;
-
-        if(Auth::user()->role == 'Faculty'){
-            $request = ModelsRequest::where('faculty_id', $this->faculty_id)->get();//only user and user with the role of Mis Staff can
-        }
-
-        elseif(Auth::user()->role == 'Mis Staff'){
-            $request = ModelsRequest::get();
-        }
-
-        foreach($request as $re){
-            $this->requestList[] = [
-                'id' => $re['id'],
-                'faculty_id' => $re['faculty_id'],
-                'category' => $re['category'],
-                'concerns' => $re['concerns'],
-                'status' => $re['status'],
-            ];
-        }
-
     }
 
 
@@ -72,31 +51,46 @@ class Request extends Component
         $req->save();
 
 
-        RequestEventMis::dispatch(
-            $req['id'], 
-            $req['faculty_id'], 
-            $req['category'], 
-            $req['concerns'], 
-            $req['status'], 
-            1); 
+        RequestEventMis::dispatch(1);
 
         $this->reset('category');
         $this->reset('concerns');
-        $this->dispatch('alert', name: 'Request successfully sent.');
+        $this->dispatch('success', name: 'Request successfully sent.');
     }
 
-    #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
-    public function listenAddRequest($e)
-    {
-        $this->dispatch('alert', name: 'New Request');
-        $this->requestList[] = $e;
+
+    #[On('request-delete')]
+    public function deleteRequest($id){
+        try{
+            $req = ModelsRequest::find($id);
+            $req->delete();
+            $this->dispatch('success', name: 'Request Deleted Successfully');
+        }
+        catch(Throwable $e)
+        {
+            $this->dispatch('error', name: 'Something went wrong');
+        }
+
     }
+
+
+    #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
+    public function req($e)
+    {
+       /*  $this->dispatch('success', name: 'New Request'); */
+    }
+
 
 
     #[On('update-request')]
     public function render()
     {
 
-        return view('livewire.request.request');
+        if (Auth::user()->role == 'Faculty') {
+            return view('livewire.request.request', ['request' => ModelsRequest::where('faculty_id', $this->faculty_id)->get()]);
+        }
+        if (Auth::user()->role == 'Mis Staff') {
+            return view('livewire.request.request', ['request' => ModelsRequest::latest()->first()->get()]);
+        }
     }
 }

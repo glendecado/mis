@@ -10,13 +10,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($requestList as $srs)
+            @foreach ($request as $req)
             <tr>
-                <td>{{$srs['id']}}</td>
-                <td>{{$srs['faculty_id']}}</td>
-                <td>{{$srs['category']}}</td>
-                <td>{{$srs['concerns']}}</td>
-                <td>{{$srs['status']}}</td>
+                <td>{{$req['id']}}</td>
+                <td>{{$req['faculty_id']}}</td>
+                <td>{{$req['category']}}</td>
+                <td>{{$req['concerns']}}</td>
+                <td>{{$req['status']}}</td>
+                <td>@include('request.delete-request')</td>
             </tr>
             @endforeach
         </tbody>

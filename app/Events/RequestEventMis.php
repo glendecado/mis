@@ -22,12 +22,8 @@ class RequestEventMis implements ShouldBroadcast
     
 
     public function __construct(
-        public int $id,
-        public string $faculty_id,
-        public string $category,
-        public string $concerns,
-        public string $status,    
-        public string $reciever)
+ 
+        public int $reciever)
     {
 
      
