@@ -90,7 +90,7 @@ class Request extends Component
             return view('livewire.request.request', ['request' => ModelsRequest::where('faculty_id', $this->faculty_id)->get()]);
         }
         if (Auth::user()->role == 'Mis Staff') {
-            return view('livewire.request.request', ['request' => ModelsRequest::latest()->first()->get()]);
+            return view('livewire.request.request', ['request' => ModelsRequest::get()]);
         }
     }
 }
