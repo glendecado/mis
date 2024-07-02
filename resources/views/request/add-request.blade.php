@@ -1,9 +1,9 @@
 {{--button to open modal--}}
 
-<button type="button" @click="$dispatch('open-modal',  'example-modal')">Add request </button>
+<button type="button" @click="$dispatch('open-modal',  'add-request-modal')">Add request </button>
 
 {{--modal--}}
-<x-modal name="example-modal">
+<x-modal name="add-request-modal">
 
     <div>
         <form wire:submit.prevent="addRequest">

@@ -1,9 +1,9 @@
 {{--button to open modal--}}
 
-<button type="button" @click="$dispatch('open-modal',  'example-modal')"> Add User </button>
+<button type="button" @click="$dispatch('open-modal',  'add-user-modal')"> Add User </button>
 
 {{--modal--}}
-<x-modal name="example-modal">
+<x-modal name="add-user-modal">
 
     {{--form to be submitted at AddUser methon in misStaff class--}}
     <form wire:submit.prevent="AddUser">
