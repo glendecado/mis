@@ -17,10 +17,8 @@ class Request extends Component
     public $category;
     public $concerns;
     public $status = 'waiting';
-    public $selecStatus;
 
-
-
+    public $request = [];
     protected $rules = [
         'category' => 'required|string|max:255',
         'concerns' => 'required|string',
@@ -65,13 +63,30 @@ class Request extends Component
             $req = ModelsRequest::find($id);
             $req->delete();
             $this->dispatch('success', name: 'Request Deleted Successfully');
+
         }
         catch(Throwable $e)
         {
             $this->dispatch('error', name: 'Something went wrong');
         }
 
+        return redirect()->to('/request');
     }
+
+
+    #[On('view-request')]
+    public function viewRequest($id)
+    {
+        $this->request = ModelsRequest::findOrFail($id);
+        if($id != null){
+            $this->dispatch('open-modal',  'view-request-' . $id . '');
+           
+        }else{
+            $this->dispatch('error', name: 'Something went wrong');
+        }
+
+    }
+
 
 
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
@@ -82,15 +97,17 @@ class Request extends Component
 
 
 
+
+
     #[On('update-request')]
     public function render()
     {
 
         if (Auth::user()->role == 'Faculty') {
-            return view('livewire.request.request', ['request' => ModelsRequest::where('faculty_id', $this->faculty_id)->get()]);
+            return view('livewire.request.request', ['reqs' => ModelsRequest::where('faculty_id', $this->faculty_id)->get()]);
         }
         if (Auth::user()->role == 'Mis Staff') {
-            return view('livewire.request.request', ['request' => ModelsRequest::get()]);
+            return view('livewire.request.request', ['reqs' => ModelsRequest::get()]);
         }
     }
 }

@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($request as $req)
+            @foreach ($reqs as $req)
             <tr>
                 <td>{{$req['id']}}</td>
                 <td>{{$req['faculty_id']}}</td>
@@ -21,7 +21,7 @@
                 <td>{{date_format($req['created_at'], "Y/m/d")}}</td>
                 <td>{{date_format($req['created_at'], "g:i a")}}</td>
                 <td>{{$req['status']}}</td>
-                <td>@include('request.delete-request')</td>
+                <td>@include('request.view-request')</td>
             </tr>
             @endforeach
         </tbody>
