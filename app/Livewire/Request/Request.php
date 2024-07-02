@@ -69,6 +69,11 @@ class Request extends Component
         {
             $this->dispatch('error', name: 'Something went wrong');
         }
+        if(Auth::user()->role === 'Mis Staff'){
+            RequestEventMis::dispatch($req->faculty_id);
+        }else{
+            RequestEventMis::dispatch(1);
+        }
 
         return redirect()->to('/request');
     }
@@ -92,7 +97,7 @@ class Request extends Component
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
     public function req($e)
     {
-       $this->dispatch('success', name: 'New Request'); 
+      /*  $this->dispatch('success', name: 'New Request');  */
     }
 
 
