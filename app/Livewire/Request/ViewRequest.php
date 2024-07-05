@@ -20,6 +20,7 @@ class ViewRequest extends Component
         }
 
         $this->dispatch('update-request');
+ 
     }
 
 }

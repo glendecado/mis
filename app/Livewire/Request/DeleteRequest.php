@@ -38,7 +38,7 @@ class DeleteRequest extends Component
         }
 
 
-        $this->dispatch('update-request');
+
         return redirect()->to('/request');
        
 
