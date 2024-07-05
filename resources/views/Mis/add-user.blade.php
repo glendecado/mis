@@ -18,13 +18,7 @@
         </select>
 
 
-        {{--inputs for faculty and techstaff--}}
-        @php
-        $faculty = ['name','email','college','building','room','password'];
-        $techStaff = ['name','email', 'password'];
-        @endphp
-
-
+  
         <div class="flex flex-col items-center ">
 
 
