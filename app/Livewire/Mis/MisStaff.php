@@ -72,15 +72,6 @@ class MisStaff extends Component
         $this->dispatch('alert', name: 'User had been added successfully.');
     }
 
-    #[On('user-delete')]
-    public function DeleteUser($id)
-    {
-        $user = User::find($id);
-        $user->delete();
-        $this->dispatch('alert', name: 'User had been added successfully.');
-
-    }
-
 
 
 
