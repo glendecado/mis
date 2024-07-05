@@ -40,7 +40,7 @@ class AddRequest extends Component
         $req->save();
 
 
-        RequestEventMis::dispatch($mis->id);
+        RequestEventMis::dispatch('Added', $mis->id);
 
         $this->reset('category');
         $this->reset('concerns');
