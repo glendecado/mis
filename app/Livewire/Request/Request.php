@@ -35,26 +35,6 @@ class Request extends Component
 
 
 
-    #[On('request-delete')]
-    public function deleteRequest($id){
-        try{
-            $req = ModelsRequest::find($id);
-            $req->delete();
-            $this->dispatch('success', name: 'Request Deleted Successfully');
-
-        }
-        catch(Throwable $e)
-        {
-            $this->dispatch('error', name: 'Something went wrong');
-        }
-        if(Auth::user()->role === 'Mis Staff'){
-            RequestEventMis::dispatch($req->faculty_id);
-        }else{
-            RequestEventMis::dispatch($this->mis->id);
-        }
-
-        return redirect()->to('/request');
-    }
 
 
     #[On('view-request')]
