@@ -1,5 +1,5 @@
 <div>
-    @include('request.add-request')
+    @livewire('request.add-request')
 
     @include('request.table-request')
 </div>

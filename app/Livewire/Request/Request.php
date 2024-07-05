@@ -4,6 +4,7 @@ namespace App\Livewire\Request;
 
 use App\Events\RequestEventMis;
 use App\Models\Request as ModelsRequest;
+use App\Models\User;
 use Database\Seeders\Faculty;
 use Illuminate\Support\Facades\Auth;
 use League\Flysystem\MountManager;
@@ -14,9 +15,7 @@ use Throwable;
 class Request extends Component
 {
     public $faculty_id;
-    public $category;
-    public $concerns;
-    public $status = 'waiting';
+
 
     public $request = [];
     protected $rules = [
@@ -30,31 +29,10 @@ class Request extends Component
     {
 
         $this->faculty_id = Auth::user()->id;
+ 
+    
     }
 
-
-    public function addRequest()
-    {
-        $this->validate();
-
-        $req = ModelsRequest::create(
-            [
-                'faculty_id' => Auth::user()->id,
-                'category' => $this->category,
-                'concerns' =>  $this->concerns,
-                'status' => $this->status,
-            ]
-        );
-
-        $req->save();
-
-
-        RequestEventMis::dispatch(1);
-
-        $this->reset('category');
-        $this->reset('concerns');
-        $this->dispatch('success', name: 'Request successfully sent.');
-    }
 
 
     #[On('request-delete')]
@@ -72,7 +50,7 @@ class Request extends Component
         if(Auth::user()->role === 'Mis Staff'){
             RequestEventMis::dispatch($req->faculty_id);
         }else{
-            RequestEventMis::dispatch(1);
+            RequestEventMis::dispatch($this->mis->id);
         }
 
         return redirect()->to('/request');
@@ -97,7 +75,7 @@ class Request extends Component
     #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
     public function req($e)
     {
-      /*  $this->dispatch('success', name: 'New Request');  */
+      $this->dispatch('success', name: 'New Request');  
     }
 
 
