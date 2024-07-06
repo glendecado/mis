@@ -34,7 +34,7 @@ class DeleteRequest extends Component
 
             RequestEventMis::dispatch('deleted',$req->faculty_id);
         } else {
-            RequestEventMis::dispatch($mis->id);
+            RequestEventMis::dispatch('deleted',$mis->id);
         }
 
 
