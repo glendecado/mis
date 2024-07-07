@@ -13,14 +13,6 @@ class ViewRequest extends Component
     {
       $request = Request::findOrFail($id);
 
-        if ($id != null) {
-            $this->dispatch('open-modal',  'view-request-' . $id . '');
-        } else {
-            $this->dispatch('error', name: 'Something went wrong');
-        }
-
-        $this->dispatch('update-request');
- 
     }
 
 }
