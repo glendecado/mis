@@ -14,7 +14,7 @@
         <tbody>
             @foreach ($reqs as $req)
             <tr>
-                <td>{{$req['id']}}</td>
+                <td wire:key="{{$req->id}}">{{$req['id']}}</td>
                 <td>{{$req['faculty_id']}}</td>
                 <td>{{$req['category']}}</td>
                 <td>{{$req['concerns']}}</td>
