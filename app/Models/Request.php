@@ -20,4 +20,9 @@ class Request extends Model
     {
         return $this->belongsTo(Faculty::class, 'faculty_id');
     }
+
+    public function Task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }
