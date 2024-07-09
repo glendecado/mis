@@ -16,6 +16,8 @@ class DeleteUser extends Component
         $user->delete();
         $this->dispatch('success', name: 'User had been added successfully.');
         $this->dispatch('reset-validation');
+        $this->redirect('/manage/user');
+
     }
 
 }

@@ -1,7 +1,7 @@
-<button type="button" @click="$dispatch('view-request', {id: {{$req->id}}})" >view </button>
+<button type="button" @click="$dispatch('view-request', {id: {{$req->id}}})">view </button>
 
 <x-modal name="view-request-{{$req->id}}">
- 
+
     <table>
         <tr>
             <td>request from</td>
@@ -32,5 +32,5 @@
             <td>{{$request->status ?? ''}}</td>
         </tr>
     </table>
-@include('request.delete-request')
+    <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('request-delete', { id: '{{$request->id ?? ''}}' })">Delete</button>
 </x-modal>

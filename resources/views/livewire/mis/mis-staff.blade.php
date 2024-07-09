@@ -4,5 +4,5 @@
         @livewire('mis.add-user')
 
 
-        @include('Mis.table-user')
+        @livewire('mis.view-user')
 </div>
