@@ -22,6 +22,7 @@
                 <td>{{date_format($req['created_at'], "g:i a")}}</td>
                 <td>{{$req['status']}}</td>
                 <td>@include('livewire.request.id-view-request')</td>
+
             </tr>
             @endforeach
         </tbody>

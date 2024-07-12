@@ -10,14 +10,13 @@ use Livewire\Component;
 class ViewRequest extends Component
 {
   public $request;
-  public $id;
+
     #[On('view-request')]
     public function viewRequest($id)
   {
       $this->dispatch('open-modal',  'view-request-' . $id );
       $this->request = Request::findOrFail($id);
 
-      $this->id = $id;
       
     }
 

@@ -1,4 +1,8 @@
 <div>
+    @php
+    $technicalStaff = \App\Models\TechnicalStaff::with('user')->get();
+    @endphp
+
     @foreach(\App\Models\Request::all() as $req)
     <x-modal name="assigned-{{$req->id ?? ''}}">
         {{$req->id ?? ''}}
@@ -13,18 +17,16 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (\App\Models\TechnicalStaff::all() as $tech)
+                @foreach ($technicalStaff as $tech)
                 <tr>
                     <td>{{$tech->user->name}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
-
                 @endforeach
             </tbody>
-
         </table>
     </x-modal>
     @endforeach

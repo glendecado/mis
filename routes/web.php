@@ -15,7 +15,6 @@ Route::middleware(['Auth'])->group(function () {
 
     Route::get('/request', Request::class)->name('request');
 
-    Route::get('/task', Task::class)->name('task');
 });
 
 Route::middleware(['Mis'])->group(function () {
