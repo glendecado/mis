@@ -8,11 +8,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index');
 
-Route::get('/profile', Profile::class)->name('profile');
 
-Route::get('/request', Request::class)->name('request');
+Route::middleware(['Auth'])->group(function () {
 
+    Route::get('/profile', Profile::class)->name('profile');
 
-Route::get('/manage/user', MisStaff::class)->name('manage-user');
+    Route::get('/request', Request::class)->name('request');
 
-Route::get('/task', Task::class)->name('task');
+    Route::get('/task', Task::class)->name('task');
+});
+
+Route::middleware(['Mis'])->group(function () {
+
+    Route::get('/manage/user', MisStaff::class)->name('manage-user');
+});
