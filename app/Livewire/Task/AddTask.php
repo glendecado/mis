@@ -7,10 +7,12 @@ use Livewire\Component;
 
 class AddTask extends Component
 {
-    #[On('add-tech')]
-    public function addTask($selectedValues)
+    #[On('add-task')]
+    public function addTask($request_id, $tech_id)
     {
-        dd($selectedValues);
+        $r = [$request_id, $tech_id];
+        
+        dd($r);
     }
 
 

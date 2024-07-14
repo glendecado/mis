@@ -42,4 +42,4 @@
     </div>
 
 </x-modal>
-@livewire('task.view-task')
+@livewire('task.task')

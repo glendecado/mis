@@ -13,4 +13,7 @@ class ViewTask extends Component
         $this->dispatch('open-modal', 'assigned-' . $id);
     }
 
+    public function f(){
+        $this->dispatch('add-task');
+    }
 }

@@ -23,7 +23,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td><button @click="$dispatch('add-task', {request_id: '{{$req->id ?? ''}}', tech_id: '{{$tech->user->id}}'})">add</button></td>
                 </tr>
                 @endforeach
             </tbody>
