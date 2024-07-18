@@ -1,9 +1,6 @@
 <div>
-    @php
-    $technicalStaff = \App\Models\TechnicalStaff::with('user')->get();
-    @endphp
 
-    @foreach(\App\Models\Request::all() as $req)
+    @foreach($request as $req)
     <x-modal name="assigned-{{$req->id ?? ''}}">
         {{$req->id ?? ''}}
         <table>
