@@ -9,16 +9,22 @@ use Livewire\Component;
 
 class ViewRequest extends Component
 {
-  public $request;
+  public $faculty_id;
 
-    #[On('view-request')]
-    public function viewRequest($id)
+
+  public function mount()
   {
-      $this->dispatch('open-modal',  'view-request-' . $id );
-      $this->request = Request::findOrFail($id);
 
-      
-    }
+    $this->faculty_id = Auth::user()->id;
+  }
+
+  #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
+  public function request_event($e)
+  {
+
+    $this->dispatch('success', name: $e['notifMessage']);
+    $this->dispatch('update-request');
+  }
 
 
   #[On('update-request')]
@@ -27,10 +33,10 @@ class ViewRequest extends Component
     $faculty_id = Auth::user()->id;
 
     if (Auth::user()->role == 'Faculty') {
-      return view('livewire.request.view-request', ['reqs' => Request::where('faculty_id', $faculty_id)->get()]);
+      return view('livewire.request.view-request', ['request' => Request::where('faculty_id', $faculty_id)->with('faculty')->get()]);
     }
     if (Auth::user()->role == 'Mis Staff') {
-      return view('livewire.request.view-request', ['reqs' => Request::get()]);
+      return view('livewire.request.view-request', ['request' => Request::with('faculty')->get()]);
     }
   }
 }
