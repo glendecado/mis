@@ -4,6 +4,7 @@ namespace App\Livewire\Task;
 
 use App\Models\Request;
 use App\Models\Task;
+use App\Models\TechnicalStaff;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -31,7 +32,7 @@ class ViewTask extends Component
             [
             'task' => $assigned,
             'request' => Request::get(),
-            'technicalStaff' => \App\Models\TechnicalStaff::with('user')->get()
+            'technicalStaff' => TechnicalStaff::with('user')->get()
             ]
         );
     }

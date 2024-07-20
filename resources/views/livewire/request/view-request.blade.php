@@ -1,7 +1,11 @@
 <div>
     @livewire('request.delete-request')
-    @livewire('request.add-request')
     
+    @if (Auth::user()->role == 'Faculty')
+    @livewire('request.add-request')
+    @endif
+
+
     <table border="1">
         <thead>
             <tr>

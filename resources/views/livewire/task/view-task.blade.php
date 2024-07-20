@@ -1,10 +1,9 @@
 <div>
-
+    @livewire('task.add-task')
     @foreach($request as $req)
     <x-modal name="assigned-{{$req->id ?? ''}}">
-        {{$req->id ?? ''}}
-
-
+        @switch(Auth::user()->role)
+        @case('Mis Staff')
         <table>
             <thead>
                 <tr>
@@ -35,6 +34,18 @@
                 @endforeach
             </tbody>
         </table>
+        @break
+
+        @case('Faculty')
+        @foreach ($technicalStaff as $tech)
+        @if (in_array($tech->user->id, $task))
+        {{$tech->user->name}}
+        @endif
+        @endforeach
+        @break
+
+        @endswitch
+
     </x-modal>
     @endforeach
 </div>
