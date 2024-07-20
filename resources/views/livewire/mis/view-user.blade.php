@@ -25,6 +25,7 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>
+                        {{--if you want to delete user--}}
                         <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('user-delete', { id: '{{$user->id}}' })">Delete</button>
                     </td>
                 </tr>

@@ -1,14 +1,10 @@
 <div>
 
-    {{--inputs for faculty and techstaff--}}
-    @php
-    $faculty = ['name','email','college','building','room','password'];
-    $techStaff = ['name','email', 'password'];
-    @endphp
+
 
     {{--button to open modal--}}
 
-    <button type="button" @click="$dispatch('open-modal',  'add-user-modal')"> Add User </button>
+    <button type="button" @click="$dispatch('open-modal',  'add-user-modal'); $dispatch('reset-validation')"> Add User </button>
 
     {{--modal--}}
     <x-modal name="add-user-modal">
@@ -60,7 +56,7 @@
                 @endif
 
                 {{--button to dispatched in data-update and to be listen at #[On('data-update')]--}}
-                <button type="submit" @click="$dispatch('data-update')">add user</button>
+                <button type="submit" @click="$dispatch('user-update')">add user</button>
             </div>
 
         </form>

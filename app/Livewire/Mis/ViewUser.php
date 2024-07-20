@@ -4,14 +4,15 @@ namespace App\Livewire\Mis;
 
 use App\Models\User;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class ViewUser extends Component
 {
-
+    #[Url(history: true)]
     public $search;
 
-    #[On('data-update')]
+    #[On('user-update')]
     public function render()
     {
 
