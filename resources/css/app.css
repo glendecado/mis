@@ -17,7 +17,8 @@ th,
 td {
     border: 1px solid rgb(53, 53, 53);
     border-collapse: collapse;
-    padding: 10px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
 }
 
 button {
