@@ -3,6 +3,7 @@
 namespace App\Livewire\Task;
 
 use App\Events\RequestEventMis;
+use App\Models\Request;
 use App\Models\Task;
 use App\Models\User;
 use Livewire\Attributes\On;
@@ -33,6 +34,29 @@ class AddTask extends Component
             ]);  
 
         }
+
+        $request = Request::find($request_id);
+
+        $total = Task::where('request_id', $request_id)->count();
+
+        if ($total > 0) {
+            $request->status = 'pending';
+            $request->save();
+        }else{
+            $request->status = 'waiting';
+            $request->save();
+        }
+      /*   
+        $request = Request::find($request_id);
+
+        $request->status = 'pending';
+        $total = Task::where('request_id', $request_id)->count();
+
+        if($total < 1){
+            $request->status = 'pending';
+            $request->save();
+        } */
+
     }
 
 
