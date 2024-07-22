@@ -31,21 +31,23 @@ class ViewRequest extends Component
   #[On('update-request')]
   public function render()
   {
-    $faculty_id = Auth::user()->id;
-    $t = Task::where('technicalStaff_id', Auth::id());
-    $r = $t->pluck('request_id')->unique();
+    $user_id = Auth::id();
+
+
+    $task = Task::where('technicalStaff_id', Auth::id());
+    $Task_RequestId = $task->pluck('request_id')->unique();
 
    
 
     if (Auth::user()->role == 'Faculty') {
-      return view('livewire.request.view-request', ['request' => Request::where('faculty_id', $faculty_id)->with('faculty')->get()]);
+      return view('livewire.request.view-request', ['request' => Request::where('faculty_id', $user_id)->with('faculty')->get()]);
     }
     if (Auth::user()->role == 'Mis Staff') {
       return view('livewire.request.view-request', ['request' => Request::with('faculty')->get()]);
     }
 
     if (Auth::user()->role == 'Technical Staff') {
-      return view('livewire.request.view-request', ['request' => Request::whereIn('id', $r)->get()]);
+      return view('livewire.request.view-request', ['request' => Request::whereIn('id', $Task_RequestId)->get()]);
     }
 
 
