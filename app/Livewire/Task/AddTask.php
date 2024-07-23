@@ -24,15 +24,12 @@ class AddTask extends Component
         if ($existingTask) {
             // If task exists, delete it
             $existingTask->delete();
-
-
         } else {
             // If task does not exist, create and save it
             $task = Task::create([
                 'request_id' => $request_id,
                 'technicalStaff_id' => $tech_id,
-            ]);  
-
+            ]);
         }
 
         $request = Request::find($request_id);
@@ -42,21 +39,11 @@ class AddTask extends Component
         if ($total > 0) {
             $request->status = 'pending';
             $request->save();
-        }else{
+        } else {
             $request->status = 'waiting';
             $request->save();
         }
-      /*   
-        $request = Request::find($request_id);
-
-        $request->status = 'pending';
-        $total = Task::where('request_id', $request_id)->count();
-
-        if($total < 1){
-            $request->status = 'pending';
-            $request->save();
-        } */
-
+        RequestEventMis::dispatch(null, $request->faculty_id);
     }
 
 

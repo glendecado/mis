@@ -5,8 +5,10 @@ namespace App\Livewire\Request;
 use App\Models\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
+
 
 class ViewRequest extends Component
 {
@@ -23,7 +25,9 @@ class ViewRequest extends Component
   public function request_event($e)
   {
 
-    $this->dispatch('success', name: $e['notifMessage']);
+    if (!is_null($e['notifMessage'])) {
+    }
+
     $this->dispatch('update-request');
   }
 
@@ -37,7 +41,7 @@ class ViewRequest extends Component
     $task = Task::where('technicalStaff_id', Auth::id());
     $Task_RequestId = $task->pluck('request_id')->unique();
 
-   
+
 
     if (Auth::user()->role == 'Faculty') {
       return view('livewire.request.view-request', ['request' => Request::where('faculty_id', $user_id)->with('faculty')->get()]);
@@ -49,7 +53,5 @@ class ViewRequest extends Component
     if (Auth::user()->role == 'Technical Staff') {
       return view('livewire.request.view-request', ['request' => Request::whereIn('id', $Task_RequestId)->get()]);
     }
-
-
   }
 }

@@ -6,6 +6,7 @@ use App\Events\RequestEventMis;
 use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class AddRequest extends Component
@@ -39,8 +40,24 @@ class AddRequest extends Component
 
         $req->save();
 
+        // Define an array to store in the cache
+        $notificationData = [
+            'message' => 'Request added',
+            'request_id' => $req->id,
+            'user_id' => Auth::user()->id,
+            'timestamp' => now(),
+        ];
 
-        RequestEventMis::dispatch('Added', $mis->id);
+        // Retrieve the current notifications from the cache
+        $currentNotifications = Cache::get('notif-' . $mis->id, []);
+
+        // Append the new notification to the current notifications
+        $currentNotifications[] = $notificationData;
+
+        // Store the updated notifications back in the cache
+        Cache::put('notif-' . $mis->id, $currentNotifications, now()->addDays(10));
+   
+ 
 
         $this->reset('category');
         $this->reset('concerns');
