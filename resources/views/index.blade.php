@@ -12,7 +12,7 @@
 
 <body>
     @guest
-    @livewire('User.login')
+    @livewire('user.login')
     @endguest
     @auth
     @include('dashboard')
