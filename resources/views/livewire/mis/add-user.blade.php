@@ -10,7 +10,7 @@
     <x-modal name="add-user-modal">
 
         {{--form to be submitted at AddUser methon in misStaff class--}}
-        <form wire:submit.prevent="AddUser">
+        <form wire:submit.prevent="AddUser" class="max-w-md mx-auto p-6 bg-white border rounded-lg shadow-lg">
 
             {{--select for a role--}}
             <label for="role">Select Role:</label>
