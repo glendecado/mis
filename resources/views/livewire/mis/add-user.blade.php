@@ -4,7 +4,12 @@
 
     {{--button to open modal--}}
 
-    <button type="button" @click="$dispatch('open-modal',  'add-user-modal'); $dispatch('reset-validation')"> Add User </button>
+    <div class="group">
+        <button class="fixed right-5 bottom-4 text-5xl rounded-full bg-blue-900 w-12 text-yellow-500" type="button" @click="$dispatch('open-modal',  'add-user-modal'); $dispatch('reset-validation')"> + </button>
+        <div class="invisible group-hover:visible fixed right-[80px] bottom-5 shadow-xl w-[100px] h-10 text-center text-blue-950 border rounded-md"><p>Add user</p></div>
+    </div>
+
+
 
     {{--modal--}}
     <x-modal name="add-user-modal">
