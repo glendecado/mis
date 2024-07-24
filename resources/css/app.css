@@ -12,12 +12,7 @@ td {
     padding: 10px 5px 10px 5px;
 }
 
-button {
-    background: #d7d7d7;
-    border: 2px rgb(101, 101, 101) solid;
-    border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-}
+
 .colored-toast.swal2-icon-success {
   background-color: #a5dc86 !important;
 }
