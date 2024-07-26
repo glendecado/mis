@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Throwable;
 
 class AddUser extends Component
 {
@@ -40,43 +41,59 @@ class AddUser extends Component
         // Validate form inputs based on the rules defined
         $this->validate();
 
-        // Create a new User record
-        $user = User::create([
-            'role' => $this->role,
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
+        try{
+
+            if($this->role == 'Mis Staff'){
+                $this->dispatch('error', name: 'Can\'t add another Mis');
+            } 
+            
+            else 
+            {
 
 
-        //check role if technical Staff or Faculty
-        switch ($this->role) {
+            // Create a new User record
+            $user = User::create([
+                'role' => $this->role,
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => Hash::make($this->password),
+            ]);
 
-            case "Technical Staff":
-                $tech = TechnicalStaff::create([
-                    'technicalStaff_id' => $user->id,
-                    'totalRate' => 0,
-                    'totalTask' => 0,
-                ]);
-                $tech->User()->associate($user);
-                $tech->save();
-                break;
 
-            case "Faculty":
-                $fac = Faculty::create([
-                    'faculties_id' => $user->id,
-                    'college' => $this->college,
-                    'building' => $this->building,
-                    'room' => $this->room,
-                ]);
-                $fac->User()->associate($user);
-                $fac->save();
-                break;
+            //check role if technical Staff or Faculty
+            switch ($this->role) {
+
+                case "Technical Staff":
+                    $tech = TechnicalStaff::create([
+                        'technicalStaff_id' => $user->id,
+                        'totalRate' => 0,
+                        'totalTask' => 0,
+                    ]);
+                    $tech->User()->associate($user);
+                    $tech->save();
+                    break;
+
+                case "Faculty":
+                    $fac = Faculty::create([
+                        'faculties_id' => $user->id,
+                        'college' => $this->college,
+                        'building' => $this->building,
+                        'room' => $this->room,
+                    ]);
+                    $fac->User()->associate($user);
+                    $fac->save();
+                    break;
+            }
+
+
+            $this->reset(); //reset forms input
+            $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
+            }
+        }catch(Throwable $e) {
+
+            $this->dispatch('error', name: 'error');
         }
-
-
-        $this->reset(); //reset forms input
-        $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
+        
     }
 
     #[On('reset-validation')]
