@@ -6,7 +6,7 @@
 
     <div class="group">
 
-        <button class="fixed right-10 bottom-8 p-0 text-6xl type=" button" @click="$dispatch('open-modal',  'add-user-modal')">
+        <button class="fixed right-10 bottom-8 p-0 text-6xl" type="button" @click="$dispatch('open-modal',  'add-user-modal'); $dispatch('reset-validation')">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
                 <rect width="24" height="24" rx="12" fill="#172554" />
                 <path d="M12 5V19" stroke="#fde047" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -14,7 +14,7 @@
             </svg>
         </button>
         {{--when hover this will show--}}
-        <div class="invisible group-hover:visible fixed right-24 bottom-10 shadow-xl w-[100px] h-10 text-center text-blue-950 border rounded-md">
+        <div class="invisible group-hover:visible fixed right-24 bottom-10 shadow-xl p-5 text-center text-blue-950 border rounded-md">
             <p>Add user</p>
         </div>
     </div>

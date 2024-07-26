@@ -7,6 +7,7 @@ use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class AddRequest extends Component
@@ -63,5 +64,14 @@ class AddRequest extends Component
         $this->reset('concerns');
         $this->dispatch('update-request');
         $this->dispatch('success', name: 'Request successfully sent.');
+    }
+
+    // Method to reset validation errors
+    #[On('reset-validation')]
+    public function resetValidationErrors()
+    {
+
+        $this->resetErrorBag();
+        $this->reset();
     }
 }
