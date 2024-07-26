@@ -1,7 +1,5 @@
 <div class="flex w-full h-max items-center justify-center md:flex-row md:flex-wrap md:items-start md:justify-center gap-10">
-    <div>
-        @error('email') <span class="error">{{ $message }}</span> @enderror
-    </div>
+
     <div class="relative w-full max-w-md bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-xl sm:px-10 h-[450px] mt-52">
         <div class="w-full">
             <div class="text-center">
