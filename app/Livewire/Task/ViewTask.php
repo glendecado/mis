@@ -11,7 +11,7 @@ use Livewire\Component;
 class ViewTask extends Component
 {
     public $id;
-    public $request;
+
     #[On('view-assigned')]
     public function modal($id)
     {
@@ -23,18 +23,17 @@ class ViewTask extends Component
     #[On('update-task')]
     public function render()
     {
-        $task = Task::where('request_id', $this->id)->get();
+        $from_task = Task::where('request_id', $this->id)->get();
 
-        $assigned = $task->pluck('technicalStaff_id')->toArray();
+        $task = $from_task->pluck('technicalStaff_id')->toArray();
 
+        $request = Request::select('id')->get();
+
+        $technicalStaff = TechnicalStaff::with('user')->get();
 
         return view(
-            'livewire.task.view-task',
-            [
-                'task' => $assigned,
-                'request' => $this->request,
-                'technicalStaff' => TechnicalStaff::with('user')->get()
-            ]
+            'livewire.task.view-task',compact('task', 'request', 'technicalStaff')
+            
         );
     }
 }

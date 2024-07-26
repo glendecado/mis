@@ -62,7 +62,6 @@ class AddRequest extends Component
 
         $this->reset('category');
         $this->reset('concerns');
-        $this->dispatch('update-request');
         $this->dispatch('success', name: 'Request successfully sent.');
     }
 

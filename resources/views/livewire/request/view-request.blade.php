@@ -93,7 +93,11 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        @livewire('task.view-task', ['request' => $request])
+                        @if (Auth::user()->role != 'Mis Staff')
+                        {{ $request->links('vendor.pagination.mis') }}
+                        @endif
+
+                        @livewire('task.view-task')
                     </div>
                 </div>
             </div>

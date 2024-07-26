@@ -12,46 +12,56 @@ use Livewire\Component;
 
 class ViewRequest extends Component
 {
-  public $faculty_id;
+  public $user_id;
 
 
   public function mount()
   {
 
-    $this->faculty_id = Auth::user()->id;
+    $this->user_id = Auth::id();
   }
 
-  #[On('echo-private:NewRequest.{faculty_id},RequestEventMis')]
+  #[On('echo-private:NewRequest.{user_id},RequestEventMis')]
   public function request_event($e)
   {
 
     if (!is_null($e['notifMessage'])) {
     }
 
+    
     $this->dispatch('update-request');
+    $this->dispatch('update-task');
+    
   }
 
 
   #[On('update-request')]
   public function render()
   {
-    $user_id = Auth::id();
-
 
     $task = Task::where('technicalStaff_id', Auth::id());
+
     $Task_RequestId = $task->pluck('request_id')->unique();
 
+    switch(Auth::user()->role){
+
+      case 'Faculty':
+        $request = Request::where('faculty_id', $this->user_id)->with('faculty')->paginate(10);
+        break;
+
+      case 'Technical Staff':
+        $request = Request::whereIn('id', $Task_RequestId)->get();
+        break;
+
+      case 'Mis Staff':
+         $request = Request::with('faculty')->get();
+        break;
+        
+    };
 
 
-    if (Auth::user()->role == 'Faculty') {
-      return view('livewire.request.view-request', ['request' => Request::where('faculty_id', $user_id)->with('faculty')->get()]);
-    }
-    if (Auth::user()->role == 'Mis Staff') {
-      return view('livewire.request.view-request', ['request' => Request::with('faculty')->get()]);
-    }
+      return view('livewire.request.view-request', compact('request'));
 
-    if (Auth::user()->role == 'Technical Staff') {
-      return view('livewire.request.view-request', ['request' => Request::whereIn('id', $Task_RequestId)->get()]);
-    }
+    
   }
 }
