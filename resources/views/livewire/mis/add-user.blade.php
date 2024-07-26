@@ -6,7 +6,9 @@
 
     <div class="group">
         <button class="fixed right-5 bottom-4 text-5xl rounded-full bg-blue-900 w-12 text-yellow-500" type="button" @click="$dispatch('open-modal',  'add-user-modal'); $dispatch('reset-validation')"> + </button>
-        <div class="invisible group-hover:visible fixed right-[80px] bottom-5 shadow-xl w-[100px] h-10 text-center text-blue-950 border rounded-md"><p>Add user</p></div>
+        <div class="invisible group-hover:visible fixed right-[80px] bottom-5 shadow-xl w-[100px] h-10 text-center text-blue-950 border rounded-md">
+            <p>Add user</p>
+        </div>
     </div>
 
 
@@ -60,7 +62,7 @@
                 @endif
                 <br>
                 {{--button to dispatched in data-update and to be listen at #[On('data-update')]--}}
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="submit" @click="$dispatch('user-update')">add user</button>
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="submit">add user</button>
             </div>
 
         </form>

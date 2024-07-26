@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Mis\MisStaff;
+use App\Livewire\Mis\ViewUser;
 use App\Livewire\Request\ViewRequest;
 use App\Livewire\User\Profile;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ Route::middleware(['Auth'])->group(function () {
 
 Route::middleware(['Mis'])->group(function () {
 
-    Route::get('/manage/user', MisStaff::class)->name('manage-user');
+    Route::get('/manage/user', ViewUser::class)->name('manage-user');
 });
 
 

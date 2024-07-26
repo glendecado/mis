@@ -46,7 +46,7 @@ class AddUser extends Component
             if($this->role == 'Mis Staff'){
                 $this->dispatch('error', name: 'Can\'t add another Mis');
             } 
-            
+
             else 
             {
 
@@ -88,14 +88,16 @@ class AddUser extends Component
 
             $this->reset(); //reset forms input
             $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
+            $this->dispatch('user-update'); //table update
             }
         }catch(Throwable $e) {
 
+// Dispatch error message if an exception occurs
             $this->dispatch('error', name: 'error');
         }
         
     }
-
+    // Method to reset validation errors
     #[On('reset-validation')]
     public function resetValidationErrors()
     {

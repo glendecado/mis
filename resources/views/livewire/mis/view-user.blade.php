@@ -1,6 +1,7 @@
 <div class="overflow-hidden">
 
-
+@livewire('mis.add-user')
+@livewire('mis.delete-user')
 
     <div class="flex flex-col p-4">
         <div class=" overflow-x-auto">
@@ -47,4 +48,5 @@
             </div>
         </div>
     </div>
+    
 </div>

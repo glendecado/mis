@@ -20,14 +20,12 @@ class DeleteUser extends Component
             // Delete the user from the database
             $user->delete();
 
+            // Update table
+            $this->dispatch('user-update');
+
             // Dispatch a success event with a message indicating the user was deleted successfully
             $this->dispatch('success', name: 'User had been added successfully.');
 
-            // Dispatch a reset-validation event, likely to reset any form validation errors
-            $this->dispatch('reset-validation');
-
-            // Redirect to the user management page
-            $this->redirect('/manage/user');
         } else {
             // Handle the case where the user was not found (optional, not implemented here)
         }
