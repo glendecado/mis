@@ -12,3 +12,13 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
+
+window.notif = 0;
+window.Echo.private('NewRequest.' + window.userId)
+    .listen('RequestEventMis', (e) => {
+        console.log(e.notifMessage);
+        // Handle the notification display logic here
+        window.notif += 1;
+        document.getElementById('notif').innerHTML = window.notif;
+        console.log(window.notif);
+    });
