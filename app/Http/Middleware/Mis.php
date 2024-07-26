@@ -16,7 +16,7 @@ class Mis
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role == 'Mis Staff'){
+        if(Auth::check() && Auth::user()->role == 'Mis Staff'){
             return $next($request);
         }
         return redirect('/');
