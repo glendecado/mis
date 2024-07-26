@@ -93,7 +93,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        @livewire('task.view-task')
+                        @livewire('task.view-task', ['request' => $request])
                     </div>
                 </div>
             </div>
