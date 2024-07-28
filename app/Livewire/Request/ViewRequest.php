@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
-
+use Livewire\Features\SupportPagination\WithoutUrlPagination;
 
 class ViewRequest extends Component
 {
+  use WithoutUrlPagination;
   public $user_id;
 
 
