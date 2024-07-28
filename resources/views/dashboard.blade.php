@@ -1,14 +1,6 @@
 <x-navbar />
 
 
-
-@php
-$notifications = Cache::get('notif-' . Auth::id()) ;
-
-@endphp
-
-
-
 @php
 $notifications = Cache::get('notif-' . Auth::id());
 @endphp
