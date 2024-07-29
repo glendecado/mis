@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'index');
+Route::get('/', function(){
+    if(Auth::check()){
+        return view('dashboard');
+    }else{
+        return view('index');
+    }
+});
 
 
 Route::middleware(['Auth'])->group(function () {

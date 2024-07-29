@@ -15,9 +15,15 @@ $route = Request::route()->getName() ?? '/';
     <div class="h-fit w-fit">
         <a href="{{route('request')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:bg-yellow-400 hover:text-blue-950 {{$route == 'request' ? 'bg-yellow-400 text-blue-950' : '' }}">
             Request
-            <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">0</span>
-        </a>
+            @if (Auth::user()->role == 'Mis Staff')
+            <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">
+                {{ Cache::get('numNotif-mis') }}
+              
+            </span>
+            @endif
 
+        </a>
+   
     </div>
 
     @if (Auth::user()->role == 'Mis Staff')

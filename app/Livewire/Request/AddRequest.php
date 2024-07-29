@@ -60,9 +60,18 @@ class AddRequest extends Component
    
         RequestEventMis::dispatch('new request', $mis->id);
 
+
         $this->reset('category');
         $this->reset('concerns');
         $this->dispatch('success', name: 'Request successfully sent.');
+        
+        if (Cache::has('numNotif-mis')) {
+            Cache::increment('numNotif-mis');
+        } else {
+            Cache::put('numNotif-mis', 0, now()->addDays(10));
+        }
+
+
     }
 
     // Method to reset validation errors

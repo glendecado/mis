@@ -13,11 +13,13 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-window.notif = 0;
+
+
+
 window.Echo.private('NewRequest.' + window.userId)
     .listen('RequestEventMis', (e) => {
-        console.log(e.notifMessage);
-        // Handle the notification display logic here
+        let numOfRequest = document.getElementById('notif');
+        window.notif = parseInt(numOfRequest.innerHTML);
         window.notif += 1;
         document.getElementById('notif').innerHTML = window.notif;
         console.log(window.notif);
