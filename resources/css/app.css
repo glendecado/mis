@@ -6,7 +6,7 @@
 table,
 th,
 td {
-    border: 1px solid rgb(53, 53, 53);
+    border: 1px solid rgba(142, 142, 142, 0.485);
     border-collapse: collapse;
     text-align: center;
     padding: 10px 5px 10px 5px;
