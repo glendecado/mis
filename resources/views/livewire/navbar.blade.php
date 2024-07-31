@@ -1,7 +1,3 @@
-@php
-$route = Request::route()->getName() ?? '/';
-@endphp
-
 
 <nav class="bg-blue-950 text-white flex flex-row gap-2 overflow-auto">
     <a href="/" wire:navigate class="flex items-center justify-center h-[56px] px-[20px] hover:bg-yellow-400 hover:text-blue-950 {{$route == '/' ? 'bg-yellow-400 text-blue-950' : '' }}">
@@ -17,7 +13,7 @@ $route = Request::route()->getName() ?? '/';
             Request
             @if (Auth::user()->role == 'Mis Staff')
             <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">
-                {{ DB::table('requests')->count() }}
+                {{ $request }}
 
             </span>
             @endif

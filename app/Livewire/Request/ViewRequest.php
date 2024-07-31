@@ -32,6 +32,7 @@ class ViewRequest extends Component
     
     $this->dispatch('update-request');
     $this->dispatch('update-task');
+    $this->dispatch('update-count');
     
   }
 
@@ -51,7 +52,7 @@ class ViewRequest extends Component
         break;
 
       case 'Technical Staff':
-        $request = Request::whereIn('id', $Task_RequestId)->get();
+        $request = Request::whereIn('id', $Task_RequestId)->paginate(10);
         break;
 
       case 'Mis Staff':
