@@ -13,7 +13,8 @@ use Livewire\Component;
 class AddRequest extends Component
 {
 
-    public $category;
+    public $category = 'Computer/laptop/printer';
+    public $others;
     public $concerns;
     public $status = 'waiting';
     public $request = [];
@@ -33,7 +34,7 @@ class AddRequest extends Component
         $req = Request::create(
             [
                 'faculty_id' => Auth::user()->id,
-                'category' => $this->category,
+                'category' => $this->others ?? $this->category,
                 'concerns' =>  $this->concerns,
                 'status' => $this->status,
             ]
@@ -63,6 +64,7 @@ class AddRequest extends Component
 
         $this->reset('category');
         $this->reset('concerns');
+        $this->reset('others');
         $this->dispatch('success', name: 'Request successfully sent.');
         $this->dispatch('update-request');
         $this->dispatch('update-count');

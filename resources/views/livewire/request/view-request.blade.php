@@ -94,7 +94,7 @@
                             </tbody>
                         </table>
                         @if (Auth::user()->role != 'Mis Staff')
-                        {{ $request->links('vendor.pagination.mis') }}
+                        {{ $request->links() }}
                         @endif
 
                         @livewire('task.view-task')

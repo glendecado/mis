@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Features\SupportPagination\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class ViewRequest extends Component
 {
-  use WithoutUrlPagination;
+  use WithPagination, WithoutUrlPagination; 
   public $user_id;
 
 

@@ -22,8 +22,20 @@
         <div>
             <form wire:submit.prevent="addRequest">
                 <div class="mb-5">
-                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                    <input type="text" id="category" wire:model.blur="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                    <div x-data="{ category: @entangle('category'), others: @entangle('others')};">
+                        <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Category</label>
+                        <select id="s" x-model="category" x-show="category == 'Computer/laptop/printer' && " class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5">
+                            <option value="Computer/laptop/printer">Computer/laptop/printer</option>
+                            <option value="Network">Network</option>
+                            <option value="Software">Software</option>
+                            <option value="Telephone">Telephone</option>
+                            <option value="Others">Others</option>
+                        </select>
+
+                        <template x-if="category === 'Others'">
+                            <textarea id="concerns" x-model="others" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+                        </template>
+                    </div>
                     @error('category') <span class="error text-xs text-red-600">{{ $message }}</span> @enderror
                 </div>
 

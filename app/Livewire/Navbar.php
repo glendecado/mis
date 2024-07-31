@@ -13,7 +13,7 @@ class Navbar extends Component
     public $route;
     public function mount(){
 
-        $this->route = FacadesRequest::route()->getName();
+        $this->route = FacadesRequest::route()->getName() ?? '/';
     }
 
     #[On('update-count')]
