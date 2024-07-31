@@ -16,11 +16,3 @@ window.Echo = new Echo({
 
 
 
-window.Echo.private('NewRequest.' + window.userId)
-    .listen('RequestEventMis', (e) => {
-        let numOfRequest = document.getElementById('notif');
-        window.notif = parseInt(numOfRequest.innerHTML);
-        window.notif += 1;
-        document.getElementById('notif').innerHTML = window.notif;
-        console.log(window.notif);
-    });

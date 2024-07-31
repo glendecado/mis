@@ -17,13 +17,13 @@ $route = Request::route()->getName() ?? '/';
             Request
             @if (Auth::user()->role == 'Mis Staff')
             <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">
-                {{ Cache::get('numNotif-mis') }}
-              
+                {{ DB::table('requests')->count() }}
+
             </span>
             @endif
 
         </a>
-   
+
     </div>
 
     @if (Auth::user()->role == 'Mis Staff')
