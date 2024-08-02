@@ -19,7 +19,7 @@ Route::get('/', function(){
 
 Route::middleware(['Auth'])->group(function () {
 
-    Route::get('/profile', Profile::class)->name('profile');
+    Route::get('/profile/{user}/', Profile::class)->name('profile');
 
     Route::get('/request', ViewRequest::class)->name('request');
 
