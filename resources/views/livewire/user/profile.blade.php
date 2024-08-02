@@ -7,6 +7,9 @@
         password: {{$user->password}}<br>
 
 
+        @if (Auth::id() == $user->id)
         @include('User.update')
+        @endif
+
 
 </div>
