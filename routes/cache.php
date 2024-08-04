@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
 
 // routes/web.php
 
@@ -18,3 +18,13 @@ Route::delete('/deletenotif/{id}', function ($id) {
 
     return redirect('/');
 });
+
+//clear livewire tmp
+Route::get('/adasdaswerwedsf23sdf', function(){
+    $oldFile = Storage::files('livewire-tmp');
+
+    foreach($oldFile as $f){
+        Storage::delete($f);
+    }
+    return redirect('/profile');
+})->name('tmp');

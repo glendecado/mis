@@ -5,6 +5,7 @@ namespace App\Livewire\Mis;
 use App\Models\User;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteUser extends Component
 {
@@ -15,6 +16,15 @@ class DeleteUser extends Component
         // Find the user by their ID from the User model
         $user = User::find($id);
 
+
+        //delete the file
+        $img = 'public/'. $user->img;
+        // Check if the file exists before attempting to delete
+        if (Storage::exists($img)) {
+            Storage::delete($img);
+        } 
+
+        
         // Check if the user exists before attempting to delete
         if ($user) {
             // Delete the user from the database
