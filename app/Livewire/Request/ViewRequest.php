@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 
 class ViewRequest extends Component
 {
-  use WithPagination, WithoutUrlPagination; 
+
   public $user_id;
 
 
@@ -49,11 +49,11 @@ class ViewRequest extends Component
     switch(Auth::user()->role){
 
       case 'Faculty':
-        $request = Request::where('faculty_id', $this->user_id)->with('faculty')->paginate(10);
+        $request = Request::where('faculty_id', $this->user_id)->with('faculty')->get();
         break;
 
       case 'Technical Staff':
-        $request = Request::whereIn('id', $Task_RequestId)->paginate(10);
+        $request = Request::whereIn('id', $Task_RequestId)->get();
         break;
 
       case 'Mis Staff':
