@@ -17,7 +17,7 @@
                 <span wire:key="{{$req->id }}" class="mt-4">Request ID: {{$req['id']}}</span>
             </div>
 
-            <div class="w-[100%]">Category: {{$req['category']}}<br><textarea disabled class="p-2 resize-none w-full rounded-md">{{$req['concerns']}}</textarea></div>
+            <div class="w-[100%]">Category: {{$req['category']}}<br><textarea disabled class="p-2 resize-none w-full rounded-md overflow-auto">{{$req['concerns']}}</textarea></div>
 
             <div class="flex flex-row items-center gap-2">
                 <div>date:
@@ -34,7 +34,7 @@
             </div>
 
             <div class="text-center">
-
+                {{--view--}}
                 <button type="button" @click="$dispatch('open-modal',  'view-request-{{$req->id}}');">View </button>
                 <x-modal name="view-request-{{$req->id}}">
                     <div class="flex flex-row text-blue-950">
@@ -81,6 +81,8 @@
 
             </div>
         </div>
+
         @endforeach
+
         @livewire('task.view-task')
     </div>
