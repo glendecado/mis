@@ -5,48 +5,51 @@ namespace App\Livewire\User;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class UpdateProfile extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads; // Trait to handle file uploads
 
-    public $img;
+    public $img; // Property to store the uploaded image
+    public $user;
 
+    // Validation rules for the uploaded image
     protected $rules = [
-        'img' => 'required|image|max:1024', // 1MB Max
+        'img' => 'required|image|max:1024', // Image is required and should be a maximum of 1MB
     ];
 
+
+    public function mount(){
+        $this->user = User::find(Auth::id());
+    }
+
+
+    // Method to handle profile image update
     public function updateProfileImage()
     {
-        $this->validate();
+        $this->validate(); // Validate the image based on the rules
 
-        $user = User::find(Auth::id());
-        $img = 'public/' . $user->img;
-        // Check if the file exists before attempting to delete
-        if (Storage::exists($img)) {
-            Storage::delete($img);
 
-            session()->flash('message', 'File deleted successfully.');
-        } else {
-            session()->flash('error', 'File not found.');
-        }
+        $img = 'public/' . $this->user->img; // Current image path
 
-        if ($this->img) {
-            $imageName = $this->img->store('profile_images', 'public');
-            $user->img = $imageName;
-            $user->save();
+        $defaultImage = 'public/profile_images/default/default.png'; // Path to the default image
 
-            session()->flash('message', 'Profile image updated successfully.');
+        // Store the new image and get the path
+        $imageName = $this->img->store('profile_images', 'public');
+
+        $this->user->img = $imageName; // Update the user's image path
+
+        $this->user->save(); // Save the user with the new image path
+
+        // Check if the old image exists and is not the default image before deleting it
+        if ($img !== $defaultImage && Storage::exists($img)) {
+            Storage::delete($img); // Delete the old image
         }
     }
 
-    #[On('remove-img')]
-    public function removeImg(){
-        $this->img = '';
-    }
+   
     public function render()
     {
         return view('livewire.user.update-profile');
