@@ -29,7 +29,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-300 ">
                             @foreach ($users as $user)
-                            <tr class="bg-white transition-all duration-500 hover:bg-gray-50">
+                            <tr class="bg-white transition-all duration-500 hover:bg-blue-100">
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->id}}</td>
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->name}}</td>
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->email}}</td>
