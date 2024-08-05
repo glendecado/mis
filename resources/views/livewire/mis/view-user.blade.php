@@ -22,8 +22,8 @@
                             <tr class="bg-blue-950 text-yellow-300 ">
                                 <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize "> User ID </th>
                                 <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize"> Name </th>
-                                <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize"> Role </th>
                                 <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize"> Email </th>
+                                <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize"> Role </th>
                                 <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold  capitalize "> Actions </th>
                             </tr>
                         </thead>
@@ -32,8 +32,8 @@
                             <tr class="bg-white transition-all duration-500 hover:bg-gray-50">
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->id}}</td>
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->name}}</td>
-                                <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->role}}</td>
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->email}}</td>
+                                <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->role}}</td>
                                 <td>
                                     {{--if you want to delete user--}}
                                     <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('user-delete', { id: '{{$user->id}}' })">Delete</button>
