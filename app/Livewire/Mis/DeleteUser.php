@@ -16,28 +16,29 @@ class DeleteUser extends Component
         // Find the user by their ID from the User model
         $user = User::find($id);
 
+        $img = 'public/' . $user->img;
 
-        //delete the file
-        $img = 'public/'. $user->img;
-        // Check if the file exists before attempting to delete
-        if (Storage::exists($img)) {
-            Storage::delete($img);
-        } 
+        $defaultImage = 'public/profile_images/default/default.png';
+
+
+
+        // Delete the user from the database
+        $user->delete();
+
+        // Update table
+        $this->dispatch('user-update');
+
+        // Dispatch a success event with a message indicating the user was deleted successfully
+        $this->dispatch('success', name: 'User had been added successfully.');
+
 
         
-        // Check if the user exists before attempting to delete
-        if ($user) {
-            // Delete the user from the database
-            $user->delete();
-
-            // Update table
-            $this->dispatch('user-update');
-
-            // Dispatch a success event with a message indicating the user was deleted successfully
-            $this->dispatch('success', name: 'User had been added successfully.');
-
-        } else {
-            // Handle the case where the user was not found (optional, not implemented here)
+        //deleting image of user
+        // Check if the file exists and is not the default image before attempting to delete
+        if ($img !== $defaultImage && Storage::exists($img)) {
+            Storage::delete($img);
         }
+
+
     }
 }
