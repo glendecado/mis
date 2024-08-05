@@ -3,6 +3,7 @@
 namespace App\Livewire\Mis;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -16,6 +17,15 @@ class ViewUser extends Component
     public function render()
     {
 
-        return view('livewire.mis.view-user', ['users' => User::where('role', '!=', 'Mis Staff')->where('name', 'like', "%$this->search%")->paginate(10)]);
+        $users = DB::table('users')
+            ->where('role', '!=', 'Mis Staff')
+            ->where(function ($query) {
+                $query->where('name', 'like', "%$this->search%")
+                    ->orWhere('id', 'like', "%$this->search%")
+                    ->orWhere('email', 'like', "%$this->search%");
+            })->get()
+            ;
+
+        return view('livewire.mis.view-user', ['users' => $users]);
     }
 }
