@@ -46,9 +46,24 @@
                 {{--foreach from array $faculty--}}
                 @foreach ($faculty as $f)
                 <div class="mb-2">
+
+                    @if ($f == 'college')
+                    <label for="{{$f}}" class="block mb-2 text-sm font-medium text-gray-900">{{$f}}:</label>
+                    <select wire:model.blur="{{$f}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5" id="{{$f}}">
+                        <option value="CAS">CAS</option>
+                        <option value="CEA">CEA</option>
+                        <option value="COE">COE</option>
+                        <option value="CIT">CIT</option>
+                    </select>
+
+                    @else
+
                     <label for="{{$f}}" class="block mb-2 text-sm font-medium text-gray-900">{{$f}}:</label>
                     <input id="{{$f}}" type="text" wire:model.blur="{{$f}}" placeholder="{{$f}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    @error($f) <span class="error text-xs text-red-600">{{ $message }}</span> @enderror
+                    @error($f)
+                    <span class="error text-xs text-red-600">{{ $message }}</span> @enderror
+                    @endif
+
                 </div>
                 @endforeach
                 @endif
