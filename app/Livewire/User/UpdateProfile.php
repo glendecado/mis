@@ -29,6 +29,7 @@ class UpdateProfile extends Component
     // Method to handle profile image update
     public function updateProfileImage()
     {
+
         $this->validate(); // Validate the image based on the rules
 
 
@@ -47,6 +48,11 @@ class UpdateProfile extends Component
         if ($img !== $defaultImage && Storage::exists($img)) {
             Storage::delete($img); // Delete the old image
         }
+
+        $this->dispatch('success', name: 'Profile updated successfully.');
+
+        return redirect('/profile/'.Auth::id());
+
     }
 
    
