@@ -14,9 +14,10 @@ class Profile extends Component
     // Lifecycle hook that runs when the component is initialized
     public function mount()
     {
-        //check if user id is equals to the id of mis staff if true then redirect to your own profile
-        if ($this->user->id == DB::table('users')->where('role','Mis Staff')->value('id')) {
-            return redirect()->to("/profile/" . Auth::id());
+        if(Auth::user()->role != 'Mis Staff'){
+            if($this->user->role == 'Mis Staff'){
+                abort(404);
+            }
         }
     }
 
