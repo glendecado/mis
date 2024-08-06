@@ -27,5 +27,5 @@
     </a>
     @endif
 
-    @livewire('user.logout')
+    @livewire('user.log-out')
 </nav>

@@ -16,7 +16,7 @@
 
 <body>
 
-    @livewire('user.login')
+    @livewire('user.log-in')
 
 </body>
 @livewireScripts
