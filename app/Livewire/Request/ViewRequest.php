@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\Features\SupportPagination\WithoutUrlPagination;
-use Livewire\WithPagination;
+
 
 class ViewRequest extends Component
 {
 
   public $user_id;
-
+  public $status='';
 
   public function mount()
   {
@@ -42,6 +41,8 @@ class ViewRequest extends Component
   public function render()
   {
 
+
+
     $task = Task::where('technicalStaff_id', Auth::id());
 
     $Task_RequestId = $task->pluck('request_id')->unique();
@@ -57,7 +58,7 @@ class ViewRequest extends Component
         break;
 
       case 'Mis Staff':
-         $request = Request::with('faculty')->get();
+         $request = Request::with('faculty')->where('status','like','%'.$this->status.'%')->orderBy('created_at')->get();
         break;
         
     };

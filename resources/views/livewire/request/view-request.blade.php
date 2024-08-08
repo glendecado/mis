@@ -5,7 +5,17 @@
     @livewire('request.add-request')
     @endif
 
-    <div class="overflow-hidden flex justify-center mt-2 flex-col items-center gap-2">
+    <div class="overflow-hidden flex justify-center mt-2 flex-col items-center gap-2 ">
+
+        <div>
+            <label for="status">Select status:</label>
+            <select wire:model.change="status" id="status" class="bg-gray-50 border border-blue-300 text-blue-950 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-56 p-2.5 mb-5">
+                <option value="">All</option>
+                <option value="waiting">Waiting</option>
+                <option value="pending">Pending</option>
+            </select>
+        </div>
+
         @foreach ($request as $req)
         <div class="flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue-950 text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
             <div>
