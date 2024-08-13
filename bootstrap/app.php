@@ -18,7 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        //f
+        $middleware->trustProxies(at: '*');
         $middleware->alias([
             'Auth' => Auth::class,
             'Mis' => Mis::class
