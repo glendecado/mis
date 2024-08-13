@@ -75,7 +75,7 @@ class AddUser extends Component
 
                 case "Faculty":
                     $fac = Faculty::create([
-                        'faculties_id' => $user->id,
+                        'faculty_id' => $user->id,
                         'college' => $this->college,
                         'building' => $this->building,
                         'room' => $this->room,
