@@ -11,7 +11,11 @@ class Faculty extends Model
 
     protected $primaryKey = 'faculty_id'; // Assuming 'faculties_id' is your primary key
 
-    protected $fillable = ['faculty_id', 'college', 'building', 'room'];
+    protected $fillable = [
+        'faculty_id', 
+        'college', 
+        'building', 
+        'room'];
 
     public function user()
     {
