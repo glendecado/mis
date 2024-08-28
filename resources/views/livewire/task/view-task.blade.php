@@ -21,7 +21,17 @@
                 <tr>
                     <td>{{$tech->user->name}}</td>
                     <td></td>
-                    <td></td>
+                    <td>
+
+                        {{--numbers of pending according to assigned technical staff--}}
+                        {{
+                            DB::table('requests')
+                            ->join('tasks', 'requests.id', '=', 'tasks.request_id')
+                            ->where('tasks.technicalStaff_id', $tech->user->id)
+                            ->where('requests.status', 'pending')
+                            ->count()
+                        }}
+                    </td>
                     <td></td>
                     <td>
                         @if (in_array($tech->user->id, $task))
