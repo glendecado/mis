@@ -44,6 +44,7 @@ class AddTask extends Component
             $request->save();
         }
         RequestEventMis::dispatch(null, $request->faculty_id);
+        RequestEventMis::dispatch(null, $tech_id);
     }
 
 
