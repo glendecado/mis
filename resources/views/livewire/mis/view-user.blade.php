@@ -1,6 +1,7 @@
 <div class="overflow-hidden">
 
 @livewire('mis.add-user')
+@livewire('mis.update-user')
 @livewire('mis.delete-user')
 
     <div class="flex flex-col p-4">
@@ -35,6 +36,8 @@
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->email}}</td>
                                 <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 ">{{$user->role}}</td>
                                 <td>
+                                    {{--update user--}}
+                                    <button @click="$dispatch('modal-update', {id:{{$user->id}}})">Edit</button> |
                                     {{--if you want to delete user--}}
                                     <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('user-delete', { id: '{{$user->id}}' })">Delete</button>
                                 </td>

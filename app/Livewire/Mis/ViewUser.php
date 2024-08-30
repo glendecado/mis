@@ -13,6 +13,12 @@ class ViewUser extends Component
     #[Url(history: true)]
     public $search;
 
+    #[On('modal-update')]
+    public function modal($id){
+        $this->dispatch('open-update-modal', id : $id);
+    }
+
+
     #[On('user-update')]
     public function render()
     {
