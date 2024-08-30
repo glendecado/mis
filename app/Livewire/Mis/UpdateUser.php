@@ -15,13 +15,12 @@ class UpdateUser extends Component
     public $password;
 
 
-   
-    #[On('open-update-modal')]
+
+    #[On('modal-update')]
     public function openModal($id)
     {
         $this->user = User::find($id);
         $this->dispatch('open-modal', 'update');
-        
     }
 
     public function updateUser(){
