@@ -56,7 +56,7 @@ class AddUser extends Component
                 'role' => $this->role,
                 'name' => $this->name,
                 'email' => $this->email,
-                'password' => Hash::make($this->password),
+                'password' => $this->password
             ]);
 
 
