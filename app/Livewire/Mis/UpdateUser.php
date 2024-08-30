@@ -16,7 +16,7 @@ class UpdateUser extends Component
 
 
    
-    #[On('modal-update')]
+    #[On('open-update-modal')]
     public function openModal($id)
     {
         $this->user = User::find($id);
