@@ -1,7 +1,7 @@
 <div>
     <x-modal name="update">
     
-    {{$user->name ?? ''}}
+    {{$user->name ?? ' '}}
 
     </x-modal>
 </div>
