@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('faculty_id')->references('faculty_id')->on('faculties')->onDelete('cascade');
             $table->string('category');
             $table->string('concerns');
+            $table->integer('priorityLevel')->default(3);
             $table->string('status');
             $table->timestamps();
         });
