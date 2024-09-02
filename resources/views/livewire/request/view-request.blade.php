@@ -104,12 +104,12 @@
                             <button @click="$dispatch('view-assigned', {id: {{$req->id}}})">Assign Technical Staff</button>
                         </div>
 
-                        <select wire:model.live="$req->priorityLevel">
-                            <option value=3>Low</option>
-                            <option value=2>Medium</option>
-                            <option value=1>High</option>   
+                        <select wire:change="$dispatch('value-changed', { value: $event.target.value , id: {{$req->id}} })">
+                            <option value="1">level 1</option>
+                            <option value="2">level 2</option>
+                            <option value="3">level 3</option>
                         </select>
-                  
+
 
                     </div>
                 </x-modal>
@@ -120,4 +120,5 @@
 
     </div>
     @livewire('task.view-task')
+    @livewire('request.update-request')
 </div>
