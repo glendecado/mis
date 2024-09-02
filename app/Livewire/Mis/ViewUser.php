@@ -13,6 +13,9 @@ class ViewUser extends Component
     #[Url(history: true)]
     public $search;
 
+    
+ 
+
     #[On('user-update')]
     public function render()
     {

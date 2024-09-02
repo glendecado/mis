@@ -15,7 +15,7 @@ class ViewTask extends Component
     #[On('view-assigned')]
     public function modal($id)
     {
-        $this->dispatch('open-modal', 'assigned-' . $id);
+        $this->dispatch('open-modal', 'assigned');
         $this->id = $id;
     }
 
@@ -27,12 +27,10 @@ class ViewTask extends Component
 
         $task = $from_task->pluck('technicalStaff_id')->toArray();
 
-        $request = Request::select('id')->get();
-
         $technicalStaff = TechnicalStaff::with('user')->get();
 
         return view(
-            'livewire.task.view-task',compact('task', 'request', 'technicalStaff')
+            'livewire.task.view-task',compact('task', 'technicalStaff')
             
         );
     }

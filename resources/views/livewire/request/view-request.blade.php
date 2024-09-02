@@ -62,6 +62,7 @@
                                     <td>College</td>
                                     <td>building</td>
                                     <td>room</td>
+
                                 </tr>
                                 <tr>
                                     <td>{{$req->faculty->user->name}}</td>
@@ -72,18 +73,29 @@
                             </table>
                             <br>
                             <h1>Request</h1>
-                            <table>
+                            <table class="w-full text-sm text-center rtl:text-right">
                                 <tr>
                                     <td>id</td>
                                     <td>category</td>
                                     <td>concerns</td>
                                     <td>status</td>
+
+                                    @if (Auth::user()->role != 'Faculty')
+                                    <td>priority level</td>
+                                    @endif
+
                                 </tr>
                                 <tr>
                                     <td>{{$req->id}}</td>
                                     <td>{{$req->category}}</td>
                                     <td>{{$req->concerns}}</td>
                                     <td>{{$req->status}}</td>
+
+                                    @if (Auth::user()->role != 'Faculty')
+
+                                    <td>{{$req->priorityLevel}}</td>
+                                    @endif
+
                                 </tr>
                             </table>
                             <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('request-delete', { id: '{{$req->id}}' })">Delete</button>
@@ -91,12 +103,22 @@
                         <div>
                             <button @click="$dispatch('view-assigned', {id: {{$req->id}}})">Assign Technical Staff</button>
                         </div>
+
+                        <select wire:change="$dispatch('value-changed', { value: $event.target.value , id: {{$req->id}} })">
+                            <option value="1">level 1</option>
+                            <option value="2">level 2</option>
+                            <option value="3">level 3</option>
+                        </select>
+
+
                     </div>
                 </x-modal>
             </div>
         </div>
         @endforeach
 
-        @livewire('task.view-task')
+
     </div>
+    @livewire('task.view-task')
+    @livewire('request.update-request')
 </div>
