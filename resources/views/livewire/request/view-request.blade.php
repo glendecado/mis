@@ -54,62 +54,67 @@
             <div class="p-2 w-max">
                 <button type="button" @click="$dispatch('open-modal',  'view-request-{{$req->id}}');">View</button>
                 <x-modal name="view-request-{{$req->id}}">
-                    <div class="flex flex-row text-blue-950">
-                        <div wire:key="{{$req->id}}">
-                            <table>
-                                <tr>
-                                    <td>request from</td>
-                                    <td>College</td>
-                                    <td>building</td>
-                                    <td>room</td>
 
-                                </tr>
-                                <tr>
-                                    <td>{{$req->faculty->user->name}}</td>
-                                    <td>{{$req->faculty->college}}</td>
-                                    <td>{{$req->faculty->building}}</td>
-                                    <td>{{$req->faculty->room}}</td>
-                                </tr>
-                            </table>
-                            <br>
-                            <h1>Request</h1>
-                            <table class="w-full text-sm text-center rtl:text-right">
-                                <tr>
-                                    <td>id</td>
-                                    <td>category</td>
-                                    <td>concerns</td>
-                                    <td>status</td>
+                    {{--card--}}
+                    <div class="h-max w-full bg-gray-400 p-2 flex flex-col rounded-md gap-2 ">
 
-                                    @if (Auth::user()->role != 'Faculty')
-                                    <td>priority level</td>
-                                    @endif
+                        {{--I col--}}
+                        <div class="flex gap-2 justify-items-stretch md:flex-row flex-col">
 
-                                </tr>
-                                <tr>
-                                    <td>{{$req->id}}</td>
-                                    <td>{{$req->category}}</td>
-                                    <td>{{$req->concerns}}</td>
-                                    <td>{{$req->status}}</td>
 
-                                    @if (Auth::user()->role != 'Faculty')
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Tracking #</label>
+                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->id}}">
+                            </div>
 
-                                    <td>{{$req->priorityLevel}}</td>
-                                    @endif
 
-                                </tr>
-                            </table>
-                            <button @click="if (confirm('Are you sure you want to delete this user?')) $dispatch('request-delete', { id: '{{$req->id}}' })">Delete</button>
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Date:</label>
+                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "Y/m/d")}}">
+                            </div>
+
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Time</label>
+                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "g:ia")}}">
+                            </div>
+
                         </div>
+
+                        {{--II col--}}
                         <div>
-                            <button @click="$dispatch('view-assigned', {id: {{$req->id}}})">Assign Technical Staff</button>
+
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Category</label>
+                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
+                            </div>
+
+
+                        </div>
+                        {{--III col--}}
+                        <div>
+
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Name</label>
+                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->faculty->user->name}}">
+                            </div>
+
+
                         </div>
 
-                        <select wire:change="$dispatch('value-changed', { value: $event.target.value , id: {{$req->id}} })">
-                            <option value="1">level 1</option>
-                            <option value="2">level 2</option>
-                            <option value="3">level 3</option>
-                        </select>
+                        {{--IV col--}}
+                        <div>
+                            <div class="flex flex-col">
+                                <label for="trackingNum" class="text-gray-600">Category</label>
+                                <textarea name="" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950 h-[200px]" placeholder="{{$req->concerns}}"></textarea>
 
+                            </div>
+
+                        </div>
+
+
+                        <div class="border border-blue-900 p-2 rounded-md">
+                            <button @click="$dispatch('view-assigned', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md">Assign Technical Staff</button>
+                        </div>
 
                     </div>
                 </x-modal>
