@@ -69,33 +69,40 @@
 
 
                             <div class="flex flex-col">
-                                <label for="trackingNum" class="text-gray-600">Date:</label>
-                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "Y/m/d")}}">
+                                <label for="date" class="text-gray-600">Date:</label>
+                                <input type="text" name="date" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "Y/m/d")}}">
                             </div>
 
                             <div class="flex flex-col">
-                                <label for="trackingNum" class="text-gray-600">Time</label>
-                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "g:ia")}}">
+                                <label for="time" class="text-gray-600">Time</label>
+                                <input type="text" name="time" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "g:ia")}}">
                             </div>
 
                         </div>
 
                         {{--II col--}}
-                        <div>
+                        <div class="flex items-center gap-2">
 
-                            <div class="flex flex-col">
-                                <label for="trackingNum" class="text-gray-600">Category</label>
-                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
+                            <div class="flex flex-col w-full">
+                                <label for="category" class="text-gray-600">Category</label>
+                                <input type="text" name="category" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
+
                             </div>
-
+                            <div class="text-black">
+                                <select wire:change="$dispatch('value-changed', { value: $event.target.value , id: {{$req->id}} })">
+                                    <option value="1">level 1</option>
+                                    <option value="2">level 2</option>
+                                    <option value="3">level 3</option>
+                                </select>
+                            </div>
 
                         </div>
                         {{--III col--}}
                         <div>
 
                             <div class="flex flex-col">
-                                <label for="trackingNum" class="text-gray-600">Name</label>
-                                <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->faculty->user->name}}">
+                                <label for="name" class="text-gray-600">Name</label>
+                                <input type="text" name="name" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->faculty->user->name}}">
                             </div>
 
 
@@ -104,7 +111,7 @@
                         {{--IV col--}}
                         <div>
                             <div class="flex flex-col">
-                                <label for="trackingNum" class="text-gray-600">Category</label>
+                                <label for="category" class="text-gray-600">Concerns</label>
                                 <textarea name="" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950 h-[200px]" placeholder="{{$req->concerns}}"></textarea>
 
                             </div>
