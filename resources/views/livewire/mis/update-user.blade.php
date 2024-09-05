@@ -20,7 +20,7 @@ $input = 'rounded bg-slate-200 border border-slate-900 m-2 p-2';
                 <option value="Technical Staff">Technical Staff</option>
                 @endif
             </select>
-            <input type="text" name="password" id="" class="{{$input}}" wire:model="password">
+            <input type="text" name="password" id="" class="{{$input}}" wire:model="password" placeholder="{{$user->password}}">
             <button type="submit">Confirm</button>
         </form>
         @endif
