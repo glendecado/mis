@@ -89,6 +89,7 @@ class AddUser extends Component
             $this->reset(); //reset forms input
             $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
             $this->dispatch('user-update'); //table update
+            $this->dispatch('close-modal', 'add-user-modal');
             }
         }catch(Throwable $e) {
 
