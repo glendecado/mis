@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Validate;
 
 class LogIn extends Component
@@ -23,7 +24,8 @@ class LogIn extends Component
         $this->passwordError = null;
 
         $user = User::where('email', $this->email)->first();
-        if(empty($user)){
+/*         
+    if(empty($user)){
             $this->emailError = 'Email field is required';
         }
         elseif (!$user) {
@@ -33,8 +35,23 @@ class LogIn extends Component
         } else {
             // Authentication successful
             return redirect()->intended('/');
+        } */
+
+        if(empty($this->email)){
+            $this->emailError = 'Email field is required';
+        }
+        elseif(empty($user->email)){
+            $this->emailError = 'User not found';
         }
 
+        elseif($this->password == $user->password || Hash::check($this->password, $user->password)){
+            Auth::login($user);
+            return redirect()->intended('/');
+        }
+        else
+        {
+            $this->passwordError = 'Incorrect password';
+        }
      
     }
 
