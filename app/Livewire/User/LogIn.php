@@ -7,7 +7,7 @@ use Livewire\Component;
 use App\Models\User;
 use Livewire\Attributes\Validate;
 
-class Login extends Component
+class LogIn extends Component
 {
 
     public $email;
@@ -34,6 +34,8 @@ class Login extends Component
             // Authentication successful
             return redirect()->intended('/');
         }
+
+     
     }
 
     public function render()
