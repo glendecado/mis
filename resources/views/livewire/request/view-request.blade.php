@@ -53,54 +53,58 @@
 
             <div class="p-2 w-max">
                 <button type="button" @click="$dispatch('open-modal',  'view-request-{{$req->id}}');">View</button>
-                <x-modal name="view-request-{{$req->id}}">
+                <x-modal name="view-request-{{$req->id}}" color="bg-blue-900">
 
                     {{--card--}}
                     <div class="h-max w-full bg-gray-400 p-2 flex flex-col rounded-md gap-2 ">
 
-                        {{--I col--}}
-                        <div class="flex gap-2 justify-items-stretch md:flex-row flex-col">
+                        {{--I col tracking, date, tome--}}
+                        <div class="flex gap-2 justify-items-stretch md:flex-row flex-col w-[100%]">
 
-
-                            <div class="flex flex-col">
+                            {{--div for tracking--}}
+                            <div class="flex flex-col w-[100%]">
                                 <label for="trackingNum" class="text-gray-600">Tracking #</label>
                                 <input type="text" name="trackingNum" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->id}}">
                             </div>
 
-
-                            <div class="flex flex-col">
+                            {{--div for date--}}
+                            <div class="flex flex-col w-[100%]">
                                 <label for="date" class="text-gray-600">Date:</label>
                                 <input type="text" name="date" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "Y/m/d")}}">
                             </div>
 
-                            <div class="flex flex-col">
+                            {{--div for time--}}
+                            <div class="flex flex-col w-[100%]">
                                 <label for="time" class="text-gray-600">Time</label>
                                 <input type="text" name="time" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{date_format($req['created_at'], "g:ia")}}">
                             </div>
 
                         </div>
 
-                        {{--II col--}}
+                        {{--II col category, priority level--}}
                         <div class="flex items-center gap-2">
 
+                            {{--div for category--}}
                             <div class="flex flex-col w-full">
                                 <label for="category" class="text-gray-600">Category</label>
                                 <input type="text" name="category" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
 
                             </div>
 
-                            <div class="relative">
+                            {{--div for priority level--}}
+                            <div class="text-black">
                                 {{----}}
 
-                                @if (Auth::user()->role == 'Mis Staff')
+                                @if (Auth::user()->role == 'Mis Staff') {{--if user is mis staff--}}
 
-                                <select wire:change="$dispatch('value-changed', { value: $event.target.value, id: {{$req->id}} })">
+                                <label for="Priority" class="text-gray-600">Priority Level</label>
+                                <select wire:change="$dispatch('value-changed', { value: $event.target.value, id: {{$req->id}} })" class="w-[100%]">
                                     <option value="1" @if($req->priorityLevel == 1) selected @endif>Level 1</option>
                                     <option value="2" @if($req->priorityLevel == 2) selected @endif>Level 2</option>
                                     <option value="3" @if($req->priorityLevel == 3) selected @endif>Level 3</option>
                                 </select>
 
-                                @elseif(Auth::user()->role == 'Technical Staff')
+                                @elseif(Auth::user()->role == 'Technical Staff'){{--if user is Technical Staff--}}
 
                                 <label for="Priority" class="text-gray-600">Priority Level</label>
                                 <input type="text" name="Priority" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->priorityLevel }}">
@@ -111,9 +115,9 @@
                             </div>
 
                         </div>
-                        {{--III col--}}
+                        {{--III col name--}}
                         <div>
-
+                            {{--div for name--}}
                             <div class="flex flex-col">
                                 <label for="name" class="text-gray-600">Name</label>
                                 <input type="text" name="name" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->faculty->user->name}}">
@@ -122,21 +126,28 @@
 
                         </div>
 
-                        {{--IV col--}}
+                        {{--IV col concerns--}}
                         <div>
+
+                            {{--div for concerns--}}
                             <div class="flex flex-col">
                                 <label for="category" class="text-gray-600">Concerns</label>
                                 <textarea name="" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950 h-[200px]" placeholder="{{$req->concerns}}"></textarea>
 
                             </div>
 
+
                         </div>
+                        {{--V col assign and accept reject--}}
 
                         <div class="border border-blue-900 p-2 rounded-md">
+
+                            {{--if user is mis staff then you can assign technical staff--}}
                             @if (Auth::user()->role == 'Mis Staff')
 
                             <button @click="$dispatch('view-assigned', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md">Assign Technical Staff</button>
 
+                            {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
                             {{$req->status}}
                             <div class="flex justify-between">
