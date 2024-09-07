@@ -29,6 +29,7 @@ class AddTask extends Component
             $task = Task::create([
                 'request_id' => $request_id,
                 'technicalStaff_id' => $tech_id,
+    
             ]);
         }
 

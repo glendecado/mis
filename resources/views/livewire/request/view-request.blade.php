@@ -88,12 +88,26 @@
                                 <input type="text" name="category" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
 
                             </div>
-                            <div class="text-black">
-                                <select wire:change="$dispatch('value-changed', { value: $event.target.value , id: {{$req->id}} })">
-                                    <option value="1">level 1</option>
-                                    <option value="2">level 2</option>
-                                    <option value="3">level 3</option>
+
+                            <div class="relative">
+                                {{----}}
+
+                                @if (Auth::user()->role == 'Mis Staff')
+
+                                <select wire:change="$dispatch('value-changed', { value: $event.target.value, id: {{$req->id}} })">
+                                    <option value="1" @if($req->priorityLevel == 1) selected @endif>Level 1</option>
+                                    <option value="2" @if($req->priorityLevel == 2) selected @endif>Level 2</option>
+                                    <option value="3" @if($req->priorityLevel == 3) selected @endif>Level 3</option>
                                 </select>
+
+                                @elseif(Auth::user()->role == 'Technical Staff')
+
+                                <label for="Priority" class="text-gray-600">Priority Level</label>
+                                <input type="text" name="Priority" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->priorityLevel }}">
+
+                                @endif
+
+                                {{----}}
                             </div>
 
                         </div>
@@ -118,9 +132,19 @@
 
                         </div>
 
-
                         <div class="border border-blue-900 p-2 rounded-md">
+                            @if (Auth::user()->role == 'Mis Staff')
+
                             <button @click="$dispatch('view-assigned', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md">Assign Technical Staff</button>
+
+                            @elseif(Auth::user()->role == 'Technical Staff')
+                            {{$req->status}}
+                            <div class="flex justify-between">
+                                <button class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Accept</button>
+                                <button class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Reject</button>
+                            </div>
+
+                            @endif
                         </div>
 
                     </div>

@@ -13,6 +13,7 @@ class Task extends Model
     protected $fillable = [
         'request_id',
         'technicalStaff_id',
+        'status',
     ];
 
     public function TechnicalStaff(){
