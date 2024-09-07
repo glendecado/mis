@@ -15,35 +15,42 @@ class AddTask extends Component
     #[On('add-task')]
     public function addTask($request_id, $tech_id)
     {
-        $mis = User::where('role', 'Mis Staff')->first();
-        // Check if the task already exists
-        $existingTask = Task::where('request_id', $request_id)
-            ->where('technicalStaff_id', $tech_id)
-            ->first();
 
+
+        $existingTask = Task::where('request_id', $request_id) 
+            ->where('technicalStaff_id', $tech_id)
+            ->first(); //check if tech staff exist in this task
+
+        /////////////////////////////
         if ($existingTask) {
             // If task exists, delete it
             $existingTask->delete();
+            $this->dispatch('success', name: 'successfully removed');
         } else {
             // If task does not exist, create and save it
             $task = Task::create([
                 'request_id' => $request_id,
                 'technicalStaff_id' => $tech_id,
-    
+
             ]);
+            $this->dispatch('success', name:'successfully added');
         }
 
-        $request = Request::find($request_id);
 
-        $total = Task::where('request_id', $request_id)->count();
 
-        if ($total > 0) {
+        $request = Request::find($request_id); //for live update
+
+        $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
+        //////////////////////////////
+        if ($numOfTechInTask > 0) {
             $request->status = 'pending';
             $request->save();
         } else {
             $request->status = 'waiting';
             $request->save();
         }
+
+        /////////////////////////////
         RequestEventMis::dispatch(null, $request->faculty_id);
         RequestEventMis::dispatch(null, $tech_id);
     }
