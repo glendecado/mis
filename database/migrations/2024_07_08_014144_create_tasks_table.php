@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('technicalStaff_id')->references('technicalStaff_id')->on('technical_staff')->onDelete('cascade');
             $table->unsignedBigInteger('request_id');
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
+            $table->string('status')->default('pending'); //accepted or rejected
             $table->timestamps();
         });
     }
