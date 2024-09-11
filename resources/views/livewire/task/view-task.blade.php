@@ -38,9 +38,9 @@
                     <td></td>
                     <td>
                         @if (in_array($tech->user->id, $task))
-                        <button class="bg-blue-900 text-white" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}); $dispatch('update-task'); $dispatch('update-request')">add</button>
+                        <button class="bg-blue-900 text-white" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}); $dispatch('update-task'); $dispatch('update-request')">Assigned</button>
                         @else
-                        <button class="bg-slate-200" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}) ; $dispatch('update-task');$dispatch('update-request')">add</button>
+                        <button class="bg-slate-200" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}) ; $dispatch('update-task');$dispatch('update-request')">Add</button>
                         @endif
 
                     </td>
