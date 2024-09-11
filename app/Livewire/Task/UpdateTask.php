@@ -17,6 +17,13 @@ class UpdateTask extends Component
 
         $this->dispatch('ongoing-request', id: $id);
     }
+
+    #[On('reject-task')]
+    public function rejectTask($id){
+        $task = Task::where('request_id', $id)->first();
+        $task->status = 'rejected';
+        $task->save();
+    }
     
     public function render()
     {
