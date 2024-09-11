@@ -12,8 +12,8 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Ongoing</th>
                     <th>Pending</th>
+                    <th>Ongoing</th>
                     <th>Resolve</th>
                     <th>Assign</th>
                 </tr>
@@ -23,7 +23,6 @@
 
                 <tr>
                     <td>{{$tech->user->name}}</td>
-                    <td></td>
                     <td>
 
                         {{--numbers of pending according to assigned technical staff--}}
@@ -32,6 +31,17 @@
                                 ->join('tasks', 'requests.id', '=', 'tasks.request_id')
                                 ->where('tasks.technicalStaff_id', $tech->user->id)
                                 ->where('requests.status', 'pending')
+                                ->count()
+                            }}
+                    </td>
+
+                    <td>
+                        {{--numbers of pending according to assigned technical staff--}}
+                        {{
+                                DB::table('requests')
+                                ->join('tasks', 'requests.id', '=', 'tasks.request_id')
+                                ->where('tasks.technicalStaff_id', $tech->user->id)
+                                ->where('requests.status', 'ongoing')
                                 ->count()
                             }}
                     </td>

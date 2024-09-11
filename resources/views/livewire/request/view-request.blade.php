@@ -1,5 +1,6 @@
 <div>
     @livewire('request.delete-request')
+    @livewire('request.update-request')
 
     @if (Auth::user()->role == 'Faculty')
     @livewire('request.add-request')
@@ -13,6 +14,7 @@
                 <option value="">All</option>
                 <option value="waiting">Waiting</option>
                 <option value="pending">Pending</option>
+                <option value="ongoing">Ongoing</option>
             </select>
         </div>
 
@@ -150,8 +152,11 @@
                             {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
                             {{$req->status}}
+                            @livewire('task.update-task')
                             <div class="flex justify-between">
-                                <button class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Accept</button>
+
+                                <button @click="$dispatch('accept-task', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Accept</button>
+
                                 <button class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Reject</button>
                             </div>
 
