@@ -6,7 +6,9 @@ use App\Models\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 
@@ -14,16 +16,14 @@ class ViewRequest extends Component
 {
 
   public $user_id;
+
+  #[Url(keep: true)]
   public $status = '';
 
   public function mount()
   {
 
     $this->user_id = Auth::id();
-
-    if(Auth::user()->role == 'Technical Staff'){
-      $this->status = 'accepted';
-    }
   }
 
   #[On('echo-private:NewRequest.{user_id},RequestEventMis')]
@@ -39,7 +39,10 @@ class ViewRequest extends Component
     $this->dispatch('update-count');
   }
 
- 
+  #[On('hey')]
+  public function modal($id) {
+    $this->dispatch('open-modal', 'view-request-'.$id);
+  }
 
 
   #[On('update-request')]
@@ -57,17 +60,13 @@ class ViewRequest extends Component
         break;
 
       case 'Technical Staff':
-        
-        // Get all tasks where the technicalStaff_id matches the authenticated user's ID
-        $task = Task::where('technicalStaff_id', Auth::id())->where('status',$this->status);
 
-        // Extract the unique request IDs associated with the tasks
-        $Task_RequestId = $task->pluck('request_id')->unique();
-
-        // Retrieve all requests where the ID matches any of the request IDs from the tasks
-        // Use whereIn to allow matching against an array of IDs
-        $request = Request::whereIn('id', $Task_RequestId)->get();
-
+        $request = Request::with('faculty')
+          ->join('tasks', 'requests.id', '=', 'tasks.request_id')
+          ->where('tasks.technicalStaff_id', Auth::id())
+          ->where('tasks.status', $this->status)
+          ->orderBy('requests.priorityLevel')
+          ->get();
         break;
 
       case 'Mis Staff':
@@ -77,5 +76,10 @@ class ViewRequest extends Component
 
 
     return view('livewire.request.view-request', compact('request'));
+  }
+
+  public function updatedStatus($value)
+  {
+    $this->render();
   }
 }
