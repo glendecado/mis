@@ -12,12 +12,12 @@ use Throwable;
 
 class AddUser extends Component
 {
-    // Variables to store the values entered in the form
+    // this global variables is connect to wire:model="<name of glabal variable>"
     public $name = '';
     public $email = '';
     public $role = 'Technical Staff'; // Default role
     public $password = '';
-    public $college = 'Cas'; // Default role
+    public $college = 'Cas'; // Default
     public $building = '';
     public $room = '';
     public $faculty = ['name', 'email', 'college', 'building', 'room', 'password'];
@@ -41,62 +41,62 @@ class AddUser extends Component
         // Validate form inputs based on the rules defined
         $this->validate();
 
-        try{
+        try {
 
-            if($this->role == 'Mis Staff'){
+            if ($this->role == 'Mis Staff') {
                 $this->dispatch('error', name: 'Can\'t add another Mis');
-            } 
-
-            else 
-            {
+            } else {
 
 
-            // Create a new User record
-            $user = User::create([
-                'role' => $this->role,
-                'name' => $this->name,
-                'email' => $this->email,
-                'password' => $this->password
-            ]);
+                // Create a new User record
+                $user = User::create([
+                    'role' => $this->role,
+                    'name' => $this->name,
+                    'email' => $this->email,
+                    'password' => $this->password
+                ]);
 
 
-            //check role if technical Staff or Faculty
-            switch ($this->role) {
+                //check role if technical Staff or Faculty
+                switch ($this->role) {
 
-                case "Technical Staff":
-                    $tech = TechnicalStaff::create([
-                        'technicalStaff_id' => $user->id,
-                        'totalRate' => 0,
-                        'totalTask' => 0,
-                    ]);
-                    $tech->User()->associate($user);
-                    $tech->save();
-                    break;
+                        //if technical staff /////////
+                    case "Technical Staff":
+                        $tech = TechnicalStaff::create([
+                            'technicalStaff_id' => $user->id,
+                            'totalRate' => 0,
+                            'totalTask' => 0,
+                        ]);
+                        // Associate the User model with the TechnicalStaff model
+                        $tech->User()->associate($user);
+                        $tech->save();
+                        break;
 
-                case "Faculty":
-                    $fac = Faculty::create([
-                        'faculty_id' => $user->id,
-                        'college' => $this->college,
-                        'building' => $this->building,
-                        'room' => $this->room,
-                    ]);
-                    $fac->User()->associate($user);
-                    $fac->save();
-                    break;
+                        //if faculty ///////////
+                    case "Faculty":
+                        $fac = Faculty::create([
+                            'faculty_id' => $user->id,
+                            'college' => $this->college,
+                            'building' => $this->building,
+                            'room' => $this->room,
+                        ]);
+                        // Associate the User model with the Faculty model
+                        $fac->User()->associate($user);
+                        $fac->save();
+                        break;
+                }
+
+
+                $this->reset(); //reset forms input
+                $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
+                $this->dispatch('user-update'); //table update
+                $this->dispatch('close-modal', 'add-user-modal');
             }
+        } catch (Throwable $e) {
 
-
-            $this->reset(); //reset forms input
-            $this->dispatch('success', name: 'User had been added successfully.'); //dispatch to js sweet alert
-            $this->dispatch('user-update'); //table update
-            $this->dispatch('close-modal', 'add-user-modal');
-            }
-        }catch(Throwable $e) {
-
-// Dispatch error message if an exception occurs
+            // Dispatch error message if an exception occurs
             $this->dispatch('error', name: 'error');
         }
-        
     }
     // Method to reset validation errors
     #[On('reset-validation')]
