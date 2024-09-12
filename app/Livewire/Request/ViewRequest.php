@@ -39,7 +39,7 @@ class ViewRequest extends Component
     $this->dispatch('update-count');
   }
 
-  #[On('hey')]
+  #[On('view-request')]
   public function modal($id) {
     $this->dispatch('open-modal', 'view-request-'.$id);
   }
