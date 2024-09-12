@@ -20,6 +20,10 @@ class ViewRequest extends Component
   {
 
     $this->user_id = Auth::id();
+
+    if(Auth::user()->role == 'Technical Staff'){
+      $this->status = 'accepted';
+    }
   }
 
   #[On('echo-private:NewRequest.{user_id},RequestEventMis')]
@@ -35,6 +39,7 @@ class ViewRequest extends Component
     $this->dispatch('update-count');
   }
 
+ 
 
 
   #[On('update-request')]
@@ -54,7 +59,7 @@ class ViewRequest extends Component
       case 'Technical Staff':
         
         // Get all tasks where the technicalStaff_id matches the authenticated user's ID
-        $task = Task::where('technicalStaff_id', Auth::id());
+        $task = Task::where('technicalStaff_id', Auth::id())->where('status',$this->status);
 
         // Extract the unique request IDs associated with the tasks
         $Task_RequestId = $task->pluck('request_id')->unique();
