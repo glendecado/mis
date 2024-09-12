@@ -11,7 +11,7 @@
 
                 @foreach ($user as $u)
                 <a href=" /profile/{{$u->id}}" class="p-2 flex flex-row w-52 hover:bg-slate-500">
-                    <img src="{{ asset('storage/' . $u->img) }}" alt="" class="w-12 rounded-[100%]">
+                    <img src="{{ asset('storage/' . $u->img) }}" alt="" class="w-[40px] h-[40px] rounded-[100%]">
                     {{$u->name}}
                 </a>
                 @endforeach
