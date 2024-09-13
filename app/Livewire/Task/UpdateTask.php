@@ -18,6 +18,8 @@ class UpdateTask extends Component
         $task->save(); 
         $this->dispatch('ongoing-request', id: $id); 
         $this->dispatch('close-modal', 'view-request-'.$id);
+        $this->dispatch('success', name: 'Task accepted Sucessfully');
+        $this->dispatch('update-request');
     }
 
     #[On('reject-task')]
@@ -26,6 +28,8 @@ class UpdateTask extends Component
         $task->status = 'rejected';
         $task->save();
         $this->dispatch('close-modal', 'view-request-' . $id);
+        $this->dispatch('error', name: 'Task rejected');
+        $this->dispatch('update-request');
     }
     
     public function render()

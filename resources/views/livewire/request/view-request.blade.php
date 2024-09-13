@@ -24,7 +24,7 @@
 
             <div>
                 <input type="radio" id="3" wire:model.live="status" value="rejected" class="peer hidden" />
-                <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Reject</label>
+                <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Rejected</label>
             </div>
         </div>
         @break
