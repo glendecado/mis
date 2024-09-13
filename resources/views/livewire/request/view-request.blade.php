@@ -1,7 +1,6 @@
 <div>
 
-    @livewire('request.delete-request')
-    @livewire('request.update-request')
+
 
     @if (Auth::user()->role == 'Faculty')
     @livewire('request.add-request')
@@ -194,8 +193,7 @@
 
                             {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
-                            {{$req->status}}
-                            @livewire('task.update-task')
+
                             <div class="flex justify-between">
 
                                 <button @click="$dispatch('accept-task', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Accept</button>
@@ -214,8 +212,11 @@
 
 
     </div>
+
+    @livewire('task.update-task')
     @livewire('task.view-task')
     @livewire('request.update-request')
+    @livewire('request.delete-request')
 
     <div wire:loading wire:target="status" class="w-full">
         <div class="flex w-full justify-center items-center mb-12 rounded-md bg-blue-950/50 h-screen fixed top-0">

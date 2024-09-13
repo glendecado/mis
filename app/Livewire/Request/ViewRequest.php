@@ -24,6 +24,9 @@ class ViewRequest extends Component
   {
 
     $this->user_id = Auth::id();
+    if(Auth::user()->role == 'Technical Staff'){
+      $this->status = 'accepted';
+    }
   }
 
   #[On('echo-private:NewRequest.{user_id},RequestEventMis')]
