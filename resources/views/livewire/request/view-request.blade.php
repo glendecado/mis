@@ -96,7 +96,7 @@
             </div>
 
             <div class="p-2 w-max">
-                <button type="button" @click="$dispatch('view-request', {id:{{$req->id}}});">View</button>
+                <button type="button" @click="$dispatch('open-modal', 'view-request-{{$req->id}}');">View</button>
                 <x-modal name="view-request-{{$req->id}}" color="bg-blue-900">
 
                     {{--card--}}
