@@ -68,6 +68,7 @@ class AddRequest extends Component
         $this->dispatch('success', name: 'Request successfully sent.');
         $this->dispatch('update-request');
         $this->dispatch('update-count');
+        $this->dispatch('close-modal', 'add-request-modal');    
 
     }
 

@@ -16,8 +16,10 @@ class DeleteUser extends Component
         // Find the user by their ID from the User model
         $user = User::find($id);
 
+        //link of the user's image
         $img = 'public/' . $user->img;
 
+        //defult image path of a user
         $defaultImage = 'public/profile_images/default/default.png';
 
 

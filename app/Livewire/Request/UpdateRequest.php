@@ -17,6 +17,14 @@ class UpdateRequest extends Component
         $this->dispatch('update-request');
     }
 
+    #[On('ongoing-request')]
+    public function ongoingTask($id){
+        $request = Request::find($id);
+        $request->status = 'ongoing';
+        $request->save();
+    }
+
+
     public function render()
     {
         return view('livewire.request.update-request');
