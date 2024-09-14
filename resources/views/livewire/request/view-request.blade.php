@@ -30,7 +30,7 @@
         @break
 
         @default
-        <div class="w-fit flex gap-2 rounded-xl bg-gray-200 p-2">
+        <div class="w-fit flex gap-2 rounded-xl bg-slate-100 p-2 shadow-2xl">
             <div>
                 <input type="radio" id="1" wire:model.live="status" value="" class="peer hidden" />
                 <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">All</label>

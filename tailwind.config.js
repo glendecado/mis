@@ -7,7 +7,17 @@ export default {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow:{
+        '2xl':'0px 25px 30px -12px rgb(0 0 0 / 0.25);'
+      },
+      textColor:{
+        'primary':'',
+        'secondary':'',
+        'tertiary':'',
+      },
+      
+    },
   },
   plugins: [],
 }
