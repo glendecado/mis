@@ -9,7 +9,8 @@ export default {
   theme: {
     extend: {
       boxShadow:{
-        '2xl':'0px 25px 30px -12px rgb(0 0 0 / 0.25);'
+        '2xl':'0px 25px 30px -12px rgb(0 0 0 / 0.25)',
+        'inner':'0px 0px 0 0 rgb(0 0 0 / 0.25)',
       },
       textColor:{
         'primary':'',

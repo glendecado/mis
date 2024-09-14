@@ -60,7 +60,7 @@
                         </div>
                  </div>
             </footer>-->
-            <div class="container mx-auto max-h-auto p-10 flex items-center">
+            <div class="container mx-auto max-h-auto p-10 flex md:flex-row flex-col items-center">
                 <div class="bg-slate-100 p-5 rounded-2xl shadow-2xl">
                     <div>
                         <h1 class="font-bold text-primary">

@@ -26,7 +26,7 @@
     </div>
     <nav class="bg-yellow-400 text-blue-950 flex flex-row  overflow-auto">
 
-        <a href="/" wire:navigate class="flex items-center justify-center h-[56px] px-[20px] hover:text-white hover:bg-blue-900 {{$route == '/' ? 'text-white bg-blue-900' : '' }}">
+        <a href="/" wire:navigate class="flex items-center justify-center h-[56px] px-[20px] hover:text-white hover:bg-blue-900 shadow-inner {{$route == '/' ? 'text-white bg-blue-900' : '' }}">
             Home
         </a>
 
