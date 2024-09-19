@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             MisStaff::class,
-            Faculty::class
+            Faculty::class,
+            CategorySeeder::class
         ]);
     }
 }

@@ -31,11 +31,5 @@ class Faculty extends Seeder
         $faculty->User()->associate($user);
         $faculty->save();
 
-        $req = Request::create([
-            'faculty_id' => $user->id,
-            'category' => 'ds',
-            'concerns' => 'dsfdfs',
-            'status' => 'waiting',
-        ]);
     }
 }
