@@ -10,10 +10,14 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category'
+        'name'
     ];
 
     public function TaskList(){
         return $this->hasMany(TaskList::class);
+    }
+
+    public function Request(){
+        return $this->hasMany(Request::class);
     }
 }

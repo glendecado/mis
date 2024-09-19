@@ -15,7 +15,7 @@ class CategorySeeder extends Seeder
     {
         //////////
         $clp = Category::create([
-            'category' => 'Computer/Laptop/Printer'
+            'name' => 'Computer/Laptop/Printer'
         ]);
 
         $clp->save();
@@ -23,7 +23,7 @@ class CategorySeeder extends Seeder
 
         //////////
         $net = Category::create([
-            'category' => 'Network'
+            'name' => 'Network'
         ]);
 
         $net->save();
@@ -31,14 +31,14 @@ class CategorySeeder extends Seeder
 
         //////////
         $soft = Category::create([
-            'category' => 'Software'
+            'name' => 'Software'
         ]);
 
         $soft->save();
 
         //////////
         $tel = Category::create([
-            'category' => 'Telephone'
+            'name' => 'Telephone'
         ]);
 
         $tel->save();

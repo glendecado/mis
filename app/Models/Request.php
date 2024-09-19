@@ -30,7 +30,7 @@ class Request extends Model
     }
 
     public function Category(){
-        
-        return $this->hasOne(Category::class);
+
+        return $this->belongsTo(Category::class);
     }
 }
