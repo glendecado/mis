@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Validate;
+use Throwable;
 
 class LogIn extends Component
 {
@@ -37,21 +38,23 @@ class LogIn extends Component
             return redirect()->intended('/');
         } */
 
-        if(empty($this->email)){
-            $this->emailError = 'Email field is required';
+        //remove try catch if password is already hashed
+        try{
+            if (empty($this->email)) {
+                $this->emailError = 'Email field is required';
+            } elseif (empty($user->email)) {
+                $this->emailError = 'User not found';
+            } elseif ($this->password == $user->password || Hash::check($this->password, $user->password)) {
+                Auth::login($user);
+                return redirect()->intended('/');
+            } else {
+                $this->passwordError = 'Incorrect password';
+            }
         }
-        elseif(empty($user->email)){
-            $this->emailError = 'User not found';
-        }
-
-        elseif($this->password == $user->password || Hash::check($this->password, $user->password)){
-            Auth::login($user);
-            return redirect()->intended('/');
-        }
-        else
-        {
+        catch(Throwable $e){
             $this->passwordError = 'Incorrect password';
         }
+
      
     }
 

@@ -37,12 +37,17 @@
             </div>
 
             <div>
-                <input type="radio" id="2" wire:model.live="status" value="pending" class="peer hidden" />
+                <input type="radio" id="2" wire:model.live="status" value="waiting" class="peer hidden" />
+                <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">waiting</label>
+            </div>
+
+            <div>
+                <input type="radio" id="3" wire:model.live="status" value="pending" class="peer hidden" />
                 <label for="2" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Pending</label>
             </div>
 
             <div>
-                <input type="radio" id="3" wire:model.live="status" value="ongoing" class="peer hidden" />
+                <input type="radio" id="4" wire:model.live="status" value="ongoing" class="peer hidden" />
                 <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Ongoing</label>
             </div>
 
@@ -79,7 +84,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <span class="text-[10px]">category:</span><br>
-                        <u class="text-sm">{{$req->category}}</u>
+                        <u class="text-sm">{{$req->category->name}}</u>
                     </div>
                     <div>status:
                         <u class="text-sm">{{$req->status}}</u>
@@ -131,7 +136,7 @@
                             {{--div for category--}}
                             <div class="flex flex-col w-full">
                                 <label for="category" class="text-gray-600">Category</label>
-                                <input type="text" name="category" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category}}">
+                                <input type="text" name="category" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950" placeholder="{{$req->category->name}}">
 
                             </div>
 

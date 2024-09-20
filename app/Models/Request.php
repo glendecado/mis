@@ -11,9 +11,12 @@ class Request extends Model
 
     protected $fillable = [
         'faculty_id',
-        'category',
+        'category_id',
         'concerns',
-        'status',
+        'priotrityLevel',
+        'progress',
+        'status'
+ 
     ];
 
     public function Faculty()
@@ -24,5 +27,10 @@ class Request extends Model
     public function Task()
     {
         return $this->belongsTo(Task::class);
+    }
+
+    public function Category(){
+
+        return $this->belongsTo(Category::class);
     }
 }

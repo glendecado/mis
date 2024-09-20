@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('faculty_id');
             $table->foreign('faculty_id')->references('faculty_id')->on('faculties')->onDelete('cascade');
-            $table->string('category');
+
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
             $table->string('concerns');
+
             $table->integer('priorityLevel')->default(3);
+
+            $table->integer('progress');
+
             $table->string('status');
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace App\Livewire\Request;
 
 use App\Events\RequestEventMis;
+use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ use Livewire\Component;
 class AddRequest extends Component
 {
 
-    public $category = 'Computer/laptop/printer';
+    public $category;
     public $others;
     public $concerns;
     public $status = 'waiting';
@@ -31,12 +32,21 @@ class AddRequest extends Component
 
         $mis = User::where('role', 'Mis Staff')->first();
 
+        if($this->others){
+            $category = Category::create(['name' => $this->others]);
+
+            $categoryId = $category->id;
+        }else {
+            $categoryId = $this->category;
+        }
+
         $req = Request::create(
             [
                 'faculty_id' => Auth::user()->id,
-                'category' => $this->others ?? $this->category,
+                'category_id' => $categoryId,
                 'concerns' =>  $this->concerns,
                 'status' => $this->status,
+                'progress' => 0,
             ]
         );
 

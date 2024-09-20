@@ -8,57 +8,63 @@
         {{--IF THE USER IS MIS STAFF--}}
         @case('Mis Staff')
 
-        <table>
+        <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Pending</th>
-                    <th>Ongoing</th>
-                    <th>Resolve</th>
-                    <th>Assign</th>
+                <tr class="bg-blue-950 text-white text-left">
+                    <th class="py-3 px-6">Name</th>
+                    <th class="py-3 px-6">Pending</th>
+                    <th class="py-3 px-6">Ongoing</th>
+                    <th class="py-3 px-6">Resolve</th>
+                    <th class="py-3 px-6">Assign</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($technicalStaff as $tech)
-
-                <tr>
-                    <td>{{$tech->user->name}}</td>
-                    <td>
-
-                        {{--numbers of pending according to assigned technical staff--}}
+                <tr class="border-b border-gray-300 hover:bg-gray-100">
+                    <td class="py-3 px-6">{{ $tech->user->name }}</td>
+                    <td class="py-3 px-6">
                         {{
-                                DB::table('requests')
-                                ->join('tasks', 'requests.id', '=', 'tasks.request_id')
-                                ->where('tasks.technicalStaff_id', $tech->user->id)
-                                ->where('requests.status', 'pending')
-                                ->count()
-                            }}
+                    DB::table('requests')
+                    ->join('tasks', 'requests.id', '=', 'tasks.request_id')
+                    ->where('tasks.technicalStaff_id', $tech->user->id)
+                    ->where('requests.status', 'pending')
+                    ->count()
+                }}
                     </td>
-
-                    <td>
-                        {{--numbers of pending according to assigned technical staff--}}
+                    <td class="py-3 px-6">
                         {{
-                                DB::table('requests')
-                                ->join('tasks', 'requests.id', '=', 'tasks.request_id')
-                                ->where('tasks.technicalStaff_id', $tech->user->id)
-                                ->where('requests.status', 'ongoing')
-                                ->count()
-                            }}
+                    DB::table('requests')
+                    ->join('tasks', 'requests.id', '=', 'tasks.request_id')
+                    ->where('tasks.technicalStaff_id', $tech->user->id)
+                    ->where('requests.status', 'ongoing')
+                    ->count()
+                }}
                     </td>
-                    <td></td>
-                    <td>
+                    <td class="py-3 px-6 text-center">
+                        {{-- Number of resolved tasks goes here --}}
+                    </td>
+                    <td class="py-3 px-6">
                         @if (in_array($tech->user->id, $task))
-                        <button class="bg-blue-900 text-white" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}); $dispatch('update-task'); $dispatch('update-request')">Assigned</button>
+                        <button class="bg-blue-900 text-white py-2 px-4 rounded shadow-md hover:bg-blue-700"
+                            @click="$dispatch('add-task', {request_id: '{{ $id ?? '' }}', tech_id: '{{ $tech->user->id }}' }); 
+                                $dispatch('update-task'); 
+                                $dispatch('update-request')">
+                            Assigned
+                        </button>
                         @else
-                        <button class="bg-slate-200" @click="$dispatch('add-task', {request_id: '{{$id ?? ''}}', tech_id: '{{$tech->user->id}}'}) ; $dispatch('update-task');$dispatch('update-request')">Add</button>
+                        <button class="bg-gray-200 text-gray-800 py-2 px-4 rounded shadow-md hover:bg-gray-300"
+                            @click="$dispatch('add-task', {request_id: '{{ $id ?? '' }}', tech_id: '{{ $tech->user->id }}' }); 
+                                $dispatch('update-task'); 
+                                $dispatch('update-request')">
+                            Add
+                        </button>
                         @endif
-
                     </td>
                 </tr>
-
                 @endforeach
             </tbody>
         </table>
+
 
 
         @break

@@ -59,7 +59,9 @@ class ViewRequest extends Component
     switch (Auth::user()->role) {
 
       case 'Faculty':
-        $request = Request::where('faculty_id', $this->user_id)->with('faculty')->get();
+        $request = Request::where('faculty_id', $this->user_id)-> where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
+ 
+
         break;
 
       case 'Technical Staff':
