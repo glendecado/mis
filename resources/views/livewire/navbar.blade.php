@@ -49,12 +49,12 @@
         </div>
 
         @if (Auth::user()->role == 'Mis Staff')
-        <a href=" {{route('manage-user')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-user' ? 'text-white bg-blue-900' : ''  }}">
-            Users
-        </a>
-
         <a href=" {{route('manage-category')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-category' ? 'text-white bg-blue-900' : ''  }}">
             Categories
+        </a>
+
+        <a href=" {{route('manage-user')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-user' ? 'text-white bg-blue-900' : ''  }}">
+            Users
         </a>
         @endif
 
