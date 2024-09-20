@@ -37,12 +37,17 @@
             </div>
 
             <div>
-                <input type="radio" id="2" wire:model.live="status" value="pending" class="peer hidden" />
+                <input type="radio" id="2" wire:model.live="status" value="waiting" class="peer hidden" />
+                <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">waiting</label>
+            </div>
+
+            <div>
+                <input type="radio" id="3" wire:model.live="status" value="pending" class="peer hidden" />
                 <label for="2" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Pending</label>
             </div>
 
             <div>
-                <input type="radio" id="3" wire:model.live="status" value="ongoing" class="peer hidden" />
+                <input type="radio" id="4" wire:model.live="status" value="ongoing" class="peer hidden" />
                 <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Ongoing</label>
             </div>
 
