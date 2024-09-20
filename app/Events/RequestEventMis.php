@@ -20,13 +20,14 @@ class RequestEventMis implements ShouldBroadcast
      * Create a new event instance.
      */
     
+     public int $count;
 
     public function __construct(
         public $notifMessage,
         public int $reciever)
     {
 
-     
+     $this->count = Request::count() ;
     }
 
     /**

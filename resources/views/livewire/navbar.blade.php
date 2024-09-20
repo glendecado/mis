@@ -38,11 +38,12 @@
             <a href="{{route('request')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900 {{$route == 'request' ? 'text-white bg-blue-900' : '' }}">
                 Request
                 @if (Auth::user()->role == 'Mis Staff')
-                <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">
+                <h1 class="relative left-0 bottom-2 text-md text-red-900" id="request-count">
                     {{ $request }}
 
-                </span>
+                </h1>
                 @endif
+                
 
             </a>
 
