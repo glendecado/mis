@@ -5,10 +5,7 @@ namespace App\Livewire\Request;
 use App\Models\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 
 
@@ -17,7 +14,7 @@ class ViewRequest extends Component
 
   public $user_id;
 
-  #[Url(keep: true)]
+
   public $status = '';
 
   public function mount()
