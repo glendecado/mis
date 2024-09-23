@@ -21,10 +21,14 @@
 
         <div>
             <form wire:submit.prevent="addRequest">
+
                 <div class="mb-5">
                     <div x-data="{ category: @entangle('category'), others: @entangle('others')};">
+
+
                         <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                         <select id="s" x-model="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5">
+                            <option value="" selected hidden class="text-gray-50">Select Category</option>
                             @foreach (\App\Models\Category::take(4)->get() as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
