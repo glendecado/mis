@@ -1,8 +1,8 @@
 <div>
-    <div class="px-8 py-8 w-full bg-blue-900 flex items-center justify-between">
-        <h1 class="text-slate-200 text-2xl font-medium">MIS Service Request System</h1>
+    <div class="px-8 py-8 w-full bg-blue-500 flex items-center justify-between">
+        <h1 class="text-white font-geist text-2xl font-medium">MIS Service Request System</h1>
         <div>
-            <input type="text" wire:model.live="search" class="w-52">
+            <input type="text" wire:model.live="search" class="w-52 rounded-md">
             @if ($search)
             <div class="absolute bg-white flex flex-col w-52 ">
 
@@ -24,18 +24,18 @@
         </div>
 
     </div>
-    <nav class="bg-yellow-400 text-blue-950 flex flex-row  overflow-auto">
+    <nav class="bg-yellow text-blue-900 font-geist flex flex-row  overflow-auto">
 
-        <a href="/" wire:navigate class="flex items-center justify-center h-[56px] px-[20px] hover:text-white hover:bg-blue-900 shadow-inner {{$route == '/' ? 'text-white bg-blue-900' : '' }}">
+        <a href="/" wire:navigate class="flex items-center justify-center h-[56px] px-[20px] hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == '/' ? 'text-white bg-blue-700' : '' }}">
             Home
         </a>
 
-        <a href="{{ route('profile', ['user' => Auth::id()]) }}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900 {{$route == 'profile' ? 'text-white bg-blue-900' : '' }}">
+        <a href="{{ route('profile', ['user' => Auth::id()]) }}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'profile' ? 'text-white bg-blue-700' : '' }}">
             Profile
         </a>
 
         <div class="h-fit w-fit">
-            <a href="{{route('request')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900 {{$route == 'request' ? 'text-white bg-blue-900' : '' }}">
+            <a href="{{route('request')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'request' ? 'text-white bg-blue-700' : '' }}">
                 Request
                 @if (Auth::user()->role == 'Mis Staff')
                 <span class="relative left-0 bottom-2 text-md text-red-900" id="notif">
@@ -49,11 +49,15 @@
         </div>
 
         @if (Auth::user()->role == 'Mis Staff')
+<<<<<<< Updated upstream
         <a href=" {{route('manage-category')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-category' ? 'text-white bg-blue-900' : ''  }}">
             Categories
         </a>
 
         <a href=" {{route('manage-user')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-user' ? 'text-white bg-blue-900' : ''  }}">
+=======
+        <a href=" {{route('manage-user')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500  trasition duration-200  {{$route == 'manage-user' ? 'text-white bg-blue-700' : ''  }}">
+>>>>>>> Stashed changes
             Users
         </a>
         @endif

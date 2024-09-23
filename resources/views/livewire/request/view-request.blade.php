@@ -11,7 +11,7 @@
         @case('Technical Staff')
         <!-- component -->
 
-        <div class="w-fit flex gap-2 rounded-xl bg-gray-200 p-2">
+        <div class="w-fit flex gap-2 rounded-xl bg-white p-2">
             <div>
                 <input type="radio" id="1" wire:model.live="status" value="accepted" class="peer hidden" />
                 <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Accepted</label>
@@ -30,13 +30,14 @@
         @break
 
         @default
-        <div class="w-fit flex gap-2 rounded-xl bg-slate-100 p-2 shadow-2xl">
+        <div class="w-fit flex gap-2 rounded-xl bg-white p-2 shadow-2xl">
             <div>
                 <input type="radio" id="1" wire:model.live="status" value="" class="peer hidden" />
-                <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">All</label>
+                <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center hover:bg-blue-400 transition duration-300 peer-checked:bg-blue-400 peer-checked:font-bold peer-checked:text-white">All</label>
             </div>
 
             <div>
+<<<<<<< Updated upstream
                 <input type="radio" id="2" wire:model.live="status" value="waiting" class="peer hidden" />
                 <label for="1" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">waiting</label>
             </div>
@@ -49,12 +50,26 @@
             <div>
                 <input type="radio" id="4" wire:model.live="status" value="ongoing" class="peer hidden" />
                 <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Ongoing</label>
+=======
+                <input type="radio" id="2" wire:model.live="status" value="pending" class="peer hidden" />
+                <label for="2" class="block cursor-pointer select-none rounded-xl p-2 text-center hover:bg-blue-400 hover:text-white transition duration-300 peer-checked:bg-blue-400 peer-checked:font-bold peer-checked:text-white">Pending</label>
+            </div>
+
+            <div>
+                <input type="radio" id="3" wire:model.live="status" value="ongoing" class="peer hidden" />
+                <label for="3" class="block cursor-pointer select-none rounded-xl p-2 text-center hover:bg-blue-400 hover:text-white transition duration-300 peer-checked:bg-blue-400 peer-checked:font-bold peer-checked:text-white">Ongoing</label>
+>>>>>>> Stashed changes
             </div>
 
             <div>
                 <input type="radio" id="4" wire:model.live="status" value="resolve" class="peer hidden" />
-                <label for="4" class="block cursor-pointer select-none rounded-xl p-2 text-center peer-checked:bg-blue-900 peer-checked:font-bold peer-checked:text-white">Resolve</label>
+                <label for="4" class="block cursor-pointer select-none rounded-xl p-2 text-center hover:bg-blue-400 hover:text-white transition duration-300 peer-checked:bg-blue-400 peer-checked:font-bold peer-checked:text-white">Resolve</label>
             </div>
+            <div>
+                <input type="radio" id="4" wire:model.live="status" value="resolve" class="peer hidden" />
+                <label for="4" class="block cursor-pointer select-none rounded-xl p-2 text-center hover:bg-blue-400 hover:text-white transition duration-300 peer-checked:bg-blue-400 peer-checked:font-bold peer-checked:text-white">Monitor</label>
+            </div>
+
 
         </div>
 
@@ -66,14 +81,14 @@
 
 
 
-        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue-950 text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
+        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
             <div>
                 <span class=" text-sm">Request ID:</span>
                 <u class="bg-blue-900 p-2 rounded-lg">{{$req->id}}</u>
             </div>
 
             <div class="flex items-center flex-col md:flex-row">
-                <img src="{{asset('storage/'.$req->faculty->user->img)}}" class="rounded-[100%] w-20 h-20 object-cover">
+                <img src="{{asset('storage/'.$req->faculty->user->img)}}" class="rounded-[100%] w-20 h-20 object-cover bg-blue-100">
             </div>
 
             <div class="w-40">

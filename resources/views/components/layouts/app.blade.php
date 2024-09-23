@@ -10,7 +10,7 @@
     @livewireStyles
 </head>
 
-<body class="bg-blue-100">
+<body class="bg-azure">
     @livewire('navbar')
     {{ $slot }}
 </body>
