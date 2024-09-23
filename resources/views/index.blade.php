@@ -14,10 +14,10 @@
     @livewireStyles
 </head>
 
-<body>
-
-    @livewire('user.log-in')
-
+<body class="bg-azure">
+    <div class="">
+        @livewire('user.log-in')
+    </div>
 </body>
 @livewireScripts
 

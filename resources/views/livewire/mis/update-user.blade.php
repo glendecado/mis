@@ -41,7 +41,7 @@ $input = 'rounded bg-slate-200 border border-slate-900 m-2 p-2 placeholder-black
                     </button>
                 </div>
 
-                <button type="submit">Confirm</button>
+                <button type="submit" class="p-2 bg-blue-400 text-white rounded-md">Confirm</button>
             </div>
 
         </form>
