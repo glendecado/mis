@@ -26,40 +26,7 @@
         @endforeach
     </ul>
     @else
-    <!--
-        <div class="flex justify-center">
-            <div class="z-0 absolute m">
-                <img src="{{asset('assets/ISAT-U-logo.png') }}"  alt="" width="500" height="500">
-            </div>
-            <div class="z-10 p-2 ">
-                <div>
-                    <h1 class="font-bold">
-                        Objectives
-                    </h1>
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius repudiandae dolor, tenetur recusandae excepturi eligendi voluptas perspiciatis, repellat maxime deleniti iste aperiam, quaerat pariatur ea. Obcaecati eum ut non nemo.
-                    </p>
-                </div>
-                <br><br><br>
-                <div>
-                    <h1 class="font-bold">
-                        Functions
-                    </h1>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui perferendis iste commodi. Nam, ut quibusdam distinctio recusandae est eaque fuga voluptatibus corrupti consectetur totam ipsum architecto, tenetur eius ullam vitae!
-                    </p>
-                </div>
-            </div>
-            <footer class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8 shadow-2xl">
-                <div class="border-t border-slate-900/5 py-10">
-                    <img src="public/ISAT-U-logo" alt="">
-                        <p class="mt-5 text-center text-sm leading-6 text-slate-500">© 2025 Batch BSIT 4D. All rights reserved.</p>
-                        <div class="mt-8 flex items-center justify-center space-x-4 text-sm font-semibold leading-6 text-slate-700"><a
-                                href="/privacy-policy">Privacy policy</a>
-                            <div class="h-4 w-px bg-slate-500/20"></div><a href="/ISAT">ISAT-University</a>
-                        </div>
-                 </div>
-            </footer>-->
+
             <div class="container mx-auto p-10 flex flex-col md:flex-row items-center">
                 <div class="bg-white p-5 rounded-2xl w-auto font-geist">
                     <div class="">
@@ -85,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <footer class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8 shadow-2xl bg-blue-900">
+            <footer class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8 shadow-2xl bg-blue-900 fixed bottom-0">
                 <div class="border-t border-slate-900/5 py-10">
                     <img src="public/ISAT-U-logo" alt="">
                         <p class="mt-5 text-center text-sm leading-6 text-slate-500">© BSIT 4D Batch 2025. All rights reserved.</p>
