@@ -107,7 +107,7 @@
                 <x-modal name="view-request-{{$req->id}}" color="bg-blue-900">
 
                     {{--card--}}
-                    <div class="h-max w-full bg-gray-400 p-2 flex flex-col rounded-md gap-2 p-5">
+                    <div class="h-max w-full bg-gray-400 flex flex-col rounded-md gap-2 p-5">
 
                         {{--I col tracking, date, tome--}}
                         <div class="flex gap-2 justify-items-stretch md:flex-row flex-col w-[100%]">
