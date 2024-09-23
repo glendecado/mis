@@ -68,7 +68,7 @@
 
 
 
-        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
+        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue-400 text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
             <div>
                 <span class=" text-sm">Request ID:</span>
                 <u class="bg-blue-900 p-2 rounded-lg">{{$req->id}}</u>
@@ -107,7 +107,7 @@
                 <x-modal name="view-request-{{$req->id}}" color="bg-blue-900">
 
                     {{--card--}}
-                    <div class="h-max w-full bg-gray-400 p-2 flex flex-col rounded-md gap-2 ">
+                    <div class="h-max w-full bg-gray-400 p-2 flex flex-col rounded-md gap-2 p-5">
 
                         {{--I col tracking, date, tome--}}
                         <div class="flex gap-2 justify-items-stretch md:flex-row flex-col w-[100%]">
@@ -183,7 +183,7 @@
                             {{--div for concerns--}}
                             <div class="flex flex-col">
                                 <label for="category" class="text-gray-600">Concerns</label>
-                                <textarea name="" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-2 placeholder-blue-950 h-[200px]" placeholder="{{$req->concerns}}"></textarea>
+                                <textarea name="" id="" disabled class="bg-gray-200 rounded-md border border-blue-900 p-5 placeholder-blue-950 h-[200px]" placeholder="{{$req->concerns}}"></textarea>
 
                             </div>
 
