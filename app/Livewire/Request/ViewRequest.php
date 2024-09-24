@@ -5,6 +5,7 @@ namespace App\Livewire\Request;
 use App\Models\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -45,6 +46,7 @@ class ViewRequest extends Component
   }
 
 
+  #[Layout('components.layouts.request-page')]
   #[On('update-request')]
   public function render()
   {
