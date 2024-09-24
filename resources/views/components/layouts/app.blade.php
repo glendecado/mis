@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="user-id" content="{{ Auth::id() }}">
+
     <title>{{ Route::currentRouteName() }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -16,8 +16,11 @@
 </body>
 @livewireScripts
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
 
+<script>
+    window.currentUser = '{{base64_encode(Auth::id()) }}'
+    window.currentUserType = '{{base64_encode(Auth::user()->role)}}'
 </script>
+
 
 </html>
