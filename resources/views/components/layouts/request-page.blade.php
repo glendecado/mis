@@ -13,9 +13,12 @@
 <body class="bg-azure">
   @livewire('navbar')
   <div x-data="{ open: true }" class="flex items-start">
-    <button @click="open = !open" class="p-2 bg-blue-900 text-white rounded absolute z-10">
-      Toggle Sidebar
-    </button>
+    <div class="sticky top-0">
+      <button @click="open = !open" class="p-4 bg-blue-900 text-white rounded absolute z-10">
+        ☰
+      </button>
+    </div>
+
 
     <div
       x-show="open"
@@ -26,7 +29,10 @@
       x-transition:leave="transition ease-in duration-300"
       x-transition:leave-start="opacity-100 transform translate-x-0"
       x-transition:leave-end="opacity-0 transform -translate-x-full">
-{{--content of sidebar--}}
+      {{--content of sidebar--}}
+      <button @click="open = !open" class="p-4 bg-blue-900 text-white rounded absolute z-10">
+        ☰
+      </button>
       <div class="flex flex-col mt-[50px] p-2">
         <a href="">sidbar</a>
         <a href="">sidbar</a>
