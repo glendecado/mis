@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TaskList extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $fillable = [
         'category_id',
         'task',
