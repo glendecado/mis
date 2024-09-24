@@ -34,8 +34,12 @@
             Profile
         </a>
 
+
+
         <div class="h-fit w-fit">
-            <a href="{{route('request')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'request' ? 'text-white bg-blue-700' : '' }}">
+
+            <a href="{{route('request')}}" 
+            wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'request' || $route == 'manage-category' ? 'text-white bg-blue-700' : '' }}">
                 Request
                 @if (Auth::user()->role == 'Mis Staff')
                 <h1 class="relative left-0 bottom-2 text-md text-red-900" id="request-count">
@@ -43,16 +47,13 @@
 
                 </h1>
                 @endif
-                
-
             </a>
 
         </div>
 
+
+
         @if (Auth::user()->role == 'Mis Staff')
-        <a href=" {{route('manage-category')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-category' ? 'text-white bg-blue-900' : ''  }}">
-            Categories
-        </a>
 
         <a href=" {{route('manage-user')}}" wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-900    {{$route == 'manage-user' ? 'text-white bg-blue-900' : ''  }}">
             Users

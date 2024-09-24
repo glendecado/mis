@@ -11,6 +11,9 @@
 </head>
 
 <body class="bg-azure">
+  @php
+  $route = Route::current()->getName();
+  @endphp
   @livewire('navbar')
   <div x-data="{ open: true }" class="flex items-start">
     <div class="sticky top-0">
@@ -33,13 +36,38 @@
       <button @click="open = !open" class="p-4 bg-blue-900 text-white rounded absolute z-10">
         ☰
       </button>
+
+
+
+
+      @switch(Auth::user()->role)
+
+
+      {{--if user is mis staff this is the content of the sidebar--}}
+      @case('Mis Staff')
       <div class="flex flex-col mt-[50px] p-2">
-        <a href="">sidbar</a>
-        <a href="">sidbar</a>
-        <a href="">sidbar</a>
-        <a href="">sidbar</a>
+
+
+        <a wire:navigate href="{{route('request')}}"
+          class="{{$route == 'request' ? 'bg-yellow' : ''}}">
+          view request
+        </a>
+
+
+        <a wire:navigate href="{{route('manage-category')}}"
+          class="{{$route == 'manage-category' ? 'bg-yellow' : ''}}">
+          Category
+        </a>
+
+  
       </div>
 
+      @break
+
+
+
+
+      @endswitch
 
     </div>
 
