@@ -25,7 +25,7 @@
 
     <div
       x-show="open"
-      class="bg-blue-600 w-[300px] sticky top-0 h-[100vh] mr-[100px]"
+      class="bg-blue-600 w-[300px] sticky top-0 h-[100vh]"
       x-transition:enter="transition ease-out duration-300"
       x-transition:enter-start="opacity-0 transform -translate-x-full"
       x-transition:enter-end="opacity-100 transform translate-x-0"
