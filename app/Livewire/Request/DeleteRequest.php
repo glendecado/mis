@@ -32,9 +32,9 @@ class DeleteRequest extends Component
         }
         if (Auth::user()->role === 'Mis Staff') {
 
-            RequestEventMis::dispatch('deleted',$req->faculty_id);
+            RequestEventMis::dispatch($req->faculty_id);
         } else {
-            RequestEventMis::dispatch('deleted',$mis->id);
+            RequestEventMis::dispatch($mis->id);
         }
 
 

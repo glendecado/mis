@@ -23,7 +23,6 @@ class RequestEventMis implements ShouldBroadcast
      public int $count;
 
     public function __construct(
-        public $notifMessage,
         public int $reciever)
     {
 

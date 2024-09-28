@@ -69,7 +69,7 @@ class AddRequest extends Component
         // Store the updated notifications back in the cache
         Cache::put('notif-' . $mis->id, $currentNotifications, now()->addDays(10));
    
-        RequestEventMis::dispatch('new request', $mis->id);
+        RequestEventMis::dispatch($mis->id);
 
 
         $this->reset('category');

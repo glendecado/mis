@@ -63,8 +63,8 @@ class AddTask extends Component
         }
 
         /////////////////////////////
-        RequestEventMis::dispatch(null, $request->faculty_id);
-        RequestEventMis::dispatch(null, $tech_id);
+        RequestEventMis::dispatch($request->faculty_id);
+        RequestEventMis::dispatch($tech_id);
     }
 
 
