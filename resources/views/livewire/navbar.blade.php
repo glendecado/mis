@@ -38,8 +38,8 @@
 
         <div class="h-fit w-fit">
 
-            <a href="{{route('request')}}" 
-            wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'request' || $route == 'manage-category' ? 'text-white bg-blue-700' : '' }}">
+            <a href="{{route('request')}}"
+                wire:navigate class="flex items-center justify-center h-[56px] px-[20px]  hover:text-white hover:bg-blue-500 trasition duration-200 {{$route == 'request' || $route == 'manage-category' ? 'text-white bg-blue-700' : '' }}">
                 Request
                 @if (Auth::user()->role == 'Mis Staff')
                 <h1 class="relative left-0 bottom-2 text-md text-red-900" id="request-count">
@@ -61,6 +61,18 @@
         @endif
 
         @livewire('user.log-out')
+
+        <div class="absolute right-3 h-[56px] flex justify-center items-center">
+            <div>notif {{--change to icon--}}</div>
+            <h1 class="relative left-0 bottom-2 text-md text-red-900" id="request-count">
+                @php
+                $notifications = Cache::get('notif-count' . Auth::id());
+                @endphp
+                @if ($notifications)
+                    {{$notifications}}
+                @endif
+            </h1>
+        </div>
     </nav>
 
 </div>

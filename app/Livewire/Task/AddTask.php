@@ -6,6 +6,7 @@ use App\Events\RequestEventMis;
 use App\Models\Request;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -17,7 +18,7 @@ class AddTask extends Component
     {
 
 
-        $existingTask = Task::where('request_id', $request_id) 
+        $existingTask = Task::where('request_id', $request_id)
             ->where('technicalStaff_id', $tech_id)
             ->first(); //check if tech staff exist in this task
 
@@ -33,7 +34,7 @@ class AddTask extends Component
                 'technicalStaff_id' => $tech_id,
 
             ]);
-            $this->dispatch('success', name:'successfully added');
+            $this->dispatch('success', name: 'successfully added');
         }
 
 
@@ -45,6 +46,17 @@ class AddTask extends Component
         if ($numOfTechInTask > 0) {
             $request->status = 'pending';
             $request->save();
+
+            ///number of notif per user
+
+            $userNotifCount = 'notif-count' .   $request->faculty->user->id;
+            if(Cache::has($userNotifCount)){
+
+                Cache::increment($userNotifCount);
+            } else {
+                Cache::put($userNotifCount, 1, now()->addDays(10));
+            }
+
         } else {
             $request->status = 'waiting';
             $request->save();
