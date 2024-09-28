@@ -3,6 +3,7 @@
 namespace App\Livewire\Category;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -34,8 +35,22 @@ class ViewCategory extends Component
 
     #[On('view-category')]
     public function mount(){
-        $this->categories = Category::with('TaskList')->get();
+
+       $this->categories = Cache::remember('categories', now()->addHours(1), function () {
+            return Category::with('TaskList')->get();
+        });
+
+        $this->dispatch('category-added');
     }
+    #[On('category-added')]
+    public function updateCache()
+    {
+        // Clear and refresh the cache when a new category is added
+        Cache::forget('categories');
+        $this->categories = Category::with('TaskList')->get();
+        Cache::put('categories', $this->categories, now()->addHours(1));
+    }
+
     public function render()
     {
 

@@ -34,8 +34,8 @@ class AddRequest extends Component
 
         if($this->others){
             $category = Category::create(['name' => $this->others]);
-
             $categoryId = $category->id;
+
         }else {
             $categoryId = $this->category;
         }
