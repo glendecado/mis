@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Task;
 
+use App\Events\NotifEvent;
 use App\Events\RequestEventMis;
 use App\Models\Request;
 use App\Models\Task;
@@ -48,14 +49,9 @@ class AddTask extends Component
             $request->save();
 
             ///number of notif per user
+            NotifEvent::dispatch('', $request->faculty->user->id);
 
-            $userNotifCount = 'notif-count' .   $request->faculty->user->id;
-            if(Cache::has($userNotifCount)){
-
-                Cache::increment($userNotifCount);
-            } else {
-                Cache::put($userNotifCount, 1, now()->addDays(10));
-            }
+  
 
         } else {
             $request->status = 'waiting';

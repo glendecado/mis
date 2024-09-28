@@ -31,13 +31,11 @@ class ViewRequest extends Component
   public function request_event($e)
   {
 
-    if (!is_null($e['notifMessage'])) {
-    }
-
 
     $this->dispatch('update-request');
     $this->dispatch('update-task');
     $this->dispatch('update-count');
+    
   }
 
   #[On('view-request')]

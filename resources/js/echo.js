@@ -24,9 +24,19 @@ console.log('user: ' + userId + '\n');
 console.log('role: ' + role);
 
 
-window.Echo.private('NewRequest.' + userId).listen('RequestEventMis', (event) => {
 
-    document.getElementById('request-count').innerHTML = event.count;
+if(role == 'Mis Staff'){
+    window.Echo.private('NewRequest.' + userId).listen('RequestEventMis', (event) => {
+
+        document.getElementById('request-count').innerHTML = event.count;
+
+    });
+}
+
+
+
+window.Echo.private('Notif.' + userId).listen('NotifEvent', (event) => {
+
+    document.getElementById('notif-count').innerHTML = event.count;
 
 });
-

@@ -12,3 +12,6 @@ Broadcast::channel('NewRequest.{userId}', function (User $user, $userId) {
     return (int) $user->id === (int) $userId;
 });
 
+Broadcast::channel('Notif.{ids}', function (User $user, $ids) {
+    return (int) $user->id === (int) $ids;
+});
