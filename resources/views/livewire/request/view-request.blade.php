@@ -68,7 +68,7 @@
 
 
 
-        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue-400 text-white w-[1000px] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
+        <div class=" flex flex-col md:flex-row gap-x-4 justify-center items-center overflow-auto text-pretty bg-blue-400 text-white w-[80%] p-2 rounded-lg mx-2 md:mx-0 shadow-md">
             <div>
                 <span class=" text-sm">Request ID:</span>
                 <u class="bg-blue-900 p-2 rounded-lg">{{$req->id}}</u>
