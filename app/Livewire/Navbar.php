@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Livewire\Attributes\On;
@@ -19,6 +21,14 @@ class Navbar extends Component
 
         $this->route = FacadesRequest::route()->getName() ?? '/';
     }
+
+    public function isClicked(){
+        if(Cache::has('notif-count' . Auth::id())){
+            Cache::put('notif-count' . Auth::id(), 0);
+        }
+
+    }
+
 
     #[On('update-count')]
     public function render()

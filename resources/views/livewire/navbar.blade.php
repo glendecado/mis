@@ -63,13 +63,13 @@
         @livewire('user.log-out')
 
         <div class="absolute right-3 h-[56px] flex justify-center items-center">
-            <div>notif {{--change to icon--}}</div>
+            <button wire:click="isClicked">notif {{--change to icon--}}</button>
             <h1 class="relative left-0 bottom-2 text-md text-red-900" id="notif-count">
                 @php
                 $notifications = Cache::get('notif-count' . Auth::id());
                 @endphp
                 @if ($notifications)
-                    {{$notifications}}
+                {{$notifications}}
                 @endif
             </h1>
         </div>

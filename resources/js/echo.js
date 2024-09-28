@@ -34,9 +34,11 @@ if(role == 'Mis Staff'){
 }
 
 
-
+if(role == 'Faculty'){
 window.Echo.private('Notif.' + userId).listen('NotifEvent', (event) => {
 
     document.getElementById('notif-count').innerHTML = event.count;
+    console.log(event);
 
 });
+}
