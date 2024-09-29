@@ -62,17 +62,35 @@
 
         @livewire('user.log-out')
 
-        <div class="absolute right-3 h-[56px] flex justify-center items-center">
-            <button wire:click="isClicked">notif {{--change to icon--}}</button>
-            <h1 class="relative left-0 bottom-2 text-md text-red-900" id="notif-count">
-                @php
-                $notifications = Cache::get('notif-count' . Auth::id());
-                @endphp
-                @if ($notifications)
-                {{$notifications}}
-                @endif
-            </h1>
+        <div x-cloak x-data="{open : false}">
+            <div class="absolute right-3 h-[56px] flex justify-center items-center">
+                <button @click="open = !open" wire:click="isClicked">notif {{--change to icon--}}</button>
+
+
+                <div class="bg-blue-50 h-[450px] w-[300px] absolute top-[45px] right-0 z-50 rounded-md p-2 "
+                    x-show="open"
+                    x-transition:enter="transition transform ease-out duration-300"
+                    x-transition:enter-start="translate-y-[-20px] opacity-0"
+                    x-transition:enter-end="translate-y-0 opacity-100"
+                    x-transition:leave="transition transform ease-in duration-300"
+                    x-transition:leave-start="translate-y-0 opacity-100"
+                    x-transition:leave-end="translate-y-[-20px] opacity-0"
+                    @click.away="open = false">
+                    //no notif at the moment :p
+                </div>
+
+                <h1 class="relative left-0 bottom-2 text-md text-red-900" id="notif-count">
+                    @php
+                    $notifications = Cache::get('notif-count' . Auth::id());
+                    @endphp
+                    @if ($notifications)
+                    {{$notifications}}
+                    @endif
+                </h1>
+
+            </div>
         </div>
+
     </nav>
 
 </div>

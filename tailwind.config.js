@@ -38,7 +38,7 @@ export default {
         geist: ['Geist Sans', 'sans-serif']
       },
       borderRadius:{
-        'md':'50px',
+        'md':'10px',
       }
     },
   },
