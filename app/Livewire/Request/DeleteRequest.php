@@ -7,6 +7,7 @@ use App\Models\Request;
 use App\Models\User;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
@@ -18,7 +19,7 @@ class DeleteRequest extends Component
     {
         //check faculty
     
-
+        Cache::forget('request-for-faculty');
         //check mis
         $mis = User::where('role', 'Mis Staff')->first();
 

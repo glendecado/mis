@@ -3,16 +3,22 @@
 namespace App\Livewire\Mis;
 
 use App\Models\User;
+
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteUser extends Component
 {
+
+
     // This Livewire event listener will trigger the DeleteUser method when a 'user-delete' event is dispatched
     #[On('user-delete')]
     public function DeleteUser($id)
     {
+        Cache::forget('users');
+        
         // Find the user by their ID from the User model
         $user = User::find($id);
 

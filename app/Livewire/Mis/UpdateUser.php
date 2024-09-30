@@ -3,6 +3,7 @@
 namespace App\Livewire\Mis;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -27,6 +28,7 @@ class UpdateUser extends Component
 
     public function updateUser()
     {
+        Cache::forget('users');
         //if global variable remains empty then just keep the existing value
         $this->user->name = $this->name ?? $this->user->name;
         $this->user->email = $this->email ?? $this->user->email;

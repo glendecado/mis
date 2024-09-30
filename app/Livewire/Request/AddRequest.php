@@ -30,6 +30,8 @@ class AddRequest extends Component
     {
         $this->validate();
 
+        Cache::forget('request-for-faculty');
+
         $mis = User::where('role', 'Mis Staff')->first();
 
         if($this->others){
