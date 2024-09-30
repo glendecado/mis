@@ -21,7 +21,7 @@ class ViewUser extends Component
     public function render()
     {
 
-        $users = Cache::remember('users', 60, function(){
+        $users = Cache::rememberForever('users', function(){
             return DB::table('users')
                 // Filter out users who have the role 'Mis Staff'
                 ->where('role', '!=', 'Mis Staff')

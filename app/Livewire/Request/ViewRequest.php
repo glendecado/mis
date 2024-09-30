@@ -5,6 +5,7 @@ namespace App\Livewire\Request;
 use App\Models\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -57,8 +58,11 @@ class ViewRequest extends Component
 
       case 'Faculty':
 
+        $request = Cache::rememberForever('request-for-faculty', function(){
+          return Request::where('faculty_id', $this->user_id)->where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
+        });
+
         
-        $request = Request::where('faculty_id', $this->user_id)-> where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
  
 
         break;
