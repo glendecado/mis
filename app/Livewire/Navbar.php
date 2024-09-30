@@ -23,8 +23,8 @@ class Navbar extends Component
     }
 
     public function isClicked(){
-        if(Cache::has('notif-count' . Auth::id())){
-            Cache::put('notif-count' . Auth::id(), 0);
+        if(Cache::has('notif-count-' . Auth::id())){
+            Cache::put('notif-count-' . Auth::id(), 0);
         }
 
     }

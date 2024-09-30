@@ -67,7 +67,7 @@
                 <button @click="open = !open" wire:click="isClicked">notif {{--change to icon--}}</button>
 
 
-                <div class="bg-blue-50 h-[450px] w-[300px] absolute top-[45px] right-0 z-50 rounded-md p-2 "
+                <div class="bg-blue-50 h-[450px] w-[300px] absolute top-[45px] right-0 z-50 rounded-md p-2 overflow-scroll"
                     x-show="open"
                     x-transition:enter="transition transform ease-out duration-300"
                     x-transition:enter-start="translate-y-[-20px] opacity-0"
@@ -76,15 +76,32 @@
                     x-transition:leave-start="translate-y-0 opacity-100"
                     x-transition:leave-end="translate-y-[-20px] opacity-0"
                     @click.away="open = false">
-                    //no notif at the moment :p
+                    <p id="notif-message">
+                        @php
+                        $notifMessage = Cache::get('notif-message-' . Auth::id());
+                        @endphp
+                        @if ($notifMessage)
+                        @foreach (array_reverse($notifMessage) as $m)
+                    <div id="notif">
+                        <div id="notif-message">
+                            {{$m['message']}}
+                        </div>
+                        <div id="notif-date">
+                            {{$m['date']}}
+                        </div>
+                        <br>
+                    </div>
+                    @endforeach
+                    @endif
+                    </p>
                 </div>
 
                 <h1 class="relative left-0 bottom-2 text-md text-red-900" id="notif-count">
                     @php
-                    $notifications = Cache::get('notif-count' . Auth::id());
+                    $notifCount = Cache::get('notif-count-' . Auth::id());
                     @endphp
-                    @if ($notifications)
-                    {{$notifications}}
+                    @if ($notifCount)
+                    {{$notifCount}}
                     @endif
                 </h1>
 

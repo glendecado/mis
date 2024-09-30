@@ -17,15 +17,14 @@ window.Echo = new Echo({
 
 
 
-///notifacations count
 let userId = atob(window.currentUser);
 let role = atob(window.currentUserType);
 console.log('user: ' + userId + '\n');
 console.log('role: ' + role);
 
 
-
-if(role == 'Mis Staff'){
+//total count of request on live
+if (role == 'Mis Staff') {
     window.Echo.private('NewRequest.' + userId).listen('RequestEventMis', (event) => {
 
         document.getElementById('request-count').innerHTML = event.count;
@@ -34,11 +33,24 @@ if(role == 'Mis Staff'){
 }
 
 
-if(role == 'Faculty'){
-window.Echo.private('Notif.' + userId).listen('NotifEvent', (event) => {
+if (role === 'Faculty') {
+    window.Echo.private('Notif.' + userId).listen('NotifEvent', (event) => {
+        let count = document.getElementById('notif-count');
+        let notifContainer = document.getElementById('notif');
+        let messageElement = document.createElement('div');
+        let dateElement = document.createElement('div');
 
-    document.getElementById('notif-count').innerHTML = event.count;
-    console.log(event);
+        // Update count
+        count.innerHTML = event.count;
 
-});
+        // Create notification message and date
+        messageElement.innerHTML = event.notifData.message;
+        dateElement.innerHTML = event.notifData.date;
+
+        // Append to the notification container
+        notifContainer.appendChild(messageElement);
+        notifContainer.appendChild(dateElement);
+
+        console.log('Notification received: ', event.notifData);
+    });
 }

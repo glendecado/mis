@@ -18,6 +18,9 @@ class AddTask extends Component
     public function addTask($request_id, $tech_id)
     {
 
+        $request = Request::find($request_id); //for live update
+
+        $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
 
         $existingTask = Task::where('request_id', $request_id)
             ->where('technicalStaff_id', $tech_id)
@@ -36,22 +39,17 @@ class AddTask extends Component
 
             ]);
             $this->dispatch('success', name: 'successfully added');
+            $nameOfAssignedInTask = User::find($tech_id);
+            ///number of notif per user
+            NotifEvent::dispatch('Request Id # ' . $request_id . ' is assigned to ' . $nameOfAssignedInTask->name . 'and now pending', $request->faculty->user->id);
         }
 
 
 
-        $request = Request::find($request_id); //for live update
-
-        $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
         //////////////////////////////
         if ($numOfTechInTask > 0) {
             $request->status = 'pending';
             $request->save();
-
-            ///number of notif per user
-            NotifEvent::dispatch('', $request->faculty->user->id);
-
-  
 
         } else {
             $request->status = 'waiting';
