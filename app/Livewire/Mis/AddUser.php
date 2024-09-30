@@ -5,6 +5,7 @@ namespace App\Livewire\Mis;
 use App\Models\Faculty;
 use App\Models\TechnicalStaff;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -38,6 +39,8 @@ class AddUser extends Component
     // Method to handle user creation
     public function AddUser()
     {
+
+        Cache::forget('users');
         // Validate form inputs based on the rules defined
         $this->validate();
 
