@@ -6,6 +6,7 @@ use App\Events\NotifEvent;
 use App\Events\RequestEventMis;
 use App\Models\Request;
 use App\Models\Task;
+use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
@@ -18,6 +19,9 @@ class AddTask extends Component
     public function addTask($request_id, $tech_id)
     {
 
+        $nameOfAssignedInTask = TechnicalStaff::find($tech_id);
+
+
         $request = Request::find($request_id); //for live update
 
         $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
@@ -29,6 +33,8 @@ class AddTask extends Component
         /////////////////////////////
         if ($existingTask) {
             // If task exists, delete it
+            $nameOfAssignedInTask->totalPendingTask -= 1;
+            $nameOfAssignedInTask->save();
             $existingTask->delete();
             $this->dispatch('success', name: 'successfully removed');
         } else {
@@ -39,15 +45,19 @@ class AddTask extends Component
 
             ]);
             $this->dispatch('success', name: 'successfully added');
-            $nameOfAssignedInTask = User::find($tech_id);
+
             ///number of notif per user
-            NotifEvent::dispatch('Request Id # ' . $request_id . ' is assigned to ' . $nameOfAssignedInTask->name . 'and now pending', $request->faculty->user->id);
+            $nameOfAssignedInTask->totalPendingTask  += 1;
+            $nameOfAssignedInTask->save();
+
+            NotifEvent::dispatch('Request Id # ' . $request_id . ' is assigned to ' . $nameOfAssignedInTask->user->name . 'and now pending', $request->faculty->user->id);
         }
 
 
 
         //////////////////////////////
         if ($numOfTechInTask > 0) {
+
             $request->status = 'pending';
             $request->save();
 

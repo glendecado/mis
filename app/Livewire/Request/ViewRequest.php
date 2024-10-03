@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 
@@ -17,6 +18,7 @@ class ViewRequest extends Component
   public $user_id;
 
 
+  #[Url]
   public $status = '';
 
   public function mount()
@@ -58,9 +60,8 @@ class ViewRequest extends Component
 
       case 'Faculty':
 
-        $request = Cache::rememberForever('request-for-faculty', function(){
-          return Request::where('faculty_id', $this->user_id)->where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
-        });
+        $request = Request::where('faculty_id', $this->user_id)->where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
+        
 
         
  

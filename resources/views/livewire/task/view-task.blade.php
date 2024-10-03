@@ -23,23 +23,9 @@
                 <tr class="border-b border-gray-300 hover:bg-gray-100">
                     <td class="py-3 px-6">{{ $tech->user->name }}</td>
                     <td class="py-3 px-6">
-                        {{
-                    DB::table('requests')
-                    ->join('tasks', 'requests.id', '=', 'tasks.request_id')
-                    ->where('tasks.technicalStaff_id', $tech->user->id)
-                    ->where('requests.status', 'pending')
-                    ->count()
-                }}
+                        {{$tech->totalPendingTask}}
                     </td>
-                    <td class="py-3 px-6">
-                        {{
-                    DB::table('requests')
-                    ->join('tasks', 'requests.id', '=', 'tasks.request_id')
-                    ->where('tasks.technicalStaff_id', $tech->user->id)
-                    ->where('requests.status', 'ongoing')
-                    ->count()
-                }}
-                    </td>
+                    <td class="py-3 px-6">{{$tech->totalOngoingTask}}</td>
                     <td class="py-3 px-6 text-center">
                         {{-- Number of resolved tasks goes here --}}
                     </td>
