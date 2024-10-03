@@ -49,7 +49,7 @@
 
     <div class="hidden md:flex md:flex-col mt-52 text-blue-500">
         <h1 class="font-geist  text-8xl">MIS/EDP</h1>
-        <h2 class="font-geist text-5xl">Service Request System</h2>
-        <p class="font-sans mt-[100px] w-[500px]">A product of students from ISAT- U, for their requirements within the Bachelor of Science in Information Teachnology</p>
+        <h2 class="font-geist text-5xl">Service Request Portal</h2>
+        <p class="font-sans mt-[100px] w-[500px]">A product of students from ISAT- U, for their requirements within the Bachelor of Science in Information Technology</p>
     </div>
 </div>
