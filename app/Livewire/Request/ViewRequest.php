@@ -33,8 +33,8 @@ class ViewRequest extends Component
   {
 
 
-    $this->dispatch('update-request');
-    $this->dispatch('update-task');
+    $this->dispatch('view-request');
+    $this->dispatch('view-task');
     $this->dispatch('update-count');
     
   }
@@ -46,7 +46,7 @@ class ViewRequest extends Component
 
 
   #[Layout('components.layouts.request-page')]
-  #[On('update-request')]
+  #[On('view-request')]
   public function render()
   {
 

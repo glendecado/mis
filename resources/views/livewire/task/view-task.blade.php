@@ -47,15 +47,15 @@
                         @if (in_array($tech->user->id, $task))
                         <button class="bg-blue-900 text-white py-2 px-4 rounded shadow-md hover:bg-blue-700"
                             @click="$dispatch('add-task', {request_id: '{{ $id ?? '' }}', tech_id: '{{ $tech->user->id }}' }); 
-                                $dispatch('update-task'); 
-                                $dispatch('update-request')">
+                                $dispatch('view-task'); 
+                                $dispatch('view-request')">
                             Assigned
                         </button>
                         @else
                         <button class="bg-gray-200 text-gray-800 py-2 px-4 rounded shadow-md hover:bg-gray-300"
                             @click="$dispatch('add-task', {request_id: '{{ $id ?? '' }}', tech_id: '{{ $tech->user->id }}' }); 
-                                $dispatch('update-task'); 
-                                $dispatch('update-request')">
+                                $dispatch('view-task'); 
+                                $dispatch('view-request')">
                             Add
                         </button>
                         @endif

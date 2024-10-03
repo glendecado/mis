@@ -78,7 +78,7 @@ class AddRequest extends Component
         $this->reset('concerns');
         $this->reset('others');
         $this->dispatch('success', name: 'Request successfully sent.');
-        $this->dispatch('update-request');
+        $this->dispatch('view-request');
         $this->dispatch('update-count');
         $this->dispatch('close-modal', 'add-request-modal');    
 

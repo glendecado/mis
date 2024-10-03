@@ -14,7 +14,7 @@ class UpdateRequest extends Component
         $request = Request::find($id);
         $request->priorityLevel = $value;
         $request->save();
-        $this->dispatch('update-request');
+        $this->dispatch('view-request');
     }
 
     #[On('ongoing-request')]

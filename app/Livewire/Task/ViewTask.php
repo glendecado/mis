@@ -20,7 +20,7 @@ class ViewTask extends Component
     }
 
 
-    #[On('update-task')]
+    #[On('view-task')]
     public function render()
     {
         $from_task = Task::where('request_id', $this->id)->get();
