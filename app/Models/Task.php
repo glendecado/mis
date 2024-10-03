@@ -22,6 +22,6 @@ class Task extends Model
 
     public function request()
     {
-        return $this->hasOne(Request::class);
+        return $this->belongsTo(Request::class, 'request_id');
     }
 }

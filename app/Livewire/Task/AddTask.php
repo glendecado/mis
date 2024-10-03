@@ -15,26 +15,28 @@ use Livewire\Component;
 
 class AddTask extends Component
 {
+    
+    public $nameOfAssignedInTask;
     #[On('add-task')]
     public function addTask($request_id, $tech_id)
     {
-
-        $nameOfAssignedInTask = TechnicalStaff::find($tech_id);
-
+        
 
         $request = Request::find($request_id); //for live update
 
-        $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
+
+
+  
 
         $existingTask = Task::where('request_id', $request_id)
             ->where('technicalStaff_id', $tech_id)
             ->first(); //check if tech staff exist in this task
-
+        $this->nameOfAssignedInTask = TechnicalStaff::find($tech_id);
         /////////////////////////////
         if ($existingTask) {
             // If task exists, delete it
-            $nameOfAssignedInTask->totalPendingTask -= 1;
-            $nameOfAssignedInTask->save();
+            $this->nameOfAssignedInTask->totalPendingTask -= 1;
+            $this->nameOfAssignedInTask->save();
             $existingTask->delete();
             $this->dispatch('success', name: 'successfully removed');
         } else {
@@ -47,14 +49,14 @@ class AddTask extends Component
             $this->dispatch('success', name: 'successfully added');
 
             ///number of notif per user
-            $nameOfAssignedInTask->totalPendingTask  += 1;
-            $nameOfAssignedInTask->save();
+            $this->nameOfAssignedInTask->totalPendingTask  += 1;
+            $this->nameOfAssignedInTask->save();
 
-            NotifEvent::dispatch('Request Id # ' . $request_id . ' is assigned to ' . $nameOfAssignedInTask->user->name . 'and now pending', $request->faculty->user->id);
+            NotifEvent::dispatch('Request Id # ' . $request_id . ' is assigned to ' . $this->nameOfAssignedInTask->user->name . 'and now pending', $request->faculty->user->id);
         }
 
-
-
+        
+        $numOfTechInTask = Task::where('request_id', $request_id)->count(); //total number of request in task
         //////////////////////////////
         if ($numOfTechInTask > 0) {
 

@@ -26,7 +26,7 @@ class Request extends Model
 
     public function Task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->hasOne(Task::class);
     }
 
     public function Category(){

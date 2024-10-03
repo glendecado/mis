@@ -197,19 +197,28 @@
                             @if (Auth::user()->role == 'Mis Staff')
 
                             <button @click="$dispatch('view-assigned', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md">Assign Technical Staff</button>
-                            
+
                             <button @click="$dispatch('request-delete',{id: {{$req->id}}})">Delete Request</button>
 
                             {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
+   
+                            @if($req->task->status == 'accepted')
 
+                            {{--category--}}
+                            @livewire('task-list.view-list', ['category' => $req->category])
+
+
+                            @else
                             <div class="flex justify-between">
 
                                 <button @click="$dispatch('accept-task', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Accept</button>
 
                                 <button @click="$dispatch('reject-task', {id: {{$req->id}}})" class="bg-white text-blue-950 border border-blue-950 p-2 rounded-md w-56">Reject</button>
                             </div>
-
+                            @endif
+                            @elseif(Auth::user()->role == 'Faculty')
+                            {{$req->progress}}
                             @endif
                         </div>
 
