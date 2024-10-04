@@ -219,7 +219,7 @@
                             @endif
                             @elseif(Auth::user()->role == 'Faculty')
                             <div class="h-5 bg-blue-400 text-blue-300 " style="width: {{ $req->progress }}%;">
-                                progress of request:
+
                                 {{ $req->progress }}%
                             </div>
 
