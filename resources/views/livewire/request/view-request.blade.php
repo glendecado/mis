@@ -202,11 +202,11 @@
 
                             {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
-   
+
                             @if($req->task->status == 'accepted')
 
                             {{--category--}}
-                            @livewire('task-list.view-list', ['category' => $req->category])
+                            @livewire('task-list.view-list', ['request' => $req])
 
 
                             @else
@@ -218,7 +218,11 @@
                             </div>
                             @endif
                             @elseif(Auth::user()->role == 'Faculty')
-                            {{$req->progress}}
+                            <div class="h-5 bg-blue-400 text-blue-300 " style="width: {{ $req->progress }}%;">
+                                progress of request:
+                                {{ $req->progress }}%
+                            </div>
+
                             @endif
                         </div>
 
