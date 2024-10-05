@@ -20,14 +20,15 @@ class ViewList extends Component
 
         $this->request = $request;
 
-        $this->checked = $this->request->progress / count($request->category->taskList) * 100;
+        $this->checked = round($this->request->progress / 100 * count($request->category->taskList));
 
-        $this->w = 'style=width:'. $this->request->progress .'%;';
-  
+    
+        $this->w = 'style=width:' . $this->request->progress . '%;';
     }
 
     public function check($payload)
     {
+
 
         if($this->checked < $payload){
 
@@ -43,7 +44,7 @@ class ViewList extends Component
         $req->progress = $this->request->progress;
         $req->save();
 
-
+        $this->w = 'style=width:' . $this->request->progress . '%;';
     }
     public function render()
     {
