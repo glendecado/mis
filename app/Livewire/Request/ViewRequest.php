@@ -80,8 +80,9 @@ class ViewRequest extends Component
         // Retrieve all requests where the ID matches any of the request IDs from the tasks
         // Use whereIn to allow matching against an array of IDs
         $request = Request::whereIn('id', $Task_RequestId)->get();
+        
         break;
-
+ 
       case 'Mis Staff':
         $request = Request::with('faculty')->where('status', 'like', '%' . $this->status . '%')->orderBy('created_at')->get();
         break;

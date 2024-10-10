@@ -203,7 +203,8 @@
                             {{--if user is technical staff then you can accept or reject the request--}}
                             @elseif(Auth::user()->role == 'Technical Staff')
 
-                            @if($req->task->status == 'accepted')
+                            {{--check if the Auth technicalstaff user has already accepted the task--}}
+                            @if($req->task()->where('technicalStaff_id', Auth::id())->where('status', 'accepted')->exists())
 
                             {{--category--}}
                             @livewire('task-list.view-list', ['request' => $req])
