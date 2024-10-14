@@ -33,6 +33,10 @@ class Navbar extends Component
     #[On('update-count')]
     public function render()
     {
+        if($this->search){
+            Cache::forget('users');
+        }
+
         $user = Cache::rememberForever('users', function () {
             return DB::table('users')
             // Filter out users who have the role 'Mis Staff'
