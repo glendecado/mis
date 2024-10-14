@@ -8,15 +8,11 @@
             <div class="my-[50px]">
                 <form wire:submit.prevent="login" method="post">
 
-                    <div class="relative mt-6">
-                        <input type="email" name="email" id="email" placeholder="Email Address"
-                            class="peer mt-1 w-full border-b-2 border-gray-300 px-5 py-3 placeholder:text-transparent focus:border-gray-500 focus:outline-none bg-azure rounded-md"
-                            wire:model.lazy="email" autocomplete="off" />
-
-                        <label for="email"
-                            class="pointer-events-none pl-3 absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-500 opacity-75 transition-all duration-100 ease-in-out {{ strlen($email) > 0 ? 'top-[-10px] left-2 pl-0 text-sm text-white' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-[-10px] peer-focus:left-2 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-white' }}">
-                            Email Address
-                        </label>
+                    <div class="relative z-0">
+                        <input
+                            wire:model.lazy="email" autocomplete="off"
+                            type="text" id="floating_standard" class="rounded-md peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{$emailError ? 'border border-red-500':''}}" placeholder=" " />
+                        <label for="floating_standard" class="absolute top-3 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">Email Address</label>
 
                         @if ($emailError)
                         <div class="mt-1 text-xs text-red-600 absolute">❌ {{ $emailError }}</div>
@@ -24,19 +20,17 @@
                     </div>
 
                     <div class="relative mt-9">
-                        <input type="password" name="password" id="password" placeholder="Password"
-                            class="peer mt-1 w-full border-b-2 border-gray-300 px-5 py-3 placeholder:text-transparent focus:border-gray-500 focus:outline-none bg-azure rounded-md"
-                            wire:model.lazy="password" autocomplete="off" />
-
-                        <label for="password"
-                            class="pointer-events-none pl-3 absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-500 opacity-75 transition-all duration-100 ease-in-out {{ strlen($password) > 0 ? 'top-[-10px] left-2 pl-0 text-sm text-white' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-[-10px] peer-focus:left-2 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-white' }}">
-                            Password
-                        </label>
+                        <input
+                            wire:model.lazy="password" autocomplete="off"
+                            type="password" id="floating_standard" class="rounded-md peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{$passwordError ? 'border border-red-500':''}}" placeholder=" " />
+                        <label for="floating_standard" class="absolute top-3 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">password</label>
 
                         @if ($passwordError)
                         <div class="mt-1 text-xs text-red-600 absolute">❌ {{ $passwordError }}</div>
                         @endif
                     </div>
+
+
 
 
                     <div class="my-[50px]">
