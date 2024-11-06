@@ -2,8 +2,9 @@
 
 use App\Models\Task;
 use App\Models\TechnicalStaff;
+use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{mount, state};
+use function Livewire\Volt\{computed, mount, state};
 
 //
 state(['id']);
@@ -13,13 +14,15 @@ mount(function () {
 });
 
 
-$viewTechStaff = function ($arr = null) {
+$viewTechStaff = computed(function ($arr = null) {
     if (is_null($arr)) {
-        return TechnicalStaff::with(['user', 'task'])->get();
+        return Cache::flexible('tech',[5,10], function(){
+            return TechnicalStaff::with(['user', 'task'])->get();
+        });
     } else {
         return TechnicalStaff::whereIn('technicalStaff_id', $arr)->with(['user', 'task'])->get();
     }
-};
+});
 
 $assignTask = function ($techId) {
 
