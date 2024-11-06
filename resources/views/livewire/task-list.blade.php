@@ -7,19 +7,20 @@ use Illuminate\Support\Facades\Cache;
 
 use function Livewire\Volt\{state, mount};
 
-state(['checked','page']);
+state(['checked', 'page']);
 
-state(['category', 'task','request']);
+state(['category', 'task', 'request']);
 
-mount(function(){
+mount(function () {
 
     $this->request = Request::find(session('requestId'));
-
-    //to get the percentage
-    $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
-
     $this->page = request()->route()->getName();
 
+    
+    if ($this->page == 'request') {
+        //to get the percentage
+        $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
+    }
 });
 
 $addTaskList = function () {
@@ -35,19 +36,19 @@ $addTaskList = function () {
 $deleteTaskList = function ($id) {
     $taskList = TaskList::find($id);
     $taskList->delete();
-    $this->dispatch('success','sucessfully deleted');
+    $this->dispatch('success', 'sucessfully deleted');
 };
 
 $viewTaskList = function () {
     return TaskList::where('category_id', $this->category)->get();
 };
 
-$check = function($list){
+$check = function ($list) {
 
     $this->checked = $list;
     $req = Request::find($this->request->id);
     $progress = round($this->checked / count($req->category->taskList) * 100);
-    $req->progress = $progress ;
+    $req->progress = $progress;
     $req->save();
     Cache::flush();
 }
