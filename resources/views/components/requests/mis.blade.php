@@ -1,5 +1,5 @@
 @include('livewire.admin.sidebar-admin')
-<div class="y gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none">
+<div class="y mt-2 w-[600px] gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none">
 
     <div class="">
         <div class="y md:x gap-2">

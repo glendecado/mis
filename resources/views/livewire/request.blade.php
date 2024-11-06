@@ -218,7 +218,7 @@ $priorityLevelUpdate = function ($level) {
 };
 
 ?>
-<div class="h-[85vh] overflow-auto basis-full p-2 bg-blue-50">
+<div class="h-[85vh] w-full flex justify-center overflow-auto">
 
 
     @include('components.requests.view')

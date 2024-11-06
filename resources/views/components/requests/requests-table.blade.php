@@ -1,4 +1,4 @@
-<div class="table-container md:block hidden">
+<div class="table-container md:block hidden w-full">
     <table class="min-w-full">
         <thead class="table-header">
             <tr>
