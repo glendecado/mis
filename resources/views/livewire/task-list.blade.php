@@ -16,7 +16,7 @@ mount(function () {
     $this->request = Request::find(session('requestId'));
 
 
-    if (session('page') == 'request') {
+    if (session('page') != 'admin-panel') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
     }
