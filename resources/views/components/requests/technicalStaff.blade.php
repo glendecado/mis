@@ -55,10 +55,13 @@
         <button class="button float-right" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
     </div>
     @else
-    <livewire:task-list :category="$req->category_id"/>
-    <div class="input">
-
-    {{$req->progress}}
+    <livewire:task-list :category="$req->category_id" />
+    <div class="input" x-data="{ percent: {{$req->progress}} }">
+        <div
+            class="bg-blue-700 rounded-full px-2"
+            :style="{ width: percent + '%' }">
+            {{$req->progress}}%
+        </div>
     </div>
     @endif
 </div>

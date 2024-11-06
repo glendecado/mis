@@ -51,11 +51,12 @@
     </div>
 
     <div>
-        <div class="input">
-            <div class="bg-blue-700 rounded-full px-2 w-[10%]">
-                10%
+        <div class="input" x-data="{ percent: {{$req->progress}} }">
+            <div
+                class="bg-blue-700 rounded-full px-2"
+                :style="{ width: percent + '%' }">
+                {{$req->progress}}%
             </div>
-
         </div>
     </div>
 </div>
