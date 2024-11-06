@@ -11,6 +11,9 @@ title('Home');
       <div>
         <h1 class="font-bold text-blue-500">
           Objectives
+          <div>
+            <livewire:rate />
+          </div>
         </h1>
       </div>
       <div class="flex gap-2 flex-col text-slate-500 mx-auto container">
@@ -32,5 +35,7 @@ title('Home');
       </div>
     </div>
   </div>
+
+
 
 </div>

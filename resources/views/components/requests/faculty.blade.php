@@ -64,8 +64,11 @@
     @if($req->progress == 100)
         <div class="flex justify-end gap-2">
             <button class="button">Feed Back</button>
-            <button class="button">Rate</button>
+            <button class="button" @click="$dispatch('open-modal','rate')">Rate</button>
             <button class="button">Close</button>
         </div>
     @endif
 </div>
+
+
+<livewire:rate />
