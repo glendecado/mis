@@ -19,12 +19,20 @@ Route::middleware(['auth'])->group(function () {
   Volt::route('/profile/{id}', 'user/profile')->name('profile');
 
   Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
-  
+
   Volt::route('/request', 'request')->name('requests');
 
-  Route::middleware(['request'])->group(function () {
 
+  //for Mis Staff
+  Route::middleware(['role:Mis Staff'])->group(function () {
+    Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
+  });
+
+
+  //for authorized request
+  Route::middleware(['request'])->group(function () {
     Volt::route('/request/{id}', 'request')->name('request');
   });
+
 
 });
