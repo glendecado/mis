@@ -51,6 +51,7 @@
     </div>
 
     <div>
+
         <div class="input" x-data="{ percent: {{$req->progress}} }">
             <div
                 class="bg-blue-700 rounded-full px-2"
@@ -58,5 +59,13 @@
                 {{$req->progress}}%
             </div>
         </div>
+
     </div>
+    @if($req->progress == 100)
+        <div class="flex justify-end gap-2">
+            <button class="button">Feed Back</button>
+            <button class="button">Rate</button>
+            <button class="button">Close</button>
+        </div>
+    @endif
 </div>

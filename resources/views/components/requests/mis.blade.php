@@ -86,7 +86,7 @@
         </div>
 
 
-        @if($req->status == 'pending')
+        @if($req->status != 'waiting')
         <div>
             <label for="">Assigned To</label>
             <div class="input ">

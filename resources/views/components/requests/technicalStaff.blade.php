@@ -50,7 +50,7 @@
         <div class="input h-80">{{$req->concerns}}</div>
     </div>
 
-    @if($req->status != 'ongoing')
+    @if($req->status == 'pending' || )
     <div class="w-full">
         <button class="button float-right" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
     </div>

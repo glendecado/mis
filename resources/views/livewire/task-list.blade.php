@@ -48,6 +48,11 @@ $check = function ($list) {
     $req = Request::find($this->request->id);
     $progress = round($this->checked / count($req->category->taskList) * 100);
     $req->progress = $progress;
+
+    if($req->progress == 100){
+        $req->status = 'resolved';
+    }
+    
     $req->save();
     $this->dispatch('view-detailed-request');
 }
