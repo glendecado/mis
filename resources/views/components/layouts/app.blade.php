@@ -10,6 +10,7 @@
 </head>
 
 <body class="h-dvh bg-azure font-geist">
+
     <x-navbar />
 
     <main class="flex">
@@ -20,3 +21,7 @@
 </body>
 
 </html>
+
+@php
+session(['page' => request()->route()->getName()]);
+@endphp

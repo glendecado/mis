@@ -14,10 +14,9 @@ state(['category', 'task', 'request']);
 mount(function () {
 
     $this->request = Request::find(session('requestId'));
-    $this->page = request()->route()->getName();
 
-    
-    if ($this->page == 'request') {
+
+    if (session('page') == 'request') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
     }

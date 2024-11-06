@@ -22,3 +22,6 @@
 </body>
 
 </html>
+@php
+session(['page' => request()->route()->getName()]);
+@endphp
