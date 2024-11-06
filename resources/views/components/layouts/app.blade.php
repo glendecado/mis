@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="html">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ Route::currentRouteName() }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
+    <title>{{ $title ?? 'Page Title' }}</title>
+    @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
-<body class="bg-azure">
-    @livewire('navbar')
-    {{ $slot }}
+<body class="h-dvh bg-azure font-geist">
+    <x-navbar />
+
+    <main class="flex">
+    @yield('sidebar')
+        {{ $slot }}
+    </main>
+
 </body>
-@livewireScripts
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    window.currentUser = '{{base64_encode(Auth::id()) }}'
-    window.currentUserType = '{{base64_encode(Auth::user()->role)}}'
-</script>
-
 
 </html>

@@ -6,10 +6,162 @@
     display: none;
 }
 
-.colored-toast.swal2-icon-success {
-    background-color: #a5dc86 !important;
+.html {
+    @apply h-dvh overflow-hidden;
 }
 
-.colored-toast.swal2-icon-error {
-    background-color: #f27474 !important;
+
+/* Custom styles for table components */
+.table-container {
+    @apply bg-blue-50 rounded-lg overflow-hidden ;
+}
+
+.table-header {
+    @apply bg-blue-500 text-blue-100 shadow-sm shadow-blue-950/50  ;
+}
+
+.table-header-cell {
+    @apply py-3 px-5 transition-colors duration-200 ease-in-out;
+}
+
+.table-row-cell {
+    @apply py-3 px-5 text-center text-gray-700 border-b border-gray-200;
+}
+
+/*forms*/
+
+.button {
+    @apply bg-blue-600 text-white font-medium rounded-lg px-4 py-2 drop-shadow-md;
+}
+
+.button:hover {
+    @apply bg-blue-300 text-white shadow-lg transition-all duration-200 ease-in-out;
+}
+
+.button:disabled {
+    @apply bg-blue-100 text-gray-400 cursor-not-allowed;
+}
+
+.input {
+    @apply bg-blue-50/50 border border-blue-800/50 px-3 py-2 rounded-md focus:ring-1 focus:ring-blue-900 outline-none;
+}
+
+.input-error {
+    @apply bg-blue-50/50 border border-red-500/50 px-3 py-2 rounded-md focus:ring-1 focus:ring-blue-900 outline-none;
+}
+
+
+.input:disabled {
+    @apply bg-blue-300;
+}
+
+.select {
+    @apply bg-blue-50 border border-blue-800/50 px-3 py-2 rounded-md focus:ring-1 focus:ring-blue-900 outline-none;
+}
+
+.label {
+    @apply block text-sm font-medium text-gray-900;
+}
+
+/* Flexbox utilities */
+.y {
+    @apply flex flex-col ;
+}
+
+.md\:y {
+    @apply flex md:flex-col;
+}
+
+.x {
+    @apply flex flex-row;
+}
+
+.md\:x {
+    @apply flex md:flex-row;
+}
+
+.flex-center {
+    @apply flex items-center justify-center;
+}
+
+/* Sidebar link styles */
+.sidebar-links {
+    @apply p-2 hover:bg-blue-600/50 hover:text-white flex items-center h-10 hover:shadow-md hover:shadow-blue-950/50;
+}
+
+.sidebar-active {
+    @apply p-2 bg-blue-600/50 text-white flex shadow-md shadow-blue-950/50;
+}
+
+.mini-sidebar {
+    @apply bg-blue-500/75 absolute h-fit text-blue-50 y left-0 top-11 w-48 md:left-48 md:top-0 md:w-52 z-50;
+}
+
+.mini-sidebar-label {
+    @apply text-center bg-blue-900 basis-1/4 h-11 flex-center;
+}
+
+.mini-sidebar-items {
+    @apply hover:bg-slate-600/50 p-2 h-12 w-full;
+}
+
+/*profile*/
+.container-style {
+    @apply h-[85%] w-[90vw] flex flex-col md:flex-row gap-2;
+}
+
+.card-style {
+    @apply rounded-md bg-blue-400 shadow-lg shadow-blue-950/50;
+}
+
+.profile-image-style {
+    @apply rounded-full ml-8 mt-0 md:ml-0 md:size-36 md:mt-8 flex-none;
+}
+
+.tab-style {
+    @apply p-2 cursor-pointer rounded-t-lg;
+}
+
+.tab-active-style {
+    @apply bg-blue-900/50 text-white;
+}
+
+.content-style {
+    @apply bg-blue-900/50 shadow-md shadow-blue-950/50 text-white basis-full relative;
+}
+
+
+/*Nav Bar*/
+
+.navbar {
+    @apply bg-yellow text-blue-900 font-geist flex flex-row overflow-auto flex-none drop-shadow-sm;
+}
+
+.navbar-link {
+    @apply text-blue-950;
+}
+
+
+.navbar-link:hover {
+    @apply bg-blue-500 text-blue-50;
+}
+
+.navbar-link-active {
+    @apply text-white bg-blue-700 shadow-md;
+}
+
+.input-field {
+    @apply w-52 rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none transition duration-200;
+}
+
+.container-header {
+    @apply px-4 py-4 w-full bg-blue-500 flex items-center justify-between flex-wrap flex-none;
+}
+
+.search-dropdown {
+    @apply absolute bg-white flex flex-col w-52 shadow-lg rounded-md mt-2;
+}
+
+.modal-trigger-button {
+    @apply z-50 border-[3px]  p-1  border-blue-600 rounded-full absolute text-blue-600 bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
 }

@@ -1,38 +1,24 @@
 <?php
 
-use App\Livewire\Category\ViewCategory;
-use App\Livewire\Mis\MisStaff;
-use App\Livewire\Mis\ViewUser;
-use App\Livewire\Request\ViewRequest;
-use App\Livewire\User\Profile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
-Route::get('/', function(){
-    if(Auth::check()){
-        return view('dashboard');
-    }else{
-        return view('index');
-    }
+Route::middleware(['guest'])->group(function () {
+  Volt::route('/', 'user/login')->name('login');
 });
 
 
-Route::middleware(['Auth'])->group(function () {
-
-    Route::get('/profile/{user}/', Profile::class)->name('profile');
-
-    Route::get('/request', ViewRequest::class)->name('request');
+Route::middleware(['auth'])->group(function () {
 
 
 
+  Volt::route('/dashboard', 'user/dashboard')->name('dashboard');
+
+  Volt::route('/request', 'request')->name('requests');
+  Volt::route('/request/{id}', 'request')->name('request');
+
+  Volt::route('/profile/{id}', 'user/profile')->name('profile');
+  
+  Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
 });
-
-Route::middleware(['Mis'])->group(function () {
-
-    Route::get('/manage/user', ViewUser::class)->name('manage-user');
-    Route::get('/manage/category', ViewCategory::class)->name('manage-category');
-});
-
-
-

@@ -14,7 +14,8 @@ class TaskList extends Model
         'task',
     ];
 
-    public function Category(){
+    public function Category()
+    {
         return $this->belongsTo(Category::class);
     }
 }

@@ -16,8 +16,8 @@ class TechnicalStaff extends Model
         return $this->belongsTo(User::class, 'technicalStaff_id');
     }
 
-    public function task()
+     public function task()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'technicalStaff_id');
     }
 }

@@ -12,10 +12,11 @@ class Faculty extends Model
     protected $primaryKey = 'faculty_id'; // Assuming 'faculties_id' is your primary key
 
     protected $fillable = [
-        'faculty_id', 
-        'college', 
-        'building', 
-        'room'];
+        'faculty_id',
+        'college',
+        'building',
+        'room'
+    ];
 
     public function user()
     {
@@ -25,5 +26,5 @@ class Faculty extends Model
     public function requests()
     {
         return $this->hasMany(Request::class, 'request_id'); // Adjust the foreign key column name if necessary
-    }
+    } 
 }

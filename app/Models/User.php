@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function TechnicalStaff()
     {
-        return $this->hasOne(TechnicalStaff::class, 'technicalSatff_id');
+        return $this->hasOne(TechnicalStaff::class, 'technicalStaff_id');
     }
 
     public function Faculty()

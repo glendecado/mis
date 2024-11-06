@@ -16,12 +16,13 @@ class Task extends Model
         'status',
     ];
 
-    public function TechnicalStaff(){
-        return $this->belongsTo(TechnicalStaff::class);
+    public function TechnicalStaff()
+    {
+        return $this->belongsTo(TechnicalStaff::class, 'technicalStaff_id');
     }
 
     public function request()
     {
-        return $this->hasOne(Request::class, 'request_id');
+        return $this->belongsTo(Request::class);
     }
 }

@@ -16,7 +16,7 @@ class Request extends Model
         'priotrityLevel',
         'progress',
         'status'
- 
+
     ];
 
     public function Faculty()
@@ -29,7 +29,8 @@ class Request extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function Category(){
+    public function Category()
+    {
 
         return $this->belongsTo(Category::class);
     }

@@ -1,48 +1,64 @@
-<!-- resources/views/profile.blade.php -->
-<div class="max-w-2xl mx-auto p-6 bg-blue-400 rounded-lg shadow-md my-6">
-        <div class="bg-blue p-6 rounded-lg shadow-lg">
-                <div class="flex items-center justify-center mb-4">
-                        <img src="{{ asset('storage/' . $user->img) }}" alt="profile" class="rounded-full w-32 h-32 object-cover shadow-lg border border-white bg-white">
-                </div>
-                <div class="text-center text-white">
-                        <h2 class=" text-2xl font-semibold">{{ $user->name }}</h2>
-                        <p class="">{{ $user->email }}</p>
-                </div>
+<?php
+
+use App\Models\User;
+
+use function Livewire\Volt\{computed, layout, mount, state, title};
+
+title('profile');
+
+// Define state variables
+state(['id']);
+
+state('tab')->url();
+
+mount(function () {
+    $this->tab = 'history';
+});
+
+$user = computed(fn() => User::find($this->id));
+
+?>
+{{-- parent --}}
+<div class="flex p-4  h-[80vh] gap-1 flex-col md:flex-row basis-full">
+    {{-- first tab --}}
+    {{-- sm --}} {{-- normal --}} {{-- md --}}
+    <div class="border w-[100%] md:w-[320px] sm:w-[100%]  bg-blue-100 rounded-md h-[50%] md:h-full">
+        {{-- profile image and name cart --}}
+
+        {{-- image card --}}
+        <div class=" flex items-center mt-10 flex-col">
+            <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
+                class="rounded-full w-[200px] h-[200px]">
+            <span class="mt-2 text-lg text-slate-600">{{ session('user')['name'] }}</span>
         </div>
 
-        @if (Auth::id() == $user->id)
-        <div class="text-center mt-6">
-                <button type="button" @click="$dispatch('open-modal', 'Update Profile')" class="bg-blue text-white font-semibold py-2 px-6 rounded-full hover:bg-yellow hover:text-black transition duration-300 shadow-md">Change Profile</button>
+    </div>
+
+    <div class="flex-1 w-full bg-blue-100 rounded-md p-4 overflow-hidden" x-data="{ tab: @entangle('tab') }" x-cloak>
+
+        <ul class="flex  text-lg">
+            <li @click="tab = 'history'" :class="tab === 'history' ? 'bg-blue-300 text-white' : ''"
+                class="p-2 cursor-pointer rounded-t-lg ">History</li>
+            <li @click="tab = 'details'" :class="tab === 'details' ? 'bg-blue-300 text-white' : ''"
+                class="p-2 cursor-pointer rounded-t-lg">Details</li>
+        </ul>
+
+        {{-- Tab content --}}
+        <div class="bg-blue-300 w-full h-[89%] md:h-[93%] rounded-md relative bottom-2 overflow-hidden text-white">
+            <div x-show="tab === 'history'">
+                <!-- Content for History tab -->
+                @include('components.user.history')
+            </div>
+
+            <div x-show="tab === 'details'">
+                <!-- Content for Details tab -->
+                @include('components.user.details')
+
+            </div>
         </div>
-        @endif
 
-        <div class="mt-6 space-y-4 text-lg bg-blue p-6 rounded-lg shadow-md text-white">
+    </div>
 
-                <div class="flex justify-between">
-                        <span class="font-geist">Role:</span>
-                        <span>{{ $user->role }}</span>
-                </div>
-    
-        </div>
 
-        @switch(Auth::user()->role)
-        @case('Faculty')
-        <div class="mt-6 space-y-4 text-lg bg-blue p-6 rounded-lg shadow-md text-white">
-                <div class="flex justify-between">
-                        <span class="font-semibold">College:</span>
-                        <span>{{ $user->faculty->college }}</span>
-                </div>
-                <div class="flex justify-between">
-                        <span class="font-semibold">Building:</span>
-                        <span>{{ $user->faculty->building }}</span>
-                </div>
-                <div class="flex justify-between">
-                        <span class="font-semibold">Room:</span>
-                        <span>{{ $user->faculty->room }}</span>
-                </div>
-        </div>
-        @break
-        @endswitch
 
-        @livewire('User.update-profile')
 </div>
