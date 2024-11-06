@@ -1,4 +1,4 @@
-<header class="h-[15%]">
+<header class="h-[12%]">
     {{-- top --}}
     <div class="bg-blue-500 h-[60%] flex justify-between items-center px-3 flex-wrap">
         <h1 class="text-blue-50 text-lg">MIS SERVICE REQUEST PORTAL</h1>

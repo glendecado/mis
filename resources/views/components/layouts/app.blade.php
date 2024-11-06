@@ -14,7 +14,7 @@
     {{--15%--}}
     <x-navbar />
 
-    <div class="h-[85%] overflow-hidden flex">
+    <div class="h-[88%] overflow-hidden flex">
         <div class="h-[100%] w-fit">
             @yield('sidebar')
         </div>
