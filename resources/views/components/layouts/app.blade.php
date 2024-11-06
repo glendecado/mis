@@ -9,12 +9,13 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
-<body class="font-geist relative bg-azure h-lvh overflow-hidden z-[100]">
+<body class="font-geist relative bg-azure h-lvh overflow-hidden">
 
-    {{--15%--}}
-    <x-navbar />
+    <div class="h-[15%]">
+        <x-navbar />
+    </div>
 
-    <div class="h-[88%] overflow-hidden flex">
+    <div class="h-[85%] overflow-hidden flex">
         <div class="h-[100%] w-fit">
             @yield('sidebar')
         </div>
