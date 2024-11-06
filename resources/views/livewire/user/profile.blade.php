@@ -4,7 +4,7 @@ use App\Models\User;
 
 use function Livewire\Volt\{computed, layout, mount, state, title};
 
-title('profile');
+title('Profile');
 
 // Define state variables
 state(['id']);

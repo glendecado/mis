@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
 
-use function Livewire\Volt\{mount, on, rules, state};
+use function Livewire\Volt\{mount, on, rules, state, title};
+
+title('Request');
 
 state(['cacheKey']);
 

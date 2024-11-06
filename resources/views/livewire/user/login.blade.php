@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
-title('login');
+title('Login');
 
 layout('components.layouts.guest');
 state(['email', 'password', 'emailError', 'passwordError']);

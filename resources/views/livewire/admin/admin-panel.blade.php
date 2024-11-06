@@ -3,7 +3,8 @@
 use App\Models\Request;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{layout, mount, state};
+use function Livewire\Volt\{layout, mount, state, title};
+title('Admin panel');
 
 state('tab')->url();
 

@@ -1,3 +1,10 @@
+<?php
+
+use function Livewire\Volt\{state, title};
+
+title('Home');
+
+?>
 <div class="flex flex-col min-h-screen ">
   <div class="flex flex-col gap-10 p-10 mx-auto container flex-grow">
     <div class="flex flex-col gap-2">
