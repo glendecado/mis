@@ -42,7 +42,7 @@
                             Admin Panel
                         </a>
                     @else
-                        <a wire:navigate.hover href="/request"
+                        <a wire:navigate.hover href="/request?status=all"
                             class="p-2 navbar-link flex-center  {{ request()->routeIs(patterns: 'request') ? 'navbar-link-active' : '' }}">
                             Request
                         </a>
@@ -93,8 +93,10 @@
                     <span class="ml-1">Admin</span>
                 </a>
             @else
-                <a wire:navigate.hover href="/request"
-                    class="w-32 navbar-link flex-center  {{ request()->getRequestUri() == '/request' ||  request()->getRequestUri() == '/request/'.request()->route('id') ?'navbar-link-active' : '' }}">
+                <a wire:navigate.hover href="/request?status=all"
+                    class="w-32 navbar-link flex-center  
+                    {{ request()->route()->uri() == 'request' ||  
+                     request()->route()->uri() == 'request/{id}' ?'navbar-link-active' : '' }}">
                     Request
                 </a>
             @endif

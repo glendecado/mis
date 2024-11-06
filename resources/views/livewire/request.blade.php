@@ -74,35 +74,69 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
+  if($this->status == 'all'){
+    switch (session('user')['role']) {
+
+
+        case 'Mis Staff':
+            $req = Request::with('category')->get();
+
+            break;
+
+
+
+        case 'Faculty':
+            //all request of a current faculty
+            $req =  Request::where('faculty_id', session('user')['id'])
+                    ->with('category')
+                    ->get();
   
-        switch (session('user')['role']) {
-
-
-            case 'Mis Staff':
-                $req = Request::with('category')->get();
-
-                break;
+            break;
 
 
 
-            case 'Faculty':
-                //all request of a current faculty
-                $req =  Request::where('faculty_id', session('user')['id'])
-                        ->with('category')
-                        ->get();
-      
-                break;
+        case 'Technical Staff':
+            $req = Task::where('technicalStaff_id', session('user')['id'])
+                    ->with('request')
+                    ->get()
+                    ->pluck('request');
+  
+            break;
+    }
+  } else {
+    switch (session('user')['role']) {
+
+
+        case 'Mis Staff':
+            $req = Request::with('category')->where('status', $this->status)->get();
+
+            break;
 
 
 
-            case 'Technical Staff':
-                $req = Task::where('technicalStaff_id', session('user')['id'])
-                        ->with('request')
-                        ->get()
-                        ->pluck('request');
-      
-                break;
-        }
+        case 'Faculty':
+            //all request of a current faculty
+            $req =  Request::where('faculty_id', session('user')['id'])
+                    ->with('category')
+                    ->where('status', $this->status)
+                    ->get();
+  
+            break;
+
+
+
+        case 'Technical Staff':
+            $req = Task::where('technicalStaff_id', session('user')['id'])
+            ->whereHas('request', function ($query) {
+                $query->where('status', $this->status);
+            })
+            ->with('request')
+            ->get()
+            ->pluck('request');
+            break;
+    }
+  }
+        
     
 
     return $req;
