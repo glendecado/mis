@@ -50,11 +50,19 @@
         <div class="input h-80">{{$req->concerns}}</div>
     </div>
 
-    @if($req->status == 'pending' || )
+
+
+    @switch($req->status)
+
+
+    @case('pending')
     <div class="w-full">
         <button class="button float-right" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
     </div>
-    @else
+    @break
+
+
+    @case('ongoing')
     <livewire:task-list :category="$req->category_id" />
     <div class="input">
         <div
@@ -64,5 +72,13 @@
             {{$req->progress}}%
         </div>
     </div>
-    @endif
+    @break
+
+
+    @case('resolved')
+        <h1>Request Resolved</h1>
+    @break
+
+    @endswitch
+
 </div>

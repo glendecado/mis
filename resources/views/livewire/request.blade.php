@@ -31,7 +31,7 @@ on([
     },
 ]);
 
-on(['view-detailed-request'=>function(){
+on(['view-detailed-request' => function () {
     $this->viewDetailedRequest();
     $this->forgetCache();
 }]);
@@ -50,8 +50,6 @@ mount(function () {
     }
 
     session(['requestId' => $this->id ?? null]);
-
-  
 });
 
 //to forget the cache
@@ -70,86 +68,42 @@ $forgetCache = function () {
 //viewDetailed Req
 $viewDetailedRequest = function () {
 
-
-    return Cache::rememberForever($this->cacheKey . $this->id, function () {
-        return Request::where('id', $this->id)->with('faculty')->get();
-    });
-
+    return Request::where('id', $this->id)->with('faculty')->get();
 };
 
 //view request with table
 $viewRequest = function () {
 
-    if($this->status == 'all' || is_null($this->status)){
+  
         switch (session('user')['role']) {
 
 
             case 'Mis Staff':
-                $req = Cache::rememberForever($this->cacheKey, function () {
-                    return Request::with('category')->get();
-                });
+                $req = Request::with('category')->get();
+
                 break;
 
 
 
             case 'Faculty':
                 //all request of a current faculty
-                $req = Cache::rememberForever($this->cacheKey . 'faculty_' . session('user')['id'], function () {
-                    return Request::where('faculty_id', session('user')['id'])
+                $req =  Request::where('faculty_id', session('user')['id'])
                         ->with('category')
                         ->get();
-                });
+      
                 break;
 
 
 
             case 'Technical Staff':
-                $req = Cache::rememberForever($this->cacheKey . 'technicalStaff_' . session('user')['id'], function () {
-                    return Task::where('technicalStaff_id', session('user')['id'])
-                    ->with('request')
-                    ->get()
-                    ->pluck('request');
-                });
+                $req = Task::where('technicalStaff_id', session('user')['id'])
+                        ->with('request')
+                        ->get()
+                        ->pluck('request');
+      
                 break;
         }
-    } else{
-        switch (session('user')['role']) {
-
-            case 'Mis Staff':
-                $req = Cache::rememberForever($this->cacheKey.$this->status, function () {
-                    return Request::where('status', $this->status)
-                    ->with('category')->get();
-                });
-                break;
-
-
-
-            case 'Faculty':
-                //all request of a current faculty
-                $req = Cache::rememberForever($this->cacheKey . 'faculty_' . session('user')['id'], function () {
-                    return Request::where('faculty_id', session('user')['id'])
-                    ->whereHas('request', function ($query) {
-                        $query->where('status', 'wait');
-                    });
-                });
-                break;
-
-
-
-            case 'Technical Staff':
-                $req = Cache::rememberForever($this->cacheKey . 'technicalStaff_' . session('user')['id'], function () {
-                    return Task::where('technicalStaff_id', session('user')['id'])
-                    ->whereHas('request', function ($query) {
-                        $query->where('status', 'wait');
-                    })
-                    ->with('request')
-                    ->get()
-                    ->pluck('request');
-                });
-                break;
-        }
-    }
-   
+    
 
     return $req;
 };
@@ -206,7 +160,6 @@ $updateStatus = function ($status) {
     $req->status = $status;
     $req->save();
     $this->forgetCache();
-
 };
 
 //update priority level of a request
@@ -218,10 +171,6 @@ $priorityLevelUpdate = function ($level) {
     $this->forgetCache();
 
     $this->dispatch('success', 'successfuly changed');
-
-
-
-    
 };
 
 ?>

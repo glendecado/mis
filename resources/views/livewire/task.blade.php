@@ -4,13 +4,18 @@ use App\Models\Task;
 use App\Models\TechnicalStaff;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{computed, mount, state};
+use function Livewire\Volt\{computed, mount, on, state};
 
 //
-state(['id']);
+state(['id', 'task']);
+
+on(['techs' => function(){
+    $this->task = Task::where('request_id', $this->id)->get();
+}]);
 
 mount(function () {
     $this->id = session('requestId');
+    $this->task = Task::where('request_id', $this->id)->get();
 });
 
 
@@ -31,19 +36,20 @@ $assignTask = function ($techId) {
         'request_id' => session('requestId')
     ]);
     $task->save();
+    $this->dispatch('techs');
     $this->dispatch('success', 'added');
 };
 
 $removeTask = function ($techId) {
     $task = Task::where('technicalStaff_id', $techId)->where('request_id', $this->id)->with("TechnicalStaff")->first();
-
+    $this->dispatch('techs');
     $task->delete();
 };
 
 
 $viewAssigned = function () {
-    $task = Task::where('request_id', $this->id);
-    $tech = $task->pluck('technicalStaff_id')->toArray();
+    
+    $tech = $this->task->pluck('technicalStaff_id')->toArray();
     return $tech;
 };
 ?>

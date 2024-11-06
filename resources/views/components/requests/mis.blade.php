@@ -85,23 +85,39 @@
             <div class="input h-80">{{$req->concerns}}</div>
         </div>
 
+   
 
-        @if($req->status != 'waiting')
-        <div>
-            <label for="">Assigned To</label>
-            <div class="input ">
+        @switch($req->status)
 
-                <livewire:task />
+            @case('waiting')
+            <div class="float-right mt-2">
+                <button class="button" wire:click="updateStatus('declined')">Decline</button>
+                <button class="button" wire:click="updateStatus('pending')">Accept</button>
             </div>
-        </div>
-        @endif
+            @break
+
+            
+            @case('pending')
+                <div>
+                    <label for="">Assigned To</label>
+                    <div class="input ">
+
+                        <livewire:task />
+                    </div>
+                </div>
+            @break
 
 
-        <div class="float-right mt-2">
-            <button class="button" wire:click="updateStatus('declined')">Decline</button>
-            <button class="button" wire:click="updateStatus('pending')">Accept</button>
+            @case('resolved')
+                <h1>Request Resoled</h1>
+            @break
 
-        </div>
+
+            @case('declined')
+                <h1>Request Declined</h1>
+            @break
+
+        @endswitch
 
     </div>
 </div>
