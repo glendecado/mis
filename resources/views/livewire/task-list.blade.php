@@ -49,7 +49,7 @@ $check = function ($list) {
     $progress = round($this->checked / count($req->category->taskList) * 100);
     $req->progress = $progress;
     $req->save();
-    Cache::flush();
+    $this->dispatch('view-detailed-request');
 }
 ?>
 

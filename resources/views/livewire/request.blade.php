@@ -31,6 +31,11 @@ on([
     },
 ]);
 
+on(['view-detailed-request'=>function(){
+    $this->viewDetailedRequest();
+    $this->forgetCache();
+}]);
+
 mount(function () {
     $this->cacheKey = 'requests_';
 
