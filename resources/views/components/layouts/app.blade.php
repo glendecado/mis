@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="html">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -9,19 +9,23 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
-<body class="h-dvh bg-azure font-geist">
+<body class="font-geist relative bg-azure h-lvh overflow-hidden z-[100]">
 
+    {{--15%--}}
     <x-navbar />
 
-    <main class="flex">
-    @yield('sidebar')
-        {{ $slot }}
-    </main>
+    <div class="h-[85%] overflow-hidden flex">
+        <div class="h-[100%] w-fit">
+            @yield('sidebar')
+        </div>
+        <div class="h-[100%] w-full overflow-auto">
+            {{$slot}}
+        </div>
+    </div>
 
 </body>
 
 </html>
-
 @php
 session(['page' => request()->route()->getName()]);
 @endphp

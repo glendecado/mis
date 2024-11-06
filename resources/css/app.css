@@ -138,7 +138,7 @@
 }
 
 .navbar-link {
-    @apply text-blue-950;
+    @apply text-blue-950 h-[100%];
 }
 
 
