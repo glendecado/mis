@@ -96,11 +96,19 @@ $viewRequest = function () {
 
 
         case 'Technical Staff':
-            $req = Task::where('technicalStaff_id', session('user')['id'])
-                    ->with('request')
-                    ->get()
-                    ->pluck('request');
-  
+
+            //get all assigned task from auth techstaff
+            $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+
+            //get all request id from it
+            $techtask = $task->pluck('request_id')->toArray();
+        
+
+            //request by priority level
+            $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->get();
+            
+ 
+
             break;
     }
   } else {
@@ -126,13 +134,16 @@ $viewRequest = function () {
 
 
         case 'Technical Staff':
-            $req = Task::where('technicalStaff_id', session('user')['id'])
-            ->whereHas('request', function ($query) {
-                $query->where('status', $this->status);
-            })
-            ->with('request')
-            ->get()
-            ->pluck('request');
+            //get all assigned task from auth techstaff
+            $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+
+            //get all request id from it
+            $techtask = $task->pluck('request_id')->toArray();
+        
+
+            //request by priority level
+            $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->where('status', $this->status)->get();
+            
             break;
     }
   }

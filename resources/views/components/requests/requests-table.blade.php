@@ -11,14 +11,33 @@
         </thead>
         <tbody>
             @foreach ($this->viewRequest() as $request)
-            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer" @click="Livewire.navigate('/request/{{$request->id }}')">
-                <td class="table-row-cell">{{ $request->id }}</td>
+
+            @php
+            // Define priority color
+            $priorityColor = '';
+
+            //for technical staff only
+            if (session('user')['role'] == 'Technical Staff') {
+            //if level 1 == red
+            //if level 2 == yellow
+            //if level 1 == green
+            $priorityColor = $request->priorityLevel == 1 ? 'bg-red-500' :
+            ($request->priorityLevel == 2 ? 'bg-yellow' :
+            ($request->priorityLevel == 3 ? 'bg-green-500' : ''));
+            }
+            
+            @endphp
+
+            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer"
+                @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell {{ $priorityColor }}">{{ $request->id }}</td>
                 <td class="table-row-cell">{{ $request->created_at->format('Y-m-d') }}</td>
                 <td class="table-row-cell">{{ $request->status }}</td>
                 <td class="table-row-cell">{{ $request->concerns }}</td>
                 <td class="table-row-cell">{{ $request->category->name }}</td>
             </tr>
             @endforeach
+
         </tbody>
     </table>
 </div>
