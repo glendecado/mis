@@ -1,6 +1,6 @@
-@if(session('page') != 'admin-panel' )
+@if(session('page') == 'request' )
     @include('components.task-list.request-task-list')
-@else
+@elseif(session('page') == 'admin-panel')
     @include('components.task-list.manage-task-list')
 
 @endif
