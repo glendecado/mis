@@ -167,5 +167,5 @@
 }
 
 .request-containder {
-    @apply y  w-[80vw] sm:w-[70vw] md:w-[60vw] gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none;
+    @apply y  w-[80vw] sm:w-[70vw] md:w-[60vw] gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none mt-2;
 }
