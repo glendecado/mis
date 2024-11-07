@@ -79,7 +79,16 @@ $viewRequest = function () {
 
 
         case 'Mis Staff':
-            $req = Request::with('category')->get();
+            $req = Request::orderByRaw("
+            CASE status
+                WHEN 'waiting' THEN 1
+                WHEN 'pending' THEN 2
+                WHEN 'ongoing' THEN 3
+                WHEN 'resolved' THEN 4
+                ELSE 5
+            END
+        ")->orderBy('created_at', 'desc')->get();
+        
 
             break;
 
@@ -89,6 +98,7 @@ $viewRequest = function () {
             //all request of a current faculty
             $req =  Request::where('faculty_id', session('user')['id'])
                     ->with('category')
+                    ->orderBy('created_at', 'desc')
                     ->get();
   
             break;
