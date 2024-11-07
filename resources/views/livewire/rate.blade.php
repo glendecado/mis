@@ -8,19 +8,14 @@ use App\Models\TechnicalStaff;
 use function Livewire\Volt\{mount, state};
 
 //
-state(['rate', 'technicalStaff']);
+state(['rate', 'tasks']);
 
 mount(function(){
-    $task = Task::where('request_id', session('requestId'))->get();
-
-    $tech = $task->pluck('technicalStaff_id')->toArray();
-
-    $this->technicalStaff = TechnicalStaff::whereIn('technicalStaff_id', $tech)->with('user')->get();
-    
+    $this->tasks = Task::where('request_id', session('requestId'))->with('technicalStaff')->get();
 });
 
 $addRate = function ($id, $rate) {
-    dd([$id,$rate]);
+    dd(['Task Id: '.$id,'Rate: '.$rate]);
 };
 
 $viewRate = function () {
