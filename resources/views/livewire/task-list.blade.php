@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 use function Livewire\Volt\{state, mount};
 
-state(['checked', 'page']);
+state(['checked', 'page',]);
+state(['tab'])->url();
 
 state(['category', 'task', 'request']);
 
@@ -59,6 +60,7 @@ $check = function ($list) {
 ?>
 
 <div>
+
 
     @include('components.task-list.view-task-list')
 

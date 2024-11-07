@@ -32,6 +32,9 @@ on(['resetErrors' => function () {
 
 mount(function () {
     $this->cacheKey = "users_";
+
+    //initial value for select in adding a user
+    $this->role = 'Technical Staff';
 });
 
 //forget cache
