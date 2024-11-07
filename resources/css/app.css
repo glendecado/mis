@@ -165,3 +165,7 @@
 .modal-trigger-button {
     @apply z-50 border-[3px]  p-1  border-blue-600 rounded-full absolute text-blue-600 bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
 }
+
+.request-containder {
+    @apply y  w-[80vw] sm:w-[70vw] md:w-[60vw] gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none;
+}

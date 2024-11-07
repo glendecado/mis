@@ -31,6 +31,8 @@ $addTaskList = function () {
     $this->reset();
 
     $this->category = $taskList->category_id;
+
+    $this->tab = 'categories';
 };
 
 $deleteTaskList = function ($id) {
@@ -60,7 +62,7 @@ $check = function ($list) {
 ?>
 
 <div>
-
+{{$tab}}
 
     @include('components.task-list.view-task-list')
 
