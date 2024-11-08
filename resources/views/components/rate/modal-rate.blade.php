@@ -4,7 +4,7 @@
 
     <div class="flex justify-between pr-24">
         {{$task->technicalStaff->user->name}}
-        <div x-data="{ hovered: 0, rating: {{ json_encode($task->rate->rate) }} }" class="flex space-x-1">
+        <div x-data="{ hovered: 0, rating: {{ json_encode($task->rate->rate ?? 0)  }} }" class="flex space-x-1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 cursor-pointer"
                 :class="{'text-yellow': hovered >= 1 || rating >= 1, 'text-gray-300': hovered < 1 && rating < 1}"
                 @mouseover="hovered = 1" @mouseleave="hovered = 0" @click="rating = 1"
