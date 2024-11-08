@@ -66,7 +66,7 @@
     <livewire:task-list :category="$req->category_id" />
     <div class="input">
         <div
-            class="bg-blue-700 rounded-full px-2"
+            class="bg-blue-700 rounded-full px-2 text-white"
             style="width: {{$req->progress}}%";
             >
             {{$req->progress}}%

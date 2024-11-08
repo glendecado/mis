@@ -13,7 +13,7 @@
 
 /* Custom styles for table components */
 .table-container {
-    @apply bg-blue-50 rounded-lg overflow-hidden ;
+    @apply bg-blue-50 rounded-lg overflow-hidden;
 }
 
 .table-header {
@@ -85,8 +85,13 @@
 }
 
 /* Sidebar link styles */
+
+.sidebar {
+    @apply bg-blue-300 shadow-md shadow-blue-950/50 h-screen flex-none z-50;
+}
+
 .sidebar-links {
-    @apply p-2 hover:bg-blue-600/50 hover:text-white flex items-center h-10 hover:shadow-md hover:shadow-blue-950/50;
+    @apply p-2 hover:bg-blue-600/50 hover:text-white flex items-center h-10 hover:shadow-md ;
 }
 
 .sidebar-active {
@@ -94,15 +99,15 @@
 }
 
 .mini-sidebar {
-    @apply bg-blue-500/75 absolute h-fit text-blue-50 y left-0 top-11 w-48 md:left-48 md:top-0 md:w-52 z-50;
+    @apply bg-blue-200/90 absolute h-fit text-blue-500 y left-0 top-11 w-48 md:left-48 md:top-0 md:w-52 z-50 shadow-md;
 }
 
 .mini-sidebar-label {
-    @apply text-center bg-blue-900 basis-1/4 h-11 flex-center;
+    @apply text-center h-[40px]  bg-blue-700 flex-center text-blue-50;
 }
 
 .mini-sidebar-items {
-    @apply hover:bg-slate-600/50 p-2 h-12 w-full;
+    @apply hover:bg-blue-600/90 p-2 h-12 w-full hover:text-blue-50 border-b-2 border-blue-600/20;
 }
 
 /*profile*/
@@ -163,9 +168,9 @@
 }
 
 .modal-trigger-button {
-    @apply z-50 border-[3px]  p-1  border-blue-600 rounded-full absolute text-blue-600 bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
+    @apply z-50 border-[3px]  p-1  border-blue-600 rounded-full fixed text-blue-600 bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
 }
 
 .request-containder {
-    @apply y  w-[80vw] sm:w-[70vw] md:w-[60vw] gap-2  bg-blue-500/90 p-3 rounded-md text-blue-50 basis-full flex-none mt-2;
+    @apply y gap-2  bg-blue-300/30 p-3 rounded-md text-blue-900 shadow-lg shadow-blue-950/20;
 }

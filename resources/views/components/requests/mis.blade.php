@@ -59,9 +59,9 @@
 
                 <label for="">Priority Level:</label>
                 <select name="" id="" class='input' wire:change="priorityLevelUpdate($event.target.value)">
-                    <option class="bg-blue-500" value="1" @if($req->priorityLevel == 1) selected @endif>Level 1</option>
-                    <option class="bg-blue-500" value="2" @if($req->priorityLevel == 2) selected @endif>Level 2</option>
-                    <option class="bg-blue-500" value="3" @if($req->priorityLevel == 3) selected @endif>Level 3</option>
+                    <option value="1" @if($req->priorityLevel == 1) selected @endif>Level 1</option>
+                    <option value="2" @if($req->priorityLevel == 2) selected @endif>Level 2</option>
+                    <option value="3" @if($req->priorityLevel == 3) selected @endif>Level 3</option>
                 </select>
 
             </div>

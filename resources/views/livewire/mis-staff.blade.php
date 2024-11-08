@@ -139,7 +139,8 @@ $deleteUser = function ($id) {
 
 ?>
 
-<div class="h-[100%]">
+<div class="bg-blue-50 rounded-md overflow-hidden shadow-lg shadow-blue-950/20">
+
     @include('components.mis.users')
     @include('components.mis.add-user-button')
     <x-alerts />

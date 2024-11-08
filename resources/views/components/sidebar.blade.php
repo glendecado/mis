@@ -1,5 +1,5 @@
 <div x-cloak
-  class="bg-blue-300 h-screen flex-none z-50"
+  class="sidebar"
   :class="open ? 'w-48 md:relative absolute' : 'w-12'"
   x-data="{
         open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true'), 

@@ -21,7 +21,7 @@
         <div class="h-[100%] w-fit">
             @yield('sidebar')
         </div>
-        <div class="h-[100%] w-full overflow-auto">
+        <div class="h-[100%] w-full overflow-auto p-5">
             @yield('content')
         </div>
     </div>
