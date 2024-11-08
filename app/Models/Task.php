@@ -25,4 +25,8 @@ class Task extends Model
     {
         return $this->belongsTo(Request::class);
     }
+
+    public function rate(){
+        return $this->hasOne(Rate::class);
+    }
 }

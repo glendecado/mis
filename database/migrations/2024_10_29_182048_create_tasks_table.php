@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('technicalStaff_id');
+            
+
             $table->foreign('technicalStaff_id')->references('technicalStaff_id')->on('technical_staff')->onDelete('cascade');
+
+
             $table->unsignedBigInteger('request_id');
+
+
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
-            $table->string('status')->default('pending')->nullable(); //accepted or rejected
+
             $table->timestamps();
         });
     }

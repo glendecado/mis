@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('task_id');
+            
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
+
+            $table->integer('rate');
             
             $table->timestamps();
         });

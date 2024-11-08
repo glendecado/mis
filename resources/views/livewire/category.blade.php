@@ -30,5 +30,5 @@ $viewCategory = function () {
 <div class="basis-full">
 
     @include('components.category.view-category')
-    <x-alerts />
+
 </div>
