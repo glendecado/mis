@@ -1,8 +1,10 @@
 <?php
 
+use App\Events\RequestEvent;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
@@ -74,12 +76,12 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-  if($this->status == 'all'){
-    switch (session('user')['role']) {
+    if ($this->status == 'all') {
+        switch (session('user')['role']) {
 
 
-        case 'Mis Staff':
-            $req = Request::orderByRaw("
+            case 'Mis Staff':
+                $req = Request::orderByRaw("
             CASE status
                 WHEN 'waiting' THEN 1
                 WHEN 'pending' THEN 2
@@ -87,78 +89,78 @@ $viewRequest = function () {
                 WHEN 'resolved' THEN 4
                 ELSE 5
             END
-        ")->orderBy('created_at', 'desc')->get();
-        
-
-            break;
+        ")->orderBy('created_at', 'desc')->with('category')->get();
 
 
+                break;
 
-        case 'Faculty':
-            //all request of a current faculty
-            $req =  Request::where('faculty_id', session('user')['id'])
+
+
+            case 'Faculty':
+                //all request of a current faculty
+                $req =  Request::where('faculty_id', session('user')['id'])
                     ->with('category')
                     ->orderBy('created_at', 'desc')
                     ->get();
-  
-            break;
+
+                break;
 
 
 
-        case 'Technical Staff':
+            case 'Technical Staff':
 
-            //get all assigned task from auth techstaff
-            $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+                //get all assigned task from auth techstaff
+                $task = Task::where('technicalStaff_id', session('user')['id'])->get();
 
-            //get all request id from it
-            $techtask = $task->pluck('request_id')->toArray();
-        
-
-            //request by priority level
-            $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->get();
-            
- 
-
-            break;
-    }
-  } else {
-    switch (session('user')['role']) {
+                //get all request id from it
+                $techtask = $task->pluck('request_id')->toArray();
 
 
-        case 'Mis Staff':
-            $req = Request::with('category')->where('status', $this->status)->get();
-
-            break;
+                //request by priority level
+                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->get();
 
 
 
-        case 'Faculty':
-            //all request of a current faculty
-            $req =  Request::where('faculty_id', session('user')['id'])
+                break;
+        }
+    } else {
+        switch (session('user')['role']) {
+
+
+            case 'Mis Staff':
+                $req = Request::where('status', $this->status)->with('category')->get();
+
+                break;
+
+
+
+            case 'Faculty':
+                //all request of a current faculty
+                $req =  Request::where('faculty_id', session('user')['id'])
                     ->with('category')
                     ->where('status', $this->status)
                     ->get();
-  
-            break;
+
+                break;
 
 
 
-        case 'Technical Staff':
-            //get all assigned task from auth techstaff
-            $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+            case 'Technical Staff':
+                //get all assigned task from auth techstaff
+                $task = Task::where('technicalStaff_id', session('user')['id'])->get();
 
-            //get all request id from it
-            $techtask = $task->pluck('request_id')->toArray();
-        
+                //get all request id from it
+                $techtask = $task->pluck('request_id')->toArray();
 
-            //request by priority level
-            $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->where('status', $this->status)->get();
-            
-            break;
+
+                //request by priority level
+                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->where('status', $this->status)->with('category')->get();
+
+                break;
+        }
     }
-  }
-        
-    
+
+
 
     return $req;
 };
@@ -182,6 +184,10 @@ $addRequest = function () {
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
     $this->forgetCache();
+
+    //getting the id of mis first then dispatch the event to mis
+    $mis = User::where('role', 'Mis Staff')->first();
+    RequestEvent::dispatch($mis->id);
 };
 
 //delete request
@@ -236,5 +242,18 @@ $priorityLevelUpdate = function ($level) {
 
     <x-alerts />
 
+
+    @if(session('user')['role'] == "Mis Staff")
+    <div
+        x-init="Echo.private('request-channel.{{session('user')['id']}}')
+            .listen('RequestEvent', (e) => {
+                $wire.$refresh();
+                console.log('connected');
+            });
+     ">
+
+    </div>
+
+    @endif
 
 </div>
