@@ -174,3 +174,8 @@
 .request-containder {
     @apply y gap-2  bg-blue-300/30 p-3 rounded-md text-blue-900 shadow-lg shadow-blue-950/20;
 }
+
+.request-parent {
+    @apply w-full px-1 md:px-32;
+
+}
