@@ -16,13 +16,8 @@ state(['fName', 'lName', 'img', 'email', 'password', 'college', 'building', 'roo
 
 mount(function () {
 
-    if ($this->id == session('user')['id']) {
-        $this->user = (object) session('user');
-    } else {
-        $findUser = User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
-
-        $this->user = (object) $findUser;
-    };
+        $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
+ 
 
     //get full name
     $fullName = $this->user->name;
@@ -53,6 +48,7 @@ mount(function () {
 
 $updateProfile = function ($type) {
     $updateUser = User::where('id', $this->id)->with('faculty')->first();
+
     switch ($type) {
         case  'profile':
             $updateUser->name = $this->fName . ' ' . $this->lName;

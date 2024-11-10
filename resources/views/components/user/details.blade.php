@@ -3,11 +3,15 @@
     {{-- first row --}}
     <div class="basis-80 flex-1  flex flex-col gap-2">
         {{-- user details --}}
-        <div class="border basis-1/2 rounded-md flex flex-col justify-center p-2 h-fit">
+        <div class="border basis-1/2 rounded-md flex flex-col justify-center p-2 h-fit gap-4">
             <span>User Details</span>
-            <span class="text-right mr-2 cursor-pointer" @click="Livewire.navigate('/edit-profile/{{session('user')['id']}}')">Edit profile</span>
-            <span>Role: {{ session('user')['role'] }}</span>
-            <span>Email Address: {{ session('user')['email'] }}</span>
+
+            @if(session('user')['id'] == $this->user()->id || session('user')['role'] == 'Mis Staff')
+            <span class="text-right mr-2 cursor-pointer" @click="Livewire.navigate('/edit-profile/{{$this->user()->id}}')">Edit profile</span>
+            @endif
+
+            <span>Role: {{ $this->user()->role }}</span>
+            <span>Email Address: {{ $this->user()->email }}</span>
         </div>
 
         {{-- user details --}}
