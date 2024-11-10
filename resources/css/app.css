@@ -17,7 +17,7 @@
 }
 
 .table-header {
-    @apply bg-blue-500 text-blue-100 shadow-sm shadow-blue-950/50  ;
+    @apply bg-blue-300 text-blue-100 shadow-sm shadow-blue-950/50  ;
 }
 
 .table-header-cell {
@@ -87,7 +87,7 @@
 /* Sidebar link styles */
 
 .sidebar {
-    @apply bg-blue-300 shadow-md shadow-blue-950/50 h-screen flex-none z-50;
+    @apply bg-blue-100 shadow-md shadow-blue-950/50 h-screen flex-none z-50;
 }
 
 .sidebar-links {

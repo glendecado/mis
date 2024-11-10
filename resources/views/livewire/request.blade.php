@@ -52,6 +52,10 @@ mount(function () {
     }
 
     session(['requestId' => $this->id ?? null]);
+
+    if($this->status == null && $this->id == null){
+        $this->redirect('/request?status=all', navigate:true);
+    };
 });
 
 //to forget the cache
@@ -187,7 +191,13 @@ $addRequest = function () {
 
     //getting the id of mis first then dispatch the event to mis
     $mis = User::where('role', 'Mis Staff')->first();
-    RequestEvent::dispatch($mis->id);
+
+    try{
+        RequestEvent::dispatch($mis->id);
+    } catch(Throwable $e){
+        $this->dispatch('success', 'Added Successfully, but reverb is not running');
+    }
+
 };
 
 //delete request

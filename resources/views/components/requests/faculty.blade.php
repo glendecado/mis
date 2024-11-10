@@ -1,4 +1,5 @@
 <div class="request-parent">
+    <button class="button mb-2" @click="$wire.deleteRequest({{$req->id}}); Livewire.navigate('/request/status=all')">Delete Request</button>
     <div class="request-containder">
 
         <div class="y md:x gap-2">

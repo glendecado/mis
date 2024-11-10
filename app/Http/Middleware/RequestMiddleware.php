@@ -27,6 +27,10 @@ class RequestMiddleware
 
         $tech = $task->pluck('technicalStaff_id')->toArray();
 
+        if($req == null){
+            return redirect('/request?status=all');
+        }
+
 
         switch (session('user')['role']) {
 
@@ -41,7 +45,7 @@ class RequestMiddleware
                 if ($req->faculty_id == session('user')['id']) {
                     return $next($request);
                 } else {
-                    return redirect('/request');
+                    return redirect('/request?status=all');
                 }
                 break;
 
@@ -52,14 +56,14 @@ class RequestMiddleware
                 if (in_array(session('user')['id'], $tech)) {
                     return $next($request);
                 } else {
-                    return redirect('/request');
+                    return redirect('/request?status=all');
                 }
 
                 break;
 
 
             default:
-                return redirect('/request');
+                return redirect('/request?status=all');
                 break;
         }
 
