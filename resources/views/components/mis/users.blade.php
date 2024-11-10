@@ -17,7 +17,10 @@
                     <td class="table-row-cell">{{ $user->name }}</td>
                     <td class="table-row-cell">{{ $user->role }}</td>
                     <td class="table-row-cell">{{ $user->email }}</td>
-                    <td class="table-row-cell"><button wire:click="deleteUser({{$user->id}})">Delete</button></td>
+                    <td class="table-row-cell">
+                        <button @click="$wire.deleteUser({{$user->id}})">Delete</button> |
+                        <button @click="Livewire.navigate('edit-profile/{{$user->id}}')">Edit</button>
+                </td>
                 </tr>
             @endforeach
         </tbody>
