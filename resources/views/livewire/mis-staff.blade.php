@@ -4,6 +4,8 @@ use App\Models\Faculty;
 use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 use function Livewire\Volt\{state, mount, on, rules};
 
@@ -38,7 +40,7 @@ mount(function () {
 });
 
 //forget cache
-$forgetCache = function () {
+$clearCache = function () {
     $roles = ['all', 'faculty', 'technicalStaff'];
     foreach ($roles as $role) {
         Cache::forget("users_{$role}");
@@ -49,19 +51,19 @@ $forgetCache = function () {
 $viewUser = function () {
     switch ($this->user) {
         case 'all':
-            $user = Cache::rememberForever($this->cacheKey.'all', function () {
+            $user = Cache::rememberForever($this->cacheKey . 'all', function () {
                 return User::where('role', '!=', 'Mis Staff')->get();
             });
             break;
 
         case 'faculty':
-            $user = Cache::rememberForever($this->cacheKey.'faculty', function () {
+            $user = Cache::rememberForever($this->cacheKey . 'faculty', function () {
                 return User::where('role', 'Faculty')->get();
             });
             break;
 
         case 'technicalStaff':
-            $user = Cache::rememberForever($this->cacheKey.'technicalStaff', function () {
+            $user = Cache::rememberForever($this->cacheKey . 'technicalStaff', function () {
                 return User::where('role', 'Technical Staff')->get();
             });
             break;
@@ -124,17 +126,26 @@ $addUser = function () {
         'room'
     ]);
     $this->dispatch('close-modal', 'add-user-modal');
-    $this->forgetCache();
+    $this->clearCache();
 
     $this->dispatch('success', 'Added Successfully');
 };
 
 $deleteUser = function ($id) {
-    $user = User::find($id);
-    $user->delete();
-    $this->forgetCache();
 
-   $this->dispatch('success', 'Deleted Successfully');
+    $user = User::find($id);
+
+    // Use the relative path stored in the database
+    $img = $user->img;
+
+    $defaultImage = 'profile_images/default/default.png';  // Default image path
+
+    if ($img !== $defaultImage && Storage::disk('public')->exists($img)) {
+        Storage::disk('public')->delete($img); // Delete the old image
+    }
+    $user->delete();
+    $this->clearCache();
+    $this->dispatch('success', 'user deleted successfully.');
 }
 
 ?>

@@ -5,7 +5,7 @@
         {{-- user details --}}
         <div class="border basis-1/2 rounded-md flex flex-col justify-center p-2 h-fit">
             <span>User Details</span>
-            <span class="text-right mr-2">Edit profile</span>
+            <span class="text-right mr-2 cursor-pointer" @click="Livewire.navigate('/edit-profile/{{session('user')['id']}}')">Edit profile</span>
             <span>Role: {{ session('user')['role'] }}</span>
             <span>Email Address: {{ session('user')['email'] }}</span>
         </div>

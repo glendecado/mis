@@ -12,7 +12,7 @@
         </thead>
         <tbody>
             @foreach ($this->viewUser() as $user)
-                <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 ">
+                <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600">
                     <td class="table-row-cell">{{ $user->id }}</td>
                     <td class="table-row-cell">{{ $user->name }}</td>
                     <td class="table-row-cell">{{ $user->role }}</td>

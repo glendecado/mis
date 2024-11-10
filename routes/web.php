@@ -18,6 +18,8 @@ Route::middleware(['auth'])->group(function () {
 
   Volt::route('/profile/{id}', 'user/profile')->name('profile');
 
+  Volt::route('/edit-profile/{id}', 'user/update-profile')->name('update');
+
   Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
 
   Volt::route('/request', 'request')->name('requests');
