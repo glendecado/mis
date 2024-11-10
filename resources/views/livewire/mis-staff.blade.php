@@ -146,7 +146,9 @@ $deleteUser = function ($id) {
     $user->delete();
     $this->clearCache();
     $this->dispatch('success', 'user deleted successfully.');
-}
+};
+
+$viewDetailedUser = function () {};
 
 ?>
 

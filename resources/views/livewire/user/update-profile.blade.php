@@ -103,12 +103,11 @@ $updateProfile = function ($type) {
     class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
 
     <div class="col-span-2 border rounded-md w-full flex gap-3 items-center relative">
-{{asset('storage/'. $this->img)}}
-        <img src="{{asset($this->img)}}" alt=""
+
+        <img src="{{asset('storage/'. $this->img)}}" alt=""
             class="rounded-full w-[150px] h-[150px] ml-3">
         <span x-text="fName+' '+lName"></span>
 
-        <button x-show="'{{session('user')['role']}}' == 'Mis Staff'" class="button absolute top-2 right-2">Delete User</button>
 
     </div>
 
