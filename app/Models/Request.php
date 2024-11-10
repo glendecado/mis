@@ -34,4 +34,9 @@ class Request extends Model
 
         return $this->belongsTo(Category::class);
     }
+
+    public function FeedBack(){
+        
+        return $this->hasMany(Feedback::class);
+    }
 }
