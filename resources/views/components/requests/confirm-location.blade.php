@@ -39,5 +39,5 @@ room : @entangle('room')
 
     <button x-show="!cl" class="button" x-on:click="cl = !cl">Confirm Location</button>
 
-    <button x-show="cl" class="button" x-on:click="cl = !cl" wire:click.prevent="confirmLocation">Submit</button>
+    <button x-show="cl" class="button" x-on:click="cl = !cl" @click="$wire.confirmLocation()">Submit</button>
 </div>

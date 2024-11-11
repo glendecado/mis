@@ -16,7 +16,7 @@
 
         <textarea
             name="" id=""
-            wire:model="concerns"
+            x-model="concerns"
             class="input mt-2"
             placeholder="Concerns..."></textarea>
 
@@ -24,7 +24,7 @@
         <span class="text-red-500"> {{$message}}</span>
         @enderror
 
-        <button wire:click="addRequest" class="button mt-2">submit</button>
+        <button @click="$wire.addRequest()" class="button mt-2">submit</button>
     </div>
 
 
