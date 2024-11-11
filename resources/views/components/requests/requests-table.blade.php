@@ -1,5 +1,5 @@
 <div class="table-container md:block hidden w-full">
-    <table class="min-w-full">
+    <table class="min-w-full break-all">
         <thead class="table-header">
             <tr>
                 <th class="table-header-cell ">ReqId</th>
@@ -46,7 +46,7 @@
 
 
 <div class="table-container block md:hidden z-10" x-data="{ openReq: '' }">
-    <table class="min-w-full relative">
+    <table class="min-w-full relative  break-all">
         @foreach ($this->viewRequest() as $request)
         <tr class="table-row-cell"
             @click="openReq = openReq === '{{ $request->id }}' ? '' : '{{ $request->id }}'">

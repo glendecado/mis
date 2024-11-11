@@ -49,7 +49,7 @@
 
         <div>
             <label for="">Concern</label>
-            <div class="input h-80">{{$req->concerns}}</div>
+            <div class="input h-80 break-all">{{$req->concerns}}</div>
         </div>
 
         <div>
