@@ -79,10 +79,20 @@ $updateProfile = function ($type) {
             $this->redirect('/edit-profile/'.$updateUser->id, navigate: true);
             break;
 
-            Cache::flush();
+         
     }
     
- 
+    Cache::flush();
+
+    session()->put('user.img', $this->img);
+    session()->put('user.name', $this->lName. ' '. $this->fName);
+    session()->put('user.email', $this->email);
+    session()->put('user.password', $this->password);
+    session()->put('user.college', $this->college);
+    session()->put('user.building', $this->building);
+    session()->put('user.room', $this->room);
+
+   
 }
 
 

@@ -1,6 +1,10 @@
 <?php
 
+use App\Events\RequestEvent;
 use App\Models\Feedback;
+use App\Models\Request;
+use App\Models\Task;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 use function Livewire\Volt\{mount, state};
@@ -9,6 +13,15 @@ state('id');
 state('feedback');
 
 $addFeedback = function () {
+    $task = Task::where('request_id', session('requestId'))->get();
+    
+
+    foreach($task as $t){
+
+        RequestEvent::dispatch($t->technicalStaff_id);
+    }
+
+
     $feedback = Feedback::create([
 
         'request_id' => session('requestId'),
@@ -18,6 +31,7 @@ $addFeedback = function () {
 
     $this->reset();
     $this->dispatch('success', 'feedback sent');
+
 };
 
 
@@ -69,4 +83,14 @@ $deleteFeedback = function () {};
         </div>
 
     </x-modal>
+
+    <div
+        x-init="Echo.private('request-channel.{{session('user')['id']}}')
+            .listen('RequestEvent', (e) => {
+                $wire.$refresh();
+                console.log('connected');
+            });
+     ">
+
+    </div>
 </div>

@@ -77,12 +77,13 @@
 
         @case('resolved')
         <h1>Request Resolved</h1>
+        <button class="button float-right" @click="$dispatch('open-modal', 'feedback-modal')">feedbacks</button>
+        <livewire:feedback />
         @break
 
         @endswitch
 
     </div>
 
-    <button class="button float-right" @click="$dispatch('open-modal', 'feedback-modal')">feedbacks</button>
-    <livewire:feedback />
+
 </div>
