@@ -2,6 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cach;
+use Illuminate\Support\Facades\Cache;
 
 use function Livewire\Volt\{mount, state, title, usesFileUploads};
 
@@ -70,13 +72,17 @@ $updateProfile = function ($type) {
 
             break;
         case 'img':
-            $imageName = $this->photo->store('profile_images');
+            $imageName = $this->photo->store('profile_images', 'public');
             $updateUser->img = $imageName;
             $updateUser->save();
             $this->dispatch('success', 'image save');
             $this->redirect('/edit-profile/'.$updateUser->id, navigate: true);
             break;
+
+            Cache::flush();
     }
+    
+ 
 }
 
 

@@ -5,11 +5,14 @@ use App\Models\MisStaff;
 use App\Models\Faculty;
 use App\Models\TechnicalStaff;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
   public function run()
   {
+
+    Cache::flush();
 
     if (!User::where('role', 'Mis Staff')->exists()) {
       // Create one user for the Mis Staff
