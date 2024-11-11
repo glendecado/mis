@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RequestEvent;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\TaskList;
@@ -58,6 +59,7 @@ $check = function ($list) {
     
     $req->save();
     $this->dispatch('view-detailed-request');
+    RequestEvent::dispatch($req->faculty_id);
 }
 ?>
 

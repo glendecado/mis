@@ -54,15 +54,16 @@
 
         <div>
 
-            <div class="input" x-data="{ percent: {{$req->progress}} }">
+            <div class="input">
                 <div
                     class="bg-blue-700 rounded-full px-2 text-white"
-                    :style="{ width: percent + '%' }">
+                    style="width: {{$req->progress}}%" ;>
                     {{$req->progress}}%
                 </div>
             </div>
 
         </div>
+        
         @if($req->progress == 100)
         <div class="flex justify-end gap-2">
             <button class="button" @click="$dispatch('open-modal','feedback-modal')">Feed Back</button>

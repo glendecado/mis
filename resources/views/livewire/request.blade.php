@@ -53,8 +53,8 @@ mount(function () {
 
     session(['requestId' => $this->id ?? null]);
 
-    if($this->status == null && $this->id == null){
-        $this->redirect('/request?status=all', navigate:true);
+    if ($this->status == null && $this->id == null) {
+        $this->redirect('/request?status=all', navigate: true);
     };
 });
 
@@ -192,12 +192,10 @@ $addRequest = function () {
     //getting the id of mis first then dispatch the event to mis
     $mis = User::where('role', 'Mis Staff')->first();
 
-    try{
-        RequestEvent::dispatch($mis->id);
-    } catch(Throwable $e){
-        $this->dispatch('success', 'Added Successfully, but reverb is not running');
-    }
 
+    RequestEvent::dispatch($mis->id);
+
+    $this->dispatch('success', 'Added Successfully, but reverb is not running');
 };
 
 //delete request
@@ -253,7 +251,6 @@ $priorityLevelUpdate = function ($level) {
     <x-alerts />
 
 
-    @if(session('user')['role'] == "Mis Staff")
     <div
         x-init="Echo.private('request-channel.{{session('user')['id']}}')
             .listen('RequestEvent', (e) => {
@@ -264,6 +261,6 @@ $priorityLevelUpdate = function ($level) {
 
     </div>
 
-    @endif
+
 
 </div>
