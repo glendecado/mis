@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
-!/storage/app/public/profile_images/default
+!/storage/app/public/profile_images/default/default.png
 .env
 .env.backup
 .env.production
