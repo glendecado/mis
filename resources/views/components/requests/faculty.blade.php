@@ -66,7 +66,7 @@
         
         @if($req->progress == 100)
         <div class="flex justify-end gap-2">
-            <button class="button" @click="$dispatch('open-modal','feedback-modal')">Feed Back</button>
+            <button class="button" @click="$dispatch('open-modal','feedback-modal')">Feedback</button>
             <button class="button" @click="$dispatch('open-modal','rate')">Rate</button>
             <button class="button">Close</button>
         </div>

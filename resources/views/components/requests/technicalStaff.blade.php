@@ -47,6 +47,31 @@
         </div>
 
         <div>
+            <label for="">Requested by</label>
+            <div class="input">
+                {{$req->faculty->user->name}}
+            </div>
+        </div>
+
+        <div class="y md:x gap-2">
+                <div class="y w-full">
+                    <label for="">College</label>
+                    <div class="input">{{$req->faculty->college}}</div>
+                </div>
+
+                <div class="y w-full">
+                    <label for="">Building:</label>
+                    <div class="input">{{$req->faculty->building}}</div>
+                </div>
+
+                <div class="y w-full">
+                    <label for="">Room</label>
+                    <div class="input">{{$req->faculty->room}}</label>
+                    </div>
+                </div>
+            </div>
+
+        <div>
             <label for="">Concern</label>
             <div class="input h-80 break-all">{{$req->concerns}}</div>
         </div>
@@ -77,7 +102,7 @@
 
         @case('resolved')
         <h1>Request Resolved</h1>
-        <button class="button float-right" @click="$dispatch('open-modal', 'feedback-modal')">feedbacks</button>
+        <button class="button float-right" @click="$dispatch('open-modal', 'feedback-modal')">feedback</button>
         <livewire:feedback />
         @break
 
