@@ -24,7 +24,7 @@
 
             {{-- mobile --}}
             <div x-show="open" x-cloak class="z-[100]">
-                <div class="absolute bg-yellow top-[145px] shadow-md basis-full w-screen left-0">
+                <div class="absolute top-[105px] bg-yellow  shadow-md basis-full w-screen left-0">
                     <a wire:navigate.hover href="/dashboard"
                         class="p-2 navbar-link flex-center {{ request()->routeIs(patterns: 'dashboard') ? 'navbar-link-active' : '' }}">
                         Home
