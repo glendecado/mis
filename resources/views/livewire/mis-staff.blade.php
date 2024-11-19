@@ -11,7 +11,7 @@ use function Livewire\Volt\{state, mount, on, rules};
 
 state(['cacheKey']);
 
-state('user')->url();
+state('roles')->url();
 
 state(['role', 'fname', 'lname', 'email', 'password']);
 
@@ -49,7 +49,7 @@ $clearCache = function () {
 
 //view user
 $viewUser = function () {
-    switch ($this->user) {
+    switch ($this->roles) {
         case 'all':
             $user = Cache::rememberForever($this->cacheKey . 'all', function () {
                 return User::where('role', '!=', 'Mis Staff')->get();

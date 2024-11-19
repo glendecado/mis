@@ -13,7 +13,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-  Volt::route('/dashboard', 'user/dashboard')->name('dashboard');
+  Volt::route('/dashboard', 'request')->name('dashboard');
 
 
   Volt::route('/profile/{id}', 'user/profile')->name('profile');
@@ -27,7 +27,10 @@ Route::middleware(['auth'])->group(function () {
 
   //for Mis Staff
   Route::middleware(['role:Mis Staff'])->group(function () {
-    Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
+
+    Volt::route('/category', 'category')->name('category');
+    Volt::route('/user', 'mis-staff')->name('user');
+
   });
 
 
@@ -35,6 +38,4 @@ Route::middleware(['auth'])->group(function () {
   Route::middleware(['request'])->group(function () {
     Volt::route('/request/{id}', 'request')->name('request');
   });
-
-
 });

@@ -16,7 +16,7 @@ mount(function () {
 });
 
 $viewCategory = function () {
-    if ($this->tab == 'categories') {
+    if (request()->route()->getName() == 'category') {
         return Category::all();
     } else {
         return Cache::rememberForever($this->cacheKey . '4', function () {
@@ -27,8 +27,9 @@ $viewCategory = function () {
 
 ?>
 
-<div class="basis-full">
 
+<div class="basis-full">
+{{request()->route()->getName()}}
     @include('components.category.view-category')
 
 </div>

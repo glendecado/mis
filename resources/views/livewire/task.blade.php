@@ -37,7 +37,7 @@ $assignTask = function ($techId) {
     ]);
     $task->save();
     $this->dispatch('techs');
-    $this->dispatch('success', 'added');
+    $this->dispatch('success', 'Assigned');
 };
 
 $removeTask = function ($techId) {

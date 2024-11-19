@@ -28,6 +28,7 @@ export default {
             },
             backgroundColor: {
                 'azure': '#ECF8F8',
+                'blue': '#1D77FF',
                 'black': '#121212',
                 'yellow': '#FACC15',
                 'blue-50': '#e9ebf3',

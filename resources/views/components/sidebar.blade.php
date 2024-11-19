@@ -1,24 +1,56 @@
-<div x-cloak
-  class="sidebar"
-  :class="open ? 'w-48 md:relative absolute' : 'w-12'"
-  x-data="{
-        open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true'), 
-        toggle() {
-            this.open = !this.open;
-            localStorage.setItem('sidebarOpen', JSON.stringify(this.open));
-        }
-    }">
-  <div class="w-full flex" :class="open ? 'justify-end' : 'justify-center'">
-    <svg @click="toggle" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 text-white ">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-    </svg>
-  </div>
+<div x-cloak class="bg-blue-900 px-3 w-52 h-full text-yellow absolute md:relative pt-11 z-[99]"
+    x-data="{requestClicked : false, userClicked : false}">
 
-  <div class="y mt-5" x-show="open">
-    @yield('open-items')
-  </div>
 
-  <div class="y mt-10" x-show="!open">
-    @yield('closed-items')
-  </div>
+    <div @click="requestClicked = !requestClicked" class="sidebar-links">
+        Request
+    </div>
+
+    <div x-show="requestClicked" class="border border-yellow-400 w-full">
+        <div @click="Livewire.navigate('/request?status=all')"
+            class="sidebar-links ">
+            All
+        </div>
+        @if(session('user')['role'] != 'Technical Staff')
+        <div @click="Livewire.navigate('/request?status=waiting')" class="sidebar-links">
+            Waiting
+        </div>
+        @endif
+        <div @click="Livewire.navigate('/request?status=pending')" class="sidebar-links">
+            Pending
+        </div>
+        <div @click="Livewire.navigate('/request?status=resolved')" class="sidebar-links">
+            Resolve
+        </div>
+    </div>
+
+    @if(session('user')['role'] == 'Mis Staff')
+
+    <div
+        class="sidebar-links"
+        @click="Livewire.navigate('/category')">
+        Category
+    </div>
+
+
+    <div @click="userClicked = !userClicked"  class="sidebar-links">
+        Users
+    </div>
+
+    <div x-show="userClicked" class="border border-yellow-400 w-full">
+
+   
+        <div @click="Livewire.navigate('/user?roles=all')" class="sidebar-links">
+            All
+        </div>
+
+        <div @click="Livewire.navigate('/user?roles=faculty')" class="sidebar-links">
+            Faculy
+        </div>
+        <div @click="Livewire.navigate('/user?roles=technicalStaff')" class="sidebar-links">
+            Technical Staff
+        </div>
+    </div>
+    @endif
+
 </div>

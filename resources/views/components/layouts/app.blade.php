@@ -7,25 +7,26 @@
 
     <title>{{ $title ?? 'Page Title' }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="font-geist relative  h-lvh overflow-hidden">
 
 
-    <div class="h-[15%]">
-        <x-navbar />
+    <div class="h-[10%]">
+        <x-header />
     </div>
 
 
-    <div class="h-[85%] overflow-hidden flex">
+    <div class="h-[90%] overflow-hidden flex">
         <div class="h-[100%] w-fit">
-            @yield('sidebar')
+            <x-sidebar />
         </div>
         <div class="h-[100%] w-full overflow-auto p-5">
             {{$slot}}
         </div>
     </div>
-
+    @livewireScripts
 </body>
 
 </html>

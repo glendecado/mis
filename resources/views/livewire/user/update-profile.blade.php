@@ -75,6 +75,7 @@ $updateProfile = function ($type) {
             $imageName = $this->photo->store('profile_images', 'public');
             $updateUser->img = $imageName;
             $updateUser->save();
+            $this->img = $imageName;
             $this->dispatch('success', 'image save');
             $this->redirect('/edit-profile/'.$updateUser->id, navigate: true);
             break;

@@ -59,11 +59,11 @@ $login = function () {
 
 ?>
 
-<div class="flex w-full items-center justify-center md:flex-row md:flex-wrap md:items-start md:justify-center gap-10">
+<div class="grid grid-cols-1 md:grid-cols-2 w-full items-center justify-center  h-svh ">
 
-    <div
-        class="relative w-full max-w-md bg-blue-500 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl sm:px-10 h-[450px] mt-[25%] md:mt-52">
-        <div class="w-full">
+    <div class="w-full flex justify-end">
+        <div
+            class="relative w-full md:w-96 bg-blue-500 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl sm:px-10 h-[450px] ">
             <div class="text-center">
                 <h1 class="font-geist text-3xl font-semibold text-blue-50">Sign in</h1>
                 <p class=" mt-2 text-blue-50">Sign in below to access your account</p>
@@ -139,10 +139,11 @@ $login = function () {
         </div>
     </div>
 
-    <div class="hidden md:flex md:flex-col mt-52 text-blue-500">
-        <h1 class="font-geist  text-8xl">MIS/EDP</h1>
-        <h2 class="font-geist text-5xl">Service Request Portal</h2>
-        <p class="font-sans mt-[100px] w-[500px]">A product of students from ISAT- U, for their requirements within the
-            Bachelor of Science in Information Technology</p>
+
+    <div class="row-start-1 md:col-start-2 self-center p-4 md:p-0 md:ml-5 ml-0 w-full md:w-96 text-blue-900">
+
+        <h1 class="text-[50px] md:text-[100px]">MIS/EDP</h1>
+        <h3>A product of students from ISAT- U, for their requirements within the
+            Bachelor of Science in Information Technology</h3>
     </div>
 </div>

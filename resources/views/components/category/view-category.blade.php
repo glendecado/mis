@@ -1,4 +1,4 @@
-@if($tab == 'categories')
+@if(request()->route()->getName() == 'category')
 
 @include('components.category.manage-category')
 

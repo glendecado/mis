@@ -7,11 +7,8 @@
 @switch(session('user')['role'])
 
     @case('Faculty')
-    @include('components.requests.sidebar')
     @include('components.requests.add-request-button')
     @break
-    @case('Technical Staff')
-    @include('components.requests.sidebar')
-    @break
+
 
 @endswitch

@@ -91,7 +91,7 @@
 }
 
 .sidebar-links {
-    @apply p-2 hover:bg-blue-600/50 hover:text-white flex items-center h-10 hover:shadow-md ;
+    @apply cursor-pointer py-5 w-full text-center hover:bg-blue-500/50;
 }
 
 .sidebar-active {
