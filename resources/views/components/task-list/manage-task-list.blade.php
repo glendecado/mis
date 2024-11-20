@@ -1,3 +1,4 @@
+
 @foreach($this->viewTaskList() as $list)
 <div class="text-white">
     <div class="bg-blue-300 rounded-md p-2 mb-2">

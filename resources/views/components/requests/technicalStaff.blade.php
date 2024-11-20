@@ -1,83 +1,45 @@
-<div class="request-parent">
+<div class="request-parent flex gap-4 flex-col">
+
     <div class="request-containder">
 
-        <div class="y md:x gap-2">
+        <div class="w-full flex  justify-between items-center">
 
-            <div class="y w-full">
-                <label for="">Request id:</label>
-                <div class="input">{{$req->id}}</div>
-            </div>
+            <div class="x items-center gap-2">
+                {{--img name status--}}
 
-            <div class="y w-full">
-                <label for="">Date:</label>
-                <div class="input">{{$req->created_at->format('Y-m-d')}}</div>
-            </div>
+                {{--img--}}
+                <img src="{{asset('storage/'.$req->faculty->user->img)}}" alt="" class="size-16 rounded-full">
 
-            <div class="y w-full">
-                <label for="">Time</label>
-                <div class="input">{{$req->created_at->format('h:i A')}}
+                <div class="y">
+                    {{--name--}}
+                    <span class="text-lg font-bold">{{$req->faculty->user->name}}</span>
+                    {{--Date--}}
+                    <span class="text-sm">
+                        Date: <span class="font-bold">{{$req->created_at->format('Y-m-d')}}</span>
+                        Time: <span class="font-bold">{{$req->created_at->format('h:i A')}}</span>
+                    </span>
                 </div>
             </div>
 
-        </div>
-
-
-
-
-
-        <div class="y md:x gap-2 w-full">
-            <div class="y w-full">
-                <label for="">Category</label>
-                <div class="input">{{$req->category->name}}</div>
-            </div>
-            <div class="y w-full">
-                <label for="">Status</label>
-                <div class="input">{{$req->status}}</div>
-            </div>
-        </div>
-
-
-
-
-        <div>
-            <label for="">Assigned to:</label>
-            <div class="input">
-                <livewire:task />
-            </div>
-        </div>
-
-        <div>
-            <label for="">Requested by</label>
-            <div class="input">
-                {{$req->faculty->user->name}}
-            </div>
-        </div>
-
-        <div class="y md:x gap-2">
-                <div class="y w-full">
-                    <label for="">College</label>
-                    <div class="input">{{$req->faculty->college}}</div>
-                </div>
-
-                <div class="y w-full">
-                    <label for="">Building:</label>
-                    <div class="input">{{$req->faculty->building}}</div>
-                </div>
-
-                <div class="y w-full">
-                    <label for="">Room</label>
-                    <div class="input">{{$req->faculty->room}}</label>
-                    </div>
-                </div>
+            <div>
+                status: <span class="font-bold">{{$req->status}}</span>
             </div>
 
-        <div>
-            <label for="">Concern</label>
-            <div class="input h-80 break-all">{{$req->concerns}}</div>
         </div>
 
+        <div class="">
+            {{$req->category->name}}
+            {{$req->concerns}}
+        </div>
+
+    </div>
 
 
+
+
+
+    {{--task--}}
+    <div class="request-containder">
         @switch($req->status)
 
 
@@ -107,8 +69,6 @@
         @break
 
         @endswitch
-
     </div>
-
 
 </div>

@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Cache;
 use function Livewire\Volt\{state, mount};
 
 state(['checked', 'page',]);
-state(['tab'])->url();
+
 
 state(['category', 'task', 'request']);
 
 mount(function () {
+
+    $this->page = request()->route()->getName();
 
     $this->request = Request::find(session('requestId'));
 
@@ -32,14 +34,15 @@ $addTaskList = function () {
     $this->reset();
 
     $this->category = $taskList->category_id;
+    $this->page = 'category';
 
-    $this->tab = 'categories';
 };
 
 $deleteTaskList = function ($id) {
     $taskList = TaskList::find($id);
     $taskList->delete();
     $this->dispatch('success', 'sucessfully deleted');
+    
 };
 
 $viewTaskList = function () {
@@ -60,11 +63,12 @@ $check = function ($list) {
     $req->save();
     $this->dispatch('view-detailed-request');
     RequestEvent::dispatch($req->faculty_id);
+    $this->page = 'request';
 }
 ?>
 
 <div>
-{{$tab}}
+
 
     @include('components.task-list.view-task-list')
 
