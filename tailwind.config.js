@@ -24,13 +24,15 @@ export default {
                 'yellow': '#facc15',
                 'blue-50': '#e9ebf3',
                 'blue-500': '#1e3a8a',
-                'white': '#ffffff'
+                'white': '#ffffff',
+                'blue-2': '#273034',
             },
             backgroundColor: {
                 'azure': '#ECF8F8',
                 'blue': '#1D77FF',
+                'blue-2': '#273034',
                 'black': '#121212',
-                'yellow': '#FACC15',
+                'yellow': '#FFCC00',
                 'blue-50': '#e9ebf3',
                 'blue-100': '#b9c2db',
                 'blue-200': '#98a4c9',
@@ -45,8 +47,11 @@ export default {
             fontFamily: {
                 geist: ['Geist Sans', 'sans-serif']
             },
+            borderColor: {
+                'yellow': '#FFCC00',
+            },
             borderRadius: {
-  
+
             }
         },
     },

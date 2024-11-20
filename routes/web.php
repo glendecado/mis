@@ -22,7 +22,7 @@ Route::middleware(['auth'])->group(function () {
 
   Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
 
-  Volt::route('/request', 'request')->name('requests');
+  Volt::route('/request', 'request')->name('request-table');
 
 
   //for Mis Staff

@@ -91,11 +91,11 @@
 }
 
 .sidebar-links {
-    @apply cursor-pointer py-5 w-full text-center hover:bg-blue-500/50;
+    @apply cursor-pointer py-2 w-full text-center border border-yellow mt-2 rounded-md;
 }
 
 .sidebar-active {
-    @apply p-2 bg-blue-600/50 text-white flex shadow-md shadow-blue-950/50;
+    @apply  cursor-pointer py-2 w-full text-center border border-yellow bg-yellow mt-2 rounded-md text-blue-2;
 }
 
 .mini-sidebar {
@@ -179,3 +179,9 @@
     @apply w-full px-1 md:px-32;
 
 }
+
+
+#nprogress .bar {
+    background:  #FFCC00 !important; /* Green progress bar */
+}
+
