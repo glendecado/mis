@@ -159,7 +159,7 @@ $viewRequest = function () {
 
 
                 //request by priority level
-                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->where('status', $this->status)->with('category')->get();
+                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->orderBy('created_at', 'asc')->where('status', $this->status)->with('category')->get();
 
                 break;
         }

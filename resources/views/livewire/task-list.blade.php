@@ -15,7 +15,9 @@ state(['category', 'task', 'request']);
 
 mount(function () {
 
-    $this->page = request()->route()->getName();
+    $this->page = 
+    request()->route()->getName() == 'livewire.update' || 
+    request()->route()->getName() == 'request'? 'request' : 'category' ;
 
     $this->request = Request::find(session('requestId'));
 
@@ -68,7 +70,7 @@ $check = function ($list) {
 ?>
 
 <div>
-
+{{request()->route()->getName()}}
 
     @include('components.task-list.view-task-list')
 
