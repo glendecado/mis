@@ -80,6 +80,8 @@
                 </div>
             </fieldset>
 
+            <livewire:task />
+
             <div>
                 Concern(s):
                 <div class=" border p-3 shadow-lg h-56 overflow-auto rounded-md">
@@ -120,7 +122,8 @@
 
 
             <div class="input ">
-                <livewire:task />
+            @include('components.task.button')
+
             </div>
         </div>
         @break
@@ -138,7 +141,8 @@
 
 
             <div class="input ">
-                <livewire:task />
+            @include('components.task.button')
+
             </div>
         </div>
         @break

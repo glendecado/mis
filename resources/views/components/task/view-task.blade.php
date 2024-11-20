@@ -1,6 +1,5 @@
 
 @if(session('user')['role'] == 'Mis Staff')
-    @include('components.task.button')
     @include('components.task.modal')
 @endif
 
