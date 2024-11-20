@@ -6,9 +6,10 @@
 
 
 @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
-    <div>
+    <fieldset class="border rounded-md p-2">
+        <legend>Assigned To:</legend>
         {{$tech->user->name}}
-    </div>
+    </fieldset>
 
 @endforeach
 

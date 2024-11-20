@@ -12,11 +12,11 @@
             class="rounded-full size-10">
 
         <div x-show="open == false">
-            <x-icons.arrow type="down" />
+            <x-icons.arrow direction="down" />
         </div>
 
         <div x-show="open == true"  x-cloak>
-            <x-icons.arrow type="up" />
+            <x-icons.arrow direction="up" />
             <div class="bg-azure/80 drop-shadow-lg rounded-md h-fit w-52 top-20  absolute right-8 z-[100] text-blue-950 items-center flex flex-col">
 
                 <div class="w-full hover:bg-blue hover:text-white flex-center p-2 cursor-pointer" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">

@@ -1,5 +1,14 @@
 <div class="request-parent flex gap-4 flex-col">
 
+    <div class="w-full">
+        <a href="/request?status=all" wire:navigate.hover>
+            <div class="float-right border rounded-full size-8 flex-center">
+                <x-icons.arrow direction="left" />
+            </div>
+        </a>
+
+    </div>
+
     <div class="request-containder">
 
         <div class="w-full flex  justify-between items-center">
@@ -27,9 +36,56 @@
 
         </div>
 
-        <div class="">
-            {{$req->category->name}}
-            {{$req->concerns}}
+        <div class="y mt-2 gap-4">
+
+            <div class="x justify-between ">
+
+                <div>
+                    Category: <span class="font-bold">{{$req->category->name}}</span>
+                </div>
+
+                <div>
+                    Priority level:
+                    <span class="font-bold">
+                        {{
+                            $req->priorityLevel == 3 ? 'Low' : 
+                            ($req->priorityLevel == 2 ? 'Medium' : 
+                            ($req->priorityLevel == 1 ? 'High' : ''))}}
+                    </span>
+                </div>
+
+            </div>
+
+            <fieldset class="border p-2 rounded-md">
+                <legend>Location</legend>
+                <div class="x gap-5 rounded-md">
+
+                    <div>
+                        College:
+                        <span class="font-bold">{{$req->faculty->college}}</span>
+
+                    </div>
+
+                    <div>
+                        Building:
+                        <span class="font-bold">{{$req->faculty->building}}</span>
+                    </div>
+
+                    <div>
+                        Room:
+                        <span class="font-bold">{{$req->faculty->room}}</span>
+                    </div>
+
+                </div>
+            </fieldset>
+
+            <div>
+                Concern(s):
+                <div class=" border p-3 shadow-lg h-56 overflow-auto rounded-md">
+                    {{$req->concerns}}
+                </div>
+            </div>
+
         </div>
 
     </div>
