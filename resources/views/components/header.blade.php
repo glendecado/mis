@@ -9,34 +9,40 @@
 
 
     {{--profile--}}
-    <div class="header-container-profile " x-data="{open : false}" @click="open = !open">
-        <span>{{session('user')['role']}}</span>
-        <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
-            class="rounded-full size-10">
+    <div class="x gap-2 items-center">
+        <x-icons.bell class="size-10 p-2 text-white border rounded-full" />
+        <div class="header-container-profile " x-data="{open : false}" @click="open = !open">
 
-        {{--arrow--}}
-        <div x-show="open == false">
-            <x-icons.arrow direction="down" />
-        </div>
+            <span class="">{{session('user')['role']}}</span>
 
-        {{--open arrow--}}
-        <div x-show="open == true" x-cloak>
+            <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
+                class="rounded-full size-10">
 
-            <x-icons.arrow direction="up" />
-
-            <div class="header-open-items-container">
-
-                <div class="header-open-items" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
-                    <span>Profile</span>
-                </div>
-
-
-                <livewire:user.logout />
-
-
+            {{--arrow--}}
+            <div x-show="open == false">
+                <x-icons.arrow direction="down" />
             </div>
-        </div>
 
+            {{--open arrow--}}
+            <div x-show="open == true" x-cloak>
+
+                <x-icons.arrow direction="up" />
+
+                <div class="header-open-items-container">
+
+                    <div class="header-open-items" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
+                        <span>Profile</span>
+                    </div>
+
+
+                    <livewire:user.logout />
+
+
+                </div>
+            </div>
+
+        </div>
     </div>
+
 
 </header>

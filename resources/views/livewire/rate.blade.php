@@ -24,12 +24,12 @@ $addRate = function ($id, $FacultyRate) {
             "task_id" => $id,
             "rate" => $FacultyRate,
         ]);
-        $this->dispatch('success', 'rated successfully');
+        $this->dispatch('success', 'Your rating has been successfully recorded.');
     } else {
 
         $rate->update(["rate" => $FacultyRate]);
         $rate->save();
-        $this->dispatch('success', 'rate updated');
+        $this->dispatch('success', 'Your rating has been successfully updated.');
     }
 };
 

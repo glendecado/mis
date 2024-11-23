@@ -30,9 +30,12 @@ rules([
 on([
     'resetErrors' => function () {
         $this->resetErrorBag();
-        $this->college = session('user')['college'];
-        $this->building = session('user')['building'];
-        $this->room = session('user')['room'];
+
+        if (session('user')['role'] == 'Faculty') {
+            $this->college = session('user')['college'];
+            $this->building = session('user')['building'];
+            $this->room = session('user')['room'];
+        }
     },
 ]);
 
@@ -199,13 +202,13 @@ $deleteRequest = function ($id) {
 $confirmLocation = function () {
 
 
-    
+
     $user = Auth::user()->faculty;
     $user->college = strtoupper($this->college);
     $user->building = strtoupper($this->building);
     $user->room = strtoupper($this->room);
     $user->save();
-    
+
 
     session([
         'user.college' => strtoupper($this->college),
@@ -213,7 +216,7 @@ $confirmLocation = function () {
         'user.room' =>  strtoupper($this->room),
     ]);
 
-
+    $this->dispatch('success', 'Location Updated');
 };
 
 
