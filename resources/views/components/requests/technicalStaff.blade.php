@@ -87,7 +87,7 @@
             </div>
 
         </div>
-
+        <livewire:feedback />
     </div>
 
 
@@ -95,36 +95,40 @@
 
 
     {{--task--}}
+
+    @switch($req->status)
+
+
+    @case('pending')
     <div class="request-containder">
-        @switch($req->status)
-
-
-        @case('pending')
         <div class="w-full">
             <button class="button float-right" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
         </div>
-        @break
+    </div>
+    @break
 
 
-        @case('ongoing')
+    @case('ongoing')
+    <div class="request-containder">
         <livewire:task-list :category="$req->category_id" />
         <div class="input">
             <div
-                class="bg-blue-700 rounded-full px-2 text-white"
+                class="bg-blue-700 rounded-full px-2 text-white transition-all"
                 style="width: {{$req->progress}}%" ;>
                 {{$req->progress}}%
             </div>
         </div>
-        @break
-
-
-        @case('resolved')
-        <h1>Request Resolved</h1>
-        <button class="button float-right" @click="$dispatch('open-modal', 'feedback-modal')">feedback</button>
-        <livewire:feedback />
-        @break
-
-        @endswitch
     </div>
+    @break
+
+
+    @case('resolved')
+
+ 
+
+    @break
+
+    @endswitch
+
 
 </div>

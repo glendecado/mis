@@ -46,7 +46,7 @@ $deleteFeedback = function () {};
 ?>
 
 <div x-data="{feedback : @entangle('feedback')}">
-    <x-modal name="feedback-modal">
+
 
         <div class="h-full w-full relative flex flex-col items-end rounded-md gap-2">
 
@@ -55,6 +55,7 @@ $deleteFeedback = function () {};
                     @foreach($this->viewFeedback() as $feedback)
                     <div class="mr-2 text-right break-words bg-slate-200 shadow-lg h-fit rounded-lg p-5 text-wrap">
                         <p>{{ $feedback->feedBack }}</p>
+                        <span class="font-thin text-sm">{{ $feedback->created_at }}</span>
                     </div>
                     @endforeach
                 </div>
@@ -91,6 +92,6 @@ $deleteFeedback = function () {};
 
     </div>
 
-    </x-modal>
+
 
 </div>

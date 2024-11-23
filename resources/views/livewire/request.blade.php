@@ -35,7 +35,7 @@ on([
 
 on(['view-detailed-request' => function () {
     $this->viewDetailedRequest();
-    $this->forgetCache();
+    
 }]);
 
 mount(function () {
@@ -176,7 +176,7 @@ $addRequest = function () {
     $req->save();
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
-    $this->forgetCache();
+    
 
     //getting the id of mis first then dispatch the event to mis
     $mis = User::where('role', 'Mis Staff')->first();
@@ -217,7 +217,7 @@ $updateStatus = function ($status) {
     $req = Request::find($this->id);
     $req->status = $status;
     $req->save();
-    $this->forgetCache();
+    
 };
 
 //update priority level of a request
@@ -226,7 +226,7 @@ $priorityLevelUpdate = function ($level) {
     $req = Request::find($this->id);
     $req->priorityLevel = $level;
     $req->save();
-    $this->forgetCache();
+    
 
     $this->dispatch('success', 'successfuly changed');
 };
