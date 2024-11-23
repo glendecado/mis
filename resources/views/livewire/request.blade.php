@@ -6,7 +6,6 @@ use App\Models\Request;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 
@@ -59,18 +58,7 @@ mount(function () {
     };
 });
 
-//to forget the cache
-$forgetCache = function () {
 
-    Cache::forget($this->cacheKey);
-    Cache::forget($this->cacheKey . 'faculty_' . session('user')['id']);
-    Cache::forget($this->cacheKey . 'technicalStaff_' . session('user')['id']);
-    Cache::forget($this->cacheKey . $this->id);
-    Cache::forget($this->cacheKey . 'waiting');
-    Cache::forget($this->cacheKey . 'pending');
-    Cache::forget($this->cacheKey . 'ongoing');
-    Cache::forget($this->cacheKey . 'resolved');
-};
 
 //viewDetailed Req
 $viewDetailedRequest = function () {
