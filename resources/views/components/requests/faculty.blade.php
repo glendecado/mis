@@ -1,6 +1,6 @@
-
-
 <div class="request-parent flex gap-4 flex-col">
+
+
 
     <div class="w-full">
         <a href="/request?status=all" wire:navigate.hover>
@@ -72,7 +72,24 @@
                 </div>
             </fieldset>
 
-            <livewire:task />
+
+
+            @if($req->progress == 100)
+            <fieldset class="border rounded-md p-2">
+                <legend>Assigned To:</legend>
+                <livewire:rate />
+            </fieldset>
+            <span class="text-[12px] font-thin -translate-y-3">
+                "The request is completed. You can now rate the technical staff based on their performance."
+            </span>
+
+            @else
+            <fieldset class="border rounded-md p-2">
+                <legend>Assigned To:</legend>
+                <livewire:task />
+            </fieldset>
+            @endif
+
 
             <div>
                 Concern(s):
@@ -85,13 +102,18 @@
 
     </div>
 
-
-
-
-
     {{--task--}}
     <div class="request-containder">
 
+
+
+
+        @if($req->progress == 100)
+        <div class="gap-2">
+            Share your feed back
+            <livewire:feedback />
+        </div>
+        @else
         <div class="input">
             <div
                 class="bg-blue-700 rounded-full px-2 text-white"
@@ -99,16 +121,11 @@
                 {{$req->progress}}%
             </div>
         </div>
-
-
-        @if($req->progress == 100)
-        <div class="flex justify-end gap-2">
-            <button class="button" @click="$dispatch('open-modal','feedback-modal')">Feedback</button>
-            <button class="button" @click="$dispatch('open-modal','rate')">Rate</button>
-            <button class="button">Close</button>
-        </div>
         @endif
     </div>
-    <livewire:rate />
-    <livewire:feedback />
+
+
+
+
+
 </div>

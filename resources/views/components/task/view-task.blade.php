@@ -5,10 +5,9 @@
 
 
 @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
-    <fieldset class="border rounded-md p-2">
-        <legend>Assigned To:</legend>
-        {{$tech->user->name}}
-    </fieldset>
+
+        {{$tech->user->name ?? 'Not assigned to any technical staff yet!'}}
+
 
 @endforeach
 
