@@ -21,7 +21,9 @@
     x-init="init()">
 
  
-    <div class="absolute top-0" @click="toggleSidebar()">Xs</div>
+    <div class="absolute top-0" @click="toggleSidebar()">
+        <x-icons.burger />
+    </div>
 
     {{--Request--}}
     <div @click="requestClicked = !requestClicked; userClicked = false"
