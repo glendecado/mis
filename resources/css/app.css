@@ -136,24 +136,30 @@
 }
 
 
-/*Nav Bar*/
+/*header Bar*/
 
-.navbar {
-    @apply bg-yellow text-blue-900 font-geist flex flex-row overflow-auto flex-none drop-shadow-sm;
+.header {
+    @apply bg-blue h-full flex px-2 md:px-8 items-center justify-between;
 }
 
-.navbar-link {
-    @apply text-blue-950 h-[100%];
+.header-container-logo {
+    @apply text-white flex items-center gap-1 cursor-pointer;
+}
+
+.header-container-profile {
+    @apply border flex h-[50px] px-4 gap-5 items-center text-white rounded-md hover:bg-blue-500/50;
+}
+
+.header-open-items-container {
+    @apply bg-azure/90 drop-shadow-lg rounded-md h-fit w-52 top-20  absolute right-8 z-[100] text-blue-950 items-center flex flex-col
 }
 
 
-.navbar-link:hover {
-    @apply bg-blue-500 text-blue-50;
+.header-open-items {
+    @apply w-full hover:bg-blue hover:text-white flex-center p-2 cursor-pointer;
 }
 
-.navbar-link-active {
-    @apply text-white bg-blue-700 shadow-md;
-}
+
 
 .input-field {
     @apply w-52 rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none transition duration-200;
@@ -184,4 +190,6 @@
 #nprogress .bar {
     background:  #FFCC00 !important; /* Green progress bar */
 }
+
+
 

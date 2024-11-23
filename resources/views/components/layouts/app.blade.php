@@ -13,12 +13,12 @@
 <body class="font-geist relative  h-lvh overflow-hidden">
 
 
-    <div class="h-[10%]">
+    <div class="h-[64px]">
         <x-header />
     </div>
 
 
-    <div class="h-[90%] overflow-hidden flex">
+    <div class="h-full overflow-hidden flex">
         <div class="h-[100%] w-fit">
             <x-sidebar />
         </div>

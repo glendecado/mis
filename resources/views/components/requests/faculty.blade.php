@@ -3,11 +3,11 @@
 
 
     <div class="w-full">
-        <a href="/request?status=all" wire:navigate.hover>
+        <div x-on:click="window.history.back()">
             <div class="float-right border rounded-full size-8 flex-center">
                 <x-icons.arrow direction="left" />
             </div>
-        </a>
+        </div>
 
     </div>
 
