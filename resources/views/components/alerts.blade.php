@@ -1,11 +1,11 @@
 {{--https://www.penguinui.com/components/alert--}}
 
 {{-- Successful message --}}
-<div x-cloak x-data="{ message: '', timer: null }" @success.window="
+<div  x-cloak x-data="{ message: '', timer: null }" @success.window="
     message = $event.detail;
     clearTimeout(timer);
     timer = setTimeout(() => { message = '' }, 2000);
-">
+" class="z-[1000]">
     <div x-show="message" 
          x-transition:enter="transition transform duration-300" 
          x-transition:enter-start="translate-y-full opacity-0" 

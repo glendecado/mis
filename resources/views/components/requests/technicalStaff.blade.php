@@ -1,8 +1,8 @@
 <div class="request-parent flex gap-4 flex-col">
 
     <div class="w-full">
-        <a href="/request?status=all" wire:navigate.hover>
-            <div class="float-right border rounded-full size-8 flex-center">
+        <a href="javascript:void(0);" x-on:click="window.history.back()">
+            <div class="float-right border rounded-full size-8 flex-center translate-y-4  ">
                 <x-icons.arrow direction="left" />
             </div>
         </a>
@@ -124,7 +124,7 @@
 
     @case('resolved')
 
- 
+
 
     @break
 

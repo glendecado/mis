@@ -29,7 +29,7 @@ $viewCategory = function () {
 
 
 <div class="basis-full">
-{{request()->route()->getName()}}
+
     @include('components.category.view-category')
 
 </div>

@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cach;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 use function Livewire\Volt\{mount, state, title, usesFileUploads};
 
@@ -18,8 +19,8 @@ state(['fName', 'lName', 'img', 'email', 'password', 'college', 'building', 'roo
 
 mount(function () {
 
-        $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
- 
+    $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
+
 
     //get full name
     $fullName = $this->user->name;
@@ -72,28 +73,35 @@ $updateProfile = function ($type) {
 
             break;
         case 'img':
+            //current image
+
+            $img = $this->img;
+
             $imageName = $this->photo->store('profile_images', 'public');
             $updateUser->img = $imageName;
+
+
+
+            if (Storage::disk('public')->exists($img)) {
+                Storage::disk('public')->delete($img);
+            }
+
             $updateUser->save();
             $this->img = $imageName;
             $this->dispatch('success', 'image save');
-            $this->redirect('/edit-profile/'.$updateUser->id, navigate: true);
+            $this->redirect('/edit-profile/' . $updateUser->id, navigate: true);
             break;
-
-         
     }
-    
+
     Cache::flush();
 
     session()->put('user.img', $this->img);
-    session()->put('user.name', $this->lName. ' '. $this->fName);
+    session()->put('user.name', $this->lName . ' ' . $this->fName);
     session()->put('user.email', $this->email);
     session()->put('user.password', $this->password);
     session()->put('user.college', $this->college);
     session()->put('user.building', $this->building);
     session()->put('user.room', $this->room);
-
-   
 }
 
 
@@ -186,7 +194,7 @@ $updateProfile = function ($type) {
         <button class="button" @click="$wire.updateProfile('img');">save</button>
         @else
         <div wire:target="photo">
-            <img wire:loading.remove 
+            <img wire:loading.remove
                 src="{{asset('storage/'. $this->img)}}" alt=""
                 class="rounded-full w-[150px] h-[150px] ml-3">
         </div>

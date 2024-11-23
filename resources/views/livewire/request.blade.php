@@ -30,12 +30,14 @@ rules([
 on([
     'resetErrors' => function () {
         $this->resetErrorBag();
+        $this->college = session('user')['college'];
+        $this->building = session('user')['building'];
+        $this->room = session('user')['room'];
     },
 ]);
 
 on(['view-detailed-request' => function () {
     $this->viewDetailedRequest();
-    
 }]);
 
 mount(function () {
@@ -176,7 +178,7 @@ $addRequest = function () {
     $req->save();
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
-    
+
 
     //getting the id of mis first then dispatch the event to mis
     $mis = User::where('role', 'Mis Staff')->first();
@@ -195,19 +197,23 @@ $deleteRequest = function ($id) {
 
 //confirm location
 $confirmLocation = function () {
+
+
+    
     $user = Auth::user()->faculty;
-    $user->college = $this->college;
-    $user->building = $this->building;
-    $user->room = $this->room;
+    $user->college = strtoupper($this->college);
+    $user->building = strtoupper($this->building);
+    $user->room = strtoupper($this->room);
     $user->save();
+    
 
     session([
-        'user.college' => $this->college,
-        'user.building' => $this->building,
-        'user.room' => $this->room,
+        'user.college' => strtoupper($this->college),
+        'user.building' => strtoupper($this->building),
+        'user.room' =>  strtoupper($this->room),
     ]);
 
-    $this->dispatch('success', 'Loction Successfully saved');
+
 };
 
 
@@ -217,7 +223,6 @@ $updateStatus = function ($status) {
     $req = Request::find($this->id);
     $req->status = $status;
     $req->save();
-    
 };
 
 //update priority level of a request
@@ -226,7 +231,7 @@ $priorityLevelUpdate = function ($level) {
     $req = Request::find($this->id);
     $req->priorityLevel = $level;
     $req->save();
-    
+
 
     $this->dispatch('success', 'successfuly changed');
 };
@@ -235,10 +240,10 @@ $priorityLevelUpdate = function ($level) {
 <div class="">
 
 
-
+    <x-alerts />
     @include('components.requests.view')
 
-    <x-alerts />
+
 
 
     <div
