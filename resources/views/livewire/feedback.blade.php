@@ -54,12 +54,41 @@ $deleteFeedback = function () {};
 
     <div class="h-full w-full relative flex flex-col items-end rounded-md gap-2">
 
-        <div class="flex flex-col w-full justify-end max-h-96 overflow-y-auto rounded-md">
+        <div class="flex flex-col w-full justify-end max-h-96 overflow-y-auto rounded-md ">
             <div class="overflow-x-auto flex flex-col-reverse gap-5">
+
+
                 @foreach($this->viewFeedback() as $feedback)
-                <div class="mr-2 text-right break-words bg-slate-200 shadow-lg h-fit rounded-lg p-5 text-wrap" id="feedback">
-                    <p>{{ $feedback->feedBack }}</p>
+
+                <div>
+                    {{--feedback v --}}
+                    <div class="mr-2 text-right break-words bg-slate-200 shadow-lg h-fit rounded-lg p-5 text-wrap relative" id="feedback">
+                        <p class="text-lg">{{ $feedback->feedBack }}</p>
+
+                    </div>
+                    {{--feedback ^ --}}
+
+
+
+                    {{--time an date for the feedback v --}}
+                    <span class="font-thin text-[12px] float-right mr-5 text-blue-500/90">
+                        @php
+                        $createdAt = \Carbon\Carbon::parse($feedback->created_at);
+                        $now = \Carbon\Carbon::now();
+                        $diffInHours = $createdAt->diffInHours($now);
+                        @endphp
+
+                        @if ($diffInHours <= 28)
+                            <span>{{ $createdAt->diffForHumans() }}</span>
+                    @else
+                    <span>{{ $createdAt->format('Y-m-d') }}</span>
+                    <span>{{ $createdAt->format('h:i A') }}</span>
+                    @endif
+                    </span>
+                    {{--time an date for the feedback ^ --}}
                 </div>
+
+
                 @endforeach
             </div>
         </div>
