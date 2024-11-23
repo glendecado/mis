@@ -46,15 +46,15 @@
     }">
         <div class="md:x y gap-2 mb-2">
             <div>
-                <label :class="{ 'text-gray-500': cl }" for="college" class="label">College</label>
+                <label for="college" class="label">College</label>
                 <input x-model="college" type="text" class="input w-full uppercase" />
             </div>
             <div>
-                <label wire:model="building" :class="{ 'text-gray-500': cl }" for="building" class="label">Building</label>
+                <label wire:model="building" for="building" class="label">Building</label>
                 <input x-model="building" type="text" class="input w-full uppercase" />
             </div>
             <div>
-                <label wire:model="room" :class="{ 'text-gray-500': cl }" for="room" class="label">Room</label>
+                <label wire:model="room" for="room" class="label">Room</label>
                 <input x-model="room" type="text" class="input w-full uppercase" />
             </div>
         </div>
