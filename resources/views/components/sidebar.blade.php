@@ -1,6 +1,27 @@
-<div class="bg-blue-2 px-3 w-52 h-full text-yellow absolute md:relative pt-11 z-[99]"
-    x-data="{requestClicked : false, userClicked : false}">
+<div :class="sidebar ? 
+'px-3 w-52 absolute md:relative':' w-12 relative'"
+    class="h-full text-yellow pt-11 z-30 bg-blue-2"
 
+    x-data="{
+        requestClicked: false,
+        userClicked: false,
+        sidebar: localStorage.getItem('sidebarState') === 'true',  // Convert string to boolean
+        init() {
+            // Set sidebarState to true by default in localStorage when the page first loads
+            if (localStorage.getItem('sidebarState') === null) {
+                localStorage.setItem('sidebarState', 'true');  // Default to open (true)
+            }
+        },
+        toggleSidebar() {
+            // Toggle the sidebar state and store it in localStorage as string ('true' or 'false')
+            this.sidebar = !this.sidebar;
+            localStorage.setItem('sidebarState', this.sidebar.toString());
+        }
+    }"
+    x-init="init()">
+
+ 
+    <div class="absolute top-0" @click="toggleSidebar()">Xs</div>
 
     {{--Request--}}
     <div @click="requestClicked = !requestClicked; userClicked = false"

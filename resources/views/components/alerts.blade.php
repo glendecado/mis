@@ -5,7 +5,7 @@
     message = $event.detail;
     clearTimeout(timer);
     timer = setTimeout(() => { message = '' }, 2000);
-" class="z-[1000]">
+">
     <div x-show="message" 
          x-transition:enter="transition transform duration-300" 
          x-transition:enter-start="translate-y-full opacity-0" 
@@ -14,7 +14,7 @@
          x-transition:leave-start="translate-y-0 opacity-100" 
          x-transition:leave-end="translate-y-full opacity-0" 
          class="absolute w-screen bottom-10 right-0 flex-center z-50">
-        <div class="relative w-96 overflow-hidden rounded-xl border border-green-600 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300" role="alert">
+        <div class="relative w-96 overflow-hidden rounded-xl border border-green-600 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300" role="alert" style="z-index: 600">
             <div class="flex w-full items-center gap-2 bg-green-600/10 p-4">
                 <div class="bg-green-600/15 text-green-600 rounded-full p-1" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6" aria-hidden="true">
