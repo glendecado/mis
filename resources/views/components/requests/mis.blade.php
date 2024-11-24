@@ -46,7 +46,7 @@
 
                 <div>
 
-                    @if($req->status == 'waiting' || $req->status == 'declined' )
+                    @if($req->status == 'ongoing' || $req->status == 'resolved')
 
                     Priority level:
                     <span class="font-bold">
@@ -55,16 +55,22 @@
                             ($req->priorityLevel == 2 ? 'Medium' : 
                             ($req->priorityLevel == 1 ? 'High' : ''))}}
                     </span>
+
+                    @elseif($req->status == 'pending')
+
+                    <div>
+                        <label for="prio">Priority Level:</label>
+                        <select name="" id="prio" class='input' wire:change="priorityLevelUpdate($event.target.value)">
+                            <option value="1" @if($req->priorityLevel == 1) selected @endif>1 : High</option>
+                            <option value="2" @if($req->priorityLevel == 2) selected @endif>2 : Medium</option>
+                            <option value="3" @if($req->priorityLevel == 3) selected @endif>3 : Low</option>
+                        </select>
+                    </div>
+
+                    <span class="font-thin text-sm"> You can now assign a priority level.</span>
+
                     @else
-
-                    <label for="prio">Priority Level:</label>
-                    <select name="" id="prio" class='input' wire:change="priorityLevelUpdate($event.target.value)">
-                        <option value="1" @if($req->priorityLevel == 1) selected @endif>1 : High</option>
-                        <option value="2" @if($req->priorityLevel == 2) selected @endif>2 : Medium</option>
-                        <option value="3" @if($req->priorityLevel == 3) selected @endif>3 : Low</option>
-                    </select>
-
-
+                    <span></span>
                     @endif
                 </div>
 
@@ -93,12 +99,8 @@
                 </div>
             </fieldset>
 
-            <fieldset class="border p-2 rounded-md">
-                <legend>Assigned to</legend>
-                <div class="x gap-5 rounded-md">
-                    <livewire:task />
-                </div>
-            </fieldset>
+
+            <livewire:task />
 
 
 
@@ -132,12 +134,9 @@
         @case('pending')
         <div>
 
-
+            Task List
             <livewire:task-list :category="$req->category_id" />
 
-            <div class="input ">
-                @include('components.task.button')
-            </div>
         </div>
         @break
 
