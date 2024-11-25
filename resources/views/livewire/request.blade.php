@@ -44,6 +44,10 @@ on(['view-detailed-request' => function () {
 }]);
 
 mount(function () {
+
+
+    session(['page' => 'request']);
+
     $this->cacheKey = 'requests_';
 
     //initial valye of category

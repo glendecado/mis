@@ -26,10 +26,24 @@ rules([
     'college' => 'nullable|string|max:100',
     'building' => 'nullable|string|max:100',
     'room' => 'nullable|string|max:50',
-]);
+])->messages([
+    'fname.required' => "The first name field is required.",
+    'lname.required' => "The Last name field is required."
+    
+])
+;
 
 on(['resetErrors' => function () {
     $this->resetErrorBag();
+    $this->role = 'Technical Staff';
+    $this->reset('role');
+    $this->reset('fname');
+    $this->reset('lname');
+    $this->reset('email');
+    $this->reset('password');
+    $this->reset('college');
+    $this->reset('building');
+    $this->reset('room');
 }]);
 
 mount(function () {

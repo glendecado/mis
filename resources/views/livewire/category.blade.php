@@ -12,6 +12,7 @@ state('cacheKey');
 state('category')->modelable();
 
 mount(function () {
+    session(['page' => 'category']);
     $this->cacheKey = 'categories_';
 });
 
