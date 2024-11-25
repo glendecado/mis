@@ -24,7 +24,7 @@
             </div>
 
             {{--open arrow--}}
-            <div x-show="open == true" x-cloak>
+            <div x-show="open == true" x-cloak  @click.outside="open = false">
 
                 <x-icons.arrow direction="up" />
 

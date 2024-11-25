@@ -151,7 +151,7 @@
 }
 
 .header-open-items-container {
-    @apply bg-azure/90 drop-shadow-lg rounded-md h-fit w-52 top-20  absolute right-8 z-[100] text-blue-950 items-center flex flex-col
+    @apply bg-azure/90 shadow-lg rounded-md h-fit w-52 top-[64px]  absolute right-8 z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/50 border
 }
 
 
