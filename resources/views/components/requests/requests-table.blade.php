@@ -5,8 +5,9 @@
                 <th class="table-header-cell ">ReqId</th>
                 <th class="table-header-cell">Date</th>
                 <th class="table-header-cell">Status</th>
-                <th class="table-header-cell">Category</th>
+                    <th class="table-header-cell">Category</th>
                 <th class="table-header-cell">Concerns</th>
+                <th class="table-header-cell">Location</th>
             </tr>
         </thead>
         <tbody>
@@ -33,8 +34,13 @@
                 <td class="table-row-cell {{ $priorityColor }}">{{ $request->id }}</td>
                 <td class="table-row-cell">{{ $request->created_at->format('Y-m-d') }}</td>
                 <td class="table-row-cell">{{ $request->status }}</td>
-                <td class="table-row-cell">{{ $request->concerns }}</td>
                 <td class="table-row-cell">{{ $request->category->name }}</td>
+                <td class="table-row-cell">{{ $request->concerns }}</td>
+                <td class="table-row-cell text-small">
+                    {{ $request->faculty->college }} 
+                    {{ $request->faculty->building }}
+                    {{ $request->faculty->room }}
+                </td>
             </tr>
             @endforeach
 
