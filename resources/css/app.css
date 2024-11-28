@@ -91,7 +91,7 @@
 }
 
 .sidebar-links {
-    @apply cursor-pointer py-2 w-full text-center border border-yellow mt-2 rounded-md;
+    @apply cursor-pointer py-2 w-full text-center  mt-2 rounded-md hover:bg-yellow/30 hover:text-blue-2;
 }
 
 .sidebar-active {

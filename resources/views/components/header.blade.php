@@ -9,7 +9,7 @@
 
 
     {{--profile--}}
-    <div class="x gap-2 items-center">
+    <div class="x gap-2 items-center cursor-pointer">
         <x-icons.bell class="size-10 p-2 text-white border rounded-full" />
         <div class="header-container-profile " x-data="{open : false}" @click="open = !open">
 

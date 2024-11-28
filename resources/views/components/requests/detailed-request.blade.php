@@ -12,9 +12,9 @@
 
     <div class="request-containder">
 
-        <div class="w-full flex  justify-between items-center">
+        <div class="w-full flex  justify-between items-center y md:x text-center">
 
-            <div class="x items-center gap-2">
+            <div class="y md:x items-center gap-2">
                 {{--img name status--}}
 
                 {{--img--}}
