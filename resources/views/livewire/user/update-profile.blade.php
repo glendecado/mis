@@ -37,6 +37,7 @@ mount(function () {
 
     $this->fName = implode(' ', $first);
     $this->lName = $nameParts[$last];
+    $this->id = $this->user->id; // Accessing as an object
     $this->img = $this->user->img; // Accessing as an object
     $this->email = $this->user->email; // Accessing as an object
     $this->role = $this->user->role; // Accessing as an object
@@ -95,13 +96,16 @@ $updateProfile = function ($type) {
 
     Cache::flush();
 
-    session()->put('user.img', $this->img);
-    session()->put('user.name', $this->lName . ' ' . $this->fName);
-    session()->put('user.email', $this->email);
-    session()->put('user.password', $this->password);
-    session()->put('user.college', $this->college);
-    session()->put('user.building', $this->building);
-    session()->put('user.room', $this->room);
+    if ($this->id == session('user')['id']) {
+        session()->put('user.img', $this->img);
+        session()->put('user.name', $this->lName . ' ' . $this->fName);
+        session()->put('user.email', $this->email);
+        session()->put('user.password', $this->password);
+        session()->put('user.college', $this->college);
+        session()->put('user.building', $this->building);
+        session()->put('user.room', $this->room);
+    }
+
 }
 
 
