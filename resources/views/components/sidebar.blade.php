@@ -36,7 +36,7 @@
 
 
     {{--user--}}
-    <a wire:navigate.hover href="/user?roles=all">
+    <a wire:navigate.hover href="/user">
         <div
             :class="sidebar ? 'justify-start': 'justify-center'"
             class="{{request()->routeIs('user') ? 'sidebar-active' : 'sidebar-links'}}">

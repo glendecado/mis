@@ -19,9 +19,11 @@
 
 
     <div class="h-full overflow-hidden flex">
+        @if(session('user')['role'] == 'Mis Staff')
         <div class="h-[100%] w-fit">
             <x-sidebar />
         </div>
+        @endif
         <div class="h-[100%] w-full overflow-auto p-5">
             {{$slot}}
         </div>
