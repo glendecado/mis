@@ -28,9 +28,10 @@
 
                 <x-icons.arrow direction="up" />
 
-                <div class="header-open-items-container">
+                <div class="header-open-items-container relative">
 
                     <div class="header-open-items" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
+                        <x-icons.profile class="size-6 absolute left-5" />
                         <span>Profile</span>
                     </div>
 
