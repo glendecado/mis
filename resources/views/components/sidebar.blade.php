@@ -9,13 +9,15 @@
         <x-icons.burger />
     </div>
 
+
     {{--Request--}}
     <a wire:navigate.hover href="/request">
         <div
+            :class="sidebar ? 'justify-start': 'justify-center'"
             class="{{request()->routeIs('request') 
     || request()->routeIs('request-table') ? 'sidebar-active' : 'sidebar-links'}}">
-            Request
-
+            <x-icons.request class="size-5" />
+            <span x-show="sidebar">Request</span>
         </div>
     </a>
 
@@ -23,8 +25,12 @@
     {{--category--}}
     <a wire:navigate.hover href="/category">
         <div
-            class="{{request()->routeIs('category') ? 'sidebar-active' : 'sidebar-links'}}">
-            Category
+            :class="sidebar ? 'justify-start': 'justify-center'"
+            class="{{request()->routeIs('category') ? 'sidebar-active' : 'sidebar-links'}}
+                
+            ">
+            <x-icons.category class="size-5" />
+            <span x-show="sidebar">Category</span>
         </div>
     </a>
 
@@ -32,8 +38,10 @@
     {{--user--}}
     <a wire:navigate.hover href="/user?roles=all">
         <div
+            :class="sidebar ? 'justify-start': 'justify-center'"
             class="{{request()->routeIs('user') ? 'sidebar-active' : 'sidebar-links'}}">
-            Users
+            <x-icons.user class="size-5" />
+            <span x-show="sidebar">Users</span>
         </div>
     </a>
 
