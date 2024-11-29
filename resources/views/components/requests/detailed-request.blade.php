@@ -84,18 +84,18 @@
 
                 @case('Technical Staff')
                 Priority level:
-                    <span class="font-bold">
-                        {{
+                <span class="font-bold">
+                    {{
                             $req->priorityLevel == 3 ? 'Low' : 
                             ($req->priorityLevel == 2 ? 'Medium' : 
                             ($req->priorityLevel == 1 ? 'High' : ''))}}
-                    </span>
+                </span>
                 @break
                 @default
                 <span></span>
                 @break
 
-                @endswitch   
+                @endswitch
             </div>
 
             <fieldset class="border p-2 rounded-md">
@@ -122,10 +122,6 @@
             </fieldset>
 
 
-            <livewire:task />
-
-
-
             <div>
                 Concern(s):
                 <div class=" border p-3 shadow-lg h-56 overflow-auto rounded-md">
@@ -135,24 +131,42 @@
 
         </div>
 
+
+        <div class="request-containder">
+            
+            @switch(session('user')['role'])
+            @case('Faculty')
+            <div>
+                @if($req->status == 'resolved')
+                <livewire:rate />
+                @else
+                <livewire:task />
+                @endif
+            </div>
+            @break
+            @case('Mis Staff')
+            <livewire:task />
+            @break
+            @endswitch
+        </div>
+
+
+        <div>
+            @switch(session('user')['role'])
+            @case('Mis Staff')
+            @include('components.requests.mis')
+            @break
+            @case('Faculty')
+            @include('components.requests.faculty')
+            @break
+            @case('Technical Staff')
+            @include('components.requests.technicalStaff')
+            @break
+            @endswitch
+        </div>
+
+        @endforeach
+
+
     </div>
-
-
-    <div>
-        @switch(session('user')['role'])
-        @case('Mis Staff')
-        @include('components.requests.mis')
-        @break
-        @case('Faculty')
-        @include('components.requests.faculty')
-        @break
-        @case('Technical Staff')
-        @include('components.requests.technicalStaff')
-        @break
-        @endswitch
-    </div>
-
-    @endforeach
-
-
 </div>
