@@ -26,7 +26,7 @@
                             style="display: none;">
                             <ul class="text-sm text-gray-700 w-full">
                             <li class="dropdown-open-items">
-                                    <a wire:navigate.hover href="/user?roles=all" class="w-full">TAll</a>
+                                    <a wire:navigate.hover href="/user?roles=all" class="w-full">All</a>
                                 </li>
                                 <li class="dropdown-open-items">
                                     <a wire:navigate.hover href="/user?roles=technicalStaff" class="w-full">Technical Staff</a>

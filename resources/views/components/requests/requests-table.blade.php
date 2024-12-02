@@ -4,7 +4,7 @@
             <tr>
                 <th class="table-header-cell">Date</th>
                 <th class="table-header-cell relative">
-                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center cursor-pointer">
+                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center justify-center cursor-pointer">
                         <span>Status</span>
                         <!-- Arrow Icons -->
                         <div class="relative">
