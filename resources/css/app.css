@@ -13,7 +13,7 @@
 
 /* Custom styles for table components */
 .table-container {
-    @apply bg-blue-50 rounded-lg overflow-hidden;
+    @apply bg-blue-50 rounded-lg ;
 }
 
 .table-header {
@@ -29,6 +29,10 @@
 }
 
 /*forms*/
+
+.dropdown {
+    @apply bg-azure/90 shadow-lg rounded-md h-fit w-52  z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/50 border
+}
 
 .button {
     @apply bg-blue-600 text-white font-medium rounded-lg px-4 py-2 drop-shadow-md;
@@ -150,12 +154,8 @@
     @apply border flex h-[50px] px-4 gap-5 items-center text-white rounded-md hover:bg-blue-500/50;
 }
 
-.header-open-items-container {
-    @apply bg-azure/90 shadow-lg rounded-md h-fit w-52 top-[64px]  absolute right-8 z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/50 border
-}
 
-
-.header-open-items {
+.dropdown-open-items {
     @apply w-full hover:bg-blue hover:text-white flex-center p-2 cursor-pointer;
 }
 
@@ -193,3 +193,15 @@
 
 
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}

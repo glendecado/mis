@@ -23,14 +23,14 @@
                 <x-icons.arrow direction="down" />
             </div>
 
-            {{--open arrow--}}
+            {{--open dropdown--}}
             <div x-show="open == true" x-cloak  @click.outside="open = false">
 
                 <x-icons.arrow direction="up" />
 
-                <div class="header-open-items-container relative">
+                <div class="dropdown right-7 top-16 absolute">
 
-                    <div class="header-open-items" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
+                    <div class="dropdown-open-items" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
                         <x-icons.profile class="size-6 absolute left-5" />
                         <span>Profile</span>
                     </div>

@@ -1,16 +1,62 @@
-<div class="table-container md:block hidden w-full">
+<div class="table-container md:block hidden w-full over">
     <table class="min-w-full break-all">
         <thead class="table-header">
             <tr>
-                <th class="table-header-cell ">ReqId</th>
                 <th class="table-header-cell">Date</th>
-                <th class="table-header-cell">Status</th>
-                    <th class="table-header-cell">Category</th>
+                <th class="table-header-cell relative">
+                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center cursor-pointer">
+                        <span>Status</span>
+                        <!-- Arrow Icons -->
+                        <div class="relative">
+                            <div x-show="status" x-cloak>
+                                <x-icons.arrow direction="up" />
+                            </div>
+                            <div x-show="status == false" x-cloak>
+                                <x-icons.arrow direction="down" />
+                            </div>
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div
+                            x-show="status"
+                            @click.away="status = false"
+                            class="dropdown absolute top-full"
+                            style="display: none;">
+                            <ul class="text-sm text-gray-700 w-full">
+                                <li class="dropdown-open-items">
+                                    <a wire:navigate.hover href="/request?status=all" class="w-full">All</a>
+                                </li>
+                                @if(session('user')['role'] != 'Technical STaff')
+                                <li class="dropdown-open-items">
+                                    <a wire:navigate.hover href="/request?status=waiting" class="w-full">Waiting</a>
+                                </li>
+                                @endif
+                                <li class="dropdown-open-items">
+                                    <a wire:navigate.hover href="/request?status=pending" class="w-full">Pending</a>
+                                </li>
+                                <li class="dropdown-open-items">
+                                    <a wire:navigate.hover href="/request?status=ongoing" class="w-full">Ongoing</a>
+                                </li>
+                                <li class="dropdown-open-items">
+                                    <a wire:navigate.hover href="/request?status=resolved" class="w-full">Resolved</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </th>
+                <th class="table-header-cell">Category</th>
                 <th class="table-header-cell">Concerns</th>
                 <th class="table-header-cell">Location</th>
             </tr>
         </thead>
         <tbody>
+            @if($this->viewRequest()->isEmpty())
+            <tr>
+                <td>N/A</td>
+
+            </tr>
+
+            @else
             @foreach ($this->viewRequest() as $request)
 
             @php
@@ -26,24 +72,24 @@
             ($request->priorityLevel == 2 ? 'bg-yellow' :
             ($request->priorityLevel == 3 ? 'bg-green-500' : ''));
             }
-            
+
             @endphp
 
             <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer"
                 @click="Livewire.navigate('/request/{{$request->id }}')">
-                <td class="table-row-cell {{ $priorityColor }}">{{ $request->id }}</td>
+
                 <td class="table-row-cell">{{ $request->created_at->format('Y-m-d') }}</td>
                 <td class="table-row-cell">{{ $request->status }}</td>
                 <td class="table-row-cell">{{ $request->category->name }}</td>
                 <td class="table-row-cell">{{ $request->concerns }}</td>
                 <td class="table-row-cell text-small">
-                    {{ $request->faculty->college }} 
+                    {{ $request->faculty->college }}
                     {{ $request->faculty->building }}
                     {{ $request->faculty->room }}
                 </td>
             </tr>
             @endforeach
-
+            @endif
         </tbody>
     </table>
 </div>
@@ -82,4 +128,5 @@
         </tr>
         @endforeach
     </table>
+
 </div>
