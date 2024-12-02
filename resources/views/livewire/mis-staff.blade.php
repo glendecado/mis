@@ -18,7 +18,7 @@ state(['role', 'fname', 'lname', 'email', 'password']);
 state(['college', 'building', 'room']);
 
 rules([
-    'role' => 'required|string|max:50',
+    'role' => 'required|string',
     'fname' => 'required|string|max:100',
     'lname' => 'required|string|max:100',
     'email' => 'required|email|unique:users,email', // Adjust table name if necessary
@@ -36,7 +36,6 @@ rules([
 on(['resetErrors' => function () {
     $this->resetErrorBag();
     $this->role = 'Technical Staff';
-    $this->reset('role');
     $this->reset('fname');
     $this->reset('lname');
     $this->reset('email');
@@ -46,40 +45,24 @@ on(['resetErrors' => function () {
     $this->reset('room');
 }]);
 
-mount(function () {
-    $this->cacheKey = "users_";
 
-    //initial value for select in adding a user
-    $this->role = 'Technical Staff';
-});
-
-//forget cache
-$clearCache = function () {
-    $roles = ['all', 'faculty', 'technicalStaff'];
-    foreach ($roles as $role) {
-        Cache::forget("users_{$role}");
-    }
-};
 
 //view user
 $viewUser = function () {
     switch ($this->roles) {
         case 'all':
-            $user = Cache::rememberForever($this->cacheKey . 'all', function () {
-                return User::where('role', '!=', 'Mis Staff')->get();
-            });
+            $user = User::where('role', '!=', 'Mis Staff')->get();
+          
             break;
 
         case 'faculty':
-            $user = Cache::rememberForever($this->cacheKey . 'faculty', function () {
-                return User::where('role', 'Faculty')->get();
-            });
+            $user = User::where('role', 'Faculty')->get();
+        
             break;
 
         case 'technicalStaff':
-            $user = Cache::rememberForever($this->cacheKey . 'technicalStaff', function () {
-                return User::where('role', 'Technical Staff')->get();
-            });
+            $user =  User::where('role', 'Technical Staff')->get();
+          
             break;
 
         default:
@@ -140,7 +123,7 @@ $addUser = function () {
         'room'
     ]);
     $this->dispatch('close-modal', 'add-user-modal');
-    $this->clearCache();
+    
 
     $this->dispatch('success', 'Added Successfully');
 };
@@ -158,7 +141,7 @@ $deleteUser = function ($id) {
         Storage::disk('public')->delete($img); // Delete the old image
     }
     $user->delete();
-    $this->clearCache();
+    
     $this->dispatch('success', 'user deleted successfully.');
 };
 
