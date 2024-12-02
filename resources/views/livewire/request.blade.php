@@ -247,7 +247,7 @@ $priorityLevelUpdate = function ($level) {
 };
 
 ?>
-<div class="">
+<div>
 
 
     <x-alerts />

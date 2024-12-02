@@ -51,7 +51,7 @@
         </thead>
         <tbody>
             @if($this->viewRequest()->isEmpty())
-            <tr class="h-96 text-center">
+            <tr class="text-center">
                 <td>N/A</td>
             </tr>
 

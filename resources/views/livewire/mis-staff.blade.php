@@ -149,7 +149,7 @@ $viewDetailedUser = function () {};
 
 ?>
 
-<div class="bg-blue-50 rounded-md overflow-hidden shadow-lg shadow-blue-950/20">
+<div class="bg-blue-50 rounded-md shadow-lg shadow-blue-950/20">
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')
