@@ -26,7 +26,7 @@
                                 <li class="dropdown-open-items">
                                     <a wire:navigate.hover href="/request?status=all" class="w-full">All</a>
                                 </li>
-                                @if(session('user')['role'] != 'Technical STaff')
+                                @if(session('user')['role'] != 'Technical Staff')
                                 <li class="dropdown-open-items">
                                     <a wire:navigate.hover href="/request?status=waiting" class="w-full">Waiting</a>
                                 </li>
@@ -51,9 +51,8 @@
         </thead>
         <tbody>
             @if($this->viewRequest()->isEmpty())
-            <tr>
+            <tr class="h-96 text-center">
                 <td>N/A</td>
-
             </tr>
 
             @else
