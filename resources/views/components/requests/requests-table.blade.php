@@ -23,25 +23,39 @@
                             class="dropdown absolute top-full"
                             style="display: none;">
                             <ul class="text-sm text-gray-700 w-full">
-                                <li class="dropdown-open-items">
+                                <li class="dropdown-open-items 
+                                {{ request()->input('status') == 'all' ? 'bg-blue text-white' : '' }}">
                                     <a wire:navigate.hover href="/request?status=all" class="w-full">All</a>
                                 </li>
+
                                 @if(session('user')['role'] != 'Technical Staff')
-                                <li class="dropdown-open-items">
+
+                                <li class="dropdown-open-items 
+                                 {{ request()->input('status') == 'waiting' ? 'bg-blue text-white' : '' }}">
                                     <a wire:navigate.hover href="/request?status=waiting" class="w-full">Waiting</a>
                                 </li>
+
                                 @endif
-                                <li class="dropdown-open-items">
+
+                                <li class="dropdown-open-items 
+                                {{ request()->input('status') == 'pending' ? 'bg-blue text-white' : '' }}">
                                     <a wire:navigate.hover href="/request?status=pending" class="w-full">Pending</a>
                                 </li>
-                                <li class="dropdown-open-items">
+
+
+                                <li class="dropdown-open-items 
+                                {{ request()->input('status') == 'ongoing' ? 'bg-blue text-white' : '' }}">
                                     <a wire:navigate.hover href="/request?status=ongoing" class="w-full">Ongoing</a>
                                 </li>
-                                <li class="dropdown-open-items">
+
+
+                                <li class="dropdown-open-items 
+                                {{ request()->input('status') == 'resolved' ? 'bg-blue text-white' : '' }}">
                                     <a wire:navigate.hover href="/request?status=resolved" class="w-full">Resolved</a>
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                 </th>
                 <th class="table-header-cell">Category</th>

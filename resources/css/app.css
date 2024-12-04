@@ -188,7 +188,8 @@
 
 
 #nprogress .bar {
-    background:  #FFCC00 !important; /* Green progress bar */
+    background:  #FFCC00 !important; 
+    height: 8px;
 }
 
 

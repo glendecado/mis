@@ -28,6 +28,19 @@
             {{$slot}}
         </div>
     </div>
+
+    
+    <div
+        x-init="Echo.private('request-channel.{{session('user')['id']}}')
+            .listen('RequestEvent', (e) => {
+                $wire.$refresh();
+                console.log('connected');
+            });
+     ">
+
+    </div>
+
+
     @livewireScripts
 </body>
 
