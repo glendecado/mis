@@ -25,7 +25,7 @@
 }
 
 .table-row-cell {
-    @apply py-3 px-5  text-gray-700 border-b border-gray-200 ;
+    @apply py-3 px-5  text-gray-700 border-b border-gray-200 text-center ;
 }
 
 /*forms*/
