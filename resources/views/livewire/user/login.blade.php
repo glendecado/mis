@@ -59,7 +59,7 @@ $login = function () {
 
 ?>
 
-<div class="grid grid-cols-1 md:grid-cols-2 w-full items-center justify-center  h-svh ">
+<div class="grid grid-cols-1 md:grid-cols-2 grid-rows-[25%,auto] md:grid-rows-1  w-full items-start md:items-center justify-center  h-svh ">
 
     <div class="w-full flex justify-end">
         <div
