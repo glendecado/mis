@@ -48,7 +48,7 @@ $login = function () {
                 ]);
             }
 
-            return redirect()->intended('/dashboard');
+            return redirect('/dashboard');
         } else {
             $this->passwordError = 'Incorrect password';
         }

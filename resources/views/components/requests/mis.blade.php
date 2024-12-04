@@ -1,11 +1,19 @@
 {{--task--}}
-<div class="request-containder">
+<div class="">
     @switch($req->status)
 
     @case('waiting')
-    <div class="float-right mt-2">
-        <button class="button" wire:click="updateStatus('declined')">Decline</button>
-        <button class="button" wire:click="updateStatus('pending')">Accept</button>
+    <div class="bg-blue h-fit p-3 text-white flex justify-between items-center px-4 flex-wrap rounded-md">
+
+        <div class="text-lg">
+            Would you accept the request?
+        </div>
+
+        <div class="">
+            <button class="bg-white text-blue-500 p-2 rounded-md w-24" wire:click="updateStatus('pending')">Accept</button>
+            <button class="border border-white p-2 rounded-md w-24" wire:click="updateStatus('declined')">Decline</button>
+        </div>
+
     </div>
     @break
 

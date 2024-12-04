@@ -24,7 +24,7 @@
             <x-sidebar />
         </div>
         @endif
-        <div class="h-[100%] w-full overflow-auto p-5">
+        <div class="h-[100%] w-full overflow-auto p-0 md:p-5">
             {{$slot}}
         </div>
     </div>

@@ -6,10 +6,11 @@ use App\Models\Request;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 
-use function Livewire\Volt\{mount, on, rules, state, title};
+use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
 
 title('Request');
 
@@ -62,9 +63,18 @@ mount(function () {
 
     session(['requestId' => $this->id ?? null]);
 
+
+
     if ($this->status == null && $this->id == null) {
         $this->redirect('/request?status=all', navigate: true);
     };
+
+    if (!is_null($this->status)) {
+        Cache::forget('status');
+        $status = Cache::remember('status', 60 * 60 * 24, function () {
+            return $this->status;
+        });
+    }
 });
 
 
@@ -251,21 +261,8 @@ $priorityLevelUpdate = function ($level) {
 
 
     <x-alerts />
+
     @include('components.requests.view')
-
-
-
-
-    <div
-        x-init="Echo.private('request-channel.{{session('user')['id']}}')
-            .listen('RequestEvent', (e) => {
-                $wire.$refresh();
-                console.log('connected');
-            });
-     ">
-
-    </div>
-
 
 
 </div>

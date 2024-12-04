@@ -2,11 +2,11 @@
     @foreach($this->viewDetailedRequest() as $req)
 
     <div class="w-full">
-        <div x-on:click="window.history.back()">
+        <a href="/request?status={{Cache::get('status')}}" wire:navigate.hover>
             <div class="float-right border rounded-full size-8 flex-center">
                 <x-icons.arrow direction="left" />
             </div>
-        </div>
+        </a>
 
     </div>
 
@@ -132,23 +132,7 @@
         </div>
 
 
-        <div class="request-containder">
-            
-            @switch(session('user')['role'])
-            @case('Faculty')
-            <div>
-                @if($req->status == 'resolved')
-                <livewire:rate />
-                @else
-                <livewire:task />
-                @endif
-            </div>
-            @break
-            @case('Mis Staff')
-            <livewire:task />
-            @break
-            @endswitch
-        </div>
+        <livewire:task />
 
 
         <div>
@@ -170,3 +154,4 @@
 
     </div>
 </div>
+

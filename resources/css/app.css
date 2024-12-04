@@ -182,7 +182,7 @@
 }
 
 .request-parent {
-    @apply w-full px-[10%] ;
+    @apply w-full px-0 md:px-[10%] ;
 
 }
 

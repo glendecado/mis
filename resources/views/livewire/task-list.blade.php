@@ -33,15 +33,12 @@ $addTaskList = function () {
     $this->reset();
 
     $this->category = $taskList->category_id;
-
-
 };
 
 $deleteTaskList = function ($id) {
     $taskList = TaskList::find($id);
     $taskList->delete();
     $this->dispatch('success', 'sucessfully deleted');
-    
 };
 
 $viewTaskList = function () {
@@ -55,10 +52,10 @@ $check = function ($list) {
     $progress = round($this->checked / count($req->category->taskList) * 100);
     $req->progress = $progress;
 
-    if($req->progress == 100){
+    if ($req->progress == 100) {
         $req->status = 'resolved';
     }
-    
+
     $req->save();
     $this->dispatch('view-detailed-request');
     RequestEvent::dispatch($req->faculty_id);
@@ -66,8 +63,8 @@ $check = function ($list) {
 }
 ?>
 
-<div>
-
+<div class="relative rounded-md">
+   
 
     @include('components.task-list.view-task-list')
 
