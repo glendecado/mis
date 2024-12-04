@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AssignedRequest;
 use App\Models\Request as ModelsRequest;
-use App\Models\Task;
 use Closure;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Switch_;
@@ -23,9 +23,9 @@ class RequestMiddleware
 
         $req = ModelsRequest::find($id);
 
-        $task = Task::where('request_id', $id)->get();
+        $assReq = AssignedRequest::where('request_id', $id)->get();
 
-        $tech = $task->pluck('technicalStaff_id')->toArray();
+        $tech = $assReq->pluck('technicalStaff_id')->toArray();
 
         if($req == null){
             return redirect('/request?status=all');

@@ -1,9 +1,9 @@
 <?php
 
 use App\Events\RequestEvent;
+use App\Models\AssignedRequest;
 use App\Models\Feedback;
 use App\Models\Request;
-use App\Models\Task;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +18,7 @@ mount(function () {
 
 
 $addFeedback = function () {
-    $task = Task::where('request_id', session('requestId'))->get();
+    $task = AssignedRequest::where('request_id', session('requestId'))->get();
 
 
     foreach ($task as $t) {

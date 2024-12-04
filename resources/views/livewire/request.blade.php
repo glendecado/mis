@@ -1,9 +1,9 @@
 <?php
 
 use App\Events\RequestEvent;
+use App\Models\AssignedRequest;
 use App\Models\Category;
 use App\Models\Request;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -123,7 +123,7 @@ $viewRequest = function () {
             case 'Technical Staff':
 
                 //get all assigned task from auth techstaff
-                $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+                $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
 
                 //get all request id from it
                 $techtask = $task->pluck('request_id')->toArray();
@@ -162,7 +162,7 @@ $viewRequest = function () {
 
             case 'Technical Staff':
                 //get all assigned task from auth techstaff
-                $task = Task::where('technicalStaff_id', session('user')['id'])->get();
+                $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
 
                 //get all request id from it
                 $techtask = $task->pluck('request_id')->toArray();

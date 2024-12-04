@@ -24,9 +24,9 @@ class Request extends Model
         return $this->belongsTo(Faculty::class, 'faculty_id');
     }
 
-    public function Task()
+    public function assignedRequest()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(AssignedRequest::class);
     }
 
     public function Category()

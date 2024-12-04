@@ -18,6 +18,6 @@ class TechnicalStaff extends Model
 
      public function assignedRequest()
     {
-        return $this->hasMany(Task::class, 'technicalStaff_id');
+        return $this->hasMany(AssignedRequest::class, 'technicalStaff_id');
     }
 }

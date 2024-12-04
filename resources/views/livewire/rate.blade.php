@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\AssignedRequest;
 use App\Models\Rate;
 use App\Models\Request;
-use App\Models\Task;
 use App\Models\TechnicalStaff;
 
 use function Livewire\Volt\{mount, state};
@@ -11,7 +11,7 @@ use function Livewire\Volt\{mount, state};
 state(['rate', 'tasks']);
 
 mount(function () {
-    $this->tasks = Task::where('request_id', session('requestId'))->with('technicalStaff')->with('rate')->get();
+    $this->tasks = AssignedRequest::where('request_id', session('requestId'))->with('technicalStaff')->with('rate')->get();
 });
 
 $addRate = function ($id, $FacultyRate) {
@@ -35,10 +35,7 @@ $addRate = function ($id, $FacultyRate) {
 
 $viewRate = function () {
 
-    /*    $this->technicalStaffId = $id;
-    $this->averageRating = Rating::where('technicalStaff_id', $this->technicalStaffId)->avg('rating'); */
-    //$t = Task::where(technicalStaff_idm, $id)->with('rate')
-    //
+
 
 
 }

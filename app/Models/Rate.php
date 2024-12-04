@@ -11,8 +11,8 @@ class Rate extends Model
         'rate'
     ];
 
-    public function task()
+    public function assignedRequest()
     {
-        return $this->belongsTo(Task::class, 'task_id');
+        return $this->belongsTo(AssignedRequest::class, 'task_id');
     }
 }
