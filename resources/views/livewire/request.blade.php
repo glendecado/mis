@@ -70,8 +70,8 @@ mount(function () {
     };
 
     if (!is_null($this->status)) {
-        Cache::forget('status');
-        $status = Cache::remember('status', 60 * 60 * 24, function () {
+        Cache::forget('status_'. session('user')['id']);
+        $status = Cache::remember('status_'. session('user')['id'], 60 * 60 * 24, function () {
             return $this->status;
         });
     }
@@ -88,6 +88,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
+    //selecting what status to show, if all then this will show
     if ($this->status == 'all') {
         switch (session('user')['role']) {
 
@@ -101,7 +102,7 @@ $viewRequest = function () {
                 WHEN 'resolved' THEN 4
                 ELSE 5
             END
-        ")->orderBy('created_at', 'desc')->with('category')->get();
+        ")->orderBy('created_at', 'desc')->with(['category','faculty'])->get();
 
 
                 break;
@@ -111,7 +112,7 @@ $viewRequest = function () {
             case 'Faculty':
                 //all request of a current faculty
                 $req =  Request::where('faculty_id', session('user')['id'])
-                    ->with('category')
+                    ->with(['category','faculty'])
                     ->orderBy('created_at', 'desc')
                     ->get();
 
@@ -129,13 +130,15 @@ $viewRequest = function () {
 
 
                 //request by priority level
-                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->get();
+                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->with(['category','faculty'])->get();
 
 
 
                 break;
         }
-    } else {
+    } 
+    //showing with status
+    else {
         switch (session('user')['role']) {
 
 

@@ -2,7 +2,7 @@
     @foreach($this->viewDetailedRequest() as $req)
 
     <div class="w-full">
-        <a href="/request?status={{Cache::get('status')}}" wire:navigate.hover>
+        <a href="/request?status={{Cache::get('status_'.session('user')['id'])}}" wire:navigate.hover>
             <div class="float-right border rounded-full size-8 flex-center">
                 <x-icons.arrow direction="left" />
             </div>
@@ -132,7 +132,7 @@
         </div>
 
 
-        <livewire:task />
+        <livewire:assinged-request />
 
 
         <div>
