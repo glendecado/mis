@@ -105,7 +105,6 @@ $updateProfile = function ($type) {
         session()->put('user.building', $this->building);
         session()->put('user.room', $this->room);
     }
-
 }
 
 
@@ -178,13 +177,14 @@ $updateProfile = function ($type) {
             </div>
 
         </div>
-        <button class="button" x-show="update == true" @click="update = false">Update Profile</button>
-        <button class="button" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save</button>
+        <button class="button float-end mt-2" x-show="update == true" @click="update = false">Update Info</button>
+        <button class="button float-end mt-2 ml-4" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
+        <button class="button float-end mt-2" x-show="update == false" @click="update= true">Cancel</button>
 
     </div>
 
     <div
-
+        wire:loading.hidden
         class="border rounded-md row-start-2 md:row-start-2 col-span-2 md:col-span-1 p-2 flex items-center justify-center relative flex-col gap-2">
         <span class="absolute top-2 left-2">User Profile</span>
 
@@ -194,8 +194,14 @@ $updateProfile = function ($type) {
         <img
             src="{{ $photo->temporaryUrl()}}" alt=""
             class="rounded-full w-[150px] h-[150px] ml-3">
+        <div class="flex gap-2">
+            <button class="button" @click="$wire.updateProfile('img');">save</button>
+            <div class="button">
+                <label for="photo">Choose</label>
+                <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
+            </div>
+        </div>
 
-        <button class="button" @click="$wire.updateProfile('img');">save</button>
         @else
         <div wire:target="photo">
             <img wire:loading.remove
@@ -206,12 +212,12 @@ $updateProfile = function ($type) {
         @endif
 
 
-
+        @if(!$photo)
         <div class="button">
             <label for="photo">Update Profile</label>
             <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
         </div>
-
+        @endif
 
 
 

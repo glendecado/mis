@@ -25,7 +25,7 @@
                             class="dropdown absolute top-full"
                             style="display: none;">
                             <ul class="text-sm text-gray-700 w-full">
-                            <li class="dropdown-open-items">
+                                <li class="dropdown-open-items">
                                     <a wire:navigate.hover href="/user?roles=all" class="w-full">All</a>
                                 </li>
                                 <li class="dropdown-open-items">
@@ -45,20 +45,47 @@
         </thead>
         <tbody>
             @foreach ($this->viewUser() as $user)
-            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600">
-                <td class="table-row-cell">{{ $user->id }}</td>
-                <td class="table-row-cell">{{ $user->name }}</td>
-                <td class="table-row-cell">{{ $user->role }}</td>
-                <td class="table-row-cell">{{ $user->email }}</td>
+            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer">
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->id }}</td>
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->name }}</td>
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->role }}</td>
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
                 <td class="table-row-cell">
-                    <button @click="$wire.deleteUser({{$user->id}})">Delete</button> |
-                    <button @click="Livewire.navigate('edit-profile/{{$user->id}}')">Edit</button>
+                    <button @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser({{ $user->id }})">
+                        <x-icons.delete />
+                    </button>
+                    <button @click="Livewire.navigate('edit-profile/{{$user->id}}')">
+                        <x-icons.edit />
+                    </button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- User Table for Mobile Screens -->
 <div class="table-container block md:hidden z-10" x-data="{ openUser: '' }">

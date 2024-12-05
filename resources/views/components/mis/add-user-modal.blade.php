@@ -39,7 +39,12 @@
             <div class='md:x y gap-2' x-show="role == 'Faculty'">
                 <div class='y'>
                     <label for="college" class="label">College:</label>
-                    <input type="text" id="college" class="input w-full" x-model="college">
+                    <select type="text" id="college" class="input w-full" x-model="college">
+                        <option value="CAS">CAS</option>
+                        <option value="CIT">CIT</option>
+                        <option value="COE">COE</option>
+                        <option value="CEA">CEA</option>
+                    </select>
                     @error('college') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
                 <div class='y'>

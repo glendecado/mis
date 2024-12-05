@@ -83,13 +83,16 @@
 
 
                 @case('Technical Staff')
-                Priority level:
-                <span class="font-bold">
-                    {{
+                <div>
+                    Priority level:
+                    <span class="font-bold">
+                        {{
                             $req->priorityLevel == 3 ? 'Low' : 
                             ($req->priorityLevel == 2 ? 'Medium' : 
                             ($req->priorityLevel == 1 ? 'High' : ''))}}
-                </span>
+                    </span>
+                </div>
+
                 @break
                 @default
                 <span></span>
@@ -154,4 +157,3 @@
 
     </div>
 </div>
-

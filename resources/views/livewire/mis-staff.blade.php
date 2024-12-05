@@ -46,7 +46,6 @@ on(['resetErrors' => function () {
 }]);
 
 
-
 //view user
 $viewUser = function () {
     switch ($this->roles) {
@@ -102,7 +101,7 @@ $addUser = function () {
         case 'Faculty':
             $fac = Faculty::create([
                 'faculty_id' => $user->id,
-                'college' => $this->college,
+                'college' => $this->college ?? 'CAS',
                 'building' => $this->building,
                 'room' => $this->room,
             ]);
