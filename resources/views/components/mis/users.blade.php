@@ -54,9 +54,6 @@
                     <button @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser({{ $user->id }})">
                         <x-icons.delete />
                     </button>
-                    <button @click="Livewire.navigate('edit-profile/{{$user->id}}')">
-                        <x-icons.edit />
-                    </button>
                 </td>
             </tr>
             @endforeach

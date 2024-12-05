@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use function Livewire\Volt\{mount, state, title, usesFileUploads};
 
-title('Edit profile');
+title('Profile');
 
 usesFileUploads();
 

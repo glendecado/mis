@@ -11,14 +11,11 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-
-
   Volt::route('/dashboard', 'request')->name('dashboard');
 
 
   Volt::route('/profile/{id}', 'user/profile')->name('profile');
 
-  Volt::route('/edit-profile/{id}', 'user/update-profile')->name('update')->middleware('edit');
 
   Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
 
