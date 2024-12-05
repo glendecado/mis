@@ -31,7 +31,7 @@
 /*forms*/
 
 .dropdown {
-    @apply bg-azure/90 shadow-lg rounded-md h-fit w-52  z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/50 border
+    @apply bg-azure/90 shadow-lg rounded-md z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/50 border
 }
 
 .button {

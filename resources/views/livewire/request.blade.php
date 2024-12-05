@@ -7,8 +7,7 @@ use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Livewire\Livewire;
+use App\Notifications\NewRequest;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
 
@@ -70,8 +69,8 @@ mount(function () {
     };
 
     if (!is_null($this->status)) {
-        Cache::forget('status_'. session('user')['id']);
-        $status = Cache::remember('status_'. session('user')['id'], 60 * 60 * 24, function () {
+        Cache::forget('status_' . session('user')['id']);
+        $status = Cache::remember('status_' . session('user')['id'], 60 * 60 * 24, function () {
             return $this->status;
         });
     }
@@ -102,7 +101,7 @@ $viewRequest = function () {
                 WHEN 'resolved' THEN 4
                 ELSE 5
             END
-        ")->orderBy('created_at', 'desc')->with(['category','faculty'])->get();
+        ")->orderBy('created_at', 'desc')->with(['category', 'faculty'])->get();
 
 
                 break;
@@ -112,7 +111,7 @@ $viewRequest = function () {
             case 'Faculty':
                 //all request of a current faculty
                 $req =  Request::where('faculty_id', session('user')['id'])
-                    ->with(['category','faculty'])
+                    ->with(['category', 'faculty'])
                     ->orderBy('created_at', 'desc')
                     ->get();
 
@@ -130,13 +129,13 @@ $viewRequest = function () {
 
 
                 //request by priority level
-                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->with(['category','faculty'])->get();
+                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->with(['category', 'faculty'])->get();
 
 
 
                 break;
         }
-    } 
+    }
     //showing with status
     else {
         switch (session('user')['role']) {
@@ -195,6 +194,8 @@ $addRequest = function () {
         'concerns' => $this->concerns,
     ]);
 
+
+
     $req->save();
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
@@ -205,7 +206,7 @@ $addRequest = function () {
 
 
     RequestEvent::dispatch($mis->id);
-
+    $mis->notify(new NewRequest('New Request From ' . session('user')['name'], '/request/' . $req->id));
     $this->dispatch('success', 'Added Successfully, but reverb is not running');
 };
 
@@ -266,6 +267,16 @@ $priorityLevelUpdate = function ($level) {
     <x-alerts />
 
     @include('components.requests.view')
+
+    <div
+        x-init="Echo.private('request-channel.{{session('user')['id']}}')
+            .listen('RequestEvent', (e) => {
+                $wire.$refresh();
+                console.log('connected');
+            });
+     ">
+
+    </div>
 
 
 </div>
