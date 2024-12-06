@@ -184,6 +184,7 @@ $viewRequest = function () {
 //add request
 $addRequest = function () {
     $this->validate();
+    
     $category = Category::firstOrCreate(
         ['id' => $this->category], // Attributes to find
         ['name' => $this->category], // Attributes to create if not found
@@ -195,8 +196,8 @@ $addRequest = function () {
     ]);
 
 
-
     $req->save();
+
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
 
@@ -204,10 +205,15 @@ $addRequest = function () {
     //getting the id of mis first then dispatch the event to mis
     $mis = User::where('role', 'Mis Staff')->first();
 
+    $mis->notify(new NewRequest($req));
 
     RequestEvent::dispatch($mis->id);
-    $mis->notify(new NewRequest('New Request From ' . session('user')['name'], '/request/' . $req->id));
+
+
+
     $this->dispatch('success', 'Added Successfully, but reverb is not running');
+
+
 };
 
 //delete request
@@ -277,6 +283,8 @@ $priorityLevelUpdate = function ($level) {
      ">
 
     </div>
+
+    
 
 
 </div>

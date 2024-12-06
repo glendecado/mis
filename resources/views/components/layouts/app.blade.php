@@ -29,9 +29,6 @@
         </div>
     </div>
 
-    <div>
-
-    </div>
 
     @livewireScripts
 

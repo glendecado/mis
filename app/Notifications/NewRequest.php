@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,13 +17,24 @@ class NewRequest extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
 
+    protected $img;
+    protected $name;
+    protected $concerns;
+    protected $date;
     protected $message;
     protected $redirect;
 
-    public function __construct($message, $redirect)
+    public function __construct(Request $request)
     {
-        $this->message = $message;
-        $this->redirect = $redirect;
+
+        $this->message = 'Sent a Request';
+        $this->name = session('user')['name'];
+        $this->img = session('user')['img'];
+        $this->date = $request->created_at;
+        $this->concerns = $request->concerns;
+        $this->redirect = '/request/'.$request->id;
+        
+
     }
 
     /**
@@ -58,23 +70,36 @@ class NewRequest extends Notification implements ShouldQueue
         ];
     }
 
-    public function toDatabase($notifiable)
+ 
+    public function toDatabase(object $notifiable)
     {
         return [
             'message' => $this->message,
-            'redirect' => $this->redirect,
+            'name' => $this->name ,
+            'img' => $this->img,
+            'date' => $this->date,
+            'concerns' => $this->concerns,
+            'redirect' => $this->redirect 
+
+
         ];
     }
-
-    public function toBroadcast($notifiable): BroadcastMessage
+   
+    public function toBroadcast(object $notifiable): BroadcastMessage
     {
-        $data = [
-            'message' => $this->message,
-            'redirect' => $this->redirect,
-        ];
 
-        return (new BroadcastMessage($data))
-                   ->onConnection('database')      // Set the queue connection
-                   ->onQueue('broadcasts');  // Set the queue name
+        
+     
+        
+        
+        return new BroadcastMessage([
+            'message' => $this->message,
+            'name' => $this->name ,
+            'img' => $this->img,
+            'date' => $this->date,
+            'concerns' => $this->concerns,
+            'redirect' => $this->redirect
+        ]);
+
     }
 }
