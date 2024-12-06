@@ -1,11 +1,11 @@
 <div x-cloak :class="sidebar ? 
 'px-3 w-52 absolute md:relative':' w-12 relative'"
-    class="h-full text-yellow pt-11 z-30 bg-blue-2"
+    class="h-full text-yellow pt-11 z-30 bg-blue-2 transition-all"
 
     x-data="{ sidebar: $persist(true).using(sessionStorage)}">
 
 
-    <div class="absolute top-0" @click="sidebar = !sidebar">
+    <div class="absolute top-0 right-2" @click="sidebar = !sidebar">
         <x-icons.burger />
     </div>
 

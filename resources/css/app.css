@@ -31,9 +31,7 @@
 
 /*forms*/
 
-.dropdown {
-    @apply bg-white/95 shadow-lg rounded-md z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/10 border
-}
+
 
 .button {
     @apply bg-blue-600 text-white font-medium rounded-lg px-4 py-2 drop-shadow-md;
@@ -155,7 +153,9 @@
     @apply border flex h-[50px] px-4 gap-5 items-center text-white rounded-md hover:bg-blue-500/50;
 }
 
-
+.dropdown {
+    @apply bg-white/95 shadow-lg rounded-md z-[100] text-blue-950 items-center flex flex-col shadow-blue-950/10 border transition-all;
+}
 
 .dropdown-open-items {
     @apply w-full hover:bg-blue hover:rounded-lg hover:text-blue-100 flex-center cursor-pointer select-none;

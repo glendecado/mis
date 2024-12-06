@@ -21,7 +21,7 @@ $opened = function ($id, $req) {
 @volt
 <div x-data="{notif: false}">
 
-    <div @click="notif = !notif" class="relative">
+    <div @click="notif = !notif" class="relative" @click.outside="notif = false">
 
         @if($user->unreadNotifications->count() > 0)
         <div class="bg-red-500 rounded-full w-fit h-5 p-1 text-white absolute right-0 top-0 flex justify-center items-center -translate-y-1 translate-x-1 transition-all">
@@ -40,10 +40,11 @@ $opened = function ($id, $req) {
 
         {{--Unread--}}
         @foreach ($user->unreadNotifications as $notification)
-        <div  class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3"></div>
+                    class="rounded-full w-14 h-14 ml-3">
+            </div>
             <div class="flex w-60 flex-col overflow-hidden truncate ">
                 <span class="text-wrap">{{$notification->data['name']}}</span>
                 <span>{{$notification->data['message']}}</span>
@@ -56,17 +57,19 @@ $opened = function ($id, $req) {
 
         {{--read--}}
         @foreach ($user->readNotifications as $notification)
-        <div  class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3"></div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
+                    class="rounded-full w-14 h-14 ml-3">
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden">
                 <span class="text-wrap">{{$notification->data['name']}}</span>
                 <span>{{$notification->data['message']}}</span>
-                <div>Concerns:{{$notification->data['concerns']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+                <span class="truncate">Concerns: {{$notification->data['concerns']}}</span>
+                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
         </div>
+
         @endforeach
 
     </div>
