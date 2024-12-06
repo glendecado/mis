@@ -34,7 +34,7 @@
 
 
 .button {
-    @apply bg-blue-600 text-white font-medium rounded-lg px-4 py-2 drop-shadow-md;
+    @apply bg-blue text-white font-medium rounded-lg px-4 py-2 drop-shadow-md;
 }
 
 .button:hover {

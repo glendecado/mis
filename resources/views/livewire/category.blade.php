@@ -12,7 +12,9 @@ state('cacheKey');
 state('category')->modelable();
 
 mount(function () {
-    session(['page' => 'category']);
+    if (request()->route()->getName() == 'category') {
+        session(['page' => 'category']);
+    }
     $this->cacheKey = 'categories_';
 });
 

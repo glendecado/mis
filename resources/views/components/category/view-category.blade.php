@@ -1,4 +1,4 @@
-@if(request()->route()->getName() == 'category')
+@if(session('page') == 'category')
 
 @include('components.category.manage-category')
 

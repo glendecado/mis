@@ -1,21 +1,24 @@
-<div x-data="{ selectedCategoryId: null }" class="m-3 rounded-lg overflow-auto border h-[80vh] bg-blue-200">
-    <div class="bg-blue-500 p-2 text-white">
-        Category
-    </div>
+<div class="text-[20px] font-bold">
+    Category
+</div>
 
-    <div class="p-2">
+<div x-data="{ selectedCategoryId: null }" class="m-3 overflow-auto h-[80vh]">
+
+
+    <div class="p-2 transition-all">
         @foreach($this->viewCategory() as $category)
-        <div 
-            class="bg-blue-400 rounded-md p-2 mt-6 text-white cursor-pointer"
-            @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}"
-        >
-            {{$category->name}}
-        </div>
+        <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2  border-l-2 h-fit border-blue-500 mt-2 rounded-b-md' : 'mt-2'">
+            <div
+                class="bg-blue p-2 text-white cursor-pointer select-none"
+                :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md': 'rounded-md'"
+                @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
+                {{$category->name}}
+            </div>
 
-        <div x-show="selectedCategoryId === {{ $category->id }}" class="bg-blue-500 mb-2 relative top-0 -translate-y-2 z-10 p-2">
-
-            {{-- TaskList --}}
-            <livewire:task-list :category="$category->id" />
+            <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2">
+                {{-- TaskList --}}
+                <livewire:task-list :category="$category->id" />
+            </div>
         </div>
         @endforeach
     </div>
