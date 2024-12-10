@@ -158,7 +158,7 @@
 }
 
 .dropdown-open-items {
-    @apply w-full hover:bg-blue hover:rounded-lg hover:text-blue-100 flex-center cursor-pointer select-none;
+    @apply w-full hover:bg-blue hover:rounded-lg hover:text-yellow flex-center cursor-pointer select-none;
 }
 
 
