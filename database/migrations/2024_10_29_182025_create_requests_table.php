@@ -25,6 +25,8 @@ return new class extends Migration
             $table->integer('priorityLevel')->default(3);
 
             $table->integer('progress')->default(0);
+            $table->integer('rate')->nullable();
+            $table->string('feedback')->nullable();
 
             $table->enum('status', ['waiting', 'pending', 'ongoing', 'resolved','declined'])->default('waiting');
 

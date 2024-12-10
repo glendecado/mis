@@ -19,10 +19,21 @@
 
     @case('category')
 
-        <div>
+    <div class="x gap-2">
+        <div class="y w-96">
             <input type="text" wire:model="task" class="input">
+            
+            <!-- Show error message if there's an error for the 'task' field -->
+            @error('task')
+                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="flex-none">
             <button class="button" wire:click.prevent="addTaskList">+</button>
         </div>
+
+    </div>
 
     @break
 

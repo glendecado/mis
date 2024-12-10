@@ -154,6 +154,8 @@
 
         @endforeach
 
+        @include('components.requests.rateAndFeedback')
 
     </div>
+    
 </div>

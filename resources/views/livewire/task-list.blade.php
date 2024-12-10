@@ -6,12 +6,16 @@ use App\Models\Request;
 use App\Models\TaskList;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{state, mount};
+use function Livewire\Volt\{state, mount, rules};
 
 state(['checked', 'page',]);
 
 
 state(['category', 'task', 'request']);
+
+rules([
+    'task' => 'required'
+]);
 
 mount(function () {
 
@@ -26,6 +30,7 @@ mount(function () {
 });
 
 $addTaskList = function () {
+    $this->validate();
     $taskList = TaskList::create([
         'category_id' => $this->category,
         'task' => $this->task,

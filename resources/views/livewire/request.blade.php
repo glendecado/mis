@@ -266,6 +266,15 @@ $priorityLevelUpdate = function ($level) {
     $this->dispatch('success', 'successfuly changed');
 };
 
+$feedbackAndRate = function($rating,$feedback){
+    $req = Request::find($this->id);
+    $req->rate = $rating;
+    $req->feedback = $feedback;
+    $req->save();
+    $this->dispatch('success', 'Rate and Feedback successfuly sent');
+    $this->dispatch('close-modal', 'rateFeedback');
+};
+
 ?>
 <div>
 

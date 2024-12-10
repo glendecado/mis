@@ -30,7 +30,7 @@
 
 <div class="gap-2 request-containder">
     Feedback
-    <livewire:feedback />
+
 </div>
 
 @break
