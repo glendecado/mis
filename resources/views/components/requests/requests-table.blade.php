@@ -6,7 +6,7 @@
             type="text" 
             placeholder="Search..." 
             x-model="search"
-            class="input"
+            class="input w-96"
         />
     </div>
 
@@ -89,8 +89,16 @@
             @foreach ($this->viewRequest() as $request)
             <tr 
                 class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer" 
+                {{--Search--}}
                 x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }}'
+                '{{ $request->faculty->user->name ?? '' }} 
+                {{ $request->status }} 
+                {{ $request->category->name }} 
+                {{ $request->concerns }} 
+                {{ $request->faculty->college}}
+                {{ $request->faculty->building}}
+                {{ $request->faculty->room}}
+                 '
                     .toLowerCase().includes(search.toLowerCase())"
             >
                 @if(session('user')['role'] != 'Faculty')

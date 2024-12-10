@@ -19,7 +19,7 @@ class Request extends Model
 
     ];
 
-    public function Faculty()
+    public function faculty()
     {
         return $this->belongsTo(Faculty::class, 'faculty_id');
     }

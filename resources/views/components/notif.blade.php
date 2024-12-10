@@ -38,6 +38,8 @@ $opened = function ($id, $req) {
             console.log(notification);
             });">
 
+        @switch(session('user')['role'])
+        @case('Mis Staff')
         {{--Unread--}}
         @foreach ($user->unreadNotifications as $notification)
         <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
@@ -71,7 +73,45 @@ $opened = function ($id, $req) {
         </div>
 
         @endforeach
+        @break
 
+        @case('Faculty')
+        
+        {{--unread--}}
+        @foreach ($user->unreadNotifications as $notification)
+        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4 font-bold" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
+                <span class="rounded-full text-[30px] ml-3">
+                    🕒
+                </span>
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden">
+                <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
+                <span>is currently {{$notification->data['status']}}.</span>
+                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
+        </div>
+        @endforeach
+
+        {{--read--}}
+        @foreach ($user->readNotifications as $notification)
+        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
+        <div class="rounded-full p-3">
+                <span class="rounded-full text-[30px] ml-3">
+                    🕒
+                </span>
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden">
+                <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
+                <span>is currently {{$notification->data['status']}}.</span>
+                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+        </div>
+        @endforeach
+        @break
+
+        @endswitch
     </div>
 </div>
 @endvolt

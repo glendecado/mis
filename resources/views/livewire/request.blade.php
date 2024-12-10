@@ -3,11 +3,13 @@
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\Category;
+use App\Models\Faculty;
 use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Notifications\NewRequest;
+use App\Notifications\RequestStatus;
 use Illuminate\Notifications\Notification;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
@@ -90,7 +92,7 @@ $viewDetailedRequest = function () {
     $user->unreadNotifications // Accesses the unread notifications for the user
         ->where('data.req_id', $this->id) // Filters the unread notifications by the specific ID
         ->markAsRead(); // Marks the filtered notification as read
-    
+
     return Request::where('id', $this->id)->with('faculty')->get();
 };
 
@@ -194,7 +196,7 @@ $viewRequest = function () {
 //add request
 $addRequest = function () {
     $this->validate();
-    
+
     $category = Category::firstOrCreate(
         ['id' => $this->category], // Attributes to find
         ['name' => $this->category], // Attributes to create if not found
@@ -218,18 +220,13 @@ $addRequest = function () {
     $mis->notify(new NewRequest($req));
 
     RequestEvent::dispatch($mis->id);
-
-
-
-    $this->dispatch('success', 'Added Successfully, but reverb is not running');
-
-
 };
 
 //delete request
 $deleteRequest = function ($id) {
     $req = Request::find($id);
     $req->delete();
+    $this->dispatch('success', 'deleted Successfully');
 };
 
 //confirm location
@@ -260,8 +257,13 @@ $updateStatus = function ($status) {
 
     $this->dispatch('success', $status == 'pending' ? 'Request Accepted you can now update the priority level and assign tehcnical staff' : 'Request Declined');
 
-    $req = Request::find($this->id);
+    $req = Request::where('id', $this->id)->with('faculty')->first();
     $req->status = $status;
+
+
+    $faculty = User::where('id', $req->faculty_id)->first();
+
+    $faculty->notify(new RequestStatus($req));
     $req->save();
 };
 
@@ -276,7 +278,7 @@ $priorityLevelUpdate = function ($level) {
     $this->dispatch('success', 'successfuly changed');
 };
 
-$feedbackAndRate = function($rating,$feedback){
+$feedbackAndRate = function ($rating, $feedback) {
     $req = Request::find($this->id);
     $req->rate = $rating;
     $req->feedback = $feedback;
@@ -305,7 +307,7 @@ $feedbackAndRate = function($rating,$feedback){
 
     </div>
 
-    
+
 
 
 </div>
