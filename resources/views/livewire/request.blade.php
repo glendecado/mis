@@ -8,14 +8,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Notifications\NewRequest;
+use Illuminate\Notifications\Notification;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
 
-placeholder(<<<'HTML'
-    <div class="rounded-md w-full h-full z-50 flex items-center justify-center">
-        <x-loaders.b-square />
-    </div>
-HTML);
+placeholder('<div class="rounded-md w-full h-full z-50 flex items-center justify-center"><x-loaders.b-square /></div>');
+
 
 title('Request');
 
@@ -87,6 +85,12 @@ mount(function () {
 //viewDetailed Req
 $viewDetailedRequest = function () {
 
+    $user = User::find(session('user')['id']); // Finds the user with
+
+    $user->unreadNotifications // Accesses the unread notifications for the user
+        ->where('data.req_id', $this->id) // Filters the unread notifications by the specific ID
+        ->markAsRead(); // Marks the filtered notification as read
+    
     return Request::where('id', $this->id)->with('faculty')->get();
 };
 
@@ -280,6 +284,8 @@ $feedbackAndRate = function($rating,$feedback){
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
 };
+
+
 
 ?>
 <div class="overflow-auto">

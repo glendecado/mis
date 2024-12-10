@@ -23,6 +23,7 @@ class NewRequest extends Notification implements ShouldQueue
     protected $date;
     protected $message;
     protected $redirect;
+    protected $reqid;
 
     public function __construct(Request $request)
     {
@@ -33,6 +34,7 @@ class NewRequest extends Notification implements ShouldQueue
         $this->date = $request->created_at;
         $this->concerns = $request->concerns;
         $this->redirect = '/request/'.$request->id;
+        $this->reqid = $request->id;
         
 
     }
@@ -74,6 +76,7 @@ class NewRequest extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable)
     {
         return [
+            'req_id' => $this->reqid,
             'message' => $this->message,
             'name' => $this->name ,
             'img' => $this->img,
@@ -93,6 +96,7 @@ class NewRequest extends Notification implements ShouldQueue
         
         
         return new BroadcastMessage([
+            'req_id' => $this->reqid,
             'message' => $this->message,
             'name' => $this->name ,
             'img' => $this->img,
