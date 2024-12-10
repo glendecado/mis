@@ -5,7 +5,7 @@
 <div x-data="{ selectedCategoryId: null }" class="m-3 overflow-auto h-[80vh]">
 
 
-    <div class="p-2 transition-all">
+    <div class="p-2 transition-all" x-cloak>
         @foreach($this->viewCategory() as $category)
         <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2  border-l-2 h-fit border-blue-500 mt-2 rounded-b-md' : 'mt-2'">
             <div
