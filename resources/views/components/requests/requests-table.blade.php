@@ -1,5 +1,5 @@
 <!-- User Table for Larger Screens -->
-<div class="overflow-auto table-container md:block hidden w-full p-2 rounded-md" x-data="{ search: '' }">
+<div class="table-container md:block hidden w-full p-2 rounded-md" x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-4">
         <input 
@@ -10,7 +10,7 @@
         />
     </div>
 
-    <table class="w-full overflow-hidden text-[100%] break-all">
+    <table class="w-full text-[100%] break-all">
         <thead class="table-header">
             <tr>
                 @if(session('user')['role'] != 'Faculty')

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Notifications\NewRequest;
 use App\Notifications\RequestStatus;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\RateLimiter;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
 
@@ -195,6 +196,18 @@ $viewRequest = function () {
 
 //add request
 $addRequest = function () {
+    $key = 'add-request:' . request()->ip();  // Rate limit based on IP address
+
+    // Check if the user has exceeded the rate limit (e.g., 5 requests per minute)
+    if (RateLimiter::tooManyAttempts($key, 5)) {
+        // Provide feedback to the user
+        $this->dispatch('danger', 'Too many requests. Please try again later.');
+        return;
+    }
+
+    // Increment the attempts count with a 1hr expiration
+    RateLimiter::hit($key, 60 * 60);
+
     $this->validate();
 
     $category = Category::firstOrCreate(
@@ -290,7 +303,7 @@ $feedbackAndRate = function ($rating, $feedback) {
 
 
 ?>
-<div class="overflow-auto">
+<div>
 
 
     <x-alerts />
