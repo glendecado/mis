@@ -1,5 +1,5 @@
 <!-- User Table for Larger Screens -->
-<div class="table-container md:block hidden w-full p-2 rounded-md" x-data="{ search: '' }">
+<div class="overflow-auto table-container md:block hidden w-full p-2 rounded-md" x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-4">
         <input 
@@ -10,7 +10,7 @@
         />
     </div>
 
-    <table class="min-w-full break-all">
+    <table class="w-full overflow-hidden text-[100%] break-all">
         <thead class="table-header">
             <tr>
                 @if(session('user')['role'] != 'Faculty')
@@ -18,7 +18,7 @@
                 @endif
                 <th class="table-header-cell">Date</th>
                 <th class="table-header-cell relative"> 
-                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center justify-center cursor-pointer">
+                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center justify-center cursor-pointer flex-wrap">
                         <span>Status</span>
                         <!-- Arrow Icons -->
                         <div class="relative">
@@ -73,7 +73,7 @@
                     </div>
                 </th>
                 <th class="table-header-cell">Category</th>
-                <th class="table-header-cell">Concerns</th>
+                <th class="table-header-cell w-[20%]">Concerns</th>
                 <th class="table-header-cell">Location</th>
                 @if(session('user')['role'] == 'Faculty')
                 <th class="table-header-cell">Action</th>
@@ -131,7 +131,7 @@
 </div>
 
 <!-- User Table for Mobile Screens with Search -->
-<div class="table-container block md:hidden z-10" x-data="{ openRequest: '', search: '' }">
+<div class="table-container block md:hidden z-10 p-4" x-data="{ openRequest: '', search: '' }">
     <!-- Search Input -->
     <div class="m-4">
         <input 
@@ -142,15 +142,15 @@
         />
     </div>
 
-    <table class="min-w-full relative">
+    <table class="min-w-full relative p-2">
         @foreach ($this->viewRequest() as $request)
         <tr class="table-row-cell"
             x-show="search === '' || 
             '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }}'
                 .toLowerCase().includes(search.toLowerCase())"
             @click="openRequest = openRequest === '{{ $request->id }}' ? '' : '{{ $request->id }}'">
-            <td class="y border mb-2 bg-blue-100">
-                <span class="bg-blue-500 text-white">RequestId: {{ $request->id }}</span>
+            <td class="y border mb-2 bg-blue-100 rounded-md">
+                <span class="bg-blue rounded-md text-white">RequestId: {{ $request->id }}</span>
                 <span class="text-ellipsis overflow-hidden">Name: {{ $request->faculty->user->name }}</span>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -161,9 +161,7 @@
                         d="m15 11.25-3-3m0 0-3 3m3-3v7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
 
-                <div class="y h-fit" x-show="openRequest === '{{ $request->id }}'">
-                    <div>RequestId: <span>{{ $request->id }}</span></div>
-                    <div>Name: <span>{{ $request->faculty->user->name }}</span></div>
+                <div class="y h-fit" x-show="openRequest === '{{ $request->id }}'" >
                     <div>Status: <span>{{ $request->status }}</span></div>
                     <div>Category: <span>{{ $request->category->name }}</span></div>
                     <div>Concerns: <span>{{ $request->concerns }}</span></div>
@@ -173,7 +171,9 @@
                         <x-icons.delete />
                     </button>
                     @endif
+                    <div @click="Livewire.navigate('/request/{{$request->id }}')" class="bg-yellow text-blue-2 h-7">view</div>
                 </div>
+
             </td>
         </tr>
         @endforeach

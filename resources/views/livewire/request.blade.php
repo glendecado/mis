@@ -276,7 +276,7 @@ $feedbackAndRate = function($rating,$feedback){
 };
 
 ?>
-<div>
+<div class="overflow-auto">
 
 
     <x-alerts />
