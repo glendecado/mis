@@ -64,7 +64,9 @@
                 <th class="table-header-cell">Category</th>
                 <th class="table-header-cell">Concerns</th>
                 <th class="table-header-cell">Location</th>
+                @if(session('user')['role'] == 'Faculty')
                 <th class="table-header-cell">Action</th>
+                @endif
             </tr>
         </thead>
         <tbody>
