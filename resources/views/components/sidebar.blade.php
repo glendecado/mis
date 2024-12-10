@@ -11,7 +11,7 @@
 
 
     {{--Request--}}
-    <a wire:navigate.hover href="/request">
+    <a wire:navigate.hover href="/request?status={{Cache::get('status_'.session('user')['id']) ?? 'all'}}">
         <div
             :class="sidebar ? 'justify-start': 'justify-center'"
             class="{{request()->routeIs('request') 

@@ -11,6 +11,12 @@ use App\Notifications\NewRequest;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
 
+placeholder(<<<'HTML'
+    <div class="rounded-md w-full h-full z-50 flex items-center justify-center">
+        <x-loaders.b-square />
+    </div>
+HTML);
+
 title('Request');
 
 state(['cacheKey']);
