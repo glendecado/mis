@@ -64,6 +64,7 @@
                 <th class="table-header-cell">Category</th>
                 <th class="table-header-cell">Concerns</th>
                 <th class="table-header-cell">Location</th>
+                <th class="table-header-cell">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -91,21 +92,30 @@
 
             @endphp
 
-            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer"
-                @click="Livewire.navigate('/request/{{$request->id }}')">
+            <tr class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer">
 
                 @if(session('user')['role'] != 'Faculty')
-                <td class="table-row-cell">{{ $request->faculty->user->name }}</td>
+                <td class="table-row-cell"  @click="Livewire.navigate('/request/{{$request->id }}')">{{ $request->faculty->user->name }}</td>
                 @endif
-                <td class="table-row-cell">{{ $request->created_at->format('Y-m-d') }}</td>
-                <td class="table-row-cell">{{ $request->status }}</td>
-                <td class="table-row-cell">{{ $request->category->name }}</td>
-                <td class="table-row-cell">{{ $request->concerns }}</td>
+                <td class="table-row-cell"  @click="Livewire.navigate('/request/{{$request->id }}')">{{ $request->created_at->format('Y-m-d') }}</td>
+                <td class="table-row-cell"  @click="Livewire.navigate('/request/{{$request->id }}')">{{ $request->status }}</td>
+                <td class="table-row-cell"  @click="Livewire.navigate('/request/{{$request->id }}')">{{ $request->category->name }}</td>
+                <td class="table-row-cell"  @click="Livewire.navigate('/request/{{$request->id }}')">{{ $request->concerns }}</td>
                 <td class="table-row-cell text-small">
                     {{ $request->faculty->college }}
                     {{ $request->faculty->building }}
                     {{ $request->faculty->room }}
                 </td>
+
+                @if(session('user')['role'] == 'Faculty')
+                <td class="table-row-cell">
+
+                    <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})">
+                        <x-icons.delete />
+                    </div>
+
+                </td>
+                @endif
             </tr>
             @endforeach
             @endif
