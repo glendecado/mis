@@ -4,6 +4,8 @@ use App\Events\RequestEvent;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\TaskList;
+use App\Models\User;
+use App\Notifications\RequestStatus;
 use Illuminate\Support\Facades\Cache;
 
 use function Livewire\Volt\{state, mount, rules};
@@ -59,6 +61,8 @@ $check = function ($list) {
 
     if ($req->progress == 100) {
         $req->status = 'resolved';
+        $faculty = User::find($req->faculty_id);
+        $faculty->notify(new RequestStatus($req));
     }
 
     $req->save();
