@@ -38,10 +38,13 @@ $opened = function ($id, $req) {
             console.log(notification);
             });">
 
-        @switch(session('user')['role'])
-        @case('Mis Staff')
+
         {{--Unread--}}
         @foreach ($user->unreadNotifications as $notification)
+
+        @switch($notification->data['notif'])
+
+        @case('NewRequest')
         <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
@@ -55,30 +58,11 @@ $opened = function ($id, $req) {
             </div>
             <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
         </div>
-        @endforeach
 
-        {{--read--}}
-        @foreach ($user->readNotifications as $notification)
-        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden">
-                <span class="text-wrap">{{$notification->data['name']}}</span>
-                <span>{{$notification->data['message']}}</span>
-                <span class="truncate">Concerns: {{$notification->data['concerns']}}</span>
-                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-        </div>
 
-        @endforeach
         @break
 
-        @case('Faculty')
-        
-        {{--unread--}}
-        @foreach ($user->unreadNotifications as $notification)
+        @case('RequestStatus')
         <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4 font-bold" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <span class="rounded-full text-[30px] ml-3">
@@ -92,12 +76,35 @@ $opened = function ($id, $req) {
             </div>
             <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
         </div>
+        @break
+
+        @endswitch
+
         @endforeach
 
-        {{--read--}}
+        {{--unread--}}
         @foreach ($user->readNotifications as $notification)
+
+        @switch($notification->data['notif'])
+
+        @case('NewRequest')
         <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
-        <div class="rounded-full p-3">
+            <div class="rounded-full p-3">
+                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
+                    class="rounded-full w-14 h-14 ml-3">
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden">
+                <span class="text-wrap">{{$notification->data['name']}}</span>
+                <span>{{$notification->data['message']}}</span>
+                <span class="truncate">Concerns: {{$notification->data['concerns']}}</span>
+                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+        </div>
+        @break
+
+        @case('RequestStatus')
+        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
                 <span class="rounded-full text-[30px] ml-3">
                     🕒
                 </span>
@@ -108,10 +115,12 @@ $opened = function ($id, $req) {
                 <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
         </div>
-        @endforeach
         @break
 
         @endswitch
+
+        @endforeach
+
     </div>
 </div>
 @endvolt

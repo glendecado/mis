@@ -87,8 +87,24 @@
             </tr>
             @else
             @foreach ($this->viewRequest() as $request)
+
+            @php
+            $color = "";
+            switch($request->priorityLevel){
+                case 1:
+                    $color = "bg-red-500/50 hover:bg-red-500/30";
+                    break;
+                case 2:
+                    $color = "bg-yellow/50 hover:bg-yellow/30";
+                    break;
+                case 3:
+                    $color = "bg-green-500/50 hover:bg-green-500/30";
+                    break;
+            }
+            
+            @endphp
             <tr 
-                class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer" 
+                class="{{session('user')['role'] == 'Technical Staff' ? $color : 'hover:bg-blue-100'}} table-row-cell  hover:border-y-blue-600 cursor-pointer" 
                 {{--Search--}}
                 x-show="search === '' || 
                 '{{ $request->faculty->user->name ?? '' }} 
@@ -104,6 +120,7 @@
                 @if(session('user')['role'] != 'Faculty')
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->faculty->user->name }}
+                    {{$request->priorityLevel}}
                 </td>
                 @endif
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
