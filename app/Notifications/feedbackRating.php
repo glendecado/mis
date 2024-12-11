@@ -2,21 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class feedbackRating extends Notification
+class FeedbackRating extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+
+     protected $rate;
+
+     protected $feedback;
+
+    public function __construct(Request $request)
     {
-        //
+        $this->rate = $request->rate;
+        $this->feedback = $request->feedback;
     }
 
     /**
@@ -50,5 +58,31 @@ class feedbackRating extends Notification
         return [
             //
         ];
+    }
+
+    public function toDatabase(object $notifiable)
+    {
+        return [
+
+            'notif' => 'FeedbackRating',
+
+
+
+        ];
+    }
+   
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+
+        
+     
+        
+        
+        return new BroadcastMessage([
+
+            'notif' => 'FeedbackRating',
+  
+        ]);
+
     }
 }
