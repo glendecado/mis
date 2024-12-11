@@ -25,9 +25,10 @@ mount(function () {
     $this->request = Request::find(session('requestId'));
 
 
-    if (request()->route()->getName() == 'request') {
+    if (session('page') == 'request') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
+
     }
 });
 
