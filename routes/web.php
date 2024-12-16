@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
 
     Volt::route('/category', 'category')->name('category');
     Volt::route('/user', 'mis-staff')->name('user');
+    Volt::route('/reports', 'mis/reports')->name('reports');
 
   });
 
