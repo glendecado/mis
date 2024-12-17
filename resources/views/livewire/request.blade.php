@@ -6,11 +6,12 @@ use App\Models\Category;
 use App\Models\Faculty;
 use App\Models\Request;
 use App\Models\User;
+use App\Notifications\FeedbackRating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Notifications\NewRequest;
 use App\Notifications\RequestStatus;
-use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\RateLimiter;
 
 use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
@@ -292,10 +293,18 @@ $priorityLevelUpdate = function ($level) {
 };
 
 $feedbackAndRate = function ($rating, $feedback) {
-    $req = Request::find($this->id);
+    $req = Request::where('id', $this->id)->with('assignedRequest')->first();
+    //find all tehcnical staff
+    $technicalStaffIds = $req->assignedRequest->pluck('technicalStaff_id')->all();
+     // Find users with those IDs
+     $users = User::whereIn('id', $technicalStaffIds)->get();
+
     $req->rate = $rating;
     $req->feedback = $feedback;
+    Notification::send($users, new FeedbackRating($req));
     $req->save();
+
+ 
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
 };
