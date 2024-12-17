@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\TechnicalStaff;
 use Illuminate\Support\Facades\Cache;
@@ -39,6 +39,8 @@ $assignTask = function ($techId) {
     $AssignedRequest->save();
     $this->dispatch('techs');
     $this->dispatch('success', 'Assigned');
+    RequestEvent::dispatch($techId);
+    Cache::forget('requests');
 };
 
 $removeTask = function ($techId) {

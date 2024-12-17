@@ -101,74 +101,33 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-    //selecting what status to show, if all then this will show
-    if ($this->status == 'all') {
+        $requests = Cache::rememberForever('requests', function(){
+            return Request::with(['category', 'faculty'])->get();
+        });
+
         switch (session('user')['role']) {
 
 
             case 'Mis Staff':
-                $req = Request::orderByRaw("
-            CASE status
-                WHEN 'waiting' THEN 1
-                WHEN 'pending' THEN 2
-                WHEN 'ongoing' THEN 3
-                WHEN 'resolved' THEN 4
-                ELSE 5
-            END
-        ")->orderBy('created_at', 'desc')->with(['category', 'faculty'])->get();
-
-
+                $req = $requests->sortBy(function ($item) {
+                    // Define sorting priority based on status
+                    return match ($item->status) {
+                        'waiting' => 1,
+                        'pending' => 2,
+                        'ongoing' => 3,
+                        'resolved' => 4,
+                        default => 5,
+                    };
+                })->sortByDesc('created_at');
                 break;
+
 
 
 
             case 'Faculty':
-                //all request of a current faculty
-                $req =  Request::where('faculty_id', session('user')['id'])
-                    ->with(['category', 'faculty'])
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-
-                break;
-
-
-
-            case 'Technical Staff':
-
-                //get all assigned task from auth techstaff
-                $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
-
-                //get all request id from it
-                $techtask = $task->pluck('request_id')->toArray();
-
-
-                //request by priority level
-                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->with(['category', 'faculty'])->get();
-
-
-
-                break;
-        }
-    }
-    //showing with status
-    else {
-        switch (session('user')['role']) {
-
-
-            case 'Mis Staff':
-                $req = Request::where('status', $this->status)->with('category')->get();
-
-                break;
-
-
-
-            case 'Faculty':
-                //all request of a current faculty
-                $req =  Request::where('faculty_id', session('user')['id'])
-                    ->with('category')
-                    ->where('status', $this->status)
-                    ->get();
-
+                $req = $requests->filter(function ($request) {
+                    return $request->faculty_id == session('user')['id'];
+                })->sortByDesc('created_at');
                 break;
 
 
@@ -176,21 +135,21 @@ $viewRequest = function () {
             case 'Technical Staff':
                 //get all assigned task from auth techstaff
                 $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
-
                 //get all request id from it
                 $techtask = $task->pluck('request_id')->toArray();
-
-
                 //request by priority level
-                $req = Request::whereIn('id', $techtask)->orderBy('priorityLevel', 'asc')->orderBy('created_at', 'asc')->where('status', $this->status)->with('category')->get();
-
+                $req = $requests->whereIn('id', $techtask)->sortBy('priorityLevel');
                 break;
         }
-    }
 
+        if ($this->status !== 'all') {
+            return $req = $req->where('status', $this->status);
+        }
+        else 
+        {
+            return $req;
+        }
 
-
-    return $req;
 };
 
 
@@ -234,6 +193,8 @@ $addRequest = function () {
     $mis->notify(new NewRequest($req));
 
     RequestEvent::dispatch($mis->id);
+
+  
 };
 
 //delete request
@@ -241,6 +202,8 @@ $deleteRequest = function ($id) {
     $req = Request::find($id);
     $req->delete();
     $this->dispatch('success', 'deleted Successfully');
+    Cache::forget('requests');
+  
 };
 
 //confirm location
@@ -262,6 +225,7 @@ $confirmLocation = function () {
     ]);
 
     $this->dispatch('success', 'Location Updated');
+    Cache::forget('requests');
 };
 
 
@@ -279,6 +243,7 @@ $updateStatus = function ($status) {
 
     $faculty->notify(new RequestStatus($req));
     $req->save();
+    Cache::forget('requests');
 };
 
 //update priority level of a request
@@ -290,6 +255,7 @@ $priorityLevelUpdate = function ($level) {
 
 
     $this->dispatch('success', 'successfuly changed');
+    Cache::forget('requests');
 };
 
 $feedbackAndRate = function ($rating, $feedback) {
@@ -307,6 +273,7 @@ $feedbackAndRate = function ($rating, $feedback) {
  
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
+    Cache::forget('requests');
 };
 
 

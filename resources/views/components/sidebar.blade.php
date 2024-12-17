@@ -45,4 +45,15 @@
         </div>
     </a>
 
+
+    {{--reports--}}
+    <a wire:navigate.hover href="/reports">
+        <div
+            :class="sidebar ? 'justify-start': 'justify-center'"
+            class="{{request()->routeIs('reports') ? 'sidebar-active' : 'sidebar-links'}}">
+            <x-icons.user class="size-5" />
+            <span x-show="sidebar">reports</span>
+        </div>
+    </a>
+
 </div>
