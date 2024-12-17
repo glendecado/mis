@@ -21,10 +21,22 @@ class FeedbackRating extends Notification implements ShouldQueue
 
      protected $feedback;
 
+     protected $facultyName;
+
+     protected $image;
+
+     protected $reqId;
+
+     protected $redirect;
+
     public function __construct(Request $request)
     {
         $this->rate = $request->rate;
         $this->feedback = $request->feedback;
+        $this->facultyName = session('user')['name'];
+        $this->image = session('user')['img'];
+        $this->reqId = $request->id;
+        $this->redirect = '/request/'.$request->id;
     }
 
     /**
@@ -34,7 +46,7 @@ class FeedbackRating extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -65,7 +77,12 @@ class FeedbackRating extends Notification implements ShouldQueue
         return [
 
             'notif' => 'FeedbackRating',
-
+            'req_id' => $this->reqId,
+            'rate' => $this->rate,
+            'feedback' => $this->feedback,
+            'img' => $this->image,
+            'name'=> $this->facultyName,
+            'redirect' => $this->redirect  
 
 
         ];
@@ -81,6 +98,12 @@ class FeedbackRating extends Notification implements ShouldQueue
         return new BroadcastMessage([
 
             'notif' => 'FeedbackRating',
+            'req_id' => $this->reqId,
+            'rate' => $this->rate,
+            'feedback' => $this->feedback,
+            'img' => $this->image,
+            'name'=> $this->facultyName,
+            'redirect' => $this->redirect 
   
         ]);
 

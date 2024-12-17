@@ -19,12 +19,14 @@ class RequestStatus extends Notification implements ShouldQueue
     protected $date;
     protected $status;
     protected $redirect;
+    protected $reqId;
 
     public function __construct(Request $request)
     {
         $this->redirect = '/request/' . $request->id;
         $this->date = $request->created_at;
         $this->status = $request->status;
+        $this->reqId = $request->id;
     }
 
     /**
@@ -64,6 +66,7 @@ class RequestStatus extends Notification implements ShouldQueue
     {
         return [
             'notif' => 'RequestStatus',
+            'req_id' => $this->reqId,
             'redirect' => $this->redirect,
             'date' => $this->date,
             'status' => $this->status
@@ -75,6 +78,7 @@ class RequestStatus extends Notification implements ShouldQueue
 
         return new BroadcastMessage([
             'notif' => 'RequestStatus',
+            'req_id' => $this->reqId,
             'redirect' => $this->redirect,
             'date' => $this->date,
             'status' => $this->status

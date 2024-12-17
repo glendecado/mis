@@ -13,7 +13,16 @@ mount(function () {
 
 $opened = function ($id, $req) {
 
-    $this->user->unreadNotifications->find($id)->markAsRead();
+    $notification = $this->user->unreadNotifications->firstWhere('id', $id);
+
+    // Check if the notification exists
+    if ($notification) {
+        $notification->markAsRead();
+    } else {
+        // Handle error if needed
+        // Log::error("Notification with ID {$id} not found.");
+    }
+
     $this->redirect($req);
 };
 
@@ -39,6 +48,8 @@ $opened = function ($id, $req) {
             });">
 
 
+
+
         {{--Unread--}}
         @foreach ($user->unreadNotifications as $notification)
 
@@ -52,7 +63,7 @@ $opened = function ($id, $req) {
             </div>
             <div class="flex w-60 flex-col overflow-hidden truncate ">
                 <span class="text-wrap">{{$notification->data['name']}}</span>
-                <span>{{$notification->data['message']}}</span>
+                <span>Sent a Request</span>
                 <div>Concerns:{{$notification->data['concerns']}}</div>
                 <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
@@ -78,11 +89,39 @@ $opened = function ($id, $req) {
         </div>
         @break
 
+        @case('FeedbackRating')
+        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
+                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
+                    class="rounded-full w-14 h-14 ml-3">
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden truncate ">
+                <span class="text-wrap">{{$notification->data['name']}} sent rate and feedback</span>
+                <div>rate: {{$notification->data['rate']}}</div>
+                <div>Feedback:{{$notification->data['feedback']}}</div>
+                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
+        </div>
+        @break
+
+
+        @case('AssingedRequest')
+        @break
+
         @endswitch
 
         @endforeach
 
-        {{--unread--}}
+
+
+
+
+
+
+
+
+        {{--read--}}
         @foreach ($user->readNotifications as $notification)
 
         @switch($notification->data['notif'])
@@ -95,7 +134,7 @@ $opened = function ($id, $req) {
             </div>
             <div class="flex w-60 flex-col overflow-hidden">
                 <span class="text-wrap">{{$notification->data['name']}}</span>
-                <span>{{$notification->data['message']}}</span>
+                <span>Sent a Request</span>
                 <span class="truncate">Concerns: {{$notification->data['concerns']}}</span>
                 <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
@@ -113,6 +152,21 @@ $opened = function ($id, $req) {
                 <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
                 <span>is currently {{$notification->data['status']}}.</span>
                 <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+        </div>
+        @break
+
+        @case('FeedbackRating')
+        <div class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
+                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
+                    class="rounded-full w-14 h-14 ml-3">
+            </div>
+            <div class="flex w-60 flex-col overflow-hidden truncate ">
+                <span class="text-wrap">{{$notification->data['name']}} sent rate and feedback</span>
+                <div>rate: {{$notification->data['rate']}}</div>
+                <div>Feedback:{{$notification->data['feedback']}}</div>
+                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
         </div>
         @break

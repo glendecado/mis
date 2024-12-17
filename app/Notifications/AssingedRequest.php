@@ -2,21 +2,26 @@
 
 namespace App\Notifications;
 
+use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssingedRequest extends Notification
+class AssingedRequest extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+
+     protected $reqId;
+
+    public function __construct(Request $request)
     {
-        //
+        $this->reqId = $request->id;
     }
 
     /**
@@ -26,7 +31,7 @@ class AssingedRequest extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -50,5 +55,30 @@ class AssingedRequest extends Notification
         return [
             //
         ];
+    }
+
+    public function toDatabase(object $notifiable)
+    {
+        return [
+
+            'notif' => 'AssignedRequest',
+            'req_id' => $this->reqId,
+
+
+        ];
+    }
+   
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+
+        
+        
+        return new BroadcastMessage([
+
+            'notif' => 'AssignedRequest',
+            'req_id' => $this->reqId,
+
+        ]);
+
     }
 }

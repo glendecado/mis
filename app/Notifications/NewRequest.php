@@ -23,18 +23,17 @@ class NewRequest extends Notification implements ShouldQueue
     protected $date;
     protected $message;
     protected $redirect;
-    protected $reqid;
+    protected $reqId;
 
     public function __construct(Request $request)
     {
 
-        $this->message = 'Sent a Request';
         $this->name = session('user')['name'];
         $this->img = session('user')['img'];
         $this->date = $request->created_at;
         $this->concerns = $request->concerns;
         $this->redirect = '/request/'.$request->id;
-        $this->reqid = $request->id;
+        $this->reqId = $request->id;
         
 
     }
@@ -77,7 +76,7 @@ class NewRequest extends Notification implements ShouldQueue
     {
         return [
             'notif' => 'NewRequest',
-            'req_id' => $this->reqid,
+            'req_id' => $this->reqId,
             'message' => $this->message,
             'name' => $this->name ,
             'img' => $this->img,
@@ -98,7 +97,7 @@ class NewRequest extends Notification implements ShouldQueue
         
         return new BroadcastMessage([
             'notif' => 'NewRequest',
-            'req_id' => $this->reqid,
+            'req_id' => $this->reqId,
             'message' => $this->message,
             'name' => $this->name ,
             'img' => $this->img,
