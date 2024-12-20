@@ -30,7 +30,7 @@
 
                 <x-icons.arrow direction="up" />
 
-                <div class="dropdown w-56 right-7 top-16 absolute">
+                <div class="dropdown w-56 right-1 top-16 absolute md:right-7">
 
                     <div class="dropdown-open-items p-4" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
                         <x-icons.profile class="size-6 absolute left-5" />
