@@ -3,7 +3,6 @@
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\Category;
-use App\Models\Faculty;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\FeedbackRating;
@@ -14,12 +13,14 @@ use App\Notifications\RequestStatus;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\RateLimiter;
 
-use function Livewire\Volt\{mount, on, placeholder, rules, state, title};
+use function Livewire\Volt\{title, mount, on, placeholder, rules, state,};
+
+title('Request');
 
 placeholder('<div class="rounded-md w-full h-full z-50 flex items-center justify-center"><x-loaders.b-square /></div>');
 
 
-title('Request');
+
 
 state(['cacheKey']);
 
@@ -53,6 +54,7 @@ on(['view-detailed-request' => function () {
 
 mount(function () {
 
+    
 
     session(['page' => 'request']);
 
@@ -82,6 +84,11 @@ mount(function () {
             return $this->status;
         });
     }
+
+    Cache::rememberForever('requests', function(){
+        return Request::with(['category', 'faculty'])->get();
+    });
+
 });
 
 
@@ -101,9 +108,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-        $requests = Cache::rememberForever('requests', function(){
-            return Request::with(['category', 'faculty'])->get();
-        });
+        $requests = Cache::get('requests');
 
         switch (session('user')['role']) {
 

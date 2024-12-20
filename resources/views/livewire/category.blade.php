@@ -3,7 +3,9 @@
 use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{mount, state};
+use function Livewire\Volt\{mount, state, title};
+
+title('Category');
 
 state('tab')->url();
 

@@ -4,7 +4,9 @@ use App\Models\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{state};
+use function Livewire\Volt\{state, title};
+
+title('Reports');
 
 $e = function(){
     $users = Cache::remember('req', 60 * 60, function() {

@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 
-use function Livewire\Volt\{state, mount, on, rules};
+use function Livewire\Volt\{state, mount, on, rules, title};
+
+title('Users');
 
 state(['cacheKey']);
 

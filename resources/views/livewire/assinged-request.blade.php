@@ -11,12 +11,28 @@ use function Livewire\Volt\{computed, mount, on, state};
 state(['id', 'AssignedRequest']);
 
 on(['techs' => function(){
+
     $this->AssignedRequest = AssignedRequest::where('request_id', $this->id)->get();
+
+
 }]);
 
 mount(function () {
+
+
     $this->id = session('requestId');
-    $this->AssignedRequest = AssignedRequest::where('request_id', $this->id)->get();
+
+    $cacheKey = "assigned_request_{$this->id}";
+
+    if (Cache::has($cacheKey)) {
+        Cache::forget($cacheKey);
+    }
+
+    // Cache the query result for 10 minutes
+    $this->AssignedRequest = Cache::rememberForever($cacheKey, function () {
+        return AssignedRequest::where('request_id', $this->id)->get();
+    });
+
 });
 
 
@@ -60,5 +76,8 @@ $viewAssigned = function () {
 <div>
 
     @include('components.assigned-request.view-assigned-request')
+
+
+
 
 </div>
