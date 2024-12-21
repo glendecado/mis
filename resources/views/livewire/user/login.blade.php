@@ -72,7 +72,7 @@ $login = function () {
                 <form wire:submit.prevent="login" method="post">
 
                     <div class="relative z-0">
-                        <input wire:model.lazy="email" autocomplete="off" type="text" id="floating_standard"
+                        <input wire:model.lazy="email" type="text" id="floating_standard"
                             class="rounded-full peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{ $emailError ? 'border border-red-500' : '' }}"
                             placeholder=" " />
                         <label for="floating_standard"
