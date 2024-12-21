@@ -10,7 +10,7 @@
         />
     </div>
 
-    <table class="w-full text-[100%] break-all">
+    <table class="w-full text-[100%] break-words ">
         <thead class="table-header">
             <tr>
                 @if(session('user')['role'] != 'Faculty')
