@@ -2,7 +2,14 @@
 'px-3 w-52 absolute md:relative':' w-12 relative'"
     class="h-full text-yellow pt-11 z-30 bg-blue-2 transition-all"
 
-    x-data="{ sidebar: $persist(true).using(sessionStorage)}">
+    x-data="{ 
+        sidebar: $persist(window.innerWidth >= 700).using(sessionStorage),
+        closeSidebarOnOutsideClick() { 
+            if (window.innerWidth < 700) this.sidebar = false;
+        }
+    }"
+    @click.outside="window.innerWidth < 700 ? sidebar = false : ''"
+    >
 
 
     <div class="absolute top-0 right-2" @click="sidebar = !sidebar">
