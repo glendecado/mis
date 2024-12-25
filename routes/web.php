@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
 
   Volt::route('/admin-panel', 'admin/admin-panel')->name('admin-panel');
 
-  Volt::route('/request', 'request')->name('request-table')->lazy();
+  Volt::route('/request', 'request')->name('request-table')->lazy(false);
 
 
   //for Mis Staff
@@ -34,6 +34,6 @@ Route::middleware(['auth'])->group(function () {
 
   //for authorized request
   Route::middleware(['request'])->group(function () {
-    Volt::route('/request/{id}', 'request')->name('request')->lazy();
+    Volt::route('/request/{id}', 'request')->name('request')->lazy(false);
   });
 });
