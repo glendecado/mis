@@ -22,7 +22,7 @@ placeholder('<div class="rounded-md w-full h-full z-50 flex items-center justify
 
 
 
-state(['cacheKey']);
+
 
 state(['tab', 'status'])->url();
 
@@ -52,45 +52,72 @@ on(['view-detailed-request' => function () {
     $this->viewDetailedRequest();
 }]);
 
-mount(function () {
 
-    
 
-    session(['page' => 'request']);
-
-    $this->cacheKey = 'requests_';
-
-    //initial valye of category
-    $this->category = '1';
-
-    //initial value of location
+//sessions
+$sessionPage = fn() => session(['page' => 'request']);
+$sessionRequestId = fn() => session(['requestId' => $this->id ?? null]);
+$sessionFacultyLocation = function () {
     if (session('user')['role'] == 'Faculty') {
         $this->college = session('user')['college'];
         $this->building = session('user')['building'];
         $this->room = session('user')['room'];
     }
-
-    session(['requestId' => $this->id ?? null]);
-
+};
 
 
-    if ($this->status == null && $this->id == null) {
-        $this->redirect('/request?status=all', navigate: true);
-    };
 
+
+//request in cache
+$getCachedRequests = fn() => Cache::rememberForever('requests', function () {
+    return Request::with(['category', 'faculty'])->get();
+});
+
+//reload
+$reload = function () {
+    Cache::forget('requests');
+    $this->mount();
+};
+
+//what status did the users clicked?
+$whatStatusIsClicked  = function () {
     if (!is_null($this->status)) {
         Cache::forget('status_' . session('user')['id']);
         $status = Cache::remember('status_' . session('user')['id'], 60 * 60 * 24, function () {
             return $this->status;
         });
     }
+};
 
-    Cache::rememberForever('requests', function(){
-        return Request::with(['category', 'faculty'])->get();
-    });
+$redirectIfStatusIsNull = function () {
+    if ($this->status == null && $this->id == null) {
+        $this->redirect('/request?status=all', navigate: true);
+    };
+};
 
+mount(function () {
+
+    
+    //initial valye of category
+    $this->category = '1';
+
+
+    $this->sessionPage();
+
+    $this->sessionRequestId();
+
+    $this->sessionFacultyLocation();
+
+    $this->redirectIfStatusIsNull();
+
+    $this->whatStatusIsClicked();
+
+    $this->getCachedRequests();
 });
 
+
+
+//view
 
 
 //viewDetailed Req
@@ -108,56 +135,54 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-        $requests = Cache::get('requests');
+    $requests = Cache::get('requests');
 
-        switch (session('user')['role']) {
-
-
-            case 'Mis Staff':
-                $req = $requests->sortBy(function ($item) {
-                    // Define sorting priority based on status
-                    return match ($item->status) {
-                        'waiting' => 1,
-                        'pending' => 2,
-                        'ongoing' => 3,
-                        'resolved' => 4,
-                        default => 5,
-                    };
-                })->sortByDesc('created_at');
-                break;
+    switch (session('user')['role']) {
 
 
-
-
-            case 'Faculty':
-                $req = $requests->filter(function ($request) {
-                    return $request->faculty_id == session('user')['id'];
-                })->sortByDesc('created_at');
-                break;
+        case 'Mis Staff':
+            $req = $requests->sortBy(function ($item) {
+                // Define sorting priority based on status
+                return match ($item->status) {
+                    'waiting' => 1,
+                    'pending' => 2,
+                    'ongoing' => 3,
+                    'resolved' => 4,
+                    default => 5,
+                };
+            })->sortByDesc('created_at');
+            break;
 
 
 
-            case 'Technical Staff':
-                //get all assigned task from auth techstaff
-                $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
-                //get all request id from it
-                $techtask = $task->pluck('request_id')->toArray();
-                //request by priority level
-                $req = $requests->whereIn('id', $techtask)->sortBy('priorityLevel');
-                break;
-        }
 
-        if ($this->status !== 'all') {
-            return $req = $req->where('status', $this->status);
-        }
-        else 
-        {
-            return $req;
-        }
+        case 'Faculty':
+            $req = $requests->filter(function ($request) {
+                return $request->faculty_id == session('user')['id'];
+            })->sortByDesc('created_at');
+            break;
 
+
+
+        case 'Technical Staff':
+            //get all assigned task from auth techstaff
+            $task = AssignedRequest::where('technicalStaff_id', session('user')['id'])->get();
+            //get all request id from it
+            $techtask = $task->pluck('request_id')->toArray();
+            //request by priority level
+            $req = $requests->whereIn('id', $techtask)->sortBy('priorityLevel');
+            break;
+    }
+
+    if ($this->status !== 'all') {
+        return $req = $req->where('status', $this->status);
+    } else {
+        return $req;
+    }
 };
 
 
+//actions
 
 //add request
 $addRequest = function () {
@@ -198,8 +223,7 @@ $addRequest = function () {
     $mis->notify(new NewRequest($req));
 
     RequestEvent::dispatch($mis->id);
-
-  
+    $this->reload();
 };
 
 //delete request
@@ -207,8 +231,7 @@ $deleteRequest = function ($id) {
     $req = Request::find($id);
     $req->delete();
     $this->dispatch('success', 'deleted Successfully');
-    Cache::forget('requests');
-  
+    $this->reload();
 };
 
 //confirm location
@@ -230,7 +253,7 @@ $confirmLocation = function () {
     ]);
 
     $this->dispatch('success', 'Location Updated');
-    Cache::forget('requests');
+    $this->reload();
 };
 
 
@@ -248,7 +271,7 @@ $updateStatus = function ($status) {
 
     $faculty->notify(new RequestStatus($req));
     $req->save();
-    Cache::forget('requests');
+    $this->reload();
 };
 
 //update priority level of a request
@@ -260,25 +283,25 @@ $priorityLevelUpdate = function ($level) {
 
 
     $this->dispatch('success', 'successfuly changed');
-    Cache::forget('requests');
+    $this->reload();
 };
 
 $feedbackAndRate = function ($rating, $feedback) {
     $req = Request::where('id', $this->id)->with('assignedRequest')->first();
     //find all tehcnical staff
     $technicalStaffIds = $req->assignedRequest->pluck('technicalStaff_id')->all();
-     // Find users with those IDs
-     $users = User::whereIn('id', $technicalStaffIds)->get();
+    // Find users with those IDs
+    $users = User::whereIn('id', $technicalStaffIds)->get();
 
     $req->rate = $rating;
     $req->feedback = $feedback;
     Notification::send($users, new FeedbackRating($req));
     $req->save();
 
- 
+
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
-    Cache::forget('requests');
+    $this->reload();
 };
 
 
