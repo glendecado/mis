@@ -2,6 +2,7 @@
     @foreach($this->viewTaskList() as $list)
     <li class="text-blue-950 text-lg" x-sort:item="{{$list->id}}">
         <div class="border-2 border-blue-500 rounded-md p-4 mb-2 hover:bg-blue-50">
+            {{$list->position + 1}}.
             {{$list->task}}
             @if(session('page') != 'request')
             <span class="float-right cursor-pointer" @click="if (confirm('Are you sure you want to delete this task?')) { $wire.deleteTaskList({{$list->id}}) }">
