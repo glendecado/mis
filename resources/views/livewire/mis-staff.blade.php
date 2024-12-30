@@ -154,6 +154,6 @@ $viewDetailedUser = function () {};
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')
-    <x-alerts />
+ 
 
 </div>

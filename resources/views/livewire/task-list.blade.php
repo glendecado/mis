@@ -28,29 +28,41 @@ mount(function () {
     if (session('page') == 'request') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
-
     }
 });
 
 $addTaskList = function () {
     $this->validate();
+
+    // Get the current max position in the category
+    $maxPosition = TaskList::where('category_id', $this->category)->max('position') ?? 0;
+
+    $position = ++$maxPosition;
+
     $taskList = TaskList::create([
         'category_id' => $this->category,
         'task' => $this->task,
+        'position' => $position,
     ]);
+
+    $taskList->save();
+
     $this->reset();
 
     $this->category = $taskList->category_id;
 };
 
+
 $deleteTaskList = function ($id) {
+    $this->dispatch('success', 'sucessfully deleted');
     $taskList = TaskList::find($id);
     $taskList->delete();
-    $this->dispatch('success', 'sucessfully deleted');
 };
 
 $viewTaskList = function () {
-    return TaskList::where('category_id', $this->category)->get();
+    return TaskList::where('category_id', $this->category)
+        ->orderBy('position') // Ensures it’s sorted by position
+        ->get();
 };
 
 $check = function ($list) {
@@ -70,12 +82,37 @@ $check = function ($list) {
     $this->dispatch('view-detailed-request');
     RequestEvent::dispatch($req->faculty_id);
     $this->page = 'request';
-}
+};
+
+$updateList = function ($id, $position) {
+    $taskLists = TaskList::where('category_id', $this->category)->get();
+
+    // Loop through all tasks in the category and update their positions
+    foreach ($taskLists as $taskList) {
+        if ($taskList->position >= $position) {
+            // Shift tasks with equal or greater position by +1
+            $taskList->position = $taskList->position + 1;
+            $taskList->save();
+        }
+    }
+
+    // Update the position of the task that is being moved
+    $taskListToUpdate = TaskList::find($id);
+    if ($taskListToUpdate) {
+        $taskListToUpdate->position = $position;
+        $taskListToUpdate->save();
+    }
+};
+
+
+
+
+
 ?>
 
 <div class="relative rounded-md">
-   
 
+    
     @include('components.task-list.view-task-list')
 
 

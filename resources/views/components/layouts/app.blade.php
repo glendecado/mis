@@ -29,9 +29,9 @@
         </div>
     </div>
 
-
+    @livewireScriptConfig
     @livewireScripts
-
+    <x-alerts />
 </body>
 
 </html>

@@ -17,6 +17,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@alpinejs/sort": "^3.14.8",
         "prettier-plugin-blade": "^2.1.19"
     }
 }

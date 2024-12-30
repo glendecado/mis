@@ -310,7 +310,7 @@ $feedbackAndRate = function ($rating, $feedback) {
 <div>
 
 
-    <x-alerts />
+
 
     @include('components.requests.view')
 
