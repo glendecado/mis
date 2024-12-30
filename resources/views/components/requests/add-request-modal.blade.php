@@ -1,4 +1,3 @@
-
 <x-modal name="add-request-modal">
 
 
@@ -32,7 +31,14 @@
 
 
 
-        <button @click="$wire.addRequest()" class="button mt-2">submit</button>
+        <button
+            @click.prevent="if (!isSubmitting) { isSubmitting = true; $wire.addRequest() }"
+            :disabled="isSubmitting"
+            x-data="{ isSubmitting: false }"
+            class="button mt-2">
+            Submit
+        </button>
+
     </div>
 
 
@@ -60,9 +66,9 @@
         </div>
 
         <!-- Disable button if any of the fields are empty -->
-        <button 
-            class="button" 
-            :disabled="!college || !building || !room" 
+        <button
+            class="button"
+            :disabled="!college || !building || !room"
             @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
             Submit
         </button>
