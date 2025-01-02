@@ -28,10 +28,7 @@
 
 @case('resolved')
 
-<div class="gap-2 request-containder">
-    Feedback
 
-</div>
 
 @break
 
