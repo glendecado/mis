@@ -90,7 +90,7 @@ $login = function () {
                             class="rounded-full peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{ $passwordError ? 'border border-red-500' : '' }}"
                             placeholder=" " />
                         <label for="floating_standard"
-                            class="absolute top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">password</label>
+                            class="absolute top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">Password</label>
                         <div class="absolute right-2 bottom-2 cursor-pointer">
                             <template x-if="password">
                                 <div>
