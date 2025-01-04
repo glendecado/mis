@@ -53,15 +53,15 @@ $getTechnicalStaffMetrics = function ($technicalStaffId, $date = 'today') {
             $endDate = $now->copy()->endOfDay(); // Ensures the time is 23:59:59
 
             $totalReq = AssignedRequest::where('technicalStaff_id', $technicalStaffId)
-            ->whereDate('assigned_requests.created_at', Carbon::today()) // Filter for today
-            ->join('requests', 'assigned_requests.request_id', '=', 'requests.id') // Join the requests table
-            ->groupBy(DB::raw('strftime("%Y-%m-%d %H", assigned_requests.created_at)')) // Group by year-month-day-hour
-            ->orderBy(DB::raw('strftime("%Y-%m-%d %H", assigned_requests.created_at)'), 'ASC')
-            ->get([
-                DB::raw('strftime("%H:%M ", assigned_requests.created_at) as date'), // Format as Year-Month-Day-Hour
-                DB::raw('COUNT(*) as total_assigned_requests'),
-                DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-            ]);
+                ->whereDate('assigned_requests.created_at', Carbon::today()) // Filter for today
+                ->join('requests', 'assigned_requests.request_id', '=', 'requests.id') // Join the requests table
+                ->groupBy(DB::raw('strftime("%Y-%m-%d %H", assigned_requests.created_at)')) // Group by year-month-day-hour
+                ->orderBy(DB::raw('strftime("%Y-%m-%d %H", assigned_requests.created_at)'), 'ASC')
+                ->get([
+                    DB::raw('strftime("%H:%M ", assigned_requests.created_at) as date'), // Format as Year-Month-Day-Hour
+                    DB::raw('COUNT(*) as total_assigned_requests'),
+                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                ]);
 
 
             break;
@@ -142,10 +142,10 @@ $getTechnicalStaffMetrics = function ($technicalStaffId, $date = 'today') {
 
     // Total Ratings
     $totalRatings = AssignedRequest::where('assigned_requests.technicalStaff_id', $technicalStaffId)
-    ->whereBetween('assigned_requests.created_at', [$startDate, $endDate]) // Filter by date range
-    ->join('requests', 'assigned_requests.request_id', '=', 'requests.id') // Join the requests table
-    ->whereNotNull('requests.rate') // Ensure that rating is not null (optional)
-    ->avg('requests.rate'); // Count the non-null ratings
+        ->whereBetween('assigned_requests.created_at', [$startDate, $endDate]) // Filter by date range
+        ->join('requests', 'assigned_requests.request_id', '=', 'requests.id') // Join the requests table
+        ->whereNotNull('requests.rate') // Ensure that rating is not null (optional)
+        ->avg('requests.rate'); // Count the non-null ratings
 
 
 
@@ -166,17 +166,16 @@ $metrics = fn() => $this->getTechnicalStaffMetrics($this->techId, $this->date);
 
 
 ?>
-<div>
+<div class="flex  flex-wrap w-full h-full">
 
 
-    <div class="md:m-16 rounded-md m-0 border">
-        <div class="border-b p-7 flex justify-between">
+    <div class="md:m-16 rounded-md m-0 border w-full md:w-[500px]">
+        <div class="border-b p-7 flex justify-between ">
             <h1 class="font-bold ">Technical Staff Accomplishment Reports</h1>
-            <input type="text" class="input w-[20%] flex-none">
         </div>
-        <div class="p-10">
+        <div class="p-2 w-full">
 
-            <select wire:model.change="techId" name="technicalStaff" id="technicalStaff" class="input h-10">
+            <select wire:model.change="techId" name="technicalStaff" id="technicalStaff" class="input h-10 mb-4 mt-4">
                 <option value="">TECH STAFF NAME</option>
                 @foreach ($this->technicalStaff as $staff)
                 <option value="{{ $staff->technicalStaff_id }}">{{ $staff->User->name ?? 'Unknown' }}</option>
@@ -190,21 +189,21 @@ $metrics = fn() => $this->getTechnicalStaffMetrics($this->techId, $this->date);
                 <option value="this_month">This Month</option>
             </select>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <h1 class="font-bold">Summary Reports</h1>
 
 
                 <p>Total Assigned Requests: {{ $this->metrics()['totalAssignedRequests'] }}</p>
                 <p>Total Requests Completed: {{ $this->metrics()['totalRequestsCompleted'] }}</p>
                 <p>Completion Rate: {{ $this->metrics()['completionRate'] }}%</p>
-                <p>Total Ratings: {{ $this->metrics()['totalRatings'] }}</p>
+                <p>Total Ratings: {{ $this->metrics()['totalRatings'] ?? 0 }}</p>
 
             </div>
         </div>
     </div>
 
 
-    <div class="md:mx-16 rounded-md m-0 border">
+    <div class="flex-auto">
 
 
 
@@ -212,74 +211,77 @@ $metrics = fn() => $this->getTechnicalStaffMetrics($this->techId, $this->date);
             <h1 class="font-bold ">Staff Performance Overview</h1>
         </div>
 
-        <div class="p-10" wire:loading.class="hidden">
+        <div class="p-10">
             @if ($techId && $date)
             <div x-data="{ 
-            data: {{ json_encode($this->metrics()) }},
-            chartData: {
-                labels: [],
-                data: []
-            },
-            init() {
-                // Prepare the chart data
-                this.chartData.labels = this.data.date.map(week => week.date);
-                this.chartData.data = this.data.date.map(week => week.total_assigned_requests);
-                this.chartData.resolvedData = this.data.date.map(week => week.total_requests_resolved);
-                this.createChart();
-           
-            },
-            createChart() {
-                if (window.myChart) {
-                    window.myChart.destroy(); // Destroy the old chart if it exists
-                }
-                window.myChart = new Chart(this.$refs.chartCanvas, {
-                    type: 'bar',  
-                    data: {
-                        labels: this.chartData.labels,
-                        datasets: [
-                            {
-                                label: 'Assigned Requests',
-                                data: this.chartData.data,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: '#1D77FF',
-                                fill: true,
-                            },
-                            {
-                                label: 'Requests Resolved',
-                                data: this.chartData.resolvedData,
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                backgroundColor: '#FFCC00',
-                                fill: true,
-                            }
-                            ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Date'
-                                }
-                            },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'Assigned Request'
-                                },
-                                min: 0,
-                                ticks : { stepSize: 1 }
-                                
-                            }
-                        }
-                    }
-                });
-            }
-        }" x-init="init">
+    data: {{ json_encode($this->metrics()) }},
+    chartData: {
+        labels: [],
+        data: []
+    },
+    init() {
+        if (window.myChart) {
+            window.myChart.destroy(); // Destroy the old chart if it exists
+        }
 
-                <!-- Canvas for the Chart -->
-                <canvas x-ref="chartCanvas"></canvas>
-            </div>
+        // Prepare the chart data
+        this.chartData.labels = this.data.date.map(week => week.date);
+        this.chartData.data = this.data.date.map(week => week.total_assigned_requests);
+        this.chartData.resolvedData = this.data.date.map(week => week.total_requests_resolved);
+        
+        this.createChart();
+    },
+    createChart() {
+        window.myChart = new Chart(this.$refs.chartCanvas, {
+            type: 'bar',  
+            data: {
+                labels: this.chartData.labels,
+                datasets: [
+                    {
+                        label: 'Assigned Requests',
+                        data: this.chartData.data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: '#1D77FF',
+                        fill: true,
+                    },
+                    {
+                        label: 'Requests Resolved',
+                        data: this.chartData.resolvedData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: '#FFCC00',
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 3000, // Duration of the animation in milliseconds
+                    easing: 'easeOutQuart' // Easing function for smooth animation
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Assigned Request'
+                        },
+                        min: 0,
+                        ticks : { stepSize: 1 }
+                    }
+                }
+            }
+        });
+    }
+}" x-init="init">
+    <!-- Canvas for the Chart -->
+    <canvas x-ref="chartCanvas"></canvas>
+</div>
 
             @endif
         </div>
