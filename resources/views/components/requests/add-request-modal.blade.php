@@ -32,9 +32,8 @@
 
 
         <button
-            @click.prevent="if (!isSubmitting) { isSubmitting = true; $wire.addRequest() }"
-            :disabled="isSubmitting"
-            x-data="{ isSubmitting: false }"
+            wire:loading.attr="disabled"
+            wire:click.prevent="addRequest"
             class="button mt-2">
             Submit
         </button>

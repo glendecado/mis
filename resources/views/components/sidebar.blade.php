@@ -58,8 +58,8 @@
         <div
             :class="sidebar ? 'justify-start': 'justify-center'"
             class="{{request()->routeIs('reports') ? 'sidebar-active' : 'sidebar-links'}}">
-            <x-icons.user class="size-5" />
-            <span x-show="sidebar">reports</span>
+            <x-icons.reports />
+            <span x-show="sidebar">Reports</span>
         </div>
     </a>
 

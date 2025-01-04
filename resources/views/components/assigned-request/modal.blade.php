@@ -13,10 +13,10 @@
                 <tr>
                     <td class="table-row-cell">{{ $tech->user->id }}</td>
                     <td class="table-row-cell">{{ $tech->user->name }}</td>
-                    <td class="table-row-cell">
+                    <td class="table-row-cell"  wire:loading.attr="disabled">
 
                         @if(!in_array($tech->technicalStaff_id, $this->viewAssigned()))
-                        <button class="button" wire:click.prevent="assignTask('{{$tech->user->id}}')">Assign</button>
+                        <button  class="button" wire:click.prevent="assignTask('{{$tech->user->id}}')">Assign</button>
                         @else
                         <button class="button" wire:click.prevent="removeTask('{{$tech->user->id}}')">Remove</button>
                         @endif
