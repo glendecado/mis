@@ -9,7 +9,7 @@
     @livewireStyles
 </head>
 
-<body class="font-geist relative  h-lvh overflow-hidden flex flex-col">
+<body class="font-geist relative  h-svh overflow-hidden flex flex-col">
 
 
     <div class="h-[64px]">
