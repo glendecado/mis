@@ -135,7 +135,7 @@ $updateProfile = function ($type) {
 
     </div>
 
-    <div class="border rounded-md md:row-start-2 col-span-2 md:col-span-1 p-2">
+    <div class="border rounded-md md:row-start-2 col-span-2 md:col-span-1 p-2 overflow-scroll">
 
         <div class="flex gap-9 mb-4">Role: <span x-text="role"></span></div>
 

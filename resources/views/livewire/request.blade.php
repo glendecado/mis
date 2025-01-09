@@ -272,7 +272,15 @@ $confirmLocation = function () {
 //update status 
 $updateStatus = function ($status) {
 
-    $this->dispatch('success', $status == 'pending' ? 'Request Accepted you can now update the priority level and assign tehcnical staff' : 'Request Declined');
+    $this->dispatch('success', 
+    $status == 'pending' 
+        ? 'Request Accepted. You can now update the priority level and assign technical staff.' 
+        : ($status == 'ongoing' 
+            ? 'Accepted' 
+            : 'Declined'
+        )
+);
+
 
     $req = Request::where('id', $this->id)->with('faculty')->first();
     $req->status = $status;

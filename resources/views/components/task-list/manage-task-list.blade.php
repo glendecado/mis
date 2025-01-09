@@ -22,8 +22,8 @@
 
 @case('category')
 
-<div class="x gap-2">
-    <div class="y w-96">
+<div class="md:x y gap-2">
+    <div class="y w-full md:w-[30%]">
         <input type="text" wire:model="task" class="input">
 
         <!-- Show error message if there's an error for the 'task' field -->
@@ -33,7 +33,7 @@
     </div>
 
     <div class="flex-none">
-        <button class="button" wire:click.prevent="addTaskList">+</button>
+        <button class="button w-20" wire:click.prevent="addTaskList">+</button>
     </div>
 
 </div>
