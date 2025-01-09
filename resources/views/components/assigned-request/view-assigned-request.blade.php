@@ -16,8 +16,8 @@
 
 
         @if(session('user')['role'] == 'Mis Staff')
-        <div disabled class="border h-full absolute right-0 flex items-center px-2 cursor-pointer" wire:click.prevent="removeTask('{{$tech->user->id}}')">
-            remove
+        <div disabled class="border h-full absolute right-0 flex items-center px-10 hover:bg-blue-100/50 cursor-pointer" wire:click.prevent="removeTask('{{$tech->user->id}}')">
+            <x-icons.delete />
         </div>
         @endif
     </div>

@@ -3,7 +3,7 @@
 
     <div class="w-full">
         <a href="/request?status={{Cache::get('status_'.session('user')['id'])}}" wire:navigate.hover>
-            <div class="float-right border rounded-full size-8 flex-center">
+            <div class="float-left hover:bg-blue-100/50 hover:-translate-x-1 hover:-translate-y-1 hover:drop-shadow-md border-[2px] shadow-md border-blue-600 text-blue hover:border-blue-600/50 hover:text-blue-600 rounded-full size-10 flex-center">
                 <x-icons.arrow direction="left" />
             </div>
         </a>
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div>
+            <div class="bg-yellow rounded-md p-2 text-blue">
                 status: <span class="font-bold">{{$req->status}}</span>
             </div>
 
@@ -67,9 +67,9 @@
                     <div>
                         <label for="prio">Priority Level:</label>
                         <select name="" id="prio" class='input' wire:change="priorityLevelUpdate($event.target.value)">
-                            <option value="1" @if($req->priorityLevel == 1) selected @endif>1 : High</option>
-                            <option value="2" @if($req->priorityLevel == 2) selected @endif>2 : Medium</option>
-                            <option value="3" @if($req->priorityLevel == 3) selected @endif>3 : Low</option>
+                            <option value="1" @if($req->priorityLevel == 1) selected @endif>High</option>
+                            <option value="2" @if($req->priorityLevel == 2) selected @endif>Medium</option>
+                            <option value="3" @if($req->priorityLevel == 3) selected @endif>Low</option>
                         </select>
                     </div>
 

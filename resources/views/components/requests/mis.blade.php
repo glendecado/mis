@@ -28,16 +28,16 @@
     @break
 
     @case('ongoing')
-    <h1>Request Ongoing</h1>
+    
     @break
 
     @case('resolved')
-    <h1>Request Resoled</h1>
+    
     @break
 
 
     @case('declined')
-    <h1>Request Declined</h1>
+    
     @break
 
     @endswitch

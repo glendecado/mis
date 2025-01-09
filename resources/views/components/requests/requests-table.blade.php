@@ -1,16 +1,16 @@
 <!-- User Table for Larger Screens -->
-<div class="table-container w-full p-2 rounded-md" x-data="{ search: '' }">
+<div class=" w-full p-2 px-8 rounded-md" x-data="{ search: '' }">
     <!-- Search Input -->
-    <div class="m-4">
+    <div class="md:m-4  m-0 my-4">
         <input
             type="text"
             placeholder="Search..."
             x-model="search"
-            class="input w-96" />
+            class="input w-[30%] min-w-[200px]"/>
     </div>
 
-    <table class="w-full text-[100%] break-words " x-data="{ openRequest: false }">
-        <thead class="table-header hidden md:table-header-group ">
+    <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
+        <thead class="table-header rounded-md hidden md:table-header-group ">
             <tr>
                 @if(session('user')['role'] != 'Faculty')
                 <th class="table-header-cell">Name</th>
@@ -144,7 +144,7 @@
                 x-show="search === '' || 
             '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }} {{ $request->faculty->college }} {{ $request->faculty->building }} {{ $request->faculty->room }}'.toLowerCase().includes(search.toLowerCase())">
 
-                <td class="flex flex-col m-2 w-full h-full" @click="openRequest = openRequest === '{{ $request->id }}' ? '' : '{{ $request->id }}'">
+                <td class="flex flex-col m-2 w-full h-full relative" @click="openRequest = openRequest === '{{ $request->id }}' ? '' : '{{ $request->id }}'">
                     <span class="font-bold mb-2">
                         @if(session('user')['role'] == 'Faculty')
                         {{ $request->created_at->format('Y-m-d') }}
@@ -153,7 +153,7 @@
                         @endif
                     </span>
 
-                    <span class="absolute right-3">
+                    <span class="absolute right-1">
                         <div x-show="openRequest != '{{$request->id}}' ">
                             <x-icons.arrow direction="down" />
                         </div>
