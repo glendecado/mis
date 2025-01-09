@@ -1,5 +1,6 @@
-<div class="text-[20px] font-bold">
-    Category
+<div>
+    <h1  class="text-[20px] font-bold text-blue">Category</h1>
+    <p></p>
 </div>
 
 <div x-data="{ selectedCategoryId: null }" class="m-3 overflow-auto h-[80vh]">
@@ -16,6 +17,7 @@
             </div>
 
             <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2">
+                <p class="-translate-y-3 text-sm text-blue/80">"Drag and drop to rearrange the list items."</p>
                 {{-- TaskList --}}
                 <livewire:task-list :category="$category->id" />
             </div>
@@ -23,4 +25,3 @@
         @endforeach
     </div>
 </div>
-
