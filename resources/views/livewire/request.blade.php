@@ -30,7 +30,9 @@ state(['tab', 'status'])->url();
 state(['college', 'building', 'room']);
 
 //for requests
-state(['id', 'category', 'concerns', 'priorityLevel', 'request']);
+state(['id', 'concerns', 'priorityLevel', 'request']);
+
+state('category')->modelable();
 
 rules([
     'concerns' => 'required|min:10',
@@ -75,6 +77,7 @@ $getCachedRequests = fn() => Cache::rememberForever('requests', function () {
 
 //reload
 $reload = function () {
+
     Cache::forget('requests');
     $this->mount();
 };
@@ -97,9 +100,8 @@ $redirectIfStatusIsNull = function () {
 
 mount(function () {
 
-    
-    //initial valye of category
-    $this->category = '1';
+
+
 
 
     $this->sessionPage();
@@ -186,7 +188,7 @@ $viewRequest = function () {
 
 //add request
 $addRequest = function () {
-    $key = 'add-request:' . request()->ip();  // Rate limit based on IP address
+    /*     $key = 'add-request:' . request()->ip();  // Rate limit based on IP address
 
     // Check if the user has exceeded the rate limit (e.g., 5 requests per minute)
     if (RateLimiter::tooManyAttempts($key, 5)) {
@@ -196,14 +198,23 @@ $addRequest = function () {
     }
 
     // Increment the attempts count with a 1hr expiration
-    RateLimiter::hit($key, 60 * 60);
+    RateLimiter::hit($key, 60 * 60); */
 
     $this->validate();
 
-    $category = Category::firstOrCreate(
-        ['id' => $this->category], // Attributes to find
-        ['name' => $this->category], // Attributes to create if not found
-    );
+
+
+    $category = Category::find($this->category);
+
+    if (!$category) {
+        $category = Category::firstOrCreate(
+            ['name' => ucfirst($this->category)], 
+            ['name' => $this->category] 
+        );
+    }
+
+
+
     $req = Request::create([
         'faculty_id' => session('user')['id'],
         'category_id' => $category->id,
