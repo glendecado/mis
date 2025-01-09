@@ -42,7 +42,7 @@
 }
 
 .button:disabled {
-    @apply bg-blue-100 text-gray-400 cursor-not-allowed;
+    @apply bg-blue/50 text-blue-400/50 cursor-not-allowed;
 }
 
 .input {
