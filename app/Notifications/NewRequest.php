@@ -75,7 +75,6 @@ class NewRequest extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable)
     {
         return [
-            'notif' => 'NewRequest',
             'req_id' => $this->reqId,
             'message' => $this->message,
             'name' => $this->name ,
@@ -96,7 +95,6 @@ class NewRequest extends Notification implements ShouldQueue
         
         
         return new BroadcastMessage([
-            'notif' => 'NewRequest',
             'req_id' => $this->reqId,
             'message' => $this->message,
             'name' => $this->name ,

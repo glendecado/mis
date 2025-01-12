@@ -76,7 +76,7 @@ class FeedbackRating extends Notification implements ShouldQueue
     {
         return [
 
-            'notif' => 'FeedbackRating',
+
             'req_id' => $this->reqId,
             'rate' => $this->rate,
             'feedback' => $this->feedback,
@@ -97,7 +97,7 @@ class FeedbackRating extends Notification implements ShouldQueue
         
         return new BroadcastMessage([
 
-            'notif' => 'FeedbackRating',
+
             'req_id' => $this->reqId,
             'rate' => $this->rate,
             'feedback' => $this->feedback,

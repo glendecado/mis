@@ -65,7 +65,6 @@ class RequestStatus extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable)
     {
         return [
-            'notif' => 'RequestStatus',
             'req_id' => $this->reqId,
             'redirect' => $this->redirect,
             'date' => $this->date,
@@ -77,7 +76,6 @@ class RequestStatus extends Notification implements ShouldQueue
     {
 
         return new BroadcastMessage([
-            'notif' => 'RequestStatus',
             'req_id' => $this->reqId,
             'redirect' => $this->redirect,
             'date' => $this->date,

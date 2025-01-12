@@ -53,9 +53,9 @@ $opened = function ($id, $req) {
         {{--Unread--}}
         @foreach ($user->unreadNotifications as $notification)
 
-        @switch($notification->data['notif'])
+        @switch($notification->type)
 
-        @case('NewRequest')
+        @case('App\Notifications\NewRequest')
         <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
@@ -73,7 +73,7 @@ $opened = function ($id, $req) {
 
         @break
 
-        @case('RequestStatus')
+        @case('App\Notifications\RequestStatus')
         <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4 font-bold" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <span class="rounded-full text-[30px] ml-3">
@@ -89,7 +89,7 @@ $opened = function ($id, $req) {
         </div>
         @break
 
-        @case('FeedbackRating')
+        @case('App\Notifications\FeedbackRating')
         <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
@@ -106,7 +106,7 @@ $opened = function ($id, $req) {
         @break
 
 
-        @case('AssingedRequest')
+        @case('App\Notifications\AssingedRequest')
         @break
 
         @endswitch
@@ -124,9 +124,9 @@ $opened = function ($id, $req) {
         {{--read--}}
         @foreach ($user->readNotifications as $notification)
 
-        @switch($notification->data['notif'])
+        @switch($notification->type)
 
-        @case('NewRequest')
+        @case('App\Notifications\NewRequest')
         <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
@@ -141,7 +141,7 @@ $opened = function ($id, $req) {
         </div>
         @break
 
-        @case('RequestStatus')
+        @case('App\Notifications\RequestStatus')
         <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <span class="rounded-full text-[30px] ml-3">
@@ -156,7 +156,7 @@ $opened = function ($id, $req) {
         </div>
         @break
 
-        @case('FeedbackRating')
+        @case('App\Notifications\FeedbackRating')
         <div class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
@@ -169,6 +169,9 @@ $opened = function ($id, $req) {
                 <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
         </div>
+        @break
+
+        @case('App\Notifications\AssingedRequest')
         @break
 
         @endswitch

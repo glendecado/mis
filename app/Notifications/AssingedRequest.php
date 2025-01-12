@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+
 use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,11 +18,11 @@ class AssingedRequest extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
 
-     protected $reqId;
+     protected $request;
 
     public function __construct(Request $request)
     {
-        $this->reqId = $request->id;
+        $this->request = $request;
     }
 
     /**
@@ -61,8 +62,7 @@ class AssingedRequest extends Notification implements ShouldQueue
     {
         return [
 
-            'notif' => 'AssignedRequest',
-            'req_id' => $this->reqId,
+            'request' => $this->request,
 
 
         ];
@@ -75,8 +75,7 @@ class AssingedRequest extends Notification implements ShouldQueue
         
         return new BroadcastMessage([
 
-            'notif' => 'AssignedRequest',
-            'req_id' => $this->reqId,
+            'request' => $this->request,
 
         ]);
 
