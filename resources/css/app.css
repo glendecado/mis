@@ -180,7 +180,11 @@
 }
 
 .tooltip{
-    @apply group-hover:block hidden absolute right-28 bottom-12 text-blue bg-white/90 p-3 rounded-md shadow-md
+    @apply group-hover:block hidden absolute right-28 bottom-12 text-blue bg-white/90 p-3 rounded-md shadow-md;
+}
+
+.error-login{
+    @apply mt-1 text-xs text-red-600 absolute w-full text-right;
 }
 
 .request-containder {

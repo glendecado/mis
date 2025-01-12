@@ -80,7 +80,9 @@ $login = function () {
                             Address</label>
 
                         @if ($emailError)
-                        <div class="mt-1 text-xs text-red-600 absolute">❌ {{ $emailError }}</div>
+
+                        <div class="error-login">{{ $emailError }}</div>
+
                         @endif
                     </div>
 
@@ -122,7 +124,7 @@ $login = function () {
 
 
                         @if ($passwordError)
-                        <div class="mt-1 text-xs text-red-600 absolute">❌ {{ $passwordError }}</div>
+                        <div class="error-login">{{ $passwordError }}</div>
                         @endif
                     </div>
 
