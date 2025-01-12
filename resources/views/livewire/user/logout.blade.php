@@ -14,7 +14,7 @@ $logout = function () {
 }
 
 ?>
-<div class="dropdown-open-items p-4" wire:click.prevent="logout">
+<div class="dropdown-open-items p-4" wire:click.prevent="logout" @click="sessionStorage.clear()">
     <x-icons.logout class="size-6 absolute left-5" />
     <span>Logout</span>
 </div>
