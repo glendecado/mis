@@ -66,7 +66,7 @@ $login = function () {
             class="relative w-full md:w-96 bg-blue-500 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl sm:px-10 h-[450px] ">
             <div class="text-center">
                 <h1 class="font-geist text-3xl font-semibold text-blue-50">Sign in</h1>
-                <p class=" mt-2 text-blue-50">Sign in below to access your account</p>
+                <p class=" mt-2 text-blue-50">below to access your account</p>
             </div>
             <div class="my-[50px]">
                 <form wire:submit.prevent="login" method="post">
@@ -129,10 +129,12 @@ $login = function () {
 
 
 
-                    <div class="my-[50px] float-right w-24">
+                    <div class="my-[50px] float-right w-24 group">
                         <button type="submit"
-                            class="font-geist w-full rounded-full bg-blue-200 px-3 py-4 text-white focus:bg-gray-600 focus:outline-none hover:bg-yellow hover:text-black transition duration-300">Sign
-                            in</button>
+                            class=" font-geist w-full rounded-full bg-blue-200 px-3 py-2 text-white focus:bg-yellow focus:outline-none hover:bg-yellow hover:text-blue transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-950/50">Sign
+                            in
+                        </button>
+
                     </div>
                 </form>
             </div>
@@ -142,7 +144,7 @@ $login = function () {
 
     <div class="row-start-1 md:col-start-2 self-center p-4 md:p-0 md:ml-5 ml-0 w-full md:w-96 text-blue-900">
 
-        <h1 class="text-[50px] md:text-[80px]">MIS/EDP</h1>
+        <h1 class="text-[50px] md:text-[80px]">MIS</h1>
         <h3>A product of students from ISAT- U, for their requirements within the
             Bachelor of Science in Information Technology</h3>
     </div>
