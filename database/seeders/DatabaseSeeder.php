@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\MisStaff;
 use App\Models\Faculty;
 use App\Models\TechnicalStaff;
+use Database\Seeders\categorySeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
 
@@ -51,5 +52,10 @@ class DatabaseSeeder extends Seeder
         'technicalStaff_id' => $technicalStaffUser->id
       ]);
     }
+
+    $this->call([
+      categorySeeder::class,
+
+  ]);
   }
 }
