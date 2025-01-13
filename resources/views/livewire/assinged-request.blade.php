@@ -70,7 +70,8 @@ $removeTask = function ($techId) {
     $AssignedRequest = AssignedRequest::where('technicalStaff_id', $techId)->where('request_id', $this->id)->with("TechnicalStaff")->first();
     $this->dispatch('techs');
     $AssignedRequest->delete();
-    $n = $notifUser->notifications()->where('data->request->id',intval($this->id))->delete();
+    $n = $notifUser->notifications()->where('data->req_id', intval($this->id))->delete();
+    RequestEvent::dispatch($techId);
 
 };
 

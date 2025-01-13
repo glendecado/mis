@@ -137,7 +137,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-    $requests = Cache::get('requests');
+    $requests = Cache::get('requests') ?? Request::with(['category', 'faculty'])->get();
 
     switch (session('user')['role']) {
 
@@ -152,7 +152,7 @@ $viewRequest = function () {
                     'resolved' => 4,
                     default => 5,
                 };
-            })->sortByDesc('created_at');
+            })->sortBy('created_at');
             break;
 
 
@@ -161,7 +161,7 @@ $viewRequest = function () {
         case 'Faculty':
             $req = $requests->filter(function ($request) {
                 return $request->faculty_id == session('user')['id'];
-            })->sortByDesc('created_at');
+            })->sortBy('priorityLevel');
             break;
 
 
@@ -172,7 +172,10 @@ $viewRequest = function () {
             //get all request id from it
             $techtask = $task->pluck('request_id')->toArray();
             //request by priority level
-            $req = $requests->whereIn('id', $techtask)->sortBy('priorityLevel');
+            if ($requests) {
+                $req = $requests->whereIn('id', $techtask)->sortBy('priorityLevel');
+            }
+
             break;
     }
 
@@ -208,8 +211,8 @@ $addRequest = function () {
 
     if (!$category) {
         $category = Category::firstOrCreate(
-            ['name' => ucfirst($this->category)], 
-            ['name' => $this->category] 
+            ['name' => ucfirst($this->category)],
+            ['name' => $this->category]
         );
     }
 
@@ -272,14 +275,15 @@ $confirmLocation = function () {
 //update status 
 $updateStatus = function ($status) {
 
-    $this->dispatch('success', 
-    $status == 'pending' 
-        ? 'Request Accepted. You can now update the priority level and assign technical staff.' 
-        : ($status == 'ongoing' 
-            ? 'Accepted' 
-            : 'Declined'
-        )
-);
+    $this->dispatch(
+        'success',
+        $status == 'pending'
+            ? 'Request Accepted. You can now update the priority level and assign technical staff.'
+            : ($status == 'ongoing'
+                ? 'Accepted'
+                : 'Declined'
+            )
+    );
 
 
     $req = Request::where('id', $this->id)->with('faculty')->first();

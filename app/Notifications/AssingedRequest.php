@@ -2,8 +2,9 @@
 
 namespace App\Notifications;
 
-
+use App\Models\Category;
 use App\Models\Request;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -18,11 +19,23 @@ class AssingedRequest extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
 
-     protected $request;
+     protected $img;
+     protected $name;
+     protected $date;
+     protected $redirect;
+     protected $category;
+     protected $reqId;
 
     public function __construct(Request $request)
     {
-        $this->request = $request;
+        $user = User::find($request->faculty_id);
+        $category = Category::find($request->category_id);
+        $this->category = $category->name;
+        $this->name = $user->name;
+        $this->img = $user->img;
+        $this->date = $request->created_at;
+        $this->redirect = '/request/'.$request->id;
+        $this->reqId = $request->id;
     }
 
     /**
@@ -62,7 +75,12 @@ class AssingedRequest extends Notification implements ShouldQueue
     {
         return [
 
-            'request' => $this->request,
+            'req_id' => $this->reqId,
+            'name' => $this->name ,
+            'img' => $this->img,
+            'date' => $this->date,
+            'category' => $this->category,
+            'redirect' => $this->redirect 
 
 
         ];
@@ -75,7 +93,12 @@ class AssingedRequest extends Notification implements ShouldQueue
         
         return new BroadcastMessage([
 
-            'request' => $this->request,
+            'req_id' => $this->reqId,
+            'name' => $this->name ,
+            'img' => $this->img,
+            'date' => $this->date,
+            'category' => $this->category,
+            'redirect' => $this->redirect 
 
         ]);
 

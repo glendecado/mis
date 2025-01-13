@@ -41,7 +41,7 @@ $opened = function ($id, $req) {
     </div>
 
 
-    <div id="ntf" x-cloak x-show="notif" class="dropdown w-64 md:w-96 absolute flex  flex-col gap-2 top-16 h-96 scrollbar-hidden right-6 pt-5 p-1"
+    <div id="ntf" x-cloak x-show="notif" class="dropdown w-72 md:w-96 absolute flex  flex-col gap-2 top-16 h-96 scrollbar-hidden right-2 pt-5 p-1"
         x-init="Echo.private('App.Models.User.' + {{session('user')['id']}}).notification((notification) => {
             $wire.$refresh();
             console.log(notification);
@@ -107,6 +107,21 @@ $opened = function ($id, $req) {
 
 
         @case('App\Notifications\AssingedRequest')
+        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full  " wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
+                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
+                    class="rounded-full w-[64px] md:h-[64px] h-[32px]">
+            </div> 
+            <div class="flex w-60 flex-col overflow-hidden truncate ">
+                <span>You have been assigned</span>
+                <span> to handle</span>
+                <span class="text-wrap">{{$notification->data['name']}} 's</span>
+                <span>request.</span>
+                <div>Category:{{$notification->data['category']}}</div>
+                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
+        </div>
         @break
 
         @endswitch
@@ -172,6 +187,21 @@ $opened = function ($id, $req) {
         @break
 
         @case('App\Notifications\AssingedRequest')
+        <div class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full  " wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
+            <div class="rounded-full p-3">
+                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
+                    class="rounded-full w-[64px] md:h-[64px] h-[32px]">
+            </div> 
+            <div class="flex w-60 flex-col overflow-hidden truncate ">
+                <span>You have been assigned</span>
+                <span> to handle</span>
+                <span class="text-wrap">{{$notification->data['name']}} 's</span>
+                <span>request.</span>
+                <div>Category:{{$notification->data['category']}}</div>
+                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+            </div>
+
+        </div>
         @break
 
         @endswitch
