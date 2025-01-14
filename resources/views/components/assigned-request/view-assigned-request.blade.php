@@ -16,9 +16,9 @@
 
 
         @if(session('user')['role'] == 'Mis Staff')
-        <div disabled class="border h-full absolute right-0 flex items-center px-10 hover:bg-blue-100/50 cursor-pointer" wire:click.prevent="removeTask('{{$tech->user->id}}')">
+        <button @click="$wire.removeTask({{$tech->user->id}})" wire:loading.attr="disabled" class="border h-full absolute right-0 flex items-center px-10 hover:bg-blue-100/50 cursor-pointer" wire:loading.class="bg-blue-100/50 cursor-progress">
             <x-icons.delete />
-        </div>
+        </button>
         @endif
     </div>
     @endforeach
