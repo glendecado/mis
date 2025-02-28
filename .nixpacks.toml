@@ -5,7 +5,11 @@ cmds = [
   "php artisan storage:link",
   "php artisan migrate --force",
   "npm install",
-  "npm run build",
+  "npm run build"
+]
+
+[phases.start]
+cmds = [
   "php artisan serve",
   "php artisan reverb:start",
   "php artisan queue:work"
