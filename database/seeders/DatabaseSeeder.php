@@ -4,9 +4,10 @@ use App\Models\User;
 use App\Models\MisStaff;
 use App\Models\Faculty;
 use App\Models\TechnicalStaff;
-use Database\Seeders\categorySeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Category;
+
 
 class DatabaseSeeder extends Seeder
 {
