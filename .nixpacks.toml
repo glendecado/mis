@@ -1,0 +1,12 @@
+[phases.build]
+cmds = [
+  "composer install",
+  "php artisan optimize:clear",
+  "php artisan storage:link",
+  "php artisan migrate --force",
+  "npm install",
+  "npm run build",
+  "php artisan serve",
+  "php artisan reverb:start",
+  "php artisan queue:work"
+]
