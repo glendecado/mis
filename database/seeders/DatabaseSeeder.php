@@ -53,9 +53,37 @@ class DatabaseSeeder extends Seeder
       ]);
     }
 
-    $this->call([
-      CategorySeeder::class,
 
-  ]);
+  //////////
+        $clp = Category::create([
+            'name' => 'Computer/Laptop/Printer'
+        ]);
+
+        $clp->save();
+
+
+        //////////
+        $net = Category::create([
+            'name' => 'Network'
+        ]);
+
+        $net->save();
+
+
+        //////////
+        $soft = Category::create([
+            'name' => 'Software'
+        ]);
+
+        $soft->save();
+
+        //////////
+        $tel = Category::create([
+            'name' => 'Telephone'
+        ]);
+
+        $tel->save();
+
+      
   }
 }
