@@ -72,7 +72,7 @@ $techStaffMetrics = function () {
 };
 
 ?>
-<div class="">
+<div class="px-10 py-6">
 
     <div name="select">
         <!-- Date Selection -->

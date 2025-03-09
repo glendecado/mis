@@ -6,7 +6,7 @@
         type="text"
         placeholder="Search..."
         x-model="search"
-        class="w-full border rounded p-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 relative" />
+        class="w-full rounded p-2 pl-3 pr-10 input relative" />
 
     <!-- Search Icon/Text Inside Input -->
     <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
