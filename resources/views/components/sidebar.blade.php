@@ -1,66 +1,57 @@
-<div x-cloak :class="sidebar ? 
-'px-3 w-52 absolute md:relative':' w-12 relative'"
-    class="h-full text-yellow pt-11 z-30 bg-blue-2 transition-all"
-
+<div x-cloak :class="sidebar ? 'w-52 absolute md:relative px-4' : 'w-14 relative px-2'"
+    class="h-full text-yellow pt-6 z-30 bg-blue-2 transition-all flex flex-col gap-3"
     x-data="{ 
         sidebar: $persist(window.innerWidth >= 700).using(sessionStorage),
         closeSidebarOnOutsideClick() { 
             if (window.innerWidth < 700) this.sidebar = false;
         }
     }"
-    @click.outside="window.innerWidth < 700 ? sidebar = false : ''"
-    >
+    @click.outside="window.innerWidth < 700 ? sidebar = false : ''">
 
-
-    <div class="absolute top-0 right-2" @click="sidebar = !sidebar">
-        <x-icons.burger />
+    <!-- Sidebar Toggle Button -->
+    <div class="w-full flex justify-start p-1 mt-4" :class="!sidebar ? 'justify-center' : ''">
+        <div class="cursor-pointer" @click="sidebar = !sidebar">
+         <x-icons.burger class="size-5" />
+        </div>
     </div>
 
+    <!-- Navigation Menu -->
+    <nav class="flex flex-col gap-3">
+        <!-- Request -->
+        <a wire:navigate.hover href="/request?status={{Cache::get('status_'.session('user')['id']) ?? 'all'}}">
+            <div :class="sidebar ? 'justify-start' : 'justify-center'"
+                class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('request') || request()->routeIs('request-table') ? 'sidebar-active' : 'sidebar-links' }}">
+                <x-icons.request class="size-5" />
+                <span x-show="sidebar" class="whitespace-nowrap">Request</span>
+            </div>
+        </a>
 
-    {{--Request--}}
-    <a wire:navigate.hover href="/request?status={{Cache::get('status_'.session('user')['id']) ?? 'all'}}">
-        <div
-            :class="sidebar ? 'justify-start': 'justify-center'"
-            class="{{request()->routeIs('request') 
-    || request()->routeIs('request-table') ? 'sidebar-active' : 'sidebar-links'}}">
-            <x-icons.request class="size-5" />
-            <span x-show="sidebar">Request</span>
-        </div>
-    </a>
+        <!-- Category -->
+        <a wire:navigate.hover href="/category">
+            <div :class="sidebar ? 'justify-start' : 'justify-center'"
+                class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('category') ? 'sidebar-active' : 'sidebar-links' }}">
+                <x-icons.category class="size-5" />
+                <span x-show="sidebar" class="whitespace-nowrap">Category</span>
+            </div>
+        </a>
 
+        <!-- Users -->
+        <a wire:navigate.hover href="/user?roles=all">
+            <div :class="sidebar ? 'justify-start' : 'justify-center'"
+                class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('user') ? 'sidebar-active' : 'sidebar-links' }}">
+                <x-icons.user class="size-5" />
+                <span x-show="sidebar" class="whitespace-nowrap">Users</span>
+            </div>
+        </a>
 
-    {{--category--}}
-    <a wire:navigate.hover href="/category">
-        <div
-            :class="sidebar ? 'justify-start': 'justify-center'"
-            class="{{request()->routeIs('category') ? 'sidebar-active' : 'sidebar-links'}}
-                
-            ">
-            <x-icons.category class="size-5" />
-            <span x-show="sidebar">Category</span>
-        </div>
-    </a>
-
-
-    {{--user--}}
-    <a wire:navigate.hover href="/user?roles=all">
-        <div
-            :class="sidebar ? 'justify-start': 'justify-center'"
-            class="{{request()->routeIs('user') ? 'sidebar-active' : 'sidebar-links'}}">
-            <x-icons.user class="size-5" />
-            <span x-show="sidebar">Users</span>
-        </div>
-    </a>
-
-
-    {{--reports--}}
-    <a wire:navigate.hover href="/reports">
-        <div
-            :class="sidebar ? 'justify-start': 'justify-center'"
-            class="{{request()->routeIs('reports') ? 'sidebar-active' : 'sidebar-links'}}">
-            <x-icons.reports />
-            <span x-show="sidebar">Reports</span>
-        </div>
-    </a>
+        <!-- Reports -->
+        <a wire:navigate.hover href="/reports">
+            <div :class="sidebar ? 'justify-start' : 'justify-center'"
+                class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('reports') ? 'sidebar-active' : 'sidebar-links' }}">
+                <x-icons.reports class="size-5" />
+                <span x-show="sidebar" class="whitespace-nowrap">Reports</span>
+            </div>
+        </a>
+    </nav>
 
 </div>
