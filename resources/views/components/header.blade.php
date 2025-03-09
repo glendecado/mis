@@ -1,10 +1,10 @@
-<header class="header">
+<header class="bg-blue h-full p-2 flex items-center justify-between">
 
     {{--Logo--}}
     <div class="header-container-logo"
         @click="Livewire.navigate('/request?status=all')">
         <x-logo />
-        <span class="hidden md:block">MIS Service Request Portal</span>
+        <span class="ml-2 hidden md:block">MIS Service Request Portal</span>
     </div>
 
 
