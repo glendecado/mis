@@ -1,6 +1,6 @@
 <x-modal name="add-request-modal">
 
-
+    <h1 class="text-3xl text-blue font-bold mb-4">Create Request</h1>
 
     <div class="y"
         x-data="
@@ -14,7 +14,7 @@
 
 
         <fieldset class="border p-2 rounded-md">
-            <legend>Request Form</legend>
+            <legend>Category</legend>
             <div class="y">
                 <livewire:category wire:model="category" />
                 <textarea
@@ -69,7 +69,7 @@
             class="button"
             :disabled="!college || !building || !room"
             @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
-            Submit
+            Update Location
         </button>
     </div>
 </x-modal>
