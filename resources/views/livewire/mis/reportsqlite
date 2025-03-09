@@ -1,3 +1,5 @@
+change to mysql
+
 <?php
 
 use App\Models\Request;
@@ -79,40 +81,40 @@ $techStaffMetrics = function () {
         case 'today':
             $request->whereDate('assigned_requests.created_at', Carbon::today())
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H') as date"),
+                    DB::raw("strftime('%Y-%m-%d %H', assigned_requests.created_at) as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
-                ->groupBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H')"))
-                ->orderBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H')"), 'ASC');
+                ->groupBy(DB::raw("strftime('%Y-%m-%d %H', assigned_requests.created_at)"))
+                ->orderBy(DB::raw("strftime('%Y-%m-%d %H', assigned_requests.created_at)"), 'ASC');
             break;
 
         case 'this_week':
             $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d') as date"),
+                    DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at) as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
-                ->groupBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d')"))
-                ->orderBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d')"), 'ASC');
+                ->groupBy(DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at)"))
+                ->orderBy(DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at)"), 'ASC');
             break;
 
         case 'this_month':
             $request->select(
-                DB::raw("YEAR(assigned_requests.created_at) as year"),
-                DB::raw("WEEK(assigned_requests.created_at) as week"),
+                DB::raw("strftime('%Y', assigned_requests.created_at) as week"),
+                DB::raw("strftime('%W', assigned_requests.created_at) as date"),
                 DB::raw('COUNT(*) as total_assigned_requests'),
                 DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
             )
-                ->groupBy(DB::raw("YEAR(assigned_requests.created_at), WEEK(assigned_requests.created_at)"))
-                ->orderBy(DB::raw("YEAR(assigned_requests.created_at), WEEK(assigned_requests.created_at)"), 'ASC');
+                ->groupBy(DB::raw("strftime('%Y', assigned_requests.created_at)"), DB::raw("strftime('%W', assigned_requests.created_at)"))
+                ->orderBy(DB::raw("strftime('%Y', assigned_requests.created_at)"), 'ASC')
+                ->orderBy(DB::raw("strftime('%W', assigned_requests.created_at)"), 'ASC');
             break;
     }
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
-
 
 ?>
 
@@ -135,11 +137,11 @@ $techStaffMetrics = function () {
             <select wire:model.change="techId" name="techId" id="techId" class="input w-full"
                 @change="$dispatch('update')" {{ empty($techStaff) ? 'disabled' : '' }}>
                 @if ($techStaff->isNotEmpty())
-                @foreach ($techStaff as $staff)
-                <option value="{{ $staff->user->id }}">{{ $staff->user->name }}</option>
-                @endforeach
+                    @foreach ($techStaff as $staff)
+                        <option value="{{ $staff->user->id }}">{{ $staff->user->name }}</option>
+                    @endforeach
                 @else
-                <option disabled>No Technical Staff Available</option>
+                    <option disabled>No Technical Staff Available</option>
                 @endif
             </select>
         </div>

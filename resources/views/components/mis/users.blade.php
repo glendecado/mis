@@ -69,9 +69,11 @@
                     <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->role }}</td>
                     <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
                     <td class="table-row-cell">
-                        <button @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser({{ $user->id }})">
-                            <x-icons.delete />
-                        </button>
+                         <div wire:loading.remove>
+                            <button @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser(@js($user->id))" wire:loading.attr="disabled">
+                                <x-icons.delete />
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach

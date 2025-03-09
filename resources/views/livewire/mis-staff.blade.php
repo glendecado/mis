@@ -142,7 +142,7 @@ $deleteUser = function ($id) {
         Storage::disk('public')->delete($img); // Delete the old image
     }
     $user->delete();
-    
+    cache()->flush();
     $this->dispatch('success', 'user deleted successfully.');
 };
 
