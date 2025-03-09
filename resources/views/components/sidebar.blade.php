@@ -9,7 +9,7 @@
     @click.outside="window.innerWidth < 700 ? sidebar = false : ''">
 
     <!-- Sidebar Toggle Button -->
-    <div class="w-full flex justify-start p-1 mt-4" :class="!sidebar ? 'justify-center' : ''">
+    <div class="w-full flex justify-start mt-4" :class="!sidebar ? 'justify-center' : ''">
         <div class="cursor-pointer" @click="sidebar = !sidebar">
          <x-icons.burger class="size-5" />
         </div>

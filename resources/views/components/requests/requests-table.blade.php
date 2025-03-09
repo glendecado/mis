@@ -1,5 +1,6 @@
 <!-- User Table for Larger Screens -->
-<div class="p-2 px-8 rounded-md" x-data="{ search: '' }">
+<div class="table-container md:block w-full p-2 rounded-md"
+    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-0 my-4 relative w-60 flex items-center">
     <input

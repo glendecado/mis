@@ -4,7 +4,7 @@
     <div class="header-container-logo"
         @click="Livewire.navigate('/request?status=all')">
         <x-logo />
-        <span class="ml-2 hidden md:block">MIS Service Request Portal</span>
+        <span class="ml-2 md:block hidden">MIS Service Request Portal</span>
     </div>
 
 
@@ -13,12 +13,13 @@
 
         <x-notif />
 
-        <div class="header-container-profile " x-data="{open : false}" @click="open = !open">
-
-            <span class="md:block hidden">{{session('user')['role']}}</span>
-
-            <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
+        <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white " x-data="{open : false}" @click="open = !open">
+            <div class="flex items-center gap-2">
+                <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
                 class="rounded-full size-10">
+
+                <span class="md:block hidden">{{session('user')['role']}}</span>
+            </div>
 
             {{--arrow--}}
             <div x-show="open == false">
