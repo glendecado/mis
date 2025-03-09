@@ -146,11 +146,11 @@ $login = function () {
 
     <div class="row-start-1 md:col-start-2 self-center p-4 md:p-0 md:ml-5 ml-0 w-full md:w-96 text-blue-900">
 
-        <h1 class="text-[50px] md:text-[300px]">
+        <h1 class="text-[20px] md:text-[60px]">
             MIS Service Request Portal
         </h1>
 
-        <h3>A product of students from ISAT- U, for their requirements within the
+        <h3 cass="text-[10px] md:text-[30px]">A product of students from ISAT- U, for their requirements within the
             Bachelor of Science in Information Technology</h3>
     </div>
 </div>

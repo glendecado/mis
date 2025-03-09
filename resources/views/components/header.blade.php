@@ -18,7 +18,8 @@
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
                 class="rounded-full size-10">
 
-                <span class="md:block hidden">{{session('user')['role']}}</span>
+                <span class="md:block hidden">{{strtoupper(session('user')['role'])
+                }}</span>
             </div>
 
             {{--arrow--}}

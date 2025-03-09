@@ -5,7 +5,7 @@
 
 @if(!empty($this->viewAssigned()))
 <div class="flex flex-col request-containder">
-    Assinged Technical Staff
+    Assigned Technical Staff
     @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
     <div class="flex items-center gap-2 border p-2 mb-2 rounded-md relative">
 
