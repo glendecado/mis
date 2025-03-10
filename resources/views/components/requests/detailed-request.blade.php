@@ -21,8 +21,10 @@
                 </div>
             </div>
 
+            @if($req->status == 'pending' || session('user')['role'])
             <!-- Priority -->
             <span class="text-sm text-blue"> You can now assign a priority level.</span>
+            @endif
 
             @switch(session('user')['role'])
                 @case('Mis Staff')
