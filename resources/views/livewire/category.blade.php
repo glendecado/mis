@@ -45,6 +45,22 @@ $suggestion = function() {
     }
 };
 
+$addCategory = function ($category) {
+    $create = Category::create([
+        "name" => ucfirst(strtolower($category))
+    ]);
+    $create->save();
+    $this->dispatch('success', 'New Category successfully created.');
+    $this->redirect('/category', navigate: true);
+};
+
+$deleteCategory = function($id) {
+    $category = Category::find($id);
+    $category->delete();
+    $this->dispatch('success', 'New Category successfully deleted.');
+    $this->redirect('/category', navigate: true);
+
+};
 
 ?>
 

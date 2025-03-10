@@ -13,20 +13,31 @@
                 @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
                 <span>{{$category->name}}</span>
                 <span x-show="selectedCategoryId !== {{ $category->id }}">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
+                        <path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z" />
+                    </svg>
                 </span>
                 <span x-show="selectedCategoryId === {{ $category->id }}">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF"><path d="M480-525 291-336l-51-51 240-240 240 240-51 51-189-189Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
+                        <path d="M480-525 291-336l-51-51 240-240 240 240-51 51-189-189Z" />
+                    </svg>
 
                 </span>
             </div>
-
-            <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2">
+            <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2 relative">
+                <button wire:loading.attr="disabled" class="absolute right-2" @click="$wire.deleteCategory({{$category->id}})"><x-icons.delete /></button>
                 <p class="-translate-y-3 text-sm text-blue/80">"Drag and drop to rearrange the list items."</p>
                 {{-- TaskList --}}
                 <livewire:task-list :category="$category->id" />
             </div>
         </div>
         @endforeach
+
+        <div x-data="{ input: '' }">
+            <input type="text" x-model="input" class="input">
+            <button @click="$wire.addCategory(input)" class="button">Add Category</button>
+        </div>
+
+
     </div>
 </div>

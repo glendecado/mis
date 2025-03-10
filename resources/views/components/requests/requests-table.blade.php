@@ -1,18 +1,20 @@
 <!-- User Table for Larger Screens -->
 <div class="table-container md:block w-full p-2 rounded-md"
-    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); x-data="{ search: '' }">
+    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-0 my-4 relative w-60 flex items-center">
-    <input
-        type="text"
-        placeholder="Search..."
-        x-model="search"
-        class="w-full rounded p-2 pl-3 pr-10 input relative" />
+        <input
+            type="text"
+            placeholder="Search..."
+            x-model="search"
+            class="w-full rounded p-2 pl-3 pr-10 input relative" />
 
-    <!-- Search Icon/Text Inside Input -->
-    <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B7B7B7"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
-    </span>
+        <!-- Search Icon/Text Inside Input -->
+        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B7B7B7">
+                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+            </svg>
+        </span>
     </div>
 
     <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
@@ -123,7 +125,7 @@
                     {{ $request->created_at->format('Y-m-d') }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->status }}
+                    {{ ucfirst($request->status) }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->category->name }}
