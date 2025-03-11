@@ -1,5 +1,5 @@
 <div x-cloak :class="sidebar ? 'w-52 absolute md:relative px-4' : 'w-14 relative px-2'"
-    class="h-full text-yellow pt-6 z-30 bg-blue-2 transition-all flex flex-col gap-3"
+    class="h-full text-yellow z-30 bg-blue-2 transition-all flex flex-col gap-3"
     x-data="{ 
         sidebar: $persist(window.innerWidth >= 700).using(sessionStorage),
         closeSidebarOnOutsideClick() { 
@@ -11,7 +11,7 @@
     <!-- Sidebar Toggle Button -->
     <div class="w-full flex justify-start mt-4" :class="!sidebar ? 'justify-center' : ''">
         <div class="cursor-pointer" @click="sidebar = !sidebar">
-         <x-icons.burger class="size-5" />
+            <x-icons.burger class="size-5" />
         </div>
     </div>
 
