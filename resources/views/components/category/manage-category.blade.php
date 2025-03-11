@@ -6,11 +6,14 @@
 
     <div class="p-2 transition-all space-y-2"> <!-- Improved spacing between categories -->
         @foreach($this->viewCategory() as $category)
-        <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-blue-500 mt-2 rounded-b-md' : 'mt-2'">
+        <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-blue-900 mt-2 rounded-b-md' : 'mt-2'">
             <div
-                class="bg-blue p-2 text-white cursor-pointer select-none flex justify-between items-center"
+                class="bg-blue-900 p-2 text-white cursor-pointer select-none flex justify-between items-center"
                 :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md': 'rounded-md'"
                 @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
+
+                <button wire:loading.attr="disabled" @click="$wire.deleteCategory({{$category->id}})"><x-icons.delete /></button>
+
                 <span>{{$category->name}}</span>
                 <span x-show="selectedCategoryId !== {{ $category->id }}">
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
@@ -25,17 +28,19 @@
                 </span>
             </div>
             <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2 relative">
-                <button wire:loading.attr="disabled" class="absolute right-2" @click="$wire.deleteCategory({{$category->id}})"><x-icons.delete /></button>
                 <p class="-translate-y-3 text-sm text-blue/80">"Drag and drop to rearrange the list items."</p>
                 {{-- TaskList --}}
                 <livewire:task-list :category="$category->id" />
+
             </div>
         </div>
         @endforeach
 
         <div x-data="{ input: '' }">
             <input type="text" x-model="input" class="input">
-            <button @click="$wire.addCategory(input)" class="button">Add Category</button>
+            <button :disabled="!input" @click="$wire.addCategory(input)" class="button">Add Category</button>
+
+
         </div>
 
 
