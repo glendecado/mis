@@ -36,30 +36,34 @@ $viewCategory = function () {
     }
 };
 
-$suggestion = function() {
+$suggestion = function () {
     // If no category is provided, retrieve all categories (or modify the logic as needed)
-    if(empty($this->category)) {
+    if (empty($this->category)) {
         return Category::take(0)->get();  // Optionally, you can adjust this to return all categories if necessary
     } else {
-        return Category::where('name', 'LIKE', '%'.$this->category.'%')->take(4)->get();
+        return Category::where('name', 'LIKE', '%' . $this->category . '%')->take(4)->get();
     }
 };
 
 $addCategory = function ($category) {
-    $create = Category::create([
-        "name" => ucfirst(strtolower($category))
-    ]);
-    $create->save();
-    $this->dispatch('success', 'New Category successfully created.');
+    if ($category) {
+        $create = Category::create([
+            "name" => ucfirst(strtolower($category))
+        ]);
+        $create->save();
+        $this->dispatch('success', 'New Category successfully created.');
+    } else {
+        $this->dispatch('error', 'No input');
+    }
+
     $this->redirect('/category', navigate: true);
 };
 
-$deleteCategory = function($id) {
+$deleteCategory = function ($id) {
     $category = Category::find($id);
     $category->delete();
     $this->dispatch('success', 'New Category successfully deleted.');
     $this->redirect('/category', navigate: true);
-
 };
 
 ?>
