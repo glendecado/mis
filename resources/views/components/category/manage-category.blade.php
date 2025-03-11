@@ -11,7 +11,9 @@
                 class="bg-blue-900 p-2 text-white cursor-pointer select-none flex justify-between items-center"
                 :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md': 'rounded-md'"
                 @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
-                <button wire:loading.attr="disabled" class="bg-slate-200 h-full" @click="$wire.deleteCategory({{$category->id}})"><x-icons.delete /></button>
+
+                <button wire:loading.attr="disabled" @click="$wire.deleteCategory({{$category->id}})"><x-icons.delete /></button>
+
                 <span>{{$category->name}}</span>
                 <span x-show="selectedCategoryId !== {{ $category->id }}">
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
