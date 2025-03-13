@@ -1,8 +1,8 @@
 <x-modal name="add-request-modal">
 
-    <h1 class="text-3xl text-blue font-bold mb-4">Create Request</h1>
+    <h1 class="text-3xl text-center font-bold mb-4" style="color: #2e5e91;">Create Request</h1>
 
-    <div class="y"
+    <div class="y p-4 mt-7"
         x-data="
         {
     category : @entangle('category'),
@@ -13,7 +13,7 @@
         @include('components.requests.confirm-location')
 
 
-        <fieldset class="border p-2 rounded-md">
+        <fieldset class="border rounded-md p-4">
             <legend>Category</legend>
             <div class="y">
                 <livewire:category wire:model="category" />
@@ -34,7 +34,7 @@
         <button
             wire:loading.attr="disabled"
             wire:click.prevent="addRequest"
-            class="button mt-2">
+            class="button mt-4" style="color: white; background-color: #2e5e91; ">
             Submit
         </button>
 
@@ -66,7 +66,7 @@
 
         <!-- Disable button if any of the fields are empty -->
         <button
-            class="button"
+            class="button mt-4" style="color: white; background-color: #2e5e91; "
             :disabled="!college || !building || !room"
             @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
             Update Location

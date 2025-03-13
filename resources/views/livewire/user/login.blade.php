@@ -59,44 +59,52 @@ $login = function () {
 
 ?>
 
-<div class="grid grid-cols-1 md:grid-cols-2 grid-rows-[25%,auto] md:grid-rows-1  w-full items-start md:items-center justify-center  h-svh ">
-
-    <div class="w-full flex justify-end">
+<div class="w-full flex items-center justify-center h-svh bg-blue-50">
+    <div class="w-full flex justify-center m-4"> <!-- Changed justify-end to justify-center -->
         <div
-            class="relative w-full md:w-96 bg-blue-500 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-xl sm:px-10 h-[450px] ">
-            <div class="text-center">
-                <h1 class="font-geist text-3xl font-semibold text-blue-50">Sign in</h1>
-                <p class=" mt-2 text-blue-50">below to access your account</p>
+            class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 h-[450px]" style="background-color: #2e5e91;">
+            <div class="flex items-center gap-2 justify-center mb-2">
+                <img src="{{ asset('storage/profile_images/default/ISAT-U-logo.png') }}" alt="ISAT-U Logo" class="size-10">
+                <p class="text-white font-medium text-xl font-geist">MIS Service Request Portal</p>
             </div>
-            <div class="my-[50px]">
-                <form wire:submit.prevent="login" method="post">
 
+            <hr>
+
+            <div class="text-center">
+                <!-- <h1 class="font-geist text-3xl font-semibold text-blue-50">Sign in</h1> -->
+                <p class="mt-4 text-blue-50">Sign in to access your account</p>
+            </div>
+            <div class="" style="margin-top: 40px;">
+                <form wire:submit.prevent="login" method="post">
                     <div class="relative z-0">
                         <input wire:model.lazy="email" type="text" id="floating_standard"
-                            class="rounded-full peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{ $emailError ? 'border border-red-500' : '' }}"
+                            class="rounded-md peer block w-full appearance-none px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-0 {{ $emailError ? 'border border-red-500' : '' }}"
                             placeholder=" " />
                         <label for="floating_standard"
-                            class="absolute top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">Email
+                            class="absolute left-2.5 top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform duration-300 
+                                peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px]
+                                peer-focus:scale-75 peer-focus:text-yellow ml-2 text-gray-500
+                                ">Email
                             Address</label>
-
                         @if ($emailError)
-
                         <div class="error-login">{{ $emailError }}</div>
-
                         @endif
                     </div>
 
-                    <div class="relative mt-9" x-data="{ password: true }">
+                    <div class="relative" style="margin-top: 24px;" x-data="{ password: true }">
                         <input :type="password ? 'password' : 'text'" wire:model.lazy="password" autocomplete="off"
                             id="floating_standard"
-                            class="rounded-full peer block w-full appearance-none px-5 py-3 bg-blue-100  text-sm text-gray-900  focus:outline-none focus:ring-0 {{ $passwordError ? 'border border-red-500' : '' }}"
+                            class="rounded-md peer block w-full appearance-none px-5 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-0 {{ $passwordError ? 'border border-red-500' : '' }}"
                             placeholder=" " />
-                        <label for="floating_standard"
-                            class="absolute top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform  duration-300 peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px] peer-focus:scale-75 peer-focus:text-yellow rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 ml-2 text-gray-500">Password</label>
+                            <label for="floating_standard"
+                            class="absolute left-2.5 top-2 z-10 origin-[0] -translate-y-[35px] scale-75 transform duration-300 
+                                peer-placeholder-shown:translate-y-0 text-lg peer-focus:start-0 peer-focus:-translate-y-[35px]
+                                peer-focus:scale-75 peer-focus:text-yellow ml-2 text-gray-500
+                                ">Password</label>
                         <div class="absolute right-2 bottom-2 cursor-pointer">
                             <template x-if="password">
                                 <div>
-                                    <svg @click="password = ! password" xmlns="http://www.w3.org/2000/svg"
+                                    <svg @click="password = !password" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
                                         <path
                                             d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
@@ -107,11 +115,9 @@ $login = function () {
                                     </svg>
                                 </div>
                             </template>
-
-
                             <template x-if="!password">
                                 <div>
-                                    <svg @click="password = ! password" xmlns="http://www.w3.org/2000/svg"
+                                    <svg @click="password = !password" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
                                         <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                                         <path fill-rule="evenodd"
@@ -121,36 +127,19 @@ $login = function () {
                                 </div>
                             </template>
                         </div>
-
-
                         @if ($passwordError)
                         <div class="error-login">{{ $passwordError }}</div>
                         @endif
                     </div>
 
-
-
-
-                    <div class="my-[50px] float-right w-24 group">
+                    <div class="float-right w-24 group" style="margin-top: 24px;">
                         <button type="submit"
-                            class=" font-geist w-full rounded-full bg-blue-200 px-3 py-2 text-white focus:bg-yellow focus:outline-none hover:bg-yellow hover:text-blue transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-950/50">Sign
-                            in
+                            class="text-blue-500 font-geist w-full rounded-md bg-blue-50 px-3 py-2 focus:bg-yellow focus:outline-none hover:bg-yellow hover:text-black transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-950/50">
+                            Sign in
                         </button>
-
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-
-
-    <div class="row-start-1 md:col-start-2 self-center p-4 md:p-0 md:ml-5 ml-0 w-full md:w-96 text-blue-900">
-
-        <h1 class="text-[20px] md:text-[60px]">
-            MIS Service Request Portal
-        </h1>
-
-        <h3 cass="text-[10px] md:text-[30px]">A product of students from ISAT- U, for their requirements within the
-            Bachelor of Science in Information Technology</h3>
     </div>
 </div>

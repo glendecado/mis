@@ -152,16 +152,13 @@ $viewRequest = function () {
                     'resolved' => 4,
                     default => 5,
                 };
-            })->sortBy('created_at');
+            })->sortByDesc('created_at'); 
             break;
-
-
-
 
         case 'Faculty':
             $req = $requests->filter(function ($request) {
                 return $request->faculty_id == session('user')['id'];
-            })->sortBy('priorityLevel');
+            })->sortByDesc('created_at'); 
             break;
 
 

@@ -1,5 +1,5 @@
 <!-- User Table for Larger Screens -->
-<div class="table-container md:block w-full p-2 rounded-md"
+<div class="table-container md:block hidden w-full p-2 rounded-md"
     style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-0 my-4 relative w-60 flex items-center">
@@ -18,7 +18,7 @@
     </div>
 
     <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
-        <thead class="table-header rounded-md hidden md:table-header-group ">
+        <thead class="table-header rounded-md hidden md:table-header-group " style="background-color: #2e5e91;">
             <tr>
                 @if(session('user')['role'] != 'Faculty')
                 <th class="table-header-cell">Name</th>
@@ -140,7 +140,7 @@
                 </td>
 
                 @if(session('user')['role'] == 'Faculty')
-                <td class="table-row-cell">
+                <td class="table-row-cell flex items-center justify-center">
                     <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})">
                         <x-icons.delete />
                     </div>
@@ -148,54 +148,60 @@
                 @endif
             </tr>
 
-            <tr x-cloak class="bg-blue w-full md:hidden flex mb-2  rounded-md text-white overflow-hidden"
-                x-show="search === '' || 
-            '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }} {{ $request->faculty->college }} {{ $request->faculty->building }} {{ $request->faculty->room }}'.toLowerCase().includes(search.toLowerCase())">
-
-                <td class="flex flex-col m-2 w-full h-full relative" @click="openRequest = openRequest === '{{ $request->id }}' ? '' : '{{ $request->id }}'">
-                    <span class="font-bold mb-2">
-                        @if(session('user')['role'] == 'Faculty')
-                        {{ $request->created_at->format('Y-m-d') }}
-                        @else
-                        {{$request->faculty->user->name}}
-                        @endif
-                    </span>
-
-                    <span class="absolute right-1">
-                        <div x-show="openRequest != '{{$request->id}}' ">
-                            <x-icons.arrow direction="down" />
-                        </div>
-
-                        <div x-show="openRequest == '{{$request->id}}' ">
-                            <x-icons.arrow direction="up" />
-                        </div>
-                    </span>
-
-                    <span class="bg-white w-full h-full rounded-md text-black p-2 flex flex-col" x-show="openRequest == '{{$request->id}}' ">
-                        @if(session('user')['role'] != 'Faculty')
-                        <p>Date: {{$request->created_at->format('Y-m-d')}}</p>
-                        @endif
-                        <p>Status: {{ $request->status }}</p>
-                        <p>Category: {{$request->created_at->format('Y-m-d')}}</p>
-                        <p class="text-ellipsis overflow-hidden ">Concerns: {{$request->concerns}}</p>
-                        <p>Location: {{$request->created_at->format('Y-m-d')}}</p>
-                        <button class="button" @click="Livewire.navigate('/request/{{$request->id }}')">View</button>
-                        @if(session('user')['role'] == 'Faculty')
-
-                        <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" class="absolute right-5">
-                            <x-icons.delete />
-                        </div>
-
-                        @endif
-                    </span>
-                </td>
-            </tr>
-
-
-
+            
 
             @endforeach
             @endif
         </tbody>
     </table>
+</div>
+
+<!-- User Table for Mobile Screens -->
+<div class="table-container md:hidden w-full" style="height: 100vh;" x-data="{ openRequest: '', search: '' }">
+    <!-- Search Input -->
+    <div class="mb-4">
+        <input 
+            type="text" 
+            placeholder="Search..." 
+            x-model="search"
+            class="border rounded p-2 w-full"
+        />
+    </div>
+
+    <!-- Mobile View for Table Rows -->
+    <div class="space-y-2">
+        @foreach ($this->viewRequest() as $request)
+            <div 
+                class="border rounded bg-white m-2 p-4 shadow-md"
+                x-show="search === '' || 
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }}'
+                    .toLowerCase().includes(search.toLowerCase())"
+            >
+                <div class="flex justify-between">
+                    <div class="font-semibold text-gray-800">Name:</div>
+                    <div class="text-gray-700">{{ $request->faculty->user->name }}</div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="font-semibold text-gray-800">Date:</div>
+                    <div class="text-gray-700">{{ $request->created_at->format('Y-m-d') }}</div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="font-semibold text-gray-800">Status:</div>
+                    <div class="text-gray-700">{{ ucfirst($request->status) }}</div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="font-semibold text-gray-800">Category:</div>
+                    <div class="text-gray-700">{{ $request->category->name }}</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 flex justify-end">
+                    <button @click="Livewire.navigate('/request/{{$request->id}}')" class="text-white text-sm px-4 py-2 rounded-md" style="background-color: #2e5e91;">View</button>
+                    @if(session('user')['role'] == 'Faculty')
+                    <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" class="text-red-500">Delete</button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>

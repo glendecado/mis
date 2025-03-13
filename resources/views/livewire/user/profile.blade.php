@@ -124,64 +124,76 @@ $updateProfile = function ($type) {
     role: @entangle('role')
 }"
 
-    class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
+class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
 
-    <div class="col-span-2 border rounded-md w-full flex gap-3 items-center relative">
-
-        <img src="{{asset('storage/'. $this->img)}}" alt=""
-            class="rounded-full w-[150px] h-[150px] ml-3">
-        <span x-text="fName+' '+lName"></span>
-
-
-    </div>
-
-    <div class="border rounded-md md:row-start-2 col-span-2 md:col-span-1 p-2 overflow-scroll">
-
-        <div class="flex gap-9 mb-4">Role: <span x-text="role"></span></div>
-
-        <div class="y gap-2">
-
-            <div class="w-full">
-                <label for="" class="w-[20%]">First Name:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="fName" @clic="fName = ''">
-            </div>
-
-            <div class="w-full">
-                <label for="" class="w-[20%]">Last Name:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="lName">
-            </div>
-
-            <div class="w-full">
-                <label for="" class="w-[20%] text-sm">Email Address:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="email">
-            </div>
-
-            <div x-show="role == 'Faculty'" class="w-full">
-                <label for="" class="w-[20%]">College:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="college">
-            </div>
-
-            <div x-show="role == 'Faculty'" class="w-full">
-                <label for="" class="w-[20%]">Building:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="building">
-            </div>
-
-            <div x-show="role == 'Faculty'" class="w-full">
-                <label for="" class="w-[20%]">Room:</label>
-                <input :disabled="update" type="text" class="input w-[80%] float-right" x-model="room">
-            </div>
-
-            <div class="w-full">
-                <label for="" class="w-[20%]">Password:</label>
-                <input :disabled="update" type="password" class="input w-[80%] float-right" x-model="password">
-            </div>
-
+    <div class="col-span-2 p-2 border rounded-md w-full flex items-center justify-between relative">
+        <div class="flex items-center gap-3">
+            <img src="{{asset('storage/'. $this->img)}}" alt="" class="rounded-full w-[150px] h-[150px] object-cover md:w-[100px] ml-3">
+            <span x-text="fName+' '+lName" class="text-xl font-semibold"></span>
         </div>
-        <button class="button float-end mt-2" x-show="update == true" @click="update = false">Update Info</button>
-        <button class="button float-end mt-2 ml-4" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
-        <button class="button float-end mt-2" x-show="update == false" @click="update= true">Cancel</button>
 
+
+        <div class="text-md text-white rounded-md p-2" style="margin-right: 20px; background-color: #2e5e91;">
+            <span x-text="role"></span>
+        </div>
     </div>
+
+
+    <div class="border rounded-md md:row-start-2 col-span-2 md:col-span-1 p-4 overflow-scroll">
+
+    <div class="y gap-4">
+        <p>Personal Information</p>
+
+        <!-- First Name & Last Name in One Line -->
+        <div class="w-full flex gap-4">
+            <div class="w-full">
+                <label class="block">First Name:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="fName" @click="fName = ''">
+            </div>
+            <div class="w-full">
+                <label class="block">Last Name:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="lName">
+            </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="w-full">
+            <label class="block">Email Address:</label>
+            <input :disabled="update" type="text" class="input w-full" x-model="email">
+        </div>
+
+        <!-- College, Building, and Room in One Line for Faculty -->
+        <div x-show="role == 'Faculty'" class="w-full flex gap-4">
+            <div class="w-full">
+                <label class="block">College:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="college">
+            </div>
+            <div class="w-full">
+                <label class="block">Building:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="building">
+            </div>
+            <div class="w-full">
+                <label class="block">Room:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="room">
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="w-full">
+            <label class="block">Password:</label>
+            <input :disabled="update" type="password" class="input w-full" x-model="password">
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 flex justify-end gap-2">
+        <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == true" @click="update = false">Update Info</button>
+        <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
+        <button class="float-end mt-2 p-2 rounded-md" style="color: white; color: #2e5e91; font-size: 14px; margin-right: 10px; border: 1px solid #2e5e91;" x-show="update == false" @click="update= true">Cancel</button>
+    </div>
+
+</div>
+
 
     <div
         wire:loading.hidden
@@ -193,28 +205,28 @@ $updateProfile = function ($type) {
         @if($photo)
         <img
             src="{{ $photo->temporaryUrl()}}" alt=""
-            class="rounded-full w-[150px] h-[150px] ml-3">
+            class="rounded-full w-[150px] h-[150px] object-cover">
         <div class="flex gap-2">
-            <button class="button" @click="$wire.updateProfile('img');">save</button>
-            <div class="button">
+            <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
                 <label for="photo">Choose</label>
                 <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
             </div>
+            <button class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;" @click="$wire.updateProfile('img');">Save</button>
         </div>
 
         @else
         <div wire:target="photo">
             <img wire:loading.remove
                 src="{{asset('storage/'. $this->img)}}" alt=""
-                class="rounded-full w-[150px] h-[150px] ml-3">
+                class="rounded-full w-[150px] h-[150px]">
         </div>
 
         @endif
 
 
         @if(!$photo)
-        <div class="button">
-            <label for="photo">Update Profile</label>
+        <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
+            <label for="photo" class="cursor-pointer">Update Profile</label>
             <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
         </div>
         @endif
