@@ -1,5 +1,5 @@
 @if ($req->rate !== null)
-<div class="p-2 rounded-md m-0 mt-4" style="background-color: #2e5e91;">
+<div class="p-2 rounded-md m-0 mt-4" style="background-color: #2e5e91; font-size: 16px;">
     <div x-data="{ rating: {{ $req->rate }} }" class="mb-4">
         <label class="block mb-2 font-bold text-white">Rate: {{ $req->rate }} stars</label>
         <div class="flex">
@@ -16,7 +16,7 @@
 
     <div class="mb-4">
         <label class="block mb-2 font-bold text-white">Feedback:</label>
-        <p class="p-2 bg-gray-100 rounded" style="color: #2e5e91;">{{ $req->feedback }}</p>
+        <p class="p-2 bg-gray-100 rounded text-sm text-black">{{ $req->feedback }}</p>
     </div>
 </div>
 

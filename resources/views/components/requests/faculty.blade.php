@@ -1,9 +1,9 @@
-<p class="mb-2" style="color: #2e5e91;">Task Progress</p>
+<p class="mb-2" style="color: #2e5e91; font-size: 18px;">Task Progress</p>
 
 <div class="rounded-md">
 
     <div
-            class="rounded-md p-2 text-white" style="background-color: #3E7B27; width: {{$req->progress}}%";>
+            class="rounded-md p-2 text-white text-sm" style="background-color: #3E7B27; width: {{$req->progress}}%";>
             {{$req->progress}}%
     </div>
 
@@ -11,7 +11,7 @@
 
     @if($req->rate == null )
     <div class="w-full">
-        <button class="button w-40 float-right mt-4" style="color: white; background-color: #2e5e91;" @click="$dispatch('open-modal', 'rateFeedback')">Rate & Feedback</button>
+        <button class="button w-40 float-right mt-4" style="color: white; background-color: #2e5e91; font-size: 16px;" @click="$dispatch('open-modal', 'rateFeedback')">Rate & Feedback</button>
     </div>
 
     <x-modal name="rateFeedback">
@@ -44,10 +44,10 @@
 
                     <div class="y space-y-2" style="margin-top: 30px"> <!-- Added space-y for consistent vertical spacing -->
                         <label class="font-bold text-lg" style="color: #578FCA;">Write your feedback here</label>
-                        <textarea name="feedback" id="feedback" class="input mt-2 w-full text-black font-thin" x-model="feedback"></textarea>
+                        <textarea name="feedback" id="feedback" class="input mt-2 w-full text-black" style="font-size: 16px; font-weight: 500;" x-model="feedback"></textarea>
                     </div>
 
-                    <button class="w-full mt-4 mb-4 p-2 rounded-md" style="background-color: #2e5e91; color: white;"
+                    <button class="w-full button mt-4 mb-4 p-2 rounded-md" style="background-color: #2e5e91; color: white; font-size: 16px;"
                         :disabled="rating === 0 || feedback === ''"
                         @click="$wire.feedbackAndRate(rating, feedback)">
                         Submit
