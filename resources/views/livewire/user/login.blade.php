@@ -62,7 +62,7 @@ $login = function () {
 <div class="w-full flex items-center justify-center h-svh bg-blue-50">
     <div class="w-full flex justify-center m-4"> <!-- Changed justify-end to justify-center -->
         <div
-            class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 h-[450px]" style="background-color: #2e5e91;">
+            class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 h-[300px]" style="background-color: #2e5e91;">
             <div class="flex items-center gap-2 justify-center mb-2">
                 <img src="{{ asset('storage/profile_images/default/ISAT-U-logo.png') }}" alt="ISAT-U Logo" class="size-10">
                 <p class="text-white font-medium text-xl font-geist">MIS Service Request Portal</p>
