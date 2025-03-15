@@ -36,7 +36,6 @@
     </span>
 </div>
 
-            <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2 relative">
                 {{-- TaskList --}}
                 <livewire:task-list :category="$category->id" />
 
@@ -51,6 +50,5 @@
                     Submit Category
                 </button>
             </div>
-
     </div>
 </div>
