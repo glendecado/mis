@@ -203,7 +203,7 @@
                     </button>
                     @if(session('user')['role'] == 'Faculty')
                     <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" 
-                        class="text-white bg-blue p-2 rounded-md text-sm">
+                        class="text-white bg-red-500 p-2 rounded-md text-sm">
                         Delete
                     </button>
                     @endif
