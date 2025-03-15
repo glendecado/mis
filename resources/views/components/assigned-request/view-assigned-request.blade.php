@@ -9,12 +9,12 @@
     @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
     <div class="flex items-center gap-2 border p-2 mb-2 rounded-md relative flex-wrap" style="font-size: 16px;">
 
-        <div class="flex items-center gap-2">
+       
             <img src="{{asset('storage/'. $tech->user->img)}}" alt=""
                 class="rounded-full size-[3vw] md:size-16">
 
             <span class="md:text-lg text-[3vw]">{{$tech->user->name}}</span>
-        </div>
+   
 
 
 
