@@ -1,10 +1,10 @@
 <div class="w-full bg-blue-50 rounded-md p-4 shadow-md">
     @foreach($this->viewDetailedRequest() as $req)
 
-    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4"> 
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2"> 
         <!-- LEFT COLUMN: Faculty Info + Concerns -->
         <div class="bg-white p-4 rounded-md shadow">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-row md:flex-col items-center justify-between">
                 <div class="flex items-center gap-4 mb-10">
                     <img src="{{asset('storage/'.$req->faculty->user->img)}}" alt="" class="size-16 rounded-full">
                     <div>
@@ -16,32 +16,54 @@
                     </div>
                 </div>
 
-                <div class="mt-3 p-2 bg-yellow text-blue rounded-md">
-                    Status: <span class="font-bold">{{$req->status}}</span>
+                <div class="p-2 text-white text-sm rounded-md leading-none flex" style="background-color: #3D8D7A;">
+                    <span class="font-bold">{{ $req->status }}</span>
                 </div>
+
             </div>
 
-            @if($req->status == 'pending' || session('user')['role'])
-            <!-- Priority -->
-            <span class="text-sm text-blue"> You can now assign a priority level.</span>
+            @if(($req->status == 'pending') 
+                && session('user')['role'] != 'Faculty' 
+                && session('user')['role'] != 'Technical Staff')
+                <!-- Priority -->
+                <span class="text-sm" style="color: #2e5e91;">You can now assign a priority level.</span>
             @endif
+
 
             @switch(session('user')['role'])
                 @case('Mis Staff')
                 <div class="mt-2">
                     @if($req->status == 'ongoing' || $req->status == 'resolved')
                         Priority level:
-                        <span class="font-bold">
-                            {{$req->priorityLevel == 3 ? 'Low' : ($req->priorityLevel == 2 ? 'Medium' : 'High')}}
+                        <span class="font-bold px-2 py-1 rounded-md"
+                            style="background-color: {{ $req->priorityLevel == 1 ? '#ef4444' : 
+                                                        ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
+                                color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
+                                padding: 6px 12px;
+                                border-radius: 6px;
+                                font-size: 14px;">
+                            {{ $req->priorityLevel == 3 ? 'Low' : ($req->priorityLevel == 2 ? 'Medium' : 'High') }}
                         </span>
                     @elseif($req->status == 'pending')
                         <div class="mb-2">
-                            <label for="prio">Priority Level:</label>
-                            <select id="prio" class="input border p-2 rounded-md w-full" wire:change="priorityLevelUpdate($event.target.value)">
-                                <option value="1" @if($req->priorityLevel == 1) selected @endif>High</option>
-                                <option value="2" @if($req->priorityLevel == 2) selected @endif>Medium</option>
-                                <option value="3" @if($req->priorityLevel == 3) selected @endif>Low</option>
+                            <label for="prio">Priority Level</label>
+                            <select id="prio"
+                                class="input border p-2 rounded-md w-full"
+                                wire:change="priorityLevelUpdate($event.target.value)"
+                                style="background-color: {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
+                                                            ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
+                                        color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
+                                        padding: 6px;
+                                        border-radius: 6px;
+                                        transition: background-color 0.3s ease;">
+                                <option value="1" @if($req->priorityLevel == 1) selected @endif 
+                                    style="background-color: #EE4E4E; color: white;">High</option>
+                                <option value="2" @if($req->priorityLevel == 2) selected @endif 
+                                    style="background-color: #FFC145; color: white;">Medium</option>
+                                <option value="3" @if($req->priorityLevel == 3) selected @endif 
+                                    style="background-color: #77B254; color: white;">Low</option>
                             </select>
+
                         </div>
                     @endif
                 </div>
@@ -65,14 +87,14 @@
             <!-- Concerns Section -->
             <div class="mt-6">
                 <h3 class="font-semibold mt-4">Concerns</h3>
-                <div class="border p-4 h-56 overflow-auto rounded-lg text-sm">
+                <div class="border p-4 h-56 overflow-auto rounded-lg text-md">
                     {{$req->concerns}}
                 </div>
             </div>
         </div>
-
+        
         <!-- RIGHT COLUMN: Task List + Actions -->
-        <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold">
+        <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh]">
             <livewire:assinged-request />
 
             <div class="mt-4">
@@ -88,10 +110,12 @@
                     @break
                 @endswitch
             </div>
+
+            <!-- Add Rate & Feedback Section Here -->
+            @include('components.requests.rateAndFeedback')
         </div>
+
     </div>
 
     @endforeach
-
-    @include('components.requests.rateAndFeedback')
 </div>

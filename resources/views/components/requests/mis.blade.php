@@ -3,9 +3,9 @@
     @switch($req->status)
 
     @case('waiting')
-    <div class="bg-blue h-fit p-3 text-white flex justify-between items-center px-4 flex-wrap rounded-md">
+    <div class="h-fit p-2 text-white flex justify-between items-center px-4 flex-wrap rounded-md" style="background-color: #2e5e91;">
 
-        <div class="text-lg">
+        <div class="text-md font-semibold">
             Would you accept the request?
         </div>
 
@@ -21,7 +21,7 @@
     @case('pending')
     <div>
 
-        Task List
+        <p style="font-size: 26px; color: #2e5e91;">Task List</p>
         <livewire:task-list :category="$req->category_id" />
 
     </div>

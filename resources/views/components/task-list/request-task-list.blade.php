@@ -8,7 +8,7 @@ $i = 0;
     {{--if check--}}
     @if($i < $checked)
 
-        <div class="bg-blue rounded-md p-2 mb-2 flex cursor-pointer" wire:click="check({{ $i }})">
+        <div class="rounded-md p-2 mb-2 flex cursor-pointer" wire:click="check({{ $i }})" style="background-color: #2e5e91;">
         <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-yellow mr-2">
             <circle cx="12" cy="12" r="10" />
             <path d="M9 12l2 2 4-4" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -26,7 +26,7 @@ $i = 0;
 @elseif($i == $checked)
 
 <div class="group cursor-pointer" wire:click="check({{ $i + 1 }})">
-    <div class="bg-blue rounded-md p-2 mb-2 flex items-center">
+    <div class="rounded-md p-2 mb-2 flex items-center" style="background-color: #2e5e91;">
         <div class="relative">
             <!-- Default State -->
             <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -50,7 +50,7 @@ $i = 0;
 
 {{--disabled--}}
 @else
-<div class="bg-blue rounded-md p-2 mb-2">
+<div class="rounded-md p-2 mb-2" style="background-color: #2e5e91;">
     {{$list->task}}
 </div>
 @endif

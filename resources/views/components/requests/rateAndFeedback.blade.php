@@ -1,7 +1,7 @@
 @if ($req->rate !== null)
-<div class="border md:m-12 md:p-2 rounded-md m-0 p-0">
+<div class="p-2 rounded-md m-0 mt-4" style="background-color: #2e5e91;">
     <div x-data="{ rating: {{ $req->rate }} }" class="mb-4">
-        <label class="block mb-2 font-bold">Rate: {{ $req->rate }}</label>
+        <label class="block mb-2 font-bold text-white">Rate: {{ $req->rate }} stars</label>
         <div class="flex">
             <!-- Loop through 5 stars and set the rating -->
             <template x-for="star in [1, 2, 3, 4, 5]" :key="star">
@@ -15,8 +15,8 @@
     </div>
 
     <div class="mb-4">
-        <label class="block mb-2 font-bold">Feedback:</label>
-        <p class="p-2 bg-gray-100 rounded">{{ $req->feedback }}</p>
+        <label class="block mb-2 font-bold text-white">Feedback:</label>
+        <p class="p-2 bg-gray-100 rounded" style="color: #2e5e91;">{{ $req->feedback }}</p>
     </div>
 </div>
 

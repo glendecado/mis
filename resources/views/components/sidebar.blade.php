@@ -1,22 +1,21 @@
 <!-- remove padding top -->
 <div x-cloak :class="sidebar ? 'w-52 absolute md:relative px-4' : 'w-14 relative px-2'"
+    class="h-full text-yellow pt-6 z-30 bg-blue-2 transition-all flex flex-col gap-3"
     class="h-full text-yellow z-30 bg-blue-2 transition-all flex flex-col gap-3"
 
-    x-data="{
+    x-data="{ 
         sidebar: $persist(window.innerWidth >= 700).using(sessionStorage),
         closeSidebarOnOutsideClick() { 
             if (window.innerWidth < 700) this.sidebar = false;
         }
     }"
     @click.outside="window.innerWidth < 700 ? sidebar = false : ''">
-
     <!-- Sidebar Toggle Button -->
     <div class="w-full flex justify-start mt-4" :class="!sidebar ? 'justify-center' : ''">
         <div class="cursor-pointer" @click="sidebar = !sidebar">
             <x-icons.burger class="size-5" />
         </div>
     </div>
-
     <!-- Navigation Menu -->
     <nav class="flex flex-col gap-3">
         <!-- Request -->
@@ -27,7 +26,6 @@
                 <span x-show="sidebar" class="whitespace-nowrap">Request</span>
             </div>
         </a>
-
         <!-- Category -->
         <a wire:navigate.hover href="/category">
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
@@ -36,7 +34,6 @@
                 <span x-show="sidebar" class="whitespace-nowrap">Category</span>
             </div>
         </a>
-
         <!-- Users -->
         <a wire:navigate.hover href="/user?roles=all">
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
@@ -45,7 +42,6 @@
                 <span x-show="sidebar" class="whitespace-nowrap">Users</span>
             </div>
         </a>
-
         <!-- Reports -->
         <a wire:navigate.hover href="/reports">
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
@@ -55,5 +51,4 @@
             </div>
         </a>
     </nav>
-
 </div>

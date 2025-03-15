@@ -1,4 +1,4 @@
-<header class="bg-blue h-full p-2 flex items-center justify-between">
+<header class=" h-full p-2 flex items-center justify-between" style="background-color: #578FCA;">
 
     {{--Logo--}}
     <div class="header-container-logo"
@@ -34,11 +34,17 @@
 
                 <div class="dropdown w-56 right-1 top-16 absolute md:right-7">
 
-                    <div class="dropdown-open-items p-4" @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
+                    <div class="dropdown-open-items p-4" 
+                        @click="Livewire.navigate('/profile/{{session('user')['id']}}')" 
+                        style="">
+                        <style>
+                            .dropdown-open-items:hover {
+                                background-color: #2e5e91;
+                            }
+                        </style>
                         <x-icons.profile class="size-6 absolute left-5" />
                         <span>Profile</span>
                     </div>
-
 
                     <livewire:user.logout />
 
