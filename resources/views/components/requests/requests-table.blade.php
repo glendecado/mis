@@ -157,48 +157,55 @@
 </div>
 
 <!-- User Table for Mobile Screens -->
-<div class="table-container md:hidden w-full" style="height: 100vh;" x-data="{ openRequest: '', search: '' }">
+<div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openRequest: '', search: '' }">
     <!-- Search Input -->
     <div class="mb-4">
         <input 
             type="text" 
             placeholder="Search..." 
             x-model="search"
-            class="border rounded p-2 w-full"
+            class="border rounded p-2 w-full text-gray-900"
         />
     </div>
 
     <!-- Mobile View for Table Rows -->
-    <div class="space-y-2">
+    <div class="space-y-3">
         @foreach ($this->viewRequest() as $request)
             <div 
-                class="border rounded bg-white m-2 p-4 shadow-md"
+                class="border rounded bg-white shadow-md p-4"
                 x-show="search === '' || 
                 '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }}'
                     .toLowerCase().includes(search.toLowerCase())"
             >
                 <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Name:</div>
-                    <div class="text-gray-700">{{ $request->faculty->user->name }}</div>
+                    <div class="font-semibold text-gray-900">Name:</div>
+                    <div class="text-gray-900">{{ $request->faculty->user->name }}</div>
                 </div>
                 <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Date:</div>
-                    <div class="text-gray-700">{{ $request->created_at->format('Y-m-d') }}</div>
+                    <div class="font-semibold text-gray-900">Date:</div>
+                    <div class="text-gray-900">{{ $request->created_at->format('Y-m-d') }}</div>
                 </div>
                 <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Status:</div>
-                    <div class="text-gray-700">{{ ucfirst($request->status) }}</div>
+                    <div class="font-semibold text-gray-900">Status:</div>
+                    <div class="text-gray-900">{{ ucfirst($request->status) }}</div>
                 </div>
                 <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Category:</div>
-                    <div class="text-gray-700">{{ $request->category->name }}</div>
+                    <div class="font-semibold text-gray-900">Category:</div>
+                    <div class="text-gray-900">{{ $request->category->name }}</div>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="mt-4 flex justify-end">
-                    <button @click="Livewire.navigate('/request/{{$request->id}}')" class="text-white text-sm px-4 py-2 rounded-md" style="background-color: #2e5e91;">View</button>
+                <div class="mt-4 flex justify-end gap-2">
+                    <button @click="Livewire.navigate('/request/{{$request->id}}')" 
+                        class="text-white text-sm px-4 py-2 rounded-md" 
+                        style="background-color: #2e5e91;">
+                        View
+                    </button>
                     @if(session('user')['role'] == 'Faculty')
-                    <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" class="text-red-500">Delete</button>
+                    <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" 
+                        class="text-white bg-red-500 p-2 rounded-md text-sm">
+                        Delete
+                    </button>
                     @endif
                 </div>
             </div>

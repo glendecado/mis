@@ -5,13 +5,13 @@
     @case('waiting')
     <div class="h-fit p-2 text-white flex justify-between items-center px-4 flex-wrap rounded-md" style="background-color: #2e5e91;">
 
-        <div class="text-md font-semibold">
+        <div class="font-semibold" style="font-size: 16px;">
             Would you accept the request?
         </div>
 
         <div class="">
-            <button class="bg-white text-blue-500 p-2 rounded-md w-24" wire:click="updateStatus('pending')">Accept</button>
-            <button class="border border-white p-2 rounded-md w-24" wire:click="updateStatus('declined')">Decline</button>
+            <button class="bg-white p-2 rounded-md w-24" style="font-size: 16px; color: #2e5e91;" wire:click="updateStatus('pending')">Accept</button>
+            <button class="border border-white p-2 rounded-md w-24" style="font-size: 16px; wire:click="updateStatus('declined')">Decline</button>
         </div>
 
     </div>
@@ -21,7 +21,7 @@
     @case('pending')
     <div>
 
-        <p style="font-size: 26px; color: #2e5e91;">Task List</p>
+        <p style="font-size: 18px; color: #2e5e91;">Task List</p>
         <livewire:task-list :category="$req->category_id" />
 
     </div>

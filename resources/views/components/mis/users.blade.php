@@ -84,14 +84,14 @@
 </div>
 
 <!-- User Table for Mobile Screens -->
-<div class="table-container md:hidden w-full h-screen" x-data="{ openUser: '', search: '' }">
+<div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openUser: '', search: '' }">
     <!-- Search Input -->
     <div class="mb-4">
         <input 
             type="text" 
             placeholder="Search..." 
             x-model="search"
-            class="border rounded p-2 w-full"
+            class="border rounded p-2 w-full text-sm md:text-base"
         />
     </div>
 
@@ -99,12 +99,12 @@
     <div class="space-y-2">
         @foreach ($this->viewUser() as $user)
             <div 
-                class="border rounded bg-white m-2 p-4 shadow-md"
+                class="border rounded bg-white w-full p-4 shadow-md text-sm md:text-base"
                 x-show="search === '' || 
                 '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
                     .toLowerCase().includes(search.toLowerCase())"
             >
-                <div class="flex justify-between">
+                <div class="flex justify-between text-sm md:text-base">
                     <div class="font-semibold text-gray-800">UserId:</div>
                     <div class="text-gray-700">{{ $user->id }}</div>
                 </div>
