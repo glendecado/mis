@@ -4,8 +4,8 @@
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2"> 
         <!-- LEFT COLUMN: Faculty Info + Concerns -->
         <div class="bg-white p-4 rounded-md shadow">
-            <div class="flex flex-row md:flex-col items-center justify-between">
-                <div class="flex items-center gap-4 mb-10">
+            <div class="flex flex-row items-center justify-between">
+                <div class="flex items-center justify-center gap-4">
                     <img src="{{asset('storage/'.$req->faculty->user->img)}}" alt="" class="size-16 rounded-full">
                     <div>
                         <span class="text-lg font-bold block">{{$req->faculty->user->name}}</span>

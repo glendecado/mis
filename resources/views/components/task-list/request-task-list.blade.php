@@ -3,7 +3,7 @@ $i = 0;
 @endphp
 
 @foreach($this->viewTaskList() as $list)
-<div class="text-white">
+<div class="text-white text-sm text-thin">
 
     {{--if check--}}
     @if($i < $checked)

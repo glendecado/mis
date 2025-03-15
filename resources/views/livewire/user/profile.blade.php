@@ -126,10 +126,10 @@ $updateProfile = function ($type) {
 
 class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
 
-    <div class="col-span-2 p-2 border rounded-md w-full flex items-center justify-between relative">
+    <div class="col-span-2 p-2 border rounded-md w-full flex flex-row items-center justify-between relative">
         <div class="flex items-center gap-3">
-            <img src="{{asset('storage/'. $this->img)}}" alt="" class="rounded-full w-[150px] h-[150px] object-cover md:w-[100px] ml-3">
-            <span x-text="fName+' '+lName" class="text-xl font-semibold"></span>
+            <img src="{{asset('storage/'. $this->img)}}" alt="" class="rounded-full object-cover ml-3" style="width: 100px; height: 100px;">
+            <span x-text="fName+' '+lName" class="text-lg font-semibold"></span>
         </div>
 
 
