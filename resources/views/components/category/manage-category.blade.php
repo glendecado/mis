@@ -39,8 +39,8 @@
                 </div>
             </div>
             @endforeach
-            <div x-data="{ input: '' }" class="mt-4">
-                <div class="relative w-full max-w-xs">
+            <div x-data="{ input: '' }" class="mt-4 w-full">
+                <div class="relative w-full">
                     <input type="text" x-model="input" class="input pr-20 p-3 w-full" style="height: 50px;" placeholder="Enter category...">
 
                     <button @click="$wire.addCategory(input)" class="absolute right-0 top-0 bottom-0 px-4 text-white border-0 rounded-md m-2 z-10" style="background-color: #3E7B27;">
