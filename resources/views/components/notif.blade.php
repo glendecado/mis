@@ -33,12 +33,10 @@ $opened = function ($id, $req) {
     <div @click="notif = !notif" class="relative" @click.outside="notif = false">
 
         @if($user->unreadNotifications->count() > 0)
+        <!-- check notif responsiveness -->
         <div class="bg-red-500 rounded-full w-4 h-4 p-1 ml-2 text-white absolute right-[2px] top-[2px] flex justify-center items-center -translate-y-1 translate-x-1 transition-all">
             <span class="text-sm font-thin p-1">{{$user->unreadNotifications->count()}}</span>
         </div>
-
-    </div>
-
         @endif
         <x-icons.bell class="size-9 text-white border-2 rounded-full" />
     </div>
