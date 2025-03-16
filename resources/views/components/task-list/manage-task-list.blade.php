@@ -73,8 +73,8 @@
 @case('request')
 @if($this->viewTaskList()->isEmpty())
 <div class="flex flex-col">
-    <span class="text-red-500 font-semibold">No Task List Found.</span>
-    <a href="/category" class="text-blue underline">Proceed to this link to add task on a category...</a>
+    <span class="text-red-500 font-semibold" style="font-size: 16px;">No Task List Found.</span>
+    <a href="/category" class="text-blue underline" style="font-size: 16px;">Proceed to this link to add task on a category...</a>
 </div>
 @else
 <div class="float-end">
