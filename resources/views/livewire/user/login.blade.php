@@ -77,7 +77,7 @@ $login = function () {
             <div class="mt-[24px]">
                 <form wire:submit.prevent="login" method="post">
                 <div class="">
-                    <label for="email" class="block text-sm text-white font-thin mb-2">Email Address</label>
+                    <label for="email" class="block text-sm text-white font-thin">Email Address</label>
                     <input wire:model.lazy="email" type="text" id="email"
                         class="rounded-md block w-full px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow 
                         {{ $emailError ? 'border border-red-500' : '' }}" />
@@ -86,7 +86,7 @@ $login = function () {
                     @endif
                 </div>
 
-                    <div class="relative" style="margin-top: 10px;" x-data="{ password: true }">
+                    <div class="relative mt-[10px]" x-data="{ password: true }">
                     <label for="password" class="block text-sm text-white font-thin mb-">Password</label>
                         <input :type="password ? 'password' : 'text'" wire:model.lazy="password" autocomplete="off"
                             id="floating_standard"
