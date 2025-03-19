@@ -90,7 +90,7 @@ $updateProfile = function ($type) {
             $updateUser->save();
             $this->img = $imageName;
             $this->dispatch('success', 'image save');
-            $this->redirect('/edit-profile/' . $updateUser->id, navigate: true);
+            $this->redirect('/profile/' . $updateUser->id, navigate: true);
             break;
     }
 
@@ -124,7 +124,7 @@ $updateProfile = function ($type) {
     role: @entangle('role')
 }"
 
-class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
+    class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] grid-rows-3  gap-2">
 
     <div class="col-span-2 p-2 border rounded-md w-full flex flex-row items-center justify-between relative">
         <div class="flex items-center gap-3">
@@ -141,62 +141,90 @@ class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] gri
 
     <div class="border rounded-md md:row-start-2 col-span-2 md:col-span-1 p-4 overflow-scroll">
 
-    <div class="y gap-4">
-        <p>Personal Information</p>
+        <div class="y gap-4">
+            <p>Personal Information</p>
 
-        <!-- First Name & Last Name in One Line -->
-        <div class="w-full flex gap-4">
-            <div class="w-full">
-                <label class="block">First Name:</label>
-                <input :disabled="update" type="text" class="input w-full" x-model="fName" @click="fName = ''">
+            <!-- First Name & Last Name in One Line -->
+            <div class="w-full flex gap-4">
+                <div class="w-full">
+                    <label class="block">First Name:</label>
+                    <input :disabled="update" type="text" class="input w-full" x-model="fName" @click="fName = ''">
+                </div>
+                <div class="w-full">
+                    <label class="block">Last Name:</label>
+                    <input :disabled="update" type="text" class="input w-full" x-model="lName">
+                </div>
             </div>
+
+            <!-- Email Address -->
             <div class="w-full">
-                <label class="block">Last Name:</label>
-                <input :disabled="update" type="text" class="input w-full" x-model="lName">
+                <label class="block">Email Address:</label>
+                <input :disabled="update" type="text" class="input w-full" x-model="email">
+            </div>
+
+            <!-- College, Building, and Room in One Line for Faculty -->
+            <div x-show="role == 'Faculty'" class="w-full flex gap-4">
+                <div class="w-full">
+                    <label class="block">College:</label>
+                    <input :disabled="update" type="text" class="input w-full" x-model="college">
+                </div>
+                <div class="w-full">
+                    <label class="block">Building:</label>
+                    <input :disabled="update" type="text" class="input w-full" x-model="building">
+                </div>
+                <div class="w-full">
+                    <label class="block">Room:</label>
+                    <input :disabled="update" type="text" class="input w-full" x-model="room">
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="w-full relative" x-data="{ show: true }">
+                <label class="block">Password:</label>
+                <input :disabled="update" class="input w-full" x-model="password" :type="show ? 'password' : 'text'">
+
+                <div class="absolute right-2 bottom-2 cursor-pointer">
+                    <template x-if="show">
+                        <div>
+                            <svg @click="show = !password" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                <path
+                                    d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                <path
+                                    d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                <path
+                                    d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                            </svg>
+                        </div>
+                    </template>
+                    <template x-if="!show">
+                        <div>
+                            <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                <path fill-rule="evenodd"
+                                    d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </template>
+                </div>
+
             </div>
         </div>
 
-        <!-- Email Address -->
-        <div class="w-full">
-            <label class="block">Email Address:</label>
-            <input :disabled="update" type="text" class="input w-full" x-model="email">
+        <!-- Buttons -->
+        <div class="mt-4 flex justify-end gap-2">
+            <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == true" @click="update = false">Update Info</button>
+            <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
+            <button class="float-end mt-2 p-2 rounded-md" style="color: white; color: #2e5e91; font-size: 14px; margin-right: 10px; border: 1px solid #2e5e91;" x-show="update == false" @click="update= true">Cancel</button>
         </div>
 
-        <!-- College, Building, and Room in One Line for Faculty -->
-        <div x-show="role == 'Faculty'" class="w-full flex gap-4">
-            <div class="w-full">
-                <label class="block">College:</label>
-                <input :disabled="update" type="text" class="input w-full" x-model="college">
-            </div>
-            <div class="w-full">
-                <label class="block">Building:</label>
-                <input :disabled="update" type="text" class="input w-full" x-model="building">
-            </div>
-            <div class="w-full">
-                <label class="block">Room:</label>
-                <input :disabled="update" type="text" class="input w-full" x-model="room">
-            </div>
-        </div>
-
-        <!-- Password -->
-        <div class="w-full">
-            <label class="block">Password:</label>
-            <input :disabled="update" type="password" class="input w-full" x-model="password">
-        </div>
     </div>
-
-    <!-- Buttons -->
-    <div class="mt-4 flex justify-end gap-2">
-        <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == true" @click="update = false">Update Info</button>
-        <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
-        <button class="float-end mt-2 p-2 rounded-md" style="color: white; color: #2e5e91; font-size: 14px; margin-right: 10px; border: 1px solid #2e5e91;" x-show="update == false" @click="update= true">Cancel</button>
-    </div>
-
-</div>
 
 
     <div
-        wire:loading.hidden
+
         class="border rounded-md row-start-2 md:row-start-2 col-span-2 md:col-span-1 p-2 flex items-center justify-center relative flex-col gap-2">
         <span class="absolute top-2 left-2">User Profile</span>
 
@@ -204,19 +232,20 @@ class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] gri
 
         @if($photo)
         <img
+            wire:loading.class="hidden"
             src="{{ $photo->temporaryUrl()}}" alt=""
             class="rounded-full w-[150px] h-[150px] object-cover">
         <div class="flex gap-2">
-            <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
+            <div wire:loading.class="hidden" class="p-2 rounded-md button mt-4 cursor-pointer" style="color: white; background-color: #2e5e91; font-size: 14px;">
                 <label for="photo">Choose</label>
                 <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
             </div>
-            <button class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;" @click="$wire.updateProfile('img');">Save</button>
+            <button wire:loading.class="hidden" class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;" @click="$wire.updateProfile('img');">Save</button>
         </div>
 
         @else
         <div wire:target="photo">
-            <img wire:loading.remove
+            <img wire:loading.class="hidden"
                 src="{{asset('storage/'. $this->img)}}" alt=""
                 class="rounded-full w-[150px] h-[150px]">
         </div>
@@ -225,7 +254,7 @@ class="h-full w-full grid md:grid-cols-2 grid-cols-1  md:grid-rows-[30%,70%] gri
 
 
         @if(!$photo)
-        <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
+        <div wire:loading.class="hidden" class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
             <label for="photo" class="cursor-pointer">Update Profile</label>
             <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
         </div>
