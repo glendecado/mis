@@ -254,7 +254,7 @@ $updateProfile = function ($type) {
 
 
         @if(!$photo)
-        <div wire:loading.class="hidden" class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
+        <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
             <label for="photo" class="cursor-pointer">Update Profile</label>
             <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
         </div>
