@@ -22,6 +22,8 @@ return new class extends Migration
 
             $table->string('concerns');
 
+            $table->string('location')->nullable();
+
             $table->integer('priorityLevel')->default(3);
 
             $table->integer('progress')->default(0);

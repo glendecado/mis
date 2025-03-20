@@ -13,12 +13,7 @@
     :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md' : 'rounded-md'"
     @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
 
-    <!-- Delete button aligned with the category name -->
-    <div class="relative flex items-center justify-center bg-white rounded-full p-2">
-        <button wire:loading.attr="disabled" @click="$wire.deleteCategory({{ $category->id }})">
-            <x-icons.delete />
-        </button>
-    </div>
+
 
     <!-- Category Name -->
     <span class="flex-grow text-center text-md">{{$category->name}}</span>

@@ -56,6 +56,7 @@ $addTaskList = function () {
         'category_id' => $this->category,
         'task' => $this->task,
         'position' => $position,
+        'status' => 'enabled',
     ]);
 
     $taskList->save();
@@ -64,39 +65,19 @@ $addTaskList = function () {
 
     $this->category = $taskList->category_id;
 
-            // Dispatch success message
-            $this->dispatch('success', 'Task Successfully added');
+    // Dispatch success message
+    $this->dispatch('success', 'Task Successfully added');
 };
 
 
+$updateStatus = function ($id) {
+    $list = TaskList::find($id);
 
-$deleteTaskList = function ($id) {
-    // Find the task to be deleted
-    $taskList = TaskList::find($id);
-
-    if ($taskList) {
-        // Get the position of the task to be deleted
-        $position = $taskList->position;
-
-        // Find all tasks in the same category with a position greater than the deleted task's position
-        $tasksToShift = TaskList::where('category_id', $taskList->category_id)
-            ->where('position', '>', $position)
-            ->get();
-
-        // Decrement the position of each task below the deleted one
-        foreach ($tasksToShift as $task) {
-            $task->position -= 1;
-            $task->save();
-        }
-
-        // Delete the task
-        $taskList->delete();
-
-        // Dispatch success message
-        $this->dispatch('success', 'Successfully deleted');
+    if ($list) {
+        $list->status = ($list->status === 'enabled') ? 'disabled' : 'enabled';
+        $list->save();
     }
 };
-
 
 $viewTaskList = function () {
     return TaskList::where('category_id', $this->category)

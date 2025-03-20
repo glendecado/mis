@@ -46,25 +46,27 @@ $suggestion = function () {
 };
 
 $addCategory = function ($category) {
-    if ($category) {
+    if (empty($category)) {
+        $this->dispatch('error', 'No input');
+        return;
+    }
+
+    $existingCategory = Category::where('name', ucfirst(strtolower($category)))->first();
+
+    if (!$existingCategory) {
         $create = Category::create([
             "name" => ucfirst(strtolower($category))
         ]);
         $create->save();
         $this->dispatch('success', 'New Category successfully created.');
     } else {
-        $this->dispatch('error', 'No input');
+        $this->dispatch('danger', 'Category already exists.');
     }
 
     $this->redirect('/category', navigate: true);
 };
 
-$deleteCategory = function ($id) {
-    $category = Category::find($id);
-    $category->delete();
-    $this->dispatch('success', 'New Category successfully deleted.');
-    $this->redirect('/category', navigate: true);
-};
+
 
 ?>
 

@@ -12,7 +12,8 @@ class TaskList extends Model
     protected $fillable = [
         'category_id',
         'task',
-        'position'
+        'position',
+        'status'
     ];
 
     public function Category()

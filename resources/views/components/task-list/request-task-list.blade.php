@@ -2,7 +2,7 @@
 $i = 0;
 @endphp
 
-@foreach($this->viewTaskList() as $list)
+@foreach($this->viewTaskList()->where('status', 'enabled') as $list)
 <div class="text-white text-sm text-thin">
 
     {{--if check--}}
