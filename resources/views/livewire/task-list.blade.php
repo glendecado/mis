@@ -115,7 +115,6 @@ $check = function ($list) {
         $req->status = 'resolved';
         $faculty = User::find($req->faculty_id);
         $faculty->notify(new RequestStatus($req));
-        return redirect('/');
     }
 
     $req->save();
