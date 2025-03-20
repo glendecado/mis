@@ -76,7 +76,7 @@
                                                             ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
                                         color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
                                         padding: 6px;
-                                        border-radius: 6px;>
+                                        border-radius: 6px;">
 
                 @if($req->priorityLevel == 1)
                 High

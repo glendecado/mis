@@ -202,7 +202,7 @@ $addRequest = function () {
 
     $this->validate();
 
-
+    $location = strtoupper($this->college).' '.strtoupper($this->building). ' '.strtoupper($this->room);
 
     $category = Category::find($this->category);
 
@@ -219,6 +219,7 @@ $addRequest = function () {
         'faculty_id' => session('user')['id'],
         'category_id' => $category->id,
         'concerns' => $this->concerns,
+        'location' => $location,
     ]);
 
 
@@ -247,14 +248,6 @@ $deleteRequest = function ($id) {
 
 //confirm location
 $confirmLocation = function () {
-
-
-
-    $user = Auth::user()->faculty;
-    $user->college = strtoupper($this->college);
-    $user->building = strtoupper($this->building);
-    $user->room = strtoupper($this->room);
-    $user->save();
 
 
     session([

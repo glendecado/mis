@@ -134,9 +134,7 @@
                     {{ $request->concerns }}
                 </td>
                 <td class="table-row-cell text-small">
-                    {{ $request->faculty->college }}
-                    {{ $request->faculty->building }}
-                    {{ $request->faculty->room }}
+                    {{ $request->location}}
                 </td>
 
                 @if(session('user')['role'] == 'Faculty')

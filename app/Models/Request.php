@@ -15,7 +15,8 @@ class Request extends Model
         'concerns',
         'priotrityLevel',
         'progress',
-        'status'
+        'status',
+        'location',
 
     ];
 
