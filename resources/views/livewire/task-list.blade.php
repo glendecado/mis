@@ -63,6 +63,9 @@ $addTaskList = function () {
     $this->reset();
 
     $this->category = $taskList->category_id;
+
+            // Dispatch success message
+            $this->dispatch('success', 'Task Successfully added');
 };
 
 
@@ -112,6 +115,7 @@ $check = function ($list) {
         $req->status = 'resolved';
         $faculty = User::find($req->faculty_id);
         $faculty->notify(new RequestStatus($req));
+        return redirect('/');
     }
 
     $req->save();

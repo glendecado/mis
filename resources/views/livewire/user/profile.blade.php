@@ -109,7 +109,15 @@ $updateProfile = function ($type) {
 
 
 ?>
+<div>
 
+    <a href="/">
+        <div class="border w-fit p-2 mb-2 rounded-md px-4 bg-blue text-white">
+            <x-icons.arrow direction="left" />
+        </div>
+    </a>
+
+</div>
 <div
     x-data="{
     update : true,
@@ -133,7 +141,7 @@ $updateProfile = function ($type) {
         </div>
 
 
-        <div class="text-md text-white rounded-md p-2" style="margin-right: 20px; background-color: #2e5e91;">
+        <div class="text-md text-black rounded-md p-1" style="margin-right: 20px; background-color: yellow;">
             <span x-text="role"></span>
         </div>
     </div>

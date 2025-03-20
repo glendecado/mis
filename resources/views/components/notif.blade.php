@@ -83,8 +83,22 @@ $opened = function ($id, $req) {
             </div>
             <div class="flex w-60 flex-col overflow-hidden">
                 <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
-                <span>is currently {{$notification->data['status']}}.</span>
+
+
+                <span>
+                    @if($notification->data['status'] == 'declined' || $notification->data['status'] == 'resolved')
+                    has been
+                    @elseif( $notification->data['status'] == 'waiting')
+                    is currently
+                    @else
+                    is
+                    @endif
+                    {{$notification->data['status']}}.
+                </span>
+                
                 <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+
+
             </div>
             <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
         </div>
@@ -112,7 +126,7 @@ $opened = function ($id, $req) {
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
                     class="rounded-full w-[64px] md:h-[64px] h-[32px]">
-            </div> 
+            </div>
             <div class="flex w-60 flex-col overflow-hidden truncate ">
                 <span>You have been assigned</span>
                 <span> to handle</span>
@@ -166,7 +180,18 @@ $opened = function ($id, $req) {
             </div>
             <div class="flex w-60 flex-col overflow-hidden">
                 <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
-                <span>is currently {{$notification->data['status']}}.</span>
+
+                <span>
+                    @if($notification->data['status'] == 'declined' || $notification->data['status'] == 'resolved')
+                    has been
+                    @elseif( $notification->data['status'] == 'waiting')
+                    is currently
+                    @else
+                    is
+                    @endif
+                    {{$notification->data['status']}}.
+                </span>
+
                 <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
             </div>
         </div>
@@ -192,7 +217,7 @@ $opened = function ($id, $req) {
             <div class="rounded-full p-3">
                 <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
                     class="rounded-full w-[64px] md:h-[64px] h-[32px]">
-            </div> 
+            </div>
             <div class="flex w-60 flex-col overflow-hidden truncate ">
                 <span>You have been assigned</span>
                 <span> to handle</span>
