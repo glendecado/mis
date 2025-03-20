@@ -5,7 +5,7 @@ use App\Models\TechnicalStaff;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-use function Livewire\Volt\{mount, on, state};
+use function Livewire\Volt\{mount, on, placeholder, state};
 
 state('techStaff');
 state('techId');
@@ -14,6 +14,8 @@ state('totalAssignedRequests');
 state('totalRequestsCompleted');
 state('completionRate');
 state('totalRatings');
+
+placeholder('<div class="rounded-md w-full h-full z-50 flex items-center justify-center"><x-loaders.b-square /></div>');
 
 $total = function () {
     if (!$this->techId) {
