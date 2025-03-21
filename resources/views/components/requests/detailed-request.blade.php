@@ -16,7 +16,7 @@
                     </div>
                 </div>
 
-                <div class="p-2 text-white text-sm rounded-md leading-none flex" style="background-color: #3D8D7A;">
+                <div class="p-2 text-white text-sm rounded-md leading-none flex bg-[#3D8D7A]">
                     <span class="font-bold">{{ $req->status }}</span>
                 </div>
 
@@ -26,7 +26,7 @@
             && session('user')['role'] != 'Faculty'
             && session('user')['role'] != 'Technical Staff')
             <!-- Priority -->
-            <span class="text-sm" style="color: #2e5e91;">You can now assign a priority level.</span>
+            <span class="text-sm text-blue">You can now assign a priority level.</span>
             @endif
 
             @if(DB::table('requests')->where('id', session()->get('requestId'))->first()->status == 'pending' )
@@ -36,8 +36,9 @@
                 @if($req->status == 'ongoing' || $req->status == 'resolved')
                 Priority level:
                 <span class="font-bold px-2 py-1 rounded-md"
-                    style="background-color: {{ $req->priorityLevel == 1 ? '#ef4444' : 
-                                                        ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
+                    style="background-color: 
+                                {{ $req->priorityLevel == 1 ? '#ef4444' : 
+                                ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
                                 color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
                                 padding: 6px 12px;
                                 border-radius: 6px;
@@ -50,12 +51,12 @@
                     <select id="prio"
                         class="input border p-2 rounded-md w-full"
                         wire:change="priorityLevelUpdate($event.target.value)"
-                        style="background-color: {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
-                                                            ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
-                                        color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
-                                        padding: 6px;
-                                        border-radius: 6px;
-                                        transition: background-color 0.3s ease;">
+                        style="background-color: 
+                            {{ $req->priorityLevel == 1 ? '#EE4E4E' : ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
+                            color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
+                            padding: 6px;
+                            border-radius: 6px;
+                            transition: background-color 0.3s ease;">
                         <option value="1" @if($req->priorityLevel == 1) selected @endif
                             style="background-color: #EE4E4E; color: white;">High</option>
                         <option value="2" @if($req->priorityLevel == 2) selected @endif
@@ -72,11 +73,12 @@
             @else
             priority level
             <div class="priority-label"
-                style="background-color: {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
-                                                            ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
-                                        color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
-                                        padding: 6px;
-                                        border-radius: 6px;">
+                style="background-color:
+                                {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
+                                ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
+                                color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
+                                padding: 6px;
+                                border-radius: 6px;">
 
                 @if($req->priorityLevel == 1)
                 High

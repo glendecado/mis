@@ -136,12 +136,12 @@ $updateProfile = function ($type) {
 
         <div class="col-span-2 p-2 border rounded-md w-full flex flex-row items-center justify-between relative">
             <div class="flex items-center gap-3">
-                <img src="{{asset('storage/'. $this->img)}}" alt="" class="rounded-full object-cover ml-3" style="width: 100px; height: 100px;">
+                <img src="{{asset('storage/'. $this->img)}}" alt="" class="rounded-full object-cover ml-3 h-[100px] w-[100px]">
                 <span x-text="fName+' '+lName" class="text-lg font-semibold"></span>
             </div>
 
 
-            <div class="text-md text-black rounded-md p-1" style="margin-right: 20px; background-color: yellow;">
+            <div class="text-md text-black rounded-md p-1 mr-[20px] bg-yellow">
                 <span x-text="role"></span>
             </div>
         </div>
@@ -223,9 +223,9 @@ $updateProfile = function ($type) {
 
             <!-- Buttons -->
             <div class="mt-4 flex justify-end gap-2">
-                <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == true" @click="update = false">Update Info</button>
-                <button class="button float-end mt-2 p-2 rounded-md" style="color: white; background-color: #2e5e91; font-size: 14px;" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
-                <button class="float-end mt-2 p-2 rounded-md" style="color: white; color: #2e5e91; font-size: 14px; margin-right: 10px; border: 1px solid #2e5e91;" x-show="update == false" @click="update= true">Cancel</button>
+                <button class="button float-end mt-2 p-2 rounded-md bg-blue text-white text-[14px]" x-show="update == true" @click="update = false">Update Info</button>
+                <button class="button float-end mt-2 p-2 rounded-md bg-blue text-white text-[14px]" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
+                <button class="float-end mt-2 p-2 rounded-md text-white bg-blue text-[14px] mr-[10px] border-1 border-[#2e5e91]"  x-show="update == false" @click="update= true">Cancel</button>
             </div>
 
         </div>
@@ -244,11 +244,11 @@ $updateProfile = function ($type) {
                 src="{{ $photo->temporaryUrl()}}" alt=""
                 class="rounded-full w-[150px] h-[150px] object-cover">
             <div class="flex gap-2">
-                <div wire:loading.class="hidden" class="p-2 rounded-md button mt-4 cursor-pointer" style="color: white; background-color: #2e5e91; font-size: 14px;">
+                <div wire:loading.class="hidden" class="p-2 rounded-md button mt-4 cursor-pointer text-white bg-blue text-[14px]">
                     <label for="photo">Choose</label>
                     <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
                 </div>
-                <button wire:loading.class="hidden" class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;" @click="$wire.updateProfile('img');">Save</button>
+                <button wire:loading.class="hidden" class="p-2 rounded-md button mt-4 text-white bg-blue text-[14px]"  @click="$wire.updateProfile('img');">Save</button>
             </div>
 
             @else
@@ -262,7 +262,7 @@ $updateProfile = function ($type) {
 
 
             @if(!$photo)
-            <div class="p-2 rounded-md button mt-4" style="color: white; background-color: #2e5e91; font-size: 14px;">
+            <div class="p-2 rounded-md button mt-4 text-white bg-blue text-[14px]">
                 <label for="photo" class="cursor-pointer">Update Profile</label>
                 <input id="photo" type="file" wire:model="photo" class="hidden" placeholder="update">
             </div>

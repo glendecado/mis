@@ -1,4 +1,4 @@
-<header class=" h-full p-2 flex items-center justify-between" style="background-color: #578FCA;">
+<header class=" h-full p-2 flex items-center justify-between bg-[#578FCA]">
 
     {{--Logo--}}
     <div class="header-container-logo"

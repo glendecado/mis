@@ -20,7 +20,7 @@ export default {
                 'inner': '0px 0px 0 0 rgb(0 0 0 / 0.25)',
             },
             textColor: {
-                'blue': '#1D77FF',
+                'blue': ' #2e5e91',
                 'black': '#121212',
                 'yellow': '#facc15',
                 'blue-50': '#e9ebf3',
@@ -42,7 +42,7 @@ export default {
             },
             backgroundColor: {
                 'azure': '#ECF8F8',
-                'blue': '#1D77FF',
+                'blue': '#2e5e91',
                 'blue-2': '#273034',
                 'black': '#121212',
                 'yellow': '#FFCC00',
