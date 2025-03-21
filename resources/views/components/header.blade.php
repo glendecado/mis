@@ -16,10 +16,12 @@
         <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white " x-data="{open : false}" @click="open = !open">
             <div class="flex items-center gap-2">
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
-                class="rounded-full size-10">
+                    class="rounded-full size-10">
 
-                <span class="md:block hidden">{{strtoupper(session('user')['role'])
-                }}</span>
+                <span class="md:block hidden w-42 truncate">
+                    {{ session('user')['email'] }}
+                </span>
+
             </div>
 
             {{--arrow--}}
@@ -34,14 +36,9 @@
 
                 <div class="dropdown w-56 right-1 top-16 absolute md:right-7">
 
-                    <div class="dropdown-open-items p-4" 
-                        @click="Livewire.navigate('/profile/{{session('user')['id']}}')" 
-                        style="">
-                        <style>
-                            .dropdown-open-items:hover {
-                                background-color: #2e5e91;
-                            }
-                        </style>
+                    <div class="dropdown-open-items p-4"
+                        @click="Livewire.navigate('/profile/{{session('user')['id']}}')">
+
                         <x-icons.profile class="size-6 absolute left-5" />
                         <span>Profile</span>
                     </div>
