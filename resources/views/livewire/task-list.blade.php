@@ -89,7 +89,7 @@ $check = function ($list) {
 
     $this->checked = $list;
     $req = Request::find($this->request->id);
-    $progress = round($this->checked / count($req->category->taskList) * 100);
+    $progress = round($this->checked / count($req->category->taskList->where('status', 'enabled')) * 100);
     $req->progress = $progress;
 
     if ($req->progress == 100) {

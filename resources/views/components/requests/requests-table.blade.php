@@ -2,6 +2,7 @@
 <div class="table-container md:block hidden w-full p-2 rounded-md"
     style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
     <!-- Search Input -->
+  
     <div class="m-0 my-4 relative w-60 flex items-center">
         <input
             type="text"
@@ -93,7 +94,7 @@
                 <td colspan="6">N/A</td>
             </tr>
             @else
-            @foreach ($this->viewRequest() as $request)
+            @foreach ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
 
             @php
             $color = "";
@@ -119,6 +120,7 @@
                 @if(session('user')['role'] != 'Faculty')
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->faculty->user->name }}
+                    {{request()->query('status')}}
                 </td>
                 @endif
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
@@ -131,7 +133,7 @@
                     {{ $request->category->name }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->concerns }}
+                    {{ $request->concerns }}  
                 </td>
                 <td class="table-row-cell text-small">
                     {{ $request->location}}
@@ -139,9 +141,11 @@
 
                 @if(session('user')['role'] == 'Faculty')
                 <td class="table-row-cell flex items-center justify-center">
+                    @if($request->status == 'waiting')
                     <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})">
                         <x-icons.delete />
                     </div>
+                    @endif
                 </td>
                 @endif
             </tr>
