@@ -11,7 +11,7 @@ state('tab')->url();
 
 state('cacheKey');
 
-state('category')->modelable();
+state(['category_' => []])->modelable();
 
 state('categories');
 
@@ -31,7 +31,7 @@ $viewCategory = function () {
         return Category::all();
     } else {
         return Cache::rememberForever($this->cacheKey . '4', function () {
-            return Category::take(4)->get();
+            return Category::get();
         });
     }
 };

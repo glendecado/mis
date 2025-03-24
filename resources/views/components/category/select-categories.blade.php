@@ -1,35 +1,41 @@
-<div class="y gap-2" x-data="{category: @entangle('category'), openSuggest: true}">
-    <select  x-model="category" class="input" required>
-        @foreach ($this->viewCategory() as $item) <!-- Changed variable name to $item -->
-        <option type="number" value="{{ $item->id }}">{{ $item->name }}</option>
+<div class="y gap-2" 
+     x-data="{ 
+        category: @entangle('category_'), 
+        openSuggest: false, 
+        otherCategory: '', 
+        selectedCategories: []
+     }">
+    
+    <div class="flex flex-col space-y-2">
+        @foreach ($this->viewCategory() as $item)
+        <label class="flex items-center space-x-2">
+            <input type="checkbox" 
+                   :disabled="openSuggest" 
+                   value="{{ $item->id }}" 
+                   x-model="selectedCategories" 
+                   @change="category = selectedCategories" 
+                   class="input">
+            <span>{{ $item->name }}</span>
+        </label>
         @endforeach
-        <option value="" x-bind:selected="isNaN(category) || category === ''">Others</option>
-    </select>
 
-    <div class="relative" @click.outside="openSuggest = false" @keyup.enter="openSuggest = !openSuggest">
-
-        <input @click="openSuggest = true;" x-show="isNaN(category) || category === ''" type="text" class="input w-full " placeholder="Type category..." wire:model.live="category"
-            required />
-
-        <template x-if="openSuggest">
-
-            <div x-show="typeof category === 'string' && isNaN(category) " class="shadow-md absolute w-full bg-white rounded-md z-50 mt-1">
-
-
-                @foreach($this->suggestion() as $category)
-
-                <div class="cursor-pointer p-1 hover:bg-blue hover:text-white" @click="category = '{{$category->name}}'; openSuggest = false">
-                    {{$category->name}} 
-                </div>
-                @endforeach
-
-            </div>
-
-        </template>
-
-
-
-
+        <!-- "Others" Checkbox -->
+        <label class="flex items-center space-x-2">
+            <input type="checkbox" 
+                   x-model="openSuggest" 
+                   @change="if(openSuggest) { selectedCategories = []; category = otherCategory; }" 
+                   class="input">
+            <span>Others</span>
+        </label>
     </div>
 
+    <!-- Label and Input Field for "Others" -->
+    <div class="mt-2" x-show="openSuggest">
+        <label class="block font-semibold text-gray-700">Specify Other Category:</label>
+        <input type="text" class="input w-full" placeholder="Type category..." 
+               x-model="otherCategory" 
+               @input="category = otherCategory" 
+               wire:model.live="category" 
+               required>
+    </div>
 </div>

@@ -5,7 +5,7 @@
     <div class="y p-4 mt-7"
         x-data="
         {
-    category : @entangle('category'),
+    category : @entangle('category_'),
     concerns : @entangle('concerns'),
     message: ''
 
@@ -16,7 +16,7 @@
         <fieldset class="border rounded-md p-4">
             <legend>Category</legend>
             <div class="y">
-                <livewire:category wire:model="category" />
+                <livewire:category wire:model="category_" />
                 <textarea
                     name="" id=""
                     x-model="concerns"

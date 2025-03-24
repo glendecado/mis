@@ -32,7 +32,7 @@ state(['college', 'building', 'room']);
 //for requests
 state(['id', 'concerns', 'priorityLevel', 'request']);
 
-state('category')->modelable();
+state(['category_' => []]);
 
 rules([
     'concerns' => 'required|min:10',
@@ -152,13 +152,13 @@ $viewRequest = function () {
                     'resolved' => 4,
                     default => 5,
                 };
-            })->sortByDesc('created_at'); 
+            })->sortByDesc('created_at');
             break;
 
         case 'Faculty':
             $req = $requests->filter(function ($request) {
                 return $request->faculty_id == session('user')['id'];
-            })->sortByDesc('created_at'); 
+            })->sortByDesc('created_at');
             break;
 
 
@@ -199,17 +199,17 @@ $addRequest = function () {
 
     // Increment the attempts count with a 1hr expiration
     RateLimiter::hit($key, 60 * 60); */
-
+    dd($this->category_);
     $this->validate();
 
-    $location = strtoupper($this->college).' '.strtoupper($this->building). ' '.strtoupper($this->room);
+    $location = strtoupper($this->college) . ' ' . strtoupper($this->building) . ' ' . strtoupper($this->room);
 
-    $category = Category::find($this->category);
+    $category = Category::find($this->category_);
 
     if (!$category) {
         $category = Category::firstOrCreate(
-            ['name' => ucfirst($this->category)],
-            ['name' => $this->category]
+            ['name' => ucfirst($this->category_)],
+            ['name' => $this->category_]
         );
     }
 
