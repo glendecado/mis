@@ -19,7 +19,6 @@
     <table class="min-w-full break-all">
         <thead class="table-header" style="background-color: #2e5e91;">
             <tr>
-                <th class="table-header-cell">UserId</th>
                 <th class="table-header-cell">Name</th>
                 <th class="table-header-cell relative">
                     <div @click="role = !role" x-data="{ role: false }" class="flex flex-row items-center justify-center cursor-pointer">
@@ -55,29 +54,63 @@
                     </div>
                 </th>
                 <th class="table-header-cell">Email</th>
-                <th class="table-header-cell">Action</th>
+                <th class="table-header-cell relative">
+                    <div @click="role = !role" x-data="{ role: false }" class="flex flex-row items-center justify-center cursor-pointer">
+                        <span>Role</span>
+                        <!-- Arrow Icons -->
+                        <div class="relative">
+                            <div x-show="role" x-cloak>
+                                <x-icons.arrow direction="up" />
+                            </div>
+                            <div x-show="role == false" x-cloak>
+                                <x-icons.arrow direction="down" />
+                            </div>
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div
+                            x-show="role"
+                            @click.away="role = false"
+                            class="dropdown absolute top-full"
+                            style="display: none;">
+                            <ul class="text-sm text-gray-700 w-full">
+                                <li class="dropdown-open-items cursor-pointer" wire:click="$set('status', 'all')">
+                                    <span class="w-full p-5">All</span>
+                                </li>
+                                <li class="dropdown-open-items cursor-pointer" wire:click="$set('status', 'active')">
+                                    <span class="w-full p-5">Active</span>
+                                </li>
+                                <li class="dropdown-open-items cursor-pointer" wire:click="$set('status', 'inactive')">
+                                    <span class="w-full p-5">Inactive</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($this->viewUser() as $user)
-                <tr 
-                    class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer"
-                    x-show="search === '' || 
+
+            @foreach ($this->viewUser()->when($status !== 'all', fn($query) => $query->where('status', $status)) as $user)
+            <tr
+                class="table-row-cell hover:bg-blue-100 hover:border-y-blue-600 cursor-pointer"
+                x-show="search === '' || 
                     '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
-                        .toLowerCase().includes(search.toLowerCase())"
-                >
-                    <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->id }}</td>
-                    <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->name }}</td>
-                    <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->role }}</td>
-                    <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
-                    <td class="table-row-cell">
-                         <div wire:loading.remove>
-                            <button @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser(@js($user->id))" wire:loading.attr="disabled">
-                                <x-icons.delete />
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        .toLowerCase().includes(search.toLowerCase())">
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->name }}</td>
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->role }}</td>
+                <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
+                <td class="table-row-cell relative  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"
+                    @click="
+                            if (confirm('Are you sure you want to make this user inactive?')) {
+                                $wire.userUpdateUser({{$user->id}});
+                            }
+                        ">
+                    <p class="text-white">{{ ucfirst($user->status) }}</p>
+                </td>
+
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -87,56 +120,56 @@
 <div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openUser: '', search: '' }">
     <!-- Search Input -->
     <div class="mb-4">
-        <input 
-            type="text" 
-            placeholder="Search..." 
+        <input
+            type="text"
+            placeholder="Search..."
             x-model="search"
-            class="border rounded p-2 w-full text-sm md:text-base"
-        />
+            class="border rounded p-2 w-full text-sm md:text-base" />
     </div>
 
     <!-- Mobile View for Table Rows -->
     <div class="space-y-2">
         @foreach ($this->viewUser() as $user)
-            <div 
-                class="border rounded bg-white w-full p-4 shadow-md text-sm md:text-base"
-                x-show="search === '' || 
+        <div
+            class="border rounded bg-white w-full p-4 shadow-md text-sm md:text-base relative"
+            x-show="search === '' || 
                 '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
-                    .toLowerCase().includes(search.toLowerCase())"
-            >
-                <div class="flex justify-between text-sm md:text-base">
-                    <div class="font-semibold text-gray-800">UserId:</div>
-                    <div class="text-gray-700">{{ $user->id }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Name:</div>
-                    <div class="text-gray-700">{{ $user->name }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Role:</div>
-                    <div class="text-gray-700">{{ $user->role }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-800">Email:</div>
-                    <div class="text-gray-700">{{ $user->email }}</div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-4 flex justify-end gap-2">
-                    <button 
-                        @click="Livewire.navigate('/profile/{{$user->id}}')" 
-                        class="text-white text-sm px-2 py-2 rounded-md" style="background-color: #2e5e91;">
-                        View
-                    </button>
-                    <button 
-                        @click="if (confirm('Are you sure you want to delete this user?')) $wire.deleteUser(@js($user->id))" 
-                        class="text-white text-sm bg-red-500 px-2 py-2 rounded-md">
-                        Delete
-                    </button>
-                </div>
-
+                    .toLowerCase().includes(search.toLowerCase())">
+            <div class="flex justify-between text-sm md:text-base">
+                <div class="font-semibold text-gray-800">UserId:</div>
+                <div class="text-gray-700">{{ $user->id }}</div>
             </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-800">Name:</div>
+                <div class="text-gray-700">{{ $user->name }}</div>
+            </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-800">Role:</div>
+                <div class="text-gray-700">{{ $user->role }}</div>
+            </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-800">Email:</div>
+                <div class="text-gray-700">{{ $user->email }}</div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-4 flex justify-end gap-2 ">
+                <button
+                    @click="Livewire.navigate('/profile/{{$user->id}}')"
+                    class="text-white text-sm px-2 py-2 rounded-md" style="background-color: #2e5e91;">
+                    View
+                </button>
+                <button class="p-2 relative rounded-md  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"
+                    @click="
+                            if (confirm('Are you sure you want to make this user inactive?')) {
+                                $wire.userUpdateUser({{$user->id}});
+                            }
+                        ">
+                    <p class="text-white">{{ ucfirst($user->status) }}</p>
+                </button>
+            </div>
+
+        </div>
         @endforeach
     </div>
 </div>
-

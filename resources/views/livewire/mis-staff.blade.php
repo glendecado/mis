@@ -15,7 +15,7 @@ state(['cacheKey']);
 
 state('roles')->url();
 
-state(['role', 'fname', 'lname', 'email', 'password']);
+state(['role', 'fname', 'lname', 'email', 'password', 'status'=>'active']);
 
 state(['college', 'building', 'room']);
 
@@ -31,9 +31,8 @@ rules([
 ])->messages([
     'fname.required' => "The first name field is required.",
     'lname.required' => "The Last name field is required."
-    
-])
-;
+
+]);
 
 on(['resetErrors' => function () {
     $this->resetErrorBag();
@@ -53,17 +52,17 @@ $viewUser = function () {
     switch ($this->roles) {
         case 'all':
             $user = User::where('role', '!=', 'Mis Staff')->get();
-          
+
             break;
 
         case 'faculty':
             $user = User::where('role', 'Faculty')->get();
-        
+
             break;
 
         case 'technicalStaff':
             $user =  User::where('role', 'Technical Staff')->get();
-          
+
             break;
 
         default:
@@ -87,7 +86,7 @@ $addUser = function () {
 
     //check role if technical Staff or Faculty
     switch ($this->role) {
-            //if technical staff /////////
+        //if technical staff /////////
         case 'Technical Staff':
             $tech = TechnicalStaff::create([
                 'technicalStaff_id' => $user->id,
@@ -99,7 +98,7 @@ $addUser = function () {
             $tech->save();
             break;
 
-            //if faculty ///////////
+        //if faculty ///////////
         case 'Faculty':
             $fac = Faculty::create([
                 'faculty_id' => $user->id,
@@ -124,27 +123,20 @@ $addUser = function () {
         'room'
     ]);
     $this->dispatch('close-modal', 'add-user-modal');
-    
+
 
     $this->dispatch('success', 'Added Successfully');
 };
 
-$deleteUser = function ($id) {
+$userUpdateUser = function ($id) {
+    $user = User::find($id); // No need for ->first(), find() already returns a single model or null
 
-    $user = User::find($id);
-
-    // Use the relative path stored in the database
-    $img = $user->img;
-
-    $defaultImage = 'profile_images/default/default.png';  // Default image path
-
-    if ($img !== $defaultImage && Storage::disk('public')->exists($img)) {
-        Storage::disk('public')->delete($img); // Delete the old image
+    if ($user) { // Check if user exists to prevent errors
+        $user->status = $user->status === 'active' ? 'inactive' : 'active';
+        $user->save();
     }
-    $user->delete();
-    cache()->flush();
-    $this->dispatch('success', 'user deleted successfully.');
 };
+
 
 $viewDetailedUser = function () {};
 
@@ -154,6 +146,6 @@ $viewDetailedUser = function () {};
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')
- 
+
 
 </div>

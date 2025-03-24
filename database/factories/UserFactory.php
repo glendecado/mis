@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'img' => 'profile_images/default/default.png',
+            'status' => 'active',
             'password' => 'password',
 
         ];

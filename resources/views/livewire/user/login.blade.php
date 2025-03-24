@@ -25,30 +25,37 @@ $login = function () {
         } elseif (empty($user->email)) {
             $this->emailError = 'User not found';
         } elseif ($this->password == $user->password || Hash::check($this->password, $user->password)) {
-            Auth::login($user);
 
-            if ($user->role == 'Faculty') {
-                Session::put('user', [
-                    'id' => $user->id,
-                    'img' => $user->img,
-                    'name' => $user->name,
-                    'role' => $user->role,
-                    'email' => $user->email,
-                    'college' => $user->faculty->college,
-                    'building' => $user->faculty->building,
-                    'room' => $user->faculty->room
-                ]);
+
+            if ($user->status !== 'active') {
+                $this->emailError = 'Your account is inactive. Contact support.';
+                return;
             } else {
-                Session::put('user', [
-                    'id' => $user->id,
-                    'img' => $user->img,
-                    'name' => $user->name,
-                    'role' => $user->role,
-                    'email' => $user->email,
-                ]);
-            }
+                Auth::login($user);
 
-            return redirect('/dashboard');
+                if ($user->role == 'Faculty') {
+                    Session::put('user', [
+                        'id' => $user->id,
+                        'img' => $user->img,
+                        'name' => $user->name,
+                        'role' => $user->role,
+                        'email' => $user->email,
+                        'college' => $user->faculty->college,
+                        'building' => $user->faculty->building,
+                        'room' => $user->faculty->room
+                    ]);
+                } else {
+                    Session::put('user', [
+                        'id' => $user->id,
+                        'img' => $user->img,
+                        'name' => $user->name,
+                        'role' => $user->role,
+                        'email' => $user->email,
+                    ]);
+                }
+
+                return redirect('/dashboard');
+            }
         } else {
             $this->passwordError = 'Incorrect password';
         }
@@ -76,18 +83,18 @@ $login = function () {
             </div>
             <div class="mt-[24px]">
                 <form wire:submit.prevent="login" method="post">
-                <div class="">
-                    <label for="email" class="block text-sm text-white font-thin">Email Address</label>
-                    <input wire:model.lazy="email" type="text" id="email"
-                        class="rounded-md block w-full px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow 
+                    <div class="">
+                        <label for="email" class="block text-sm text-white font-thin">Email Address</label>
+                        <input wire:model.lazy="email" type="text" id="email"
+                            class="rounded-md block w-full px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow 
                         {{ $emailError ? 'border border-red-500' : '' }}" />
-                    @if ($emailError)
+                        @if ($emailError)
                         <div class="text-red-500 text-xs mt-1">{{ $emailError }}</div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
 
                     <div class="relative mt-[10px]" x-data="{ password: true }">
-                    <label for="password" class="block text-sm text-white font-thin mb-">Password</label>
+                        <label for="password" class="block text-sm text-white font-thin mb-">Password</label>
                         <input :type="password ? 'password' : 'text'" wire:model.lazy="password" autocomplete="off"
                             id="floating_standard"
                             class="rounded-md peer block w-full appearance-none px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-0 {{ $passwordError ? 'border border-red-500' : '' }}"

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         'role' => 'Mis Staff',
         'password' => bcrypt('mis'),
         'email' => 'mis@mis',
+        'status' => 'active',
         'name' => 'mis',
       ]);
 
