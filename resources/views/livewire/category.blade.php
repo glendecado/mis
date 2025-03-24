@@ -13,9 +13,6 @@ state('cacheKey');
 
 state(['category_' => []])->modelable();
 
-state('categories');
-
-state('suggestion');
 
 mount(function () {
     if (request()->route()->getName() == 'category') {
@@ -23,8 +20,8 @@ mount(function () {
     }
     $this->cacheKey = 'categories_';
 
-    $this->categories = 1;
 });
+
 
 $viewCategory = function () {
     if (request()->route()->getName() == 'category') {
@@ -36,14 +33,7 @@ $viewCategory = function () {
     }
 };
 
-$suggestion = function () {
-    // If no category is provided, retrieve all categories (or modify the logic as needed)
-    if (empty($this->category)) {
-        return Category::take(0)->get();  // Optionally, you can adjust this to return all categories if necessary
-    } else {
-        return Category::where('name', 'LIKE', '%' . $this->category . '%')->take(4)->get();
-    }
-};
+
 
 $addCategory = function ($category) {
     if (empty($category)) {
