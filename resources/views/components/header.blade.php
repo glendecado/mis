@@ -18,9 +18,14 @@
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
                     class="rounded-full size-10">
 
-                <span class="md:block hidden w-44 truncate text-center">
-                    {{ session('user')['email'] }}
-                </span>
+                <div class="flex flex-col">
+                    <span class="md:block hidden w-44 truncate text-sm">
+                        {{ session('user')['email'] }}
+                    </span>
+
+                    <span class="md:block hidden text-xs">{{strtoupper(session('user')['role'])
+                    }}</span>
+                    </div>
 
             </div>
 
