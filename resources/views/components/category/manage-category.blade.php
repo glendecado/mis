@@ -1,15 +1,9 @@
 <div x-data="{ selectedCategoryId: null }" class="h-full p-2 table-container rounded-md"> <!-- Removed overflow-auto -->
-
-<div> <!-- Added padding on both sides -->
-    <h1 class="text-3xl font-bold mt-4" style="color: #2e5e91;">Category</h1>
-</div>
-
     <div class="p-2 transition-all space-y-3"> <!-- Improved spacing between categories -->
         @foreach($this->viewCategory() as $category)
-        <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-blue-500 mt-2 rounded-b-md' : 'mt-2'">
+        <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-[#2e5e91] mt-2 rounded-b-md' : 'mt-2'">
         <div
-    class="p-2 text-white cursor-pointer select-none flex justify-between items-center"
-    style="background-color: #2e5e91;"
+    class="p-2 text-white cursor-pointer select-none flex justify-between items-center bg-[#2e5e91]"
     :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md' : 'rounded-md'"
     @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
 
