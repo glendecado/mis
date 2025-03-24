@@ -18,7 +18,7 @@
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
                     class="rounded-full size-10">
 
-                <span class="md:block hidden w-42 truncate">
+                <span class="md:block hidden w-44 truncate text-center">
                     {{ session('user')['email'] }}
                 </span>
 
@@ -28,7 +28,7 @@
             <div x-show="open == false">
                 <x-icons.arrow direction="down" />
             </div>
-
+ 
             {{--open dropdown--}}
             <div x-show="open == true" x-cloak @click.outside="open = false">
 
