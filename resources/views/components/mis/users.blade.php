@@ -55,22 +55,22 @@
                 </th>
                 <th class="table-header-cell">Email</th>
                 <th class="table-header-cell relative">
-                    <div @click="role = !role" x-data="{ role: false }" class="flex flex-row items-center justify-center cursor-pointer">
-                        <span>Role</span>
+                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center justify-center cursor-pointer">
+                        <span>Status</span>
                         <!-- Arrow Icons -->
                         <div class="relative">
-                            <div x-show="role" x-cloak>
+                            <div x-show="status" x-cloak>
                                 <x-icons.arrow direction="up" />
                             </div>
-                            <div x-show="role == false" x-cloak>
+                            <div x-show="status == false" x-cloak>
                                 <x-icons.arrow direction="down" />
                             </div>
                         </div>
 
                         <!-- Dropdown -->
                         <div
-                            x-show="role"
-                            @click.away="role = false"
+                            x-show="status"
+                            @click.away="status = false"
                             class="dropdown absolute top-full"
                             style="display: none;">
                             <ul class="text-sm text-gray-700 w-full">
