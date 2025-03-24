@@ -40,7 +40,11 @@ mount(function () {
 $viewTechStaff = computed(function ($arr = null) {
     if (is_null($arr)) {
         return Cache::flexible('tech', [5, 10], function () {
-            return TechnicalStaff::with(['user', 'AssignedRequest'])->get();
+            return TechnicalStaff::with(['user', 'AssignedRequest'])
+                ->whereHas('user', function ($query) {
+                    $query->where('status', 'active');
+                })
+                ->get();
         });
     } else {
         return TechnicalStaff::whereIn('technicalStaff_id', $arr)->with(['user', 'AssignedRequest'])->get();
@@ -72,7 +76,6 @@ $removeTask = function ($techId) {
     $AssignedRequest->delete();
     $n = $notifUser->notifications()->where('data->req_id', intval($this->id))->delete();
     RequestEvent::dispatch($techId);
-
 };
 
 
