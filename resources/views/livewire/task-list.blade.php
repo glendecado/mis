@@ -25,7 +25,9 @@ mount(function () {
 
     $this->request = Request::find(session('requestId'));
 
-/* 
+
+
+    /* 
     if (session('page') == 'request') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
@@ -68,9 +70,6 @@ $addTaskList = function () {
 
     // Dispatch success message
     $this->dispatch('success', 'Task Successfully added');
-
-    
-
 };
 
 
@@ -84,6 +83,7 @@ $updateStatus = function ($id) {
 };
 
 $viewTaskList = function () {
+
     return TaskList::where('category_id', $this->category)
         ->orderBy('position') // Ensures it’s sorted by position
         ->get();

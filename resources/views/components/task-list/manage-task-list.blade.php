@@ -7,12 +7,12 @@
     </div>
 
     @foreach($this->viewTaskList() as $list)
-    <li class="text-blue-950 text-lg" x-sort:item="{{$list->id}}">
+    <li class="text-blue-950 text-lg">
         <div style="border: 1px solid #2e5e91; border-radius: 6px; padding: 8px; margin-bottom: 8px;"
             class=" flex flex-wrap items-center justify-between gap-2  {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
 
             <span class="whitespace-normal break-words flex-1 font-medium cursor-grab">
-                {{$list->position + 1}}. {{$list->task}}
+                 {{$list->task}}
             </span>
 
             <button type="button"  wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="cursor-pointer p-2 border rounded-md border-blue-600">

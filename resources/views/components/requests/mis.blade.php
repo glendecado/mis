@@ -22,7 +22,7 @@
     <div>
 
         <p style="font-size: 18px; color: #2e5e91;">Task List</p>
-        <livewire:task-list :category="$req->category_id" />
+        <livewire:task-per-requests />
 
     </div>
     @break

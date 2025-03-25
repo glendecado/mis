@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
 
-            $table->integer('position');
 
             $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             
