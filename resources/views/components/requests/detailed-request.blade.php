@@ -94,6 +94,7 @@
             <div class=" mt-4">
                 <span class="font-bold">
                 {{ $req->categories->pluck('category.name')->join(', ') }}
+                {{$req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
                 </span>
 
             </div>

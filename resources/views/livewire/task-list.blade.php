@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\RequestEvent;
+use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\TaskList;
@@ -24,11 +25,11 @@ mount(function () {
 
     $this->request = Request::find(session('requestId'));
 
-
+/* 
     if (session('page') == 'request') {
         //to get the percentage
         $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
-    }
+    } */
 });
 
 $addTaskList = function () {
@@ -67,6 +68,9 @@ $addTaskList = function () {
 
     // Dispatch success message
     $this->dispatch('success', 'Task Successfully added');
+
+    
+
 };
 
 

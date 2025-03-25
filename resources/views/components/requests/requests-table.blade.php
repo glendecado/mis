@@ -2,7 +2,7 @@
 <div class="table-container md:block hidden w-full p-2 rounded-md"
     style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
     <!-- Search Input -->
-  
+
     <div class="m-0 my-4 relative w-60 flex items-center">
         <input
             type="text"
@@ -130,10 +130,11 @@
                     {{ ucfirst($request->status) }}
                 </td>
                 <td class="table-row-cell truncate" @click="Livewire.navigate('/request/{{$request->id }}')">
-                {{ $request->categories->pluck('category.name')->join(', ') }}
+                    {{ $request->categories->pluck('category.name')->join(', ') }}
+                    {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->concerns }}  
+                    {{ $request->concerns }}
                 </td>
                 <td class="table-row-cell text-small">
                     {{ $request->location}}
@@ -150,7 +151,7 @@
                 @endif
             </tr>
 
-            
+
 
             @endforeach
             @endif
@@ -162,55 +163,55 @@
 <div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openRequest: '', search: '' }">
     <!-- Search Input -->
     <div class="mb-4">
-        <input 
-            type="text" 
-            placeholder="Search..." 
+        <input
+            type="text"
+            placeholder="Search..."
             x-model="search"
-            class="border rounded p-2 w-full text-gray-900"
-        />
+            class="border rounded p-2 w-full text-gray-900" />
     </div>
 
     <!-- Mobile View for Table Rows -->
     <div class="space-y-3">
         @foreach ($this->viewRequest() as $request)
-            <div 
-                class="border rounded bg-white shadow-md p-4"
-                x-show="search === '' || 
+        <div
+            class="border rounded bg-white shadow-md p-4"
+            x-show="search === '' || 
                 '{{ $request->faculty->user->name ?? '' }} {{ $request->status }}'
-                    .toLowerCase().includes(search.toLowerCase())"
-            >
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-900">Name:</div>
-                    <div class="text-gray-900">{{ $request->faculty->user->name  }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-900">Date:</div>
-                    <div class="text-gray-900">{{ $request->created_at->format('Y-m-d') }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-900">Status:</div>
-                    <div class="text-gray-900">{{ ucfirst($request->status) }}</div>
-                </div>
-                <div class="flex justify-between">
-                    <div class="font-semibold text-gray-900">Category:</div>
-                    <div class="text-gray-900"> {{ $request->categories->pluck('category.name')->join(', ') }}</div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-4 flex justify-end gap-2">
-                    <button @click="Livewire.navigate('/request/{{$request->id}}')" 
-                        class="text-white text-sm px-4 py-2 rounded-md" 
-                        style="background-color: #2e5e91;">
-                        View
-                    </button>
-                    @if(session('user')['role'] == 'Faculty')
-                    <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})" 
-                        class="text-white bg-red-500 p-2 rounded-md text-sm">
-                        Delete
-                    </button>
-                    @endif
+                    .toLowerCase().includes(search.toLowerCase())">
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-900">Name:</div>
+                <div class="text-gray-900">{{ $request->faculty->user->name  }}</div>
+            </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-900">Date:</div>
+                <div class="text-gray-900">{{ $request->created_at->format('Y-m-d') }}</div>
+            </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-900">Status:</div>
+                <div class="text-gray-900">{{ ucfirst($request->status) }}</div>
+            </div>
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-900">Category:</div>
+                <div class="text-gray-900">{{ $request->categories->pluck('category.name')->join(', ') }}
+                    {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
                 </div>
             </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-4 flex justify-end gap-2">
+                <button @click="Livewire.navigate('/request/{{$request->id}}')"
+                    class="text-white text-sm px-4 py-2 rounded-md"
+                    style="background-color: #2e5e91;">
+                    View
+                </button>
+                @if(session('user')['role'] == 'Faculty')
+                <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})"
+                    class="text-white bg-red-500 p-2 rounded-md text-sm">
+                    Delete
+                </button>
+                @endif
+            </div>
+        </div>
         @endforeach
     </div>
 </div>

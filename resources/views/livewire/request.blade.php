@@ -3,7 +3,6 @@
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\Categories;
-use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\FeedbackRating;
@@ -73,7 +72,7 @@ $sessionFacultyLocation = function () {
 
 //request in cache
 $getCachedRequests = fn() => Cache::rememberForever('requests', function () {
-    return Request::with(['category', 'faculty'])->get();
+    return Request::with(['categories', 'faculty'])->get();
 });
 
 //reload
@@ -138,7 +137,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-    $requests = Cache::get('requests') ?? Request::with(['category', 'faculty'])->get();
+    $requests = Cache::get('requests') ?? Request::with(['categories', 'faculty'])->get();
 
     switch (session('user')['role']) {
 
@@ -214,16 +213,20 @@ $addRequest = function () {
     ]);
 
 
-    if (is_array($this->category_)) {
 
-        foreach ($this->category_ as $categoryName) {
+
+    foreach ($this->category_ as $categoryName) {
+        if (is_numeric($categoryName)) {
             Categories::create([
                 'request_id' => $req->id,
-                'category_id' => $categoryName]);
+                'category_id' => $categoryName
+            ]);
+        } elseif (is_string($categoryName)) {
+            Categories::create([
+                'request_id' => $req->id,
+                'ifOthers' => $categoryName
+            ]);
         }
-    } elseif (is_string($this->category_)) {
-
-        Categories::create(['ifOthers' => $this->category_]);
     }
 
     $req->save();

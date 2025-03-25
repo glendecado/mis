@@ -3,17 +3,19 @@
         category: @entangle('category_'), 
         openSuggest: false, 
         otherCategory: '', 
-        selectedCategories: []
+        selectedCategories: [],
+        maxSelection: 3,
+        otherCategoryMaxLength: 50
      }">
     
     <div class="flex flex-col space-y-2">
         @foreach ($this->viewCategory() as $item)
         <label class="flex items-center space-x-2">
             <input type="checkbox" 
-                   :disabled="openSuggest" 
-                   value="{{ $item->id }}" 
+                   :value="{{ $item->id }}" 
                    x-model="selectedCategories" 
-                   @change="category = selectedCategories" 
+                   @change="category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]" 
+                   :disabled="(selectedCategories.length + (openSuggest ? 1 : 0)) >= maxSelection && !selectedCategories.includes('{{ $item->id }}')" 
                    class="input">
             <span>{{ $item->name }}</span>
         </label>
@@ -23,7 +25,8 @@
         <label class="flex items-center space-x-2">
             <input type="checkbox" 
                    x-model="openSuggest" 
-                   @change="if(openSuggest) { selectedCategories = []; category = otherCategory; }" 
+                   @change="category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]" 
+                   :disabled="(selectedCategories.length + (openSuggest ? 1 : 0)) >= maxSelection && !openSuggest"
                    class="input">
             <span>Others</span>
         </label>
@@ -34,8 +37,15 @@
         <label class="block font-semibold text-gray-700">Specify Other Category:</label>
         <input type="text" class="input w-full" placeholder="Type category..." 
                x-model="otherCategory" 
-               @input="category = otherCategory" 
+               @input="
+                    if (otherCategory.length > otherCategoryMaxLength) {
+                        otherCategory = otherCategory.substring(0, otherCategoryMaxLength);
+                    }
+                    category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]
+               " 
                wire:model.live="category" 
+               :maxlength="otherCategoryMaxLength" 
                required>
-    </div>
+        <p class="text-sm text-gray-500" x-text="`${otherCategory.length}/${otherCategoryMaxLength} characters`"></p>
+    </div> 
 </div>

@@ -13,19 +13,21 @@
 
         <x-notif />
 
-        <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white " x-data="{open : false}" @click="open = !open">
-            <div class="flex items-center gap-2">
+        <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white" x-data="{open : false}" @click="open = !open">
+            <div class="flex items-center gap-2 ">
+
+                <div class="flex flex-col justify-center w-full items-center">
+
+                    <div class="md:block hidden w-32 text-center truncate text-sm ">
+                        {{ session('user')['email'] }}
+                    </div>
+
+                    <div class="md:block hidden text-xs">
+                        {{strtoupper(session('user')['role']) }}
+                    </div>
+                </div>
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
                     class="rounded-full size-10">
-
-                <div class="flex flex-col">
-                    <span class="md:block hidden w-44 truncate text-sm">
-                        {{ session('user')['email'] }}
-                    </span>
-
-                    <span class="md:block hidden text-xs">{{strtoupper(session('user')['role'])
-                    }}</span>
-                    </div>
 
             </div>
 
@@ -33,7 +35,7 @@
             <div x-show="open == false">
                 <x-icons.arrow direction="down" />
             </div>
- 
+
             {{--open dropdown--}}
             <div x-show="open == true" x-cloak @click.outside="open = false">
 
