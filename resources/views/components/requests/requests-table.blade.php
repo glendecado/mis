@@ -1,50 +1,21 @@
-<div x-data="{ search: '', statusFilter: '' }" 
-    class="table-container w-full h-screen p-2 rounded-b-md md:h-[80vh]"
-    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);">
+<!-- User Table for Larger Screens -->
+<div class="table-container md:block hidden w-full p-2 rounded-md"
+    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
+    <!-- Search Input -->
+  
+    <div class="m-0 my-4 relative w-60 flex items-center">
+        <input
+            type="text"
+            placeholder="Search..."
+            x-model="search"
+            class="w-full rounded p-2 pl-3 pr-10 input relative" />
 
-    <!-- Search & Filters Wrapper -->
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-4 md:gap-4">
-
-        <!-- Status Filter Buttons (Mobile Scrollable) -->
-        <div class="flex gap-2 overflow-auto md:flex-wrap whitespace-nowrap">
-            <span @click="statusFilter = ''"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-gray-600">
-                All Requests
-            </span>
-            <span @click="statusFilter = 'Waiting'"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-amber-500">
-                Waiting
-            </span>
-            <span @click="statusFilter = 'Pending'"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-orange-500">
-                Pending
-            </span>
-            <span @click="statusFilter = 'Ongoing'"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-blue-500">
-                Ongoing
-            </span>
-            <span @click="statusFilter = 'Resolved'"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-green-500">
-                Resolved
-            </span>
-            <span @click="statusFilter = 'Declined'"
-                class="px-3 py-1 text-sm font-semibold text-white rounded-full cursor-pointer bg-red-500">
-                Declined
-            </span>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="relative w-full max-w-xs">
-            <input type="text" placeholder="Search..." x-model="search"
-                class="w-full rounded p-2 pl-3 pr-10 bg-white border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#B7B7B7">
-                    <path
-                        d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                </svg>
-            </span>
-        </div>
+        <!-- Search Icon/Text Inside Input -->
+        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B7B7B7">
+                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+            </svg>
+        </span>
     </div>
 
     <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
@@ -145,7 +116,7 @@
                 class="{{session('user')['role'] == 'Technical Staff' ? $color : 'hover:bg-blue-100'}} table-row-cell  hover:border-y-blue-600 cursor-pointer hidden md:table-row"
                 {{--Search--}}
                 x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
                 @if(session('user')['role'] != 'Faculty')
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->faculty->user->name }}
@@ -158,8 +129,8 @@
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ ucfirst($request->status) }}
                 </td>
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->category->name }}
+                <td class="table-row-cell truncate" @click="Livewire.navigate('/request/{{$request->id }}')">
+                {{ $request->categories->pluck('category.name')->join(', ') }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->concerns }}  
@@ -205,12 +176,12 @@
             <div 
                 class="border rounded bg-white shadow-md p-4"
                 x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }}'
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }}'
                     .toLowerCase().includes(search.toLowerCase())"
             >
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Name:</div>
-                    <div class="text-gray-900">{{ $request->faculty->user->name }}</div>
+                    <div class="text-gray-900">{{ $request->faculty->user->name  }}</div>
                 </div>
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Date:</div>
@@ -222,7 +193,7 @@
                 </div>
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Category:</div>
-                    <div class="text-gray-900">{{ $request->category->name }}</div>
+                    <div class="text-gray-900"> {{ $request->categories->pluck('category.name')->join(', ') }}</div>
                 </div>
 
                 <!-- Action Buttons -->
