@@ -103,8 +103,14 @@
                 <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
                 <td class="table-row-cell relative  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"
                     @click="
-                            if (confirm('Are you sure you want to make this user inactive?')) {
-                                $wire.userUpdateUser({{$user->id}});
+                            if ('{{$user->status}}' === 'active') {
+                                if (confirm('Are you sure you want to make this user inactive?')) {
+                                    $wire.userUpdateUser({{$user->id}});
+                                }
+                            } else {
+                                if (confirm('Are you sure you want to make this user active?')) {
+                                    $wire.userUpdateUser({{$user->id}});
+                                }
                             }
                         ">
                     <p class="text-white">{{ ucfirst($user->status) }}</p>
@@ -161,7 +167,7 @@
                 </button>
                 <button class="p-2 relative rounded-md  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"
                     @click="
-                            if (confirm('Are you sure you want to make this user inactive?')) {
+                            if (confirm('Are you sure you want to make this user active?')) {
                                 $wire.userUpdateUser({{$user->id}});
                             }
                         ">
