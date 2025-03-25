@@ -11,6 +11,8 @@ class Category extends Model
 
     public $timestamps = false;
 
+    protected $table = 'category';  
+
     protected $fillable = [
         'name'
     ];
@@ -20,8 +22,9 @@ class Category extends Model
         return $this->hasMany(TaskList::class);
     }
 
-    public function Request()
+    public function Categories()
     {
-        return $this->hasMany(Request::class);
+
+        return $this->belongsTo(Categories::class);
     }
 }

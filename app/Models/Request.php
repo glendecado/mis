@@ -17,7 +17,6 @@ class Request extends Model
         'progress',
         'status',
         'location',
-
     ];
 
     public function faculty()
@@ -30,14 +29,13 @@ class Request extends Model
         return $this->hasMany(AssignedRequest::class);
     }
 
-    public function Category()
+    public function categories()
     {
-
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Categories::class, 'request_id');
     }
 
-    public function FeedBack(){
-        
+    public function feedback()
+    {
         return $this->hasMany(Feedback::class);
     }
 }

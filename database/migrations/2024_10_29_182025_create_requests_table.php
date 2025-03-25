@@ -17,9 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('faculty_id');
             $table->foreign('faculty_id')->references('faculty_id')->on('faculties')->onDelete('cascade');
 
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-
             $table->string('concerns');
 
             $table->string('location')->nullable();

@@ -92,7 +92,10 @@
             @endif
 
             <div class=" mt-4">
-               <span class="font-bold">{{$req->category->name}}</span>
+                <span class="font-bold">
+                {{ $req->categories->pluck('category.name')->join(', ') }}
+                </span>
+
             </div>
 
             <!-- Location -->

@@ -116,7 +116,7 @@
                 class="{{session('user')['role'] == 'Technical Staff' ? $color : 'hover:bg-blue-100'}} table-row-cell  hover:border-y-blue-600 cursor-pointer hidden md:table-row"
                 {{--Search--}}
                 x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
                 @if(session('user')['role'] != 'Faculty')
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->faculty->user->name }}
@@ -129,8 +129,8 @@
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ ucfirst($request->status) }}
                 </td>
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->category->name }}
+                <td class="table-row-cell truncate" @click="Livewire.navigate('/request/{{$request->id }}')">
+                {{ $request->categories->pluck('category.name')->join(', ') }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ $request->concerns }}  
@@ -176,12 +176,12 @@
             <div 
                 class="border rounded bg-white shadow-md p-4"
                 x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->category->name }}'
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }}'
                     .toLowerCase().includes(search.toLowerCase())"
             >
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Name:</div>
-                    <div class="text-gray-900">{{ $request->faculty->user->name }}</div>
+                    <div class="text-gray-900">{{ $request->faculty->user->name  }}</div>
                 </div>
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Date:</div>
@@ -193,7 +193,7 @@
                 </div>
                 <div class="flex justify-between">
                     <div class="font-semibold text-gray-900">Category:</div>
-                    <div class="text-gray-900">{{ $request->category->name }}</div>
+                    <div class="text-gray-900"> {{ $request->categories->pluck('category.name')->join(', ') }}</div>
                 </div>
 
                 <!-- Action Buttons -->

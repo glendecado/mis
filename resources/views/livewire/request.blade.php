@@ -2,6 +2,7 @@
 
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
+use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
@@ -199,29 +200,31 @@ $addRequest = function () {
 
     // Increment the attempts count with a 1hr expiration
     RateLimiter::hit($key, 60 * 60); */
-    dd($this->category_);
+
     $this->validate();
+
+
 
     $location = strtoupper($this->college) . ' ' . strtoupper($this->building) . ' ' . strtoupper($this->room);
 
-    $category = Category::find($this->category_);
-
-    if (!$category) {
-        $category = Category::firstOrCreate(
-            ['name' => ucfirst($this->category_)],
-            ['name' => $this->category_]
-        );
-    }
-
-
-
     $req = Request::create([
         'faculty_id' => session('user')['id'],
-        'category_id' => $category->id,
         'concerns' => $this->concerns,
         'location' => $location,
     ]);
 
+
+    if (is_array($this->category_)) {
+
+        foreach ($this->category_ as $categoryName) {
+            Categories::create([
+                'request_id' => $req->id,
+                'category_id' => $categoryName]);
+        }
+    } elseif (is_string($this->category_)) {
+
+        Categories::create(['ifOthers' => $this->category_]);
+    }
 
     $req->save();
 
