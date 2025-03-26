@@ -1,5 +1,5 @@
 @if($req->status == 'declined')
-<h1 class="text-red-500">Request Declined</h1>
+<h1 class="text-red-500 text-center text-[18px]">Request Declined</h1>
 @else
 <p class="mb-2 text-blue text-[18px]">Task Progress</p>
 

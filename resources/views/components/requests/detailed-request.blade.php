@@ -4,13 +4,13 @@
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
         <!-- LEFT COLUMN: Faculty Info + Concerns -->
         <div class="bg-white p-4 rounded-md shadow">
-            <div class="flex flex-row items-center justify-between">
+            <div class="flex flex-row items-center justify-between mb-2">
                 <div class="flex items-center justify-center gap-4">
                     <img src="{{asset('storage/'.$req->faculty->user->img)}}" alt="" class="size-16 rounded-full">
                     <div>
                         <span class="text-lg font-bold block">{{$req->faculty->user->name}}</span>
                         <span class="text-sm">
-                            Date: <span class="font-bold">{{$req->created_at->format('Y-m-d')}}</span>
+                            Date: <span class="font-bold">{{$req->created_at->format('m-d-y')}}</span>
                             Time: <span class="font-bold">{{$req->created_at->format('h:i A')}}</span>
                         </span>
                     </div>
@@ -34,7 +34,7 @@
             @case('Mis Staff')
             <div class="mt-2">
                 @if($req->status == 'ongoing' || $req->status == 'resolved')
-                Priority level:
+                Priority Level:
                 <span class="font-bold px-2 py-1 rounded-md"
                     style="background-color: 
                                 {{ $req->priorityLevel == 1 ? '#ef4444' : 
@@ -71,7 +71,7 @@
             @break
             @endswitch
             @else
-            priority level
+            Priority Level
             <div class="priority-label"
                 style="background-color:
                                 {{ $req->priorityLevel == 1 ? '#EE4E4E' : 

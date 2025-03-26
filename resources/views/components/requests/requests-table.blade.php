@@ -1,6 +1,5 @@
 <!-- User Table for Larger Screens -->
-<div class="table-container md:block hidden w-full p-2 rounded-md"
-    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
+<div class="table-container md:block hidden w-full p-2 rounded-md shadow-md" x-data="{ search: '' }">
     <!-- Search Input -->
 
     <div class="m-0 my-4 relative w-60 flex items-center">
@@ -91,7 +90,7 @@
         <tbody>
             @if($this->viewRequest()->isEmpty())
             <tr class="text-center">
-                <td colspan="6">N/A</td>
+                <td colspan="6">Np items found.</td>
             </tr>
             @else
             @foreach ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
@@ -124,7 +123,7 @@
                 </td>
                 @endif
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->created_at->format('Y-m-d') }}
+                    {{ $request->created_at->format('m-d-y') }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ ucfirst($request->status) }}

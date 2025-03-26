@@ -1,4 +1,4 @@
-<div x-data="{ selectedCategoryId: null }" class="h-full p-2 table-container rounded-md"> <!-- Removed overflow-auto -->
+<div x-data="{ selectedCategoryId: null }" class="h-full p-2 table-container rounded-md shadow-md"> <!-- Removed overflow-auto -->
     <div class="p-2 transition-all space-y-3"> <!-- Improved spacing between categories -->
         @foreach($this->viewCategory() as $category)
         <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-[#2e5e91] mt-2 rounded-b-md' : 'mt-2'">

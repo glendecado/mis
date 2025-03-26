@@ -37,7 +37,9 @@
 
 
     @case('declined')
-    
+        <div>
+            <p class="font-[14px] text-[#2e5e91]">You declined this request.</p>
+        </div>
     @break
 
     @endswitch
