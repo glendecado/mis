@@ -49,16 +49,11 @@ $addTaskList = function () {
         return; // Exit the function if task exists
     }
 
-    // Get the current max position in the category
-    $maxPosition = TaskList::where('category_id', $this->category)->max('position');
-
-    $position = TaskList::where('category_id', $this->category)->count() <= 0 ? 0 : $maxPosition + 1;
 
     // Create the new task
     $taskList = TaskList::create([
         'category_id' => $this->category,
         'task' => $this->task,
-        'position' => $position,
         'status' => 'enabled',
     ]);
 
@@ -85,88 +80,88 @@ $updateStatus = function ($id) {
 $viewTaskList = function () {
 
     return TaskList::where('category_id', $this->category)
-        ->orderBy('position') // Ensures it’s sorted by position
         ->get();
 };
 
-$check = function ($list) {
 
-    $this->checked = $list;
-    $req = Request::find($this->request->id);
-    $progress = round($this->checked / count($req->category->taskList->where('status', 'enabled')) * 100);
-    $req->progress = $progress;
-
-    if ($req->progress == 100) {
-        $req->status = 'resolved';
-        $faculty = User::find($req->faculty_id);
-        $faculty->notify(new RequestStatus($req));
-    }
-
-    $req->save();
-    $this->dispatch('view-detailed-request');
-    RequestEvent::dispatch($req->faculty_id);
-    $this->page = 'request';
-};
-
-$updateList = function ($id, $position) {
-    // Get all tasks in the current category
-    $taskLists = TaskList::where('category_id', $this->category)->get();
-
-    // Get the task to update (task1) and the task at the new position (task2)
-    $task1 = TaskList::where('id', $id)->where('category_id', $this->category)->first();
-    $task2 = TaskList::where('category_id', $this->category)->where('position', $position)->first();
-
-
-
-    $newPosition = $position;
-    $oldPosition = $task1->position;
-    $gap = $newPosition - $oldPosition;
-    $total = $taskLists->count() - 1;
-
-    if ($gap == 1 || $gap == -1) {
-        // Temporarily store task1 position
-        $tempPosition = $task1->position;
-
-        // Swap positions
-        $task1->position = $task2->position;
-        $task2->position = $tempPosition;
-
-        $task1->save();
-        $task2->save();
-    } elseif ($gap <= 0) {
-
-        foreach ($taskLists as $taskList) {
-            if ($taskList->position >= $newPosition && $taskList->position != $total) {
-                $taskList->position = $taskList->position + 1;
-                $taskList->save();
-            }
-        }
-    } elseif ($gap >= 0) {
-
-        foreach ($taskLists as $taskList) {
-            if ($taskList->position <= $newPosition && $taskList->position != 0) {
-                $taskList->position = $taskList->position - 1;
-                $taskList->save();
-            }
-        }
-    }
-
-    // Update the position of task1
-    $task1->position = $newPosition;
-    $task1->save();
-};
-
-
-
-
-
+$updateList = function ($item, $pos) {
+    dd([$item, $pos]);
+}
 
 ?>
 
 <div class="relative rounded-md">
 
 
-    @include('components.task-list.view-task-list')
+    <ul x-sort="@this.call('updateList', $item, $position)">
+        <div class="whitespace-nowrap mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000">
+                <path d="M444-288h72v-240h-72v240Zm35.79-312q15.21 0 25.71-10.29t10.5-25.5q0-15.21-10.29-25.71t-25.5-10.5q-15.21 0-25.71 10.29t-10.5 25.5q0 15.21 10.29 25.71t25.5 10.5Zm.49 504Q401-96 331-126t-122.5-82.5Q156-261 126-330.96t-30-149.5Q96-560 126-629.5q30-69.5 82.5-122T330.96-834q69.96-30 149.5-30t149.04 30q69.5 30 122 82.5T834-629.28q30 69.73 30 149Q864-401 834-331t-82.5 122.5Q699-156 629.28-126q-69.73 30-149 30Zm-.28-72q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0-312Z" />
+            </svg>
+            <p class="text-sm text-black font-medium text-left md:text-center text-wrap">Drag and drop to rearrange the list items.</p>
+        </div>
+
+        @foreach($this->viewTaskList() as $list)
+        <li class="text-blue-950 text-lg" x-sort:item="{{$list->id}}">
+            <div style="border: 1px solid #2e5e91; border-radius: 6px; padding: 8px; margin-bottom: 8px;"
+                class=" flex flex-wrap items-center justify-between gap-2  {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
+
+                <span class="whitespace-normal break-words flex-1 font-medium cursor-grab">
+                    {{$list->task}}
+                </span>
+
+                <button type="button" wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="cursor-pointer p-2 border rounded-md border-blue-600">
+                    {{$list->status}}
+                </button>
+
+
+            </div>
+
+        </li>
+
+        @endforeach
+    </ul>
+
+
+    @switch(session('page'))
+
+    @case('category')
+
+    <div class="md:x y gap-2 flex items-center justify-between">
+        <div class="flex flex-row items-start gap-2 w-[100%] md:w-full">
+            <div class="w-[80%] md:w-full">
+                <input type="text" wire:model="task" class="input w-full" style="border: 1px solid #2e5e91;" placeholder="Enter task item...">
+
+                <!-- Show error message if there's an error for the 'task' field -->
+                @error('task')
+                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="flex-none">
+                <button class="w-20 text-white font-medium rounded-md px-4 py-2 text-lg" style="background-color: #3E7B27" wire:click.prevent="addTaskList">Add</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    @break
+
+    @case('request')
+    @if($this->viewTaskList()->isEmpty())
+    <div class="flex flex-col">
+        <span class="text-red-500 font-semibold" style="font-size: 16px;">No Task List Found.</span>
+        <a href="/category" class="text-blue underline" style="font-size: 16px;">Proceed to this link to add task on a category...</a>
+    </div>
+    @else
+    <div class="float-end">
+        @include('components.assigned-request.button')
+    </div>
+    @endif
+    @break
+
+    @endswitch
 
 
 </div>

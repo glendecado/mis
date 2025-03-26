@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('task_per_requests', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('request_id');
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
+
+            $table->string('status');
+
+            $table->string('task');
+
+            $table->string('position');
+
             $table->timestamps();
         });
     }

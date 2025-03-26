@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Categories;
 use App\Models\TaskList;
 use Illuminate\Support\Facades\DB;
 use function Livewire\Volt\{mount, state};
@@ -7,21 +8,30 @@ use function Livewire\Volt\{mount, state};
 state('categories', []);
 state('taskList', []);
 state('selectedTaskList', []);
+state('taskPerReq', []);
 
 mount(function () {
+
+    $requestId = session('requestId');
+
     $this->categories = DB::table('categories')
-        ->where('request_id', session()->get('requestId'))
+        ->where('request_id', $requestId)
         ->pluck('category_id')
         ->toArray();
 
-    $this->taskList = TaskList::whereIn('category_id', $this->categories)
+
+    $this->taskList = DB::table('task_lists')->whereIn('category_id', $this->categories)
         ->where('status', 'enabled')
         ->whereNotNull('category_id')
-        ->pluck('task', 'id') // Pluck 'task' with 'id' for checkbox values
-        ->toArray();
+        ->pluck('task', 'id');
+
+    /*     $this->taskPerReq = DB::table('task_per_requests')->where('categories_id',$this->categories); */
+
+    
+    dd($this->categories);
 });
 
-$confirmSelection = function () {
+$confirmTask = function () {
     dd($this->selectedTaskList);
 };
 
