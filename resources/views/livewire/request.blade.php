@@ -3,6 +3,7 @@
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\FeedbackRating;
@@ -222,12 +223,28 @@ $addRequest = function () {
                 'category_id' => $categoryName
             ]);
         } elseif (is_string($categoryName)) {
-            Categories::create([
+            // Create a temporary category entry
+            $categories = Categories::create([
                 'request_id' => $req->id,
                 'ifOthers' => $categoryName
             ]);
+
+            // Check if a category with the same name exists
+            $existingCategory = Category::where('name', ucfirst($categoryName))->first();
+
+            if ($existingCategory) {
+                // Create a new entry using the found category's ID
+                Categories::create([
+                    'request_id' => $req->id,
+                    'category_id' => $existingCategory->id
+                ]);
+
+                // Delete the temporary category entry
+                $categories->delete();
+            }
         }
     }
+
 
     $req->save();
 
