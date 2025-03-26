@@ -16,7 +16,7 @@
         <fieldset class="border rounded-md p-4">
             <legend>Category</legend>
             <div class="y">
-                <livewire:category wire:model="category_" />
+                <livewire:categories wire:model="category_" />
                 <textarea
                     name="" id=""
                     x-model="concerns"

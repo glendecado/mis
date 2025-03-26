@@ -28,7 +28,7 @@ mount(function () {
     /*     $this->taskPerReq = DB::table('task_per_requests')->where('categories_id',$this->categories); */
 
     
-    dd($this->categories);
+  /*   dd($this->categories); */
 });
 
 $confirmTask = function () {
