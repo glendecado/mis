@@ -1,5 +1,9 @@
 <!-- User Table for Larger Screens -->
+<<<<<<< HEAD
 <div class="table-container md:block hidden w-full p-2 rounded-md overflow-auto" x-data="{ search: '' }">
+=======
+<div class="table-container md:block hidden w-full p-2 rounded-md shadow-md" x-data="{ search: '' }">
+>>>>>>> d7e3792ce14fdf8000a4bbd97f9802b2bf6ec139
     <!-- Search Input -->
     <div class="m-0 my-4 relative w-60 flex items-center">
         <input
@@ -89,7 +93,11 @@
         <tbody>
             @if($this->viewRequest()->isEmpty())
             <tr class="text-center">
+<<<<<<< HEAD
                 <td colspan="6">No items found.</td>
+=======
+                <td colspan="6">Np items found.</td>
+>>>>>>> d7e3792ce14fdf8000a4bbd97f9802b2bf6ec139
             </tr>
             @else
             @foreach ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)

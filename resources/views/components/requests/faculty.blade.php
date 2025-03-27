@@ -1,7 +1,11 @@
 @if($req->status == 'declined')
+<<<<<<< HEAD
 <div class="border border-red-500 rounded-md p-4">
 <h1 class="text-[14px] text-red-500 text-center">Your request has been declined due to certain reasons.</h1>
 </div>
+=======
+<h1 class="text-red-500 text-center text-[18px]">Request Declined</h1>
+>>>>>>> d7e3792ce14fdf8000a4bbd97f9802b2bf6ec139
 @else
 <p class="mb-2 text-blue text-[18px]">Task Progress</p>
 

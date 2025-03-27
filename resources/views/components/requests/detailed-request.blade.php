@@ -34,7 +34,7 @@
             @case('Mis Staff')
             <div class="mt-2">
                 @if($req->status == 'ongoing' || $req->status == 'resolved')
-                Priority level:
+                Priority Level:
                 <span class="font-bold px-2 py-1 rounded-md"
                     style="background-color: 
                                 {{ $req->priorityLevel == 1 ? '#ef4444' : 
@@ -72,7 +72,11 @@
             @endswitch
             @else
             Priority Level
+<<<<<<< HEAD
             <div class="priority-label mb-1"
+=======
+            <div class="priority-label"
+>>>>>>> d7e3792ce14fdf8000a4bbd97f9802b2bf6ec139
                 style="background-color:
                                 {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
                                 ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};

@@ -34,8 +34,13 @@
 
 
     @case('declined')
+<<<<<<< HEAD
         <div class="border border-red-500 rounded-md p-4">
             <p class="text-[14px] text-red-500 text-center">You declined this request.</p>
+=======
+        <div>
+            <p class="font-[14px] text-[#2e5e91]">You declined this request.</p>
+>>>>>>> d7e3792ce14fdf8000a4bbd97f9802b2bf6ec139
         </div>
     @break
 
