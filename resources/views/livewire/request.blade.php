@@ -37,7 +37,7 @@ state(['category_' => []]);
 
 rules([
     'concerns' => 'required|min:10',
-    'category_' =>'required',
+    'category_' => 'required',
 ]);
 
 on([
@@ -117,8 +117,39 @@ mount(function () {
     $this->whatStatusIsClicked();
 
     $this->getCachedRequests();
+
+    $this->checkPriorityLevel();
 });
 
+
+$checkPriorityLevel = function () {
+    $requestPrioLvl = $this->viewDetailedRequest()->pluck('priorityLevel')->toArray();
+    $lvl1 =  Request::where('priorityLevel', '1')->where('status', '!=', 'resolved')->get()->count();
+    $lvl2 = Request::where('priorityLevel', '2')->where('status', '!=', 'resolved')->get()->count();
+
+
+    if (!empty($requestPrioLvl) && session('user')['role'] == 'Technical Staff') {
+
+        
+        $num = $requestPrioLvl[0];
+
+        switch ($num) {
+            case 2:
+                if ($lvl1 > 0 ) {
+                    return $this->redirect('/request?status=all', navigate: true);
+                }
+                break;
+
+            case 3:
+  
+                if ($lvl1 > 0 || $lvl2 > 0 ) {
+                    return $this->redirect('/request?status=all', navigate: true);
+                }
+
+                break;
+        }
+    }
+};
 
 
 //view
@@ -132,6 +163,7 @@ $viewDetailedRequest = function () {
     $user->unreadNotifications // Accesses the unread notifications for the user
         ->where('data.req_id', $this->id) // Filters the unread notifications by the specific ID
         ->markAsRead(); // Marks the filtered notification as read
+
 
     return Request::where('id', $this->id)->with('faculty')->get();
 };
@@ -260,7 +292,6 @@ $addRequest = function () {
 
     RequestEvent::dispatch($mis->id);
     $this->reload();
-
 };
 
 //delete request

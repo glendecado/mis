@@ -4,6 +4,6 @@
         @break
 
     @case('Technical Staff')
-        <p>Welcome, Technical Staff</p>
+        @include('components.task-per-request.tech-staff')
         @break
 @endswitch
