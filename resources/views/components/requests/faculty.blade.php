@@ -2,9 +2,9 @@
 <h1 class="text-red-500">Request Declined</h1>
 @elseif($req->status == 'waiting')
 <h1 class="text-red-500">Waiting your request to accept</h1>
-@elseif($req->status == 'pending')
+@else
 
-<livewire:assinged-request />
+
     
 <p class="mb-2 text-blue text-[18px]">Task Progress</p>
 

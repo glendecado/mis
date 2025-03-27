@@ -1,5 +1,6 @@
 {{--task--}}
 
+
 @switch($req->status)
 
 
@@ -15,7 +16,8 @@
 @case('ongoing')
 <div class="">
     <p class="mb-2" style="color: #2e5e91; font-size: 16px">Task To Do</p>
-    <livewire:task-list :category="$req->category_id" />
+    <livewire:task-per-requests/>
+
     <div class="">
         <div
             class="rounded-md p-2 text-white text-sm transition-all" style="background-color: #3E7B27; width: {{$req->progress}}%" ;>

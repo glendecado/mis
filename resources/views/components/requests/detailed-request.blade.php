@@ -54,8 +54,8 @@
                         text-white 
                         bg-red-400 dark:bg-red-500 
                         focus:outline-none "
-                                        wire:change="priorityLevelUpdate($event.target.value)"
-                                        :class="{
+                        wire:change="priorityLevelUpdate($event.target.value)"
+                        :class="{
                         'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
                         'bg-yellow dark:bg-yellow text-black': {{ $req->priorityLevel }} == 2,
                         'bg-green-400 dark:bg-green-500': {{ $req->priorityLevel }} == 3
@@ -131,6 +131,7 @@
 
         <!-- RIGHT COLUMN: Task List + Actions -->
         <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh]">
+            <livewire:assinged-request />
             
             <div class="mt-4">
                 @switch(session('user')['role'])
