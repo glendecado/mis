@@ -37,6 +37,7 @@ state(['category_' => []]);
 
 rules([
     'concerns' => 'required|min:10',
+    'category_' =>'required',
 ]);
 
 on([
@@ -215,7 +216,6 @@ $addRequest = function () {
 
 
 
-
     foreach ($this->category_ as $categoryName) {
         if (is_numeric($categoryName)) {
             Categories::create([
@@ -259,6 +259,7 @@ $addRequest = function () {
 
     RequestEvent::dispatch($mis->id);
     $this->reload();
+
 };
 
 //delete request

@@ -24,6 +24,7 @@ $viewCategories = function () {
 };
 
 
+
 ?>
 
 <div class="y gap-2"
@@ -66,6 +67,7 @@ $viewCategories = function () {
         <input type="text" class="input w-full" placeholder="Type category..."
             x-model="otherCategory"
             @input="
+                    otherCategory = otherCategory.trimStart().replace(/^\s+/, '');
                     if (otherCategory.length > otherCategoryMaxLength) {
                         otherCategory = otherCategory.substring(0, otherCategoryMaxLength);
                     }
