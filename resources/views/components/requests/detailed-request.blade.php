@@ -131,8 +131,7 @@
 
         <!-- RIGHT COLUMN: Task List + Actions -->
         <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh]">
-            <livewire:assinged-request />
-
+            
             <div class="mt-4">
                 @switch(session('user')['role'])
                 @case('Mis Staff')

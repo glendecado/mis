@@ -250,6 +250,7 @@ $addRequest = function () {
 
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
+    $this->dispatch('reset-category');
 
 
     //getting the id of mis first then dispatch the event to mis

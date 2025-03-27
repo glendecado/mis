@@ -5,13 +5,18 @@ use App\Models\Category;
 use App\Models\TaskList;
 use App\Models\TaskPerRequest;
 use Illuminate\Support\Facades\DB;
-use function Livewire\Volt\{mount, state};
+use function Livewire\Volt\{mount, on, state};
 
 state('categories', []);
 state('taskList', []);
 state('selectedTaskList', []);
 state('taskPerReq', []);
 state('notDefault');
+
+on(['reqPerTask' => function () {
+    $this->taskPerReq = DB::table('task_per_requests')->where('request_id', session()->get('requestId'))->get();
+}]);
+
 
 mount(function () {
 
@@ -51,6 +56,8 @@ $confirmTask = function () {
         ]);
         $taskPerReq->save();
     }
+
+    $this->dispatch('reqPerTask');
 };
 
 
@@ -184,8 +191,10 @@ $toDefaultCategory = function ($name, $decide) {
     @else
 
     @foreach($taskPerReq as $task)
-    {{$task->task}}
-
+    <div class="border p-2 rounded-md mb-7">
+        {{$task->task}}
+    </div>
+    <livewire:assinged-request />
     @endforeach
 
     @endif

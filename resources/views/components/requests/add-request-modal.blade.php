@@ -17,6 +17,9 @@
             <legend>Category</legend>
             <div class="y">
                 <livewire:categories wire:model="category_" />
+                @error('category_')
+                <span class="text-red-500"> {{$message}}</span>
+                @enderror
                 <textarea
                     name="" id=""
                     x-model="concerns"

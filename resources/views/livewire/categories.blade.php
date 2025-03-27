@@ -34,8 +34,16 @@ $viewCategories = function () {
         otherCategory: '', 
         selectedCategories: [],
         maxSelection: 3,
-        otherCategoryMaxLength: 50
-     }">
+        otherCategoryMaxLength: 50,
+
+        submitHandler() {
+            this.selectedCategories = []; 
+            this.openSuggest = false; 
+            this.otherCategory = ''; 
+            this.category = [];
+        }
+     }"
+    @reset-category.window="submitHandler()">
 
     <div class="flex flex-col space-y-2">
         @foreach ($this->viewCategories() as $item)
@@ -66,16 +74,16 @@ $viewCategories = function () {
         <label class="block font-semibold text-gray-700">Specify Other Category:</label>
         <input type="text" class="input w-full" placeholder="Type category..."
             x-model="otherCategory"
-            @input="
-                    otherCategory = otherCategory.trimStart().replace(/^\s+/, '');
+            @input="otherCategory = otherCategory.trimStart().replace(/^\s+/, '');
                     if (otherCategory.length > otherCategoryMaxLength) {
                         otherCategory = otherCategory.substring(0, otherCategoryMaxLength);
                     }
-                    category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]
-               "
+                    category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]"
             wire:model.live="category"
             :maxlength="otherCategoryMaxLength"
             required>
         <p class="text-sm text-gray-500" x-text="`${otherCategory.length}/${otherCategoryMaxLength} characters`"></p>
     </div>
+
+
 </div>

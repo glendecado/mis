@@ -4,7 +4,8 @@
 <h1 class="text-red-500">Waiting your request to accept</h1>
 @elseif($req->status == 'pending')
 
-
+<livewire:assinged-request />
+    
 <p class="mb-2 text-blue text-[18px]">Task Progress</p>
 
 <div class="rounded-md">
