@@ -90,6 +90,24 @@ $toDefaultCategory = function ($name, $decide) {
         return $this->redirect('/request/' . session()->get('requestId'), navigate: true);
     }
 };
+
+$checkTask = function($id){
+    $part = $this->taskPerReq->whereNotNull('isCheck')->count();
+    $whole = $this->taskPerReq->count();
+
+    $taskPerReq = TaskPerRequest::find($id);
+
+    if ($taskPerReq) {
+        // Toggle isCheck value efficiently
+        $taskPerReq->isCheck =  !$taskPerReq->isCheck;
+        $taskPerReq->save();
+
+        // Dispatch the event once
+        $this->dispatch('reqPerTask');
+    }
+
+
+};
 ?>
 
 

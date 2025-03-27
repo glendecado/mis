@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->string('position')->nullable();
 
-            $table->boolean('isCheck')->nullable();
+            $table->boolean('isCheck')->default(false)->nullable();
 
             $table->timestamps();
         });
