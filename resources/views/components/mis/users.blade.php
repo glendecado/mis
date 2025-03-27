@@ -101,19 +101,22 @@
                 <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->name }}</td>
                 <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->role }}</td>
                 <td class="table-row-cell" @click="Livewire.navigate('/profile/{{$user->id}}')">{{ $user->email }}</td>
-                <td class="table-row-cell relative  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"
+                <td class="table-row-cell relative p-2 text-center"
                     @click="
-                            if ('{{$user->status}}' === 'active') {
-                                if (confirm('Are you sure you want to make this user inactive?')) {
-                                    $wire.userUpdateUser({{$user->id}});
-                                }
-                            } else {
-                                if (confirm('Are you sure you want to make this user active?')) {
-                                    $wire.userUpdateUser({{$user->id}});
-                                }
+                        if ('{{$user->status}}' === 'active') {
+                            if (confirm('Are you sure you want to make this user inactive?')) {
+                                $wire.userUpdateUser({{$user->id}});
                             }
-                        ">
-                    <p class="text-white">{{ ucfirst($user->status) }}</p>
+                        } else {
+                            if (confirm('Are you sure you want to make this user active?')) {
+                                $wire.userUpdateUser({{$user->id}});
+                            }
+                        }
+                    ">
+                    <p class="text-white py-2 px-4 rounded-md inline-block 
+                        {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}">
+                        {{ ucfirst($user->status) }}
+                    </p>
                 </td>
 
             </tr>

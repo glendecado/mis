@@ -37,17 +37,20 @@ $viewCategories = function () {
      }">
 
     <div class="flex flex-col space-y-2">
+    <div class="grid grid-cols-2 gap-2">
         @foreach ($this->viewCategories() as $item)
-        <label class="flex items-center space-x-2">
-            <input type="checkbox"
-                :value="{{ $item->id }}"
-                x-model="selectedCategories"
-                @change="category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]"
-                :disabled="(selectedCategories.length + (openSuggest ? 1 : 0)) >= maxSelection && !selectedCategories.includes('{{ $item->id }}')"
-                class="input">
-            <span>{{ $item->name }}</span>
-        </label>
+            <label class="flex items-center space-x-2">
+                <input type="checkbox"
+                    :value="{{ $item->id }}"
+                    x-model="selectedCategories"
+                    @change="category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]"
+                    :disabled="(selectedCategories.length + (openSuggest ? 1 : 0)) >= maxSelection && !selectedCategories.includes('{{ $item->id }}')"
+                    class="input">
+                <span>{{ $item->name }}</span>
+            </label>
         @endforeach
+    </div>
+
 
         <!-- "Others" Checkbox -->
         <label class="flex items-center space-x-2">
@@ -62,8 +65,8 @@ $viewCategories = function () {
 
     <!-- Label and Input Field for "Others" -->
     <div class="mt-2" x-show="openSuggest">
-        <label class="block font-semibold text-gray-700">Specify Other Category:</label>
-        <input type="text" class="input w-full" placeholder="Type category..."
+        <label class="block font-medium text-gray-700 mb-2">Specific Category</label>
+        <input type="text" class="input w-full" placeholder="Enter category..."
             x-model="otherCategory"
             @input="
                     if (otherCategory.length > otherCategoryMaxLength) {

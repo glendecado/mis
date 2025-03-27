@@ -141,7 +141,7 @@ $updateProfile = function ($type) {
             </div>
 
 
-            <div class="text-md text-black rounded-md p-1 mr-[20px] bg-yellow">
+            <div class="text-md text-black rounded-md p-2 mr-[20px] bg-yellow">
                 <span x-text="role"></span>
             </div>
         </div>

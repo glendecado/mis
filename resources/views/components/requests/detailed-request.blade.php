@@ -4,19 +4,19 @@
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
         <!-- LEFT COLUMN: Faculty Info + Concerns -->
         <div class="bg-white p-4 rounded-md shadow">
-            <div class="flex flex-row items-center justify-between">
+            <div class="flex flex-row items-center justify-between mb-2">
                 <div class="flex items-center justify-center gap-4">
                     <img src="{{asset('storage/'.$req->faculty->user->img)}}" alt="" class="size-16 rounded-full">
                     <div>
                         <span class="text-lg font-bold block">{{$req->faculty->user->name}}</span>
                         <span class="text-sm">
-                            Date: <span class="font-bold">{{$req->created_at->format('Y-m-d')}}</span>
+                            Date: <span class="font-bold">{{$req->created_at->format('m-d-y')}}</span>
                             Time: <span class="font-bold">{{$req->created_at->format('h:i A')}}</span>
                         </span>
                     </div>
                 </div>
 
-                <div class="p-2 text-white text-sm rounded-md leading-none flex bg-[#3D8D7A]">
+                <div class="p-3 text-white text-sm rounded-md leading-none flex bg-[#3D8D7A]">
                     <span class="font-bold">{{ $req->status }}</span>
                 </div>
 
@@ -71,8 +71,8 @@
             @break
             @endswitch
             @else
-            priority level
-            <div class="priority-label"
+            Priority Level
+            <div class="priority-label mb-1"
                 style="background-color:
                                 {{ $req->priorityLevel == 1 ? '#EE4E4E' : 
                                 ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
@@ -90,36 +90,39 @@
             </div>
 
             @endif
-
-            <div class=" mt-4">
-                <span class="font-bold">
-                {{ $req->categories->pluck('category.name')->join(', ') }}
-                {{$req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
-                </span>
-
+            
+            <div class="mt-4 mb-4">
+                <div class="flex flex-row items-center justify-center gap-2 text-[#2e5e91] border rounded-md p-2 h-auto">
+                    <h3 class="font-semibold">Category - </h3>
+                    <span class="font-bold">
+                        {{ $req->categories->pluck('category.name')->join(', ') }}
+                        {{ $req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ') }}
+                    </span>
+                </div>
             </div>
 
             <!-- Location -->
-            <fieldset class="border p-2 rounded-md mt-4">
-                <legend class="font-semibold">Location</legend>
-                <div class="flex gap-4">
+            <div class="mt-3">
+                <h3 class="font-semibold mt-2 mb-1">Location</h3>
+                <div class="flex gap-4 border p-4 h-auto rounded-md">
                     <div>College: <span class="font-bold">{{$req->faculty->college}}</span></div>
                     <div>Building: <span class="font-bold">{{$req->faculty->building}}</span></div>
                     <div>Room: <span class="font-bold">{{$req->faculty->room}}</span></div>
                 </div>
-            </fieldset>
+            </div>
 
             <!-- Concerns Section -->
-            <div class="mt-6">
-                <h3 class="font-semibold mt-4">Concerns</h3>
-                <div class="border p-4 h-56 overflow-auto rounded-lg text-md">
+            <div class="mt-3">
+                <h3 class="font-semibold mt-2 mb-1">Concerns</h3>
+                <div class="border p-4 h-56 overflow-auto rounded-md text-md">
                     {{$req->concerns}}
                 </div>
             </div>
         </div>
 
         <!-- RIGHT COLUMN: Task List + Actions -->
-        <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh]">
+        <div class="bg-white px-4 rounded-md shadow text-[18px] text-blue font-semibold h-[100vh]">
+
             <livewire:assinged-request />
 
             <div class="mt-4">

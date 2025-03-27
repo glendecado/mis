@@ -30,7 +30,7 @@ rules([
     'room' => 'nullable|string|max:50',
 ])->messages([
     'fname.required' => "The first name field is required.",
-    'lname.required' => "The Last name field is required."
+    'lname.required' => "The last name field is required."
 
 ]);
 
@@ -142,7 +142,7 @@ $viewDetailedUser = function () {};
 
 ?>
 
-<div class="bg-blue-50 rounded-md shadow-lg shadow-blue-950/20">
+<div class="bg-blue-50 rounded-md shadow-md shadow-blue-950/20">
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')

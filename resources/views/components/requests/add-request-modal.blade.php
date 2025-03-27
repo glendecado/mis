@@ -1,8 +1,8 @@
 <x-modal name="add-request-modal">
 
-    <h1 class="text-3xl text-center font-bold mb-4" style="color: #2e5e91;">Create Request</h1>
+<h1 class="text-[#2e5e91] text-[28px] text-center font-medium">Service Request Form</h1>
 
-    <div class="y p-4 mt-7"
+    <div class="y p-2 mt-4"
         x-data="
         {
     category : @entangle('category_'),
@@ -12,24 +12,23 @@
         }">
         @include('components.requests.confirm-location')
 
-
-        <fieldset class="border rounded-md p-4">
-            <legend>Category</legend>
+        <h1 class="mb-2">Category</h1>
+        <div class="border rounded-md p-4 mb-2">
             <div class="y">
                 <livewire:categories wire:model="category_" />
-                <textarea
-                    name="" id=""
-                    x-model="concerns"
-                    class="input mt-2"
-                    placeholder="Concerns..."></textarea>
-
                 @error('concerns')
                 <span class="text-red-500"> {{$message}}</span>
                 @enderror
             </div>
-        </fieldset>
+        </div>
 
-
+        <h1 class="mb-2">Concerns</h1>
+        <textarea
+            name="" id=""
+            x-model="concerns"
+            class="input"
+            placeholder="Write your concerns here...">
+        </textarea>
 
         <button
             wire:loading.attr="disabled"
