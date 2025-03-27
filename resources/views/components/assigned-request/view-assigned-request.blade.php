@@ -1,5 +1,4 @@
 @if(session('user')['role'] == 'Mis Staff')
-@include('components.assigned-request.button')
 @include('components.assigned-request.modal')
 @endif
 
