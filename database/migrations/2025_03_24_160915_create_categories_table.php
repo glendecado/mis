@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
 
             $table->string('ifOthers')->nullable();
+
+            $table->boolean('toDefault')->nullable();
+
             $table->timestamps();
         });
     }

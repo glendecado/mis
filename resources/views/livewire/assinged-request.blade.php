@@ -90,7 +90,4 @@ $viewAssigned = function () {
 
     @include('components.assigned-request.view-assigned-request')
 
-
-
-
 </div>

@@ -21,7 +21,9 @@ return new class extends Migration
 
             $table->string('task');
 
-            $table->string('position');
+            $table->string('position')->nullable();
+
+            $table->boolean('isCheck')->nullable();
 
             $table->timestamps();
         });

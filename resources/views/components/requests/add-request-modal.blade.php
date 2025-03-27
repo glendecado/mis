@@ -16,6 +16,18 @@
         <div class="border rounded-md p-4 mb-2">
             <div class="y">
                 <livewire:categories wire:model="category_" />
+<<<<<<< HEAD
+=======
+                @error('category_')
+                <span class="text-red-500"> {{$message}}</span>
+                @enderror
+                <textarea
+                    name="" id=""
+                    x-model="concerns"
+                    class="input mt-2"
+                    placeholder="Concerns..."></textarea>
+
+>>>>>>> upstream/main
                 @error('concerns')
                 <span class="text-red-500"> {{$message}}</span>
                 @enderror

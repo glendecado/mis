@@ -34,7 +34,12 @@
             @case('Mis Staff')
             <div class="mt-2">
                 @if($req->status == 'ongoing' || $req->status == 'resolved')
+<<<<<<< HEAD
                 Priority Level:
+=======
+                Priority level:
+
+>>>>>>> upstream/main
                 <span class="font-bold px-2 py-1 rounded-md"
                     style="background-color: 
                                 {{ $req->priorityLevel == 1 ? '#ef4444' : 
@@ -49,21 +54,31 @@
                 <div class="mb-2">
                     <label for="prio">Priority Level</label>
                     <select id="prio"
-                        class="input border p-2 rounded-md w-full"
+                        class="w-full p-2 border rounded-md transition-all duration-100 ease-in-out
+                        text-white 
+                        bg-red-400 dark:bg-red-500 
+                        focus:outline-none "
                         wire:change="priorityLevelUpdate($event.target.value)"
-                        style="background-color: 
-                            {{ $req->priorityLevel == 1 ? '#EE4E4E' : ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
-                            color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
-                            padding: 6px;
-                            border-radius: 6px;
-                            transition: background-color 0.3s ease;">
+                        :class="{
+                        'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
+                        'bg-yellow dark:bg-yellow text-black': {{ $req->priorityLevel }} == 2,
+                        'bg-green-400 dark:bg-green-500': {{ $req->priorityLevel }} == 3
+                    }">
                         <option value="1" @if($req->priorityLevel == 1) selected @endif
-                            style="background-color: #EE4E4E; color: white;">High</option>
+                            class="bg-red-400 text-white hover:bg-red-500">
+                            High
+                        </option>
                         <option value="2" @if($req->priorityLevel == 2) selected @endif
-                            style="background-color: #FFC145; color: white;">Medium</option>
+                            class="bg-yellow text-black hover:bg-yellow-500">
+                            Medium
+                        </option>
                         <option value="3" @if($req->priorityLevel == 3) selected @endif
-                            style="background-color: #77B254; color: white;">Low</option>
+                            class="bg-green-400 text-white hover:bg-green-500">
+                            Low
+                        </option>
                     </select>
+
+
 
                 </div>
                 @endif
@@ -94,6 +109,7 @@
             </div>
 
             @endif
+<<<<<<< HEAD
             
             <div class="mt-4 mb-4">
                 <div class="flex flex-row items-center justify-center gap-2 text-[#2e5e91] border rounded-md p-2 h-auto">
@@ -103,6 +119,15 @@
                         {{ $req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ') }}
                     </span>
                 </div>
+=======
+
+            <div class=" mt-4">
+                <span class="font-bold">
+                    {{ $req->categories->pluck('category.name')->join(', ') }}
+                    {{$req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
+                </span>
+
+>>>>>>> upstream/main
             </div>
 
             <!-- Location -->
@@ -128,7 +153,7 @@
         <div class="bg-white px-4 rounded-md shadow text-[18px] text-blue font-semibold h-[100vh]">
 
             <livewire:assinged-request />
-
+            
             <div class="mt-4">
                 @switch(session('user')['role'])
                 @case('Mis Staff')

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
@@ -29,8 +30,10 @@ class AssingedRequest extends Notification implements ShouldQueue
     public function __construct(Request $request)
     {
         $user = User::find($request->faculty_id);
-        $category = Category::find($request->category_id);
-        $this->category = $category->name;
+        $categories = Categories::where('request_id', $request->id)->get();
+        $id = $categories->whereNotNull('category_id')->pluck('category_id')->toArray();
+        $category = Category::whereIn('id', $id)->pluck('name')->toArray();
+        $this->category = implode(',', $category);
         $this->name = $user->name;
         $this->img = $user->img;
         $this->date = $request->created_at;

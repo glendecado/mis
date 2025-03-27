@@ -3,6 +3,7 @@
 use App\Events\RequestEvent;
 use App\Models\AssignedRequest;
 use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\FeedbackRating;
@@ -36,6 +37,7 @@ state(['category_' => []]);
 
 rules([
     'concerns' => 'required|min:10',
+    'category_' =>'required',
 ]);
 
 on([
@@ -214,7 +216,6 @@ $addRequest = function () {
 
 
 
-
     foreach ($this->category_ as $categoryName) {
         if (is_numeric($categoryName)) {
             Categories::create([
@@ -222,17 +223,34 @@ $addRequest = function () {
                 'category_id' => $categoryName
             ]);
         } elseif (is_string($categoryName)) {
-            Categories::create([
+            // Create a temporary category entry
+            $categories = Categories::create([
                 'request_id' => $req->id,
                 'ifOthers' => $categoryName
             ]);
+
+            // Check if a category with the same name exists
+            $existingCategory = Category::where('name', ucfirst($categoryName))->first();
+
+            if ($existingCategory) {
+                // Create a new entry using the found category's ID
+                Categories::create([
+                    'request_id' => $req->id,
+                    'category_id' => $existingCategory->id
+                ]);
+
+                // Delete the temporary category entry
+                $categories->delete();
+            }
         }
     }
+
 
     $req->save();
 
     $this->dispatch('success', 'Added Successfully');
     $this->dispatch('close-modal', 'add-request-modal');
+    $this->dispatch('reset-category');
 
 
     //getting the id of mis first then dispatch the event to mis
@@ -242,6 +260,7 @@ $addRequest = function () {
 
     RequestEvent::dispatch($mis->id);
     $this->reload();
+
 };
 
 //delete request
