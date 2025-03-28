@@ -1,6 +1,6 @@
 <x-modal name="add-user-modal">
     <div class="p-2"> <!-- Added padding here -->
-        <h1 class="text-3xl text-center font-bold ml-2" style="color: #2e5e91;">Create New User Account</h1>
+        <h1 class="text-[#2e5e91] text-[28px] text-center font-medium">Create New User Account</h1>
         <form wire:submit.prevent="addUser">
             <div class='y gap-2 p-2' x-data="{ <!-- Added padding here -->
                 role: @entangle('role'),
@@ -26,12 +26,12 @@
                 {{-- First Name and Last Name --}}
                 <div class='md:x y gap-2 mt-2'> <!-- Added padding here -->
                     <div class='y basis-1/2'>
-                        <label for="fname" class="label mb-2">First Name</label>
+                        <label for="fname" class="label mb-2">First Name <span class="text-red-500">*</span></label>
                         <input type="text" id="fname" class="input" x-model="fname">
                         @error('fname') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
                     </div>
                     <div class='y basis-1/2'>
-                        <label for="lname" class="label mb-2">Last Name</label>
+                        <label for="lname" class="label mb-2">Last Name <span class="text-red-500">*</span></label>
                         <input type="text" id="lname" class="input" x-model="lname">
                         @error('lname') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
                     </div>
@@ -41,7 +41,7 @@
                 <div class="flex flex-col md:flex-row gap-4 mt-2" x-show="role == 'Faculty'">
                     <!-- College -->
                     <div class="w-full">
-                        <label for="college" class="label mb-2">College</label>
+                        <label for="college" class="label mb-2">College <span class="text-red-500">*</span></label>
                         <select id="college" class="input w-full p-2 border border-gray-300 rounded-md" x-model="college">
                             <option value="CAS">CAS</option>
                             <option value="CIT">CIT</option>
@@ -53,14 +53,14 @@
 
                     <!-- Building -->
                     <div class="w-full">
-                        <label for="building" class="label mb-2">Building</label>
+                        <label for="building" class="label mb-2">Building <span class="text-red-500">*</span></label>
                         <input type="text" id="building" class="input w-full p-2 border border-gray-300 rounded-md" x-model="building">
                         @error('building') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Room -->
                     <div class="w-full">
-                        <label for="room" class="label mb-2">Room</label>
+                        <label for="room" class="label mb-2">Room <span class="text-red-500">*</span></label>
                         <input type="text" id="room" class="input w-full p-2 border border-gray-300 rounded-md" x-model="room">
                         @error('room') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                     </div>
@@ -68,14 +68,14 @@
 
                 {{-- Email --}}
                 <div class="y mt-2"> <!-- Added padding here -->
-                    <label for="email" class="label mb-2">Email</label>
+                    <label for="email" class="label mb-2">Email <span class="text-red-500">*</span></label>
                     <input type="text" id="email" class="input" x-model="email">
                     @error('email') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
                 </div>
 
                 {{-- Password --}}
                 <div class="y relative mt-2" x-data="{ show: false }"> <!-- Added padding here -->
-                    <label for="password" class="label mb-2">Password</label>
+                    <label for="password" class="label mb-2">Password <span class="text-red-500">*</span></label>
                     <input :type="show ? 'text' : 'password'" id="password" class="input relative" x-model="password">
                     <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="size-6" style="position: absolute; top: 37px; right: 10px;">
@@ -86,7 +86,7 @@
                     @error('password') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
                 </div>
 
-                <button type="submit" class="button mt-2" style="color: white; background-color: #2e5e91;">Ceate User</button> <!-- Added padding here -->
+                <button type="submit" class="button mt-2" style="color: white; background-color: #2e5e91;">Create User</button> <!-- Added padding here -->
             </div>
         </form>
     </div>

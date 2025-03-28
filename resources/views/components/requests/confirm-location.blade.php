@@ -5,7 +5,7 @@
         building: @entangle('building'),
         room: @entangle('room')
     }">
-        <fieldset class="border p-2 rounded-md flex justify-between">
+        <fieldset class="border p-4 rounded-md flex justify-between items-center">
             <legend>Location</legend>
             <div>College: <span x-text="college" class="font-bold"></span></div>
             <div>Building: <span x-text="building" class="font-bold"></span></div>

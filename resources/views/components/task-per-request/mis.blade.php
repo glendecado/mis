@@ -8,7 +8,9 @@
 
 
     @if (count($this->notDefault) == 0 && count($this->categories->toArray()) == 1)
-        <h1>No task available for this category.</h1>
+        <div class="p-2 border border-red-500 rounded-md">
+            <p class="text-[16px] text-center text-red-500">ⓘ No task available for this category.</p>
+        </div>
     @endif
 @else
     @if ($taskPerReq->isEmpty())
@@ -16,7 +18,7 @@
         @include('components.task-per-request.modal')
     @else
         @foreach ($taskPerReq as $task)
-            <div class="border p-2 rounded-md mb-7">
+            <div class="border p-2 rounded-md mb-2 bg-gray-100 text-[16px] font-thin">
                 {{ $task->task }}
             </div>
         @endforeach
