@@ -37,7 +37,7 @@
         <button
             wire:loading.attr="disabled"
             wire:click.prevent="addRequest"
-            class="button mt-4" style="color: white; background-color: #2e5e91; ">
+            class="button mt-4 text-white bg-[#2e5e91]">
             Submit
         </button>
 
@@ -69,7 +69,7 @@
 
         <!-- Disable button if any of the fields are empty -->
         <button
-            class="button mt-4" style="color: white; background-color: #2e5e91; "
+            class="button mt-4 text-white bg-[#2e5e91]"
             :disabled="!college || !building || !room"
             @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
             Update Location

@@ -32,7 +32,7 @@
                         @case('Mis Staff')
                             <div class="mt-2">
                                 @if ($req->status == 'ongoing' || $req->status == 'resolved')
-                                    Priority level:
+                                    Priority Level:
 
                                     <span class="font-bold px-2 py-1 rounded-md"
                                         style="background-color: 
@@ -79,7 +79,7 @@
                         @break
                     @endswitch
                 @else
-                    Priority level
+                    Priority Level
                     <div class="priority-label"
                         style="background-color:
                                 {{ $req->priorityLevel == 1 ? '#EE4E4E' : ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
@@ -130,8 +130,9 @@
             <!-- RIGHT COLUMN: Task List + Actions -->
             <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
 
+                <livewire:assinged-request />
 
-                <div class="mt-4">
+                <div class="mt-2">
                     @switch(session('user')['role'])
                         @case('Mis Staff')
                             @include('components.requests.mis')
@@ -146,7 +147,7 @@
                         @break
                     @endswitch
                 </div>
-                <livewire:assinged-request />
+
                 <!-- Add Rate & Feedback Section Here -->
                 @include('components.requests.rateAndFeedback')
             </div>

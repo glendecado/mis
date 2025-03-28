@@ -7,7 +7,7 @@
 @case('pending')
 <div class="">
     <div class="w-full">
-        <button class="button mt-2 float-right" style="color: white; background-color: #2e5e91; font-size: 16px;" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
+        <button class="button float-right text-white bg-[#2e5e91] text-[16px]" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
     </div>
 </div>
 @break
@@ -15,13 +15,12 @@
 
 @case('ongoing')
 <div class="">
-    <p class="mb-2" style="color: #2e5e91; font-size: 16px">Task To Do</p>
     <livewire:task-per-requests/>
 
-    <div class="">
-        <div
-            class="rounded-md p-2 text-white text-sm transition-all" style="background-color: #3E7B27; width: {{$req->progress}}%" ;>
-            {{$req->progress}}%
+    <div class="w-full border border-[#3E7B27] rounded-md overflow-hidden">
+        <div class="rounded-md p-2 text-white text-sm transition-all bg-[#3E7B27]" 
+            style="width: {{ intval($req->progress) }}%;">
+            {{ intval($req->progress) }}%
         </div>
     </div>
 </div>

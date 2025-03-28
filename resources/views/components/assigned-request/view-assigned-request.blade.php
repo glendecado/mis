@@ -1,13 +1,8 @@
-@if(session('user')['role'] == 'Mis Staff')
-@include('components.assigned-request.modal')
-@endif
-
-
 @if(!empty($this->viewAssigned()))
 <div class="flex flex-col y gap-2 bg-white text-black rounded-md mt-4">
-    <span style="color: #2e5e91; font-size: 18px;">Assigned Technical Staff</span>
+    <span class="text-[18px] text-[#2e5e91]">Assigned Technical Staff</span>
     @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
-    <div class="flex items-center gap-2 border p-2 mb-2 rounded-md relative flex-wrap" style="font-size: 16px;">
+    <div class="flex items-center gap-2 border p-2 mb-2 rounded-md relative flex-wrap">
 
 
         <img src="{{asset('storage/'. $tech->user->img)}}" alt=""
@@ -30,4 +25,8 @@
     </div>
     @endforeach
 </div>
+@endif
+
+@if(session('user')['role'] == 'Mis Staff')
+@include('components.assigned-request.modal')
 @endif

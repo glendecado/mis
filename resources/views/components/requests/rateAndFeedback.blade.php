@@ -1,5 +1,5 @@
 @if ($req->rate !== null)
-<div class="p-2 rounded-md m-0 mt-4" style="background-color: #2e5e91; font-size: 16px;">
+<div class="p-2 rounded-md m-0 mt-4 text-[16px] bg-[#2e5e91]">
     <div x-data="{ rating: {{ $req->rate }} }" class="mb-4">
         <label class="block mb-2 font-bold text-white">Rate: {{ $req->rate }} stars</label>
         <div class="flex">

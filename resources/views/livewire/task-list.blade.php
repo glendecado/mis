@@ -130,7 +130,7 @@ $updateList = function ($item, $pos) {
     <div class="md:x y gap-2 flex items-center justify-between">
         <div class="flex flex-row items-start gap-2 w-[100%] md:w-full">
             <div class="w-[80%] md:w-full">
-                <input type="text" wire:model="task" class="input w-full" style="border: 1px solid #2e5e91;" placeholder="Enter task item...">
+                <input type="text" wire:model="task" class="input w-full border bg-[#2e5e91]" placeholder="Enter task item...">
 
                 <!-- Show error message if there's an error for the 'task' field -->
                 @error('task')
@@ -139,7 +139,7 @@ $updateList = function ($item, $pos) {
             </div>
 
             <div class="flex-none">
-                <button class="w-20 text-white font-medium rounded-md px-4 py-2 text-lg" style="background-color: #3E7B27" wire:click.prevent="addTaskList">Add</button>
+                <button class="w-20 text-white font-medium rounded-md px-4 py-2 text-lg bg-[#3E7B27]" wire:click.prevent="addTaskList">Add</button>
             </div>
         </div>
     </div>
@@ -151,8 +151,8 @@ $updateList = function ($item, $pos) {
     @case('request')
     @if($this->viewTaskList()->isEmpty())
     <div class="flex flex-col">
-        <span class="text-red-500 font-semibold" style="font-size: 16px;">No Task List Found.</span>
-        <a href="/category" class="text-blue underline" style="font-size: 16px;">Proceed to this link to add task on a category...</a>
+        <span class="text-red-500 font-semibold text-[16px]">No Task List Found.</span>
+        <a href="/category" class="text-blue underline text-[16px]">Proceed to this link to add task on a category...</a>
     </div>
     @else
     <div class="float-end">
