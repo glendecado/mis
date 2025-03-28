@@ -1,48 +1,61 @@
 @php
-$i = 0; // Initialize loop counter
+    $i = 0; // Initialize loop counter
 
 @endphp
 
 <div class="flex flex-col">
-    {{$checked}}
+    {{ $checked }}
     @foreach ($taskPerReq as $list)
-    <div class="flex">
-        {{-- Check --}}
-        @if($list->isCheck)
-        <div>
-            [/]
-        </div>
-        @else
-        <div>
-            []
-        </div>
-        @endif
+        <div class="flex">
+            {{-- Check --}}
 
-        @if($list->isCheck)
-        @if($i < $checked - 1)
-            <div class="bg-blue-600 mt-1 rounded-md text-white text-sm w-full">
-            {{$list->task}}
-    </div>
-    @else
-    <div @click="$wire.checkTask({{$list->id}})" class="bg-blue mt-1 rounded-md text-white text-sm w-full">
-        {{$list->task}}/
-    </div>
-    @endif
-    @else
-    @if($i > $checked)
-    <div class="border bg-blue-600 mt-1 rounded-md text-white text-sm w-full">
-        {{$list->task}}-
-    </div>
-    @else
-    <div @click="$wire.checkTask({{$list->id}})" class="bg-blue mt-1 rounded-md text-white text-sm w-full">
-        {{$list->task}}
-    </div>
-    @endif
-    @endif
+            {{--the check button--}}
+            @if ($list->isCheck)
+                <div>
+                    [/]
+                </div>
+            @else
+                <div>
+                    []
+                </div>
+            @endif
 
-    @php
-    $i++;
-    @endphp
-</div> {{-- Closing for .flex --}}
-@endforeach
-</div> {{-- Closing for .flex-col --}}
+            {{--if checked--}}
+            @switch ($list->isCheck)
+
+            @case(1)
+                {{--disabled button--}}
+                @if ($i < $checked - 1)
+                    <button disabled class="bg-blue-600 mt-1 rounded-md text-white text-sm w-full">
+                        {{ $list->task }}
+                    </button>
+                @else
+                    <button type="button" @click="$wire.checkTask({{ $list->id }})"
+                        class="bg-blue mt-1 rounded-md text-white text-sm w-full">
+                        {{ $list->task }}
+                    </button>
+                @endif
+            @break
+            {{--for not checked--}}
+            {{--if checked--}}
+            
+            @case(0)
+                @if ($i > $checked)
+                    <button disabled class="border bg-blue-600 mt-1 rounded-md text-white text-sm w-full">
+                        {{ $list->task }}-
+                    </button>
+                @else
+                    <button type="button" @click="$wire.checkTask({{ $list->id }})"
+                        class="bg-blue mt-1 rounded-md text-white text-sm w-full">
+                        {{ $list->task }}
+                    </button>
+                @endif
+            @break
+            @endswitch
+
+            @php
+                $i++;
+            @endphp
+        </div> 
+    @endforeach
+</div> 
