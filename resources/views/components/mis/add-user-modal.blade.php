@@ -86,7 +86,7 @@
                     @error('password') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
                 </div>
 
-                <button type="submit" class="button mt-2" style="color: white; background-color: #2e5e91;">Create User</button> <!-- Added padding here -->
+                <button type="submit" class="button mt-2 text-white bg-[#2e5e91]">Create User</button> <!-- Added padding here -->
             </div>
         </form>
     </div>

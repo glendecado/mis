@@ -69,7 +69,7 @@ $login = function () {
 <div class="w-full h-screen flex flex-col items-center justify-center bg-blue-50 px-4">
     <div class="w-full flex justify-center m-4"> <!-- Changed justify-end to justify-center -->
         <div
-            class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10" style="background-color: #2e5e91;">
+            class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 bg-[#2e5e91]">
             <div class="flex items-center gap-2 justify-center mb-2">
                 <img src="{{ asset('storage/profile_images/default/ISAT-U-logo.png') }}" alt="ISAT-U Logo" class="size-10">
                 <p class="text-white font-medium text-xl font-geist">MIS Service Request Portal</p>
@@ -130,7 +130,7 @@ $login = function () {
                         @endif
                     </div>
 
-                    <div class="float-right w-24 group" style="margin-top: 24px;">
+                    <div class="float-right w-24 group mt-4">
                         <button type="submit"
                             class="text-blue-500 font-geist w-full rounded-md bg-blue-50 px-3 py-2 focus:bg-yellow focus:outline-none hover:bg-yellow hover:text-black transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-950/50">
                             Sign in

@@ -19,7 +19,7 @@
     </div>
 
     <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
-        <thead class="table-header rounded-md hidden md:table-header-group " style="background-color: #2e5e91;">
+        <thead class="table-header rounded-md hidden md:table-header-group bg-[#2e5e91]">
             <tr>
                 @if(session('user')['role'] != 'Faculty')
                 <th class="table-header-cell">Name</th>
@@ -200,8 +200,7 @@
             <!-- Action Buttons -->
             <div class="mt-4 flex justify-end gap-2">
                 <button @click="Livewire.navigate('/request/{{$request->id}}')"
-                    class="text-white text-sm px-4 py-2 rounded-md"
-                    style="background-color: #2e5e91;">
+                    class="text-white text-sm px-4 py-2 rounded-md bg-[#2e5e91]">
                     View
                 </button>
                 @if(session('user')['role'] == 'Faculty')

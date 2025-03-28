@@ -17,7 +17,7 @@
     </div>
 
     <table class="min-w-full break-all">
-        <thead class="table-header" style="background-color: #2e5e91;">
+        <thead class="table-header bg-[#2e5e91]">
             <tr>
                 <th class="table-header-cell">Name</th>
                 <th class="table-header-cell relative">
@@ -165,7 +165,7 @@
             <div class="mt-4 flex justify-end gap-2 ">
                 <button
                     @click="Livewire.navigate('/profile/{{$user->id}}')"
-                    class="text-white text-sm px-2 py-2 rounded-md" style="background-color: #2e5e91;">
+                    class="text-white text-sm px-2 py-2 rounded-md bg-[#2e5e91]">
                     View
                 </button>
                 <button class="p-2 relative rounded-md  {{$user->status == 'active' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}}"

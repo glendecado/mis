@@ -122,7 +122,8 @@ $checkTask = function ($id) {
         $part = $this->checked;
         $whole = $this->taskPerReq->count();
 
-        $totalPercent = ($whole > 0) ? ($part / $whole) * 100 : 0;
+        // Ensure percentage is a whole number
+        $totalPercent = ($whole > 0) ? round(($part / $whole) * 100) : 0;
         $this->request->progress = $totalPercent;
         $this->request->save();
     }
