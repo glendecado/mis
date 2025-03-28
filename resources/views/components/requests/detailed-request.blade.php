@@ -130,8 +130,6 @@
             <!-- RIGHT COLUMN: Task List + Actions -->
             <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
 
-                <livewire:assinged-request />
-
                 <div class="mt-2">
                     @switch(session('user')['role'])
                         @case('Mis Staff')
@@ -147,6 +145,8 @@
                         @break
                     @endswitch
                 </div>
+
+                <livewire:assinged-request />
 
                 <!-- Add Rate & Feedback Section Here -->
                 @include('components.requests.rateAndFeedback')
