@@ -1,13 +1,11 @@
   <!-- Open Modal Button -->
-  <button @click="$dispatch('open-modal', 'add-task-modal')" class="button">
-        Select Task List
+    <button @click="$dispatch('open-modal', 'add-task-modal')" class="p-2 border border-[#2e5e91] text-[18px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
+        Add Task List
     </button>
 
     <!-- Modal -->
     <x-modal name="add-task-modal">
         <div class="p-4">
-            <h2 class="text-lg font-bold mb-3">Select Tasks</h2>
-
             <!-- Task Checklist -->
             <div class="flex flex-col gap-2"
                 x-data="{ 
@@ -34,34 +32,35 @@
             }
 
             }">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-[28px] mb-2 font-medium text-[#2e5e91]">Category Task List</h2>
 
+                    <label class="text-sm cursor-pointer flex items-center justify-end space-x-2 mt-3 mb-3">
 
-                <label class="text-sm cursor-pointer flex items-center space-x-2">
-                    <input type="checkbox"
-                        x-model="selectAll"
-                        @change="selectAll ? selectAllFunction() : unselectAllFunction()"
-                        class="hidden peer">
+                        <input type="checkbox"
+                            x-model="selectAll"
+                            @change="selectAll ? selectAllFunction() : unselectAllFunction()"
+                            class="hidden peer">
 
-                    <!-- Checkbox UI -->
-                    <div class="w-5 h-5 flex items-center justify-center border border-gray-400 rounded-full 
-                peer-checked:bg-blue transition-all duration-300">
-                        <span class="text-white text-xs peer-checked:opacity-100 transition-all duration-200">✔</span>
-                    </div>
-
-                    <span>Select all</span>
-                </label>
-
-
-                <template x-for="(task, id) in taskList" :key="id">
-                    <label class="flex items-center space-x-2 p-2 border rounded">
-                        <input type="checkbox" x-model="selectedTaskList" :value="id" class="form-checkbox hidden peer" @change="selectCondition;">
-                        <!-- Checkbox UI -->
-                        <div class="w-5 h-5 flex items-center justify-center border border-blue rounded-full 
-                peer-checked:bg-blue transition-all duration-300">
+                        <div class="w-5 h-5 flex items-center justify-center border border-gray-400 rounded-full peer-checked:bg-green-500 transition-all duration-300">
                             <span class="text-white text-xs peer-checked:opacity-100 transition-all duration-200">✔</span>
                         </div>
 
-                        <span x-text="task"></span>
+                        <span>Select All</span>
+                    </label>
+                </div>
+
+                <div class="h-[1px] w-full bg-[#2e5e91] mb-2"></div>
+
+
+                <template x-for="(task, id) in taskList" :key="id">
+                    <label class="flex items-center space-x-2 p-2 border rounded bg-gray-100">
+                        <input type="checkbox" x-model="selectedTaskList" :value="id" class="form-checkbox hidden peer" @change="selectCondition">
+                        <div class="w-5 h-5 flex items-center justify-center border border-gray-400 rounded-full peer-checked:bg-green-500 transition-all duration-300">
+                            <span class="text-white text-xs peer-checked:opacity-100 transition-all duration-200">✔</span>
+                        </div>
+
+                        <span x-text="task" class="text-[14px] text-black font-thin"></span>
                     </label>
                 </template>
             </div>
@@ -69,7 +68,7 @@
 
             <!-- Confirm Button -->
             <div class="mt-4">
-                <button wire:click="confirmTask" class="button-primary">
+                <button wire:click="confirmTask" class="button text-[16px] w-full">
                     Confirm
                 </button>
             </div>

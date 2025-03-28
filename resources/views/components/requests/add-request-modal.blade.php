@@ -1,6 +1,6 @@
 <x-modal name="add-request-modal">
 
-    <h1 class="text-3xl text-center font-bold mb-4" style="color: #2e5e91;">Create Request</h1>
+    <h1 class="text-[#2e5e91] text-[28px] text-center font-medium">Service Request Form</h1>
 
     <div class="y p-4 mt-7"
         x-data="

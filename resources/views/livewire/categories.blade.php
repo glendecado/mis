@@ -71,8 +71,8 @@ $viewCategories = function () {
 
     <!-- Label and Input Field for "Others" -->
     <div class="mt-2" x-show="openSuggest">
-        <label class="block font-semibold text-gray-700">Specify Other Category:</label>
-        <input type="text" class="input w-full" placeholder="Type category..."
+        <label class="block font-medium mb-1 text-gray-700">Specify Category</label>
+        <input type="text" class="input w-full" placeholder="Enter category..."
             x-model="otherCategory"
             @input="otherCategory = otherCategory.trimStart().replace(/^\s+/, '');
                     if (otherCategory.length > otherCategoryMaxLength) {

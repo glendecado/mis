@@ -13,12 +13,12 @@
 
         <x-notif />
 
-        <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white" x-data="{open : false}" @click="open = !open">
+        <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white border border-gray-100 rounded-md" x-data="{open : false}" @click="open = !open">
             <div class="flex items-center gap-2 ">
 
                 <div class="flex flex-col justify-center w-full items-center">
 
-                    <div class="md:block hidden w-32 text-center truncate text-sm ">
+                    <div class="md:block hidden w-32 text-center truncate text-sm">
                         {{ session('user')['email'] }}
                     </div>
 

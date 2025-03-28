@@ -63,7 +63,7 @@ $addCategory = function ($category) {
 <div class="basis-full">
 
     <div x-data="{ selectedCategoryId: null }" class="h-full p-2 table-container rounded-md"> <!-- Removed overflow-auto -->
-        <div class="p-2 transition-all space-y-3"> <!-- Improved spacing between categories -->
+        <div class="p-4 transition-all space-y-"> <!-- Improved spacing between categories -->
             @foreach($this->viewCategory() as $category)
             <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-[#2e5e91] mt-2 rounded-b-md' : 'mt-2'">
                 <div
@@ -96,14 +96,14 @@ $addCategory = function ($category) {
                 </div>
             </div>
             @endforeach
-            <div x-data="{ input: '' }" class="mt-4">
+            <div x-data="{ input: '' }" class="mt-4 flex flex-row items-center justify-start">
                 <div class="relative w-full max-w-xs">
-                    <input type="text" x-model="input" class="input pr-20 p-3 w-full" style="height: 50px;" placeholder="Enter category...">
-
-                    <button type="button" :disabled="!input" @click="$wire.addCategory(input)" class="absolute right-0 top-0 bottom-0 px-4 text-white border-0 rounded-md m-2 z-10" style="background-color: #3E7B27;">
-                        Submit
-                    </button>
+                    <input type="text" x-model="input" class="input pr-20 p-3 w-full h-[50px]" placeholder="Enter category...">
                 </div>
+                
+                <button type="button" :disabled="!input" @click="$wire.addCategory(input)" class="px-4 text-white rounded-md m-2 bg-[#3E7B27] h-[50px] cursor-pointer">
+                        Submit
+                </button>
 
             </div>
         </div>

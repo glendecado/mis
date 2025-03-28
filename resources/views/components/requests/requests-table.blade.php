@@ -91,7 +91,7 @@
         <tbody>
             @if($this->viewRequest()->isEmpty())
             <tr class="text-center">
-                <td colspan="6">N/A</td>
+                <td colspan="6">No items found.</td>
             </tr>
             @else
             @foreach ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
@@ -124,7 +124,7 @@
                 </td>
                 @endif
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
-                    {{ $request->created_at->format('Y-m-d') }}
+                    {{ $request->created_at->format('m-d-y') }}
                 </td>
                 <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
                     {{ ucfirst($request->status) }}
@@ -184,7 +184,7 @@
             </div>
             <div class="flex justify-between">
                 <div class="font-semibold text-gray-900">Date:</div>
-                <div class="text-gray-900">{{ $request->created_at->format('Y-m-d') }}</div>
+                <div class="text-gray-900">{{ $request->created_at->format('m-d-y') }}</div>
             </div>
             <div class="flex justify-between">
                 <div class="font-semibold text-gray-900">Status:</div>

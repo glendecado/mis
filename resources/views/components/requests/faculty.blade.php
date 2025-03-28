@@ -1,14 +1,13 @@
 @if($req->status == 'declined')
-<h1 class="text-red-500">Request Declined</h1>
+<h1 class="text-red-500 text-[16px] text-center border border-red-500 p-2 rounded-md">ⓘ Request Declined.</h1>
 @elseif($req->status == 'waiting')
-<h1 class="text-red-500">Waiting your request to accept</h1>
+<h1 class="text-red-500 text-[16px] text-center border border-red-500 p-2 rounded-md">ⓘ Waiting for your request to be accepted.</h1>
 @else
 
 
-    
-<p class="mb-2 text-blue text-[18px]">Task Progress</p>
+<p class="mb-2 text-blue text-[24px]">Task Progress</p>
 
-<div class="rounded-md">
+<div class="rounded-md bg-gray-100">
 
     <div
         class="rounded-md p-2 text-white text-sm bg-[#3E7B27]" style="width: {{$req->progress}}%" ;>
