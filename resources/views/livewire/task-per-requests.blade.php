@@ -1,7 +1,9 @@
 <?php
 
+use App\Events\RequestEvent;
 use App\Models\Categories;
 use App\Models\Category;
+use App\Models\Request;
 use App\Models\TaskList;
 use App\Models\TaskPerRequest;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +14,13 @@ state('taskList', []);
 state('selectedTaskList', []);
 state('taskPerReq', []);
 state('notDefault');
+state('checked');
+state('request');
 
 on(['reqPerTask' => function () {
     $this->taskPerReq = DB::table('task_per_requests')->where('request_id', session()->get('requestId'))->get();
+    $this->checked = $this->taskPerReq->where('isCheck', 1)->count();  
+
 }]);
 
 
@@ -42,6 +48,8 @@ mount(function () {
         ->whereNotNull('ifOthers') // Filters out records where 'ifOthers' is NULL
         ->where('toDefault', '!==', 0) // Filters out records where 'toDefault' is exactly false
         ->toArray(); // Converts the result to an array
+
+    $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 
 });
 
@@ -91,23 +99,37 @@ $toDefaultCategory = function ($name, $decide) {
     }
 };
 
-$checkTask = function($id){
-    $part = $this->taskPerReq->whereNotNull('isCheck')->count();
-    $whole = $this->taskPerReq->count();
+$checkTask = function ($id) {
 
     $taskPerReq = TaskPerRequest::find($id);
 
     if ($taskPerReq) {
-        // Toggle isCheck value efficiently
-        $taskPerReq->isCheck =  !$taskPerReq->isCheck;
+        // Toggle isCheck value
+        $taskPerReq->isCheck = !$taskPerReq->isCheck;
         $taskPerReq->save();
 
-        // Dispatch the event once
+        // Update checked count
+        $this->taskPerReq = TaskPerRequest::where('request_id', session('requestId'))->get();
+        $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
+
         $this->dispatch('reqPerTask');
     }
 
+    // Fetch request model
+    $this->request = Request::find(session('requestId'));
 
+    if ($this->request && $this->taskPerReq->count() > 0) {
+        $part = $this->checked;
+        $whole = $this->taskPerReq->count();
+
+        $totalPercent = ($whole > 0) ? ($part / $whole) * 100 : 0;
+        $this->request->progress = $totalPercent;
+        $this->request->save();
+    }
+
+    $this->dispatch('view-detailed-request');
 };
+
 ?>
 
 

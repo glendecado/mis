@@ -1,9 +1,10 @@
 @php
 $i = 0; // Initialize loop counter
-$checked = $taskPerReq->where('isCheck', 1)->count();
+
 @endphp
 
 <div class="flex flex-col">
+    {{$checked}}
     @foreach ($taskPerReq as $list)
     <div class="flex">
         {{-- Check --}}
