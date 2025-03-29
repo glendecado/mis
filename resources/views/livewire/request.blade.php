@@ -130,22 +130,22 @@ $checkPriorityLevel = function () {
 
     if (!empty($requestPrioLvl) && session('user')['role'] == 'Technical Staff') {
 
-        
+
         $num = $requestPrioLvl[0];
 
         switch ($num) {
             case 2:
-                if ($lvl1 > 0 ) {
+                if ($lvl1 > 0) {
+                    //You have unfinished high-priority requests!
                     return $this->redirect('/request?status=all', navigate: true);
                 }
                 break;
 
             case 3:
-  
-                if ($lvl1 > 0 || $lvl2 > 0 ) {
+                    //You have unfinished mid-priority requests!
+                if ($lvl1 > 0 || $lvl2 > 0) {
                     return $this->redirect('/request?status=all', navigate: true);
                 }
-
                 break;
         }
     }
@@ -380,6 +380,27 @@ $feedbackAndRate = function ($rating, $feedback) {
 
 
 
+@if(DB::table('requests')
+    ->where('status', 'resolved')
+    ->where('faculty_id', session('user')['id'])
+    ->whereNull('rate')
+    ->count())
+
+    <div class="bg-yellow border-l-4 border-yellow p-4 mb-4">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                ⚠️
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-yellow-700">
+                    You have resolved requests that need rating!
+                    <a class="font-medium underline">Rate now</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    @endif
 
     @include('components.requests.view')
 
@@ -392,8 +413,6 @@ $feedbackAndRate = function ($rating, $feedback) {
      ">
 
     </div>
-
-
 
 
 </div>

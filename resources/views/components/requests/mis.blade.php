@@ -1,7 +1,7 @@
 {{--task--}}
 <livewire:assinged-request />
-@include('components.assigned-request.button')
-<div class="mt-16">
+
+<div class="">
     @switch($req->status)
 
     @case('waiting')
@@ -21,18 +21,18 @@
 
 
     @case('pending')
+    @case('ongoing')    
+    @case('resolved')
+    
+    @if($req->status == 'pending')
+    @include('components.assigned-request.button')
+    @endif
+ 
     <div>
         <p class="text-[24px] text-[#2e5e91] mb-2">Category Task List</p>
         <livewire:task-per-requests />
     </div>
-    @break
 
-    @case('ongoing')
-
-    @break
-
-    @case('resolved')
-    
     @break
 
 

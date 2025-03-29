@@ -5,11 +5,11 @@
 
 
 @case('pending')
-<div class="">
-    <div class="w-full">
+
+    <div class="w-full flex justify-end">
         <button class="button float-right text-white bg-[#2e5e91] text-[16px]" wire:click.prevent="updateStatus('ongoing') ">Begin</button>
     </div>
-</div>
+
 @break
 
 

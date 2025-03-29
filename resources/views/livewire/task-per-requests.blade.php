@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Request;
 use App\Models\TaskList;
 use App\Models\TaskPerRequest;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use function Livewire\Volt\{mount, on, state};
 
@@ -125,9 +126,14 @@ $checkTask = function ($id) {
         // Ensure percentage is a whole number
         $totalPercent = ($whole > 0) ? round(($part / $whole) * 100) : 0;
         $this->request->progress = $totalPercent;
+
+        if ($totalPercent === 100.0) {
+            $this->request->status = 'resolved';
+        }
+
         $this->request->save();
     }
-
+    Cache::forget('requests');
     $this->dispatch('view-detailed-request');
 };
 
