@@ -148,6 +148,8 @@
                     @endswitch
                 </div>
 
+                <livewire:assinged-request />
+
                 <!-- Add Rate & Feedback Section Here -->
                 @include('components.requests.rateAndFeedback')
             </div>

@@ -1,14 +1,14 @@
 @if(!empty($this->viewAssigned()))
 <div class="flex flex-col y gap-2 bg-white text-black rounded-md mt-4">
-    <span class="text-[18px] text-[#2e5e91]">Assigned Technical Staff</span>
+    <span class="text-[16px] text-[#2e5e91]">Assigned Technical Staff</span>
     @foreach($this->viewTechStaff($this->viewAssigned()) as $tech)
-    <div class="flex items-center gap-2 border p-2 mb-2 rounded-md relative flex-wrap">
+    <div class="flex items-center gap-2 border p-2 rounded-md relative flex-wrap">
 
 
         <img src="{{asset('storage/'. $tech->user->img)}}" alt=""
-            class="rounded-full size-[3vw] md:size-16">
+            class="rounded-full size-[3vw] md:size-10">
 
-        <span class="md:text-lg text-[3vw]">{{$tech->user->name}}</span>
+        <span class="text-[12px]">{{$tech->user->name}}</span>
 
 
 
