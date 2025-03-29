@@ -1,9 +1,11 @@
 {{--task--}}
-<div class="">
+<livewire:assinged-request />
+@include('components.assigned-request.button')
+<div class="mt-16">
     @switch($req->status)
 
     @case('waiting')
-    <div class="h-fit p-2 text-white flex justify-between items-center p-4 flex-wrap rounded-md bg-[#2e5e91]">
+    <div class="h-fit text-white flex justify-between items-center p-4 flex-wrap rounded-md bg-[#2e5e91]">
 
         <div class="font-semibold text-[16px]">
             <p>Would you accept the request?</p>
@@ -42,3 +44,4 @@
 
     @endswitch
 </div>
+

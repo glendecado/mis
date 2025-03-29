@@ -22,7 +22,7 @@
                 {{ $task->task }}
             </div>
         @endforeach
-        @include('components.assigned-request.button')
+
     @endif
 
 

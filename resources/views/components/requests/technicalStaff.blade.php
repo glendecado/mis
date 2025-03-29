@@ -34,3 +34,5 @@
 @break
 
 @endswitch
+
+<livewire:assinged-request />
