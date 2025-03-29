@@ -187,4 +187,71 @@ $techStaffMetrics = function () {
             <canvas x-ref="chartCanvas" class="mt-2 rounded-mb border"></canvas>
         </div>
     </div>
+
+    <div class="px-10 py-6">
+
+
+        <!-- Performance Summary Table -->
+        <div class="mt-6 bg-white p-4 rounded-md shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Staff Performance Summary</h3>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-3 text-left border">Metric</th>
+                        <th class="p-3 text-left border">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-3 border"><strong>Average Rating</strong></td>
+                        <td class="p-3 border">{{ number_format($totalRatings, 1) }} / 5</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-3 border"><strong>Total Assigned Requests</strong></td>
+                        <td class="p-3 border">{{ $totalAssignedRequests }}</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 border"><strong>Requests Completed</strong></td>
+                        <td class="p-3 border">{{ $totalRequestsCompleted }}</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="p-3 border"><strong>Completion Rate</strong></td>
+                        <td class="p-3 border">{{ $completionRate }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Detailed Metrics Table -->
+        <div class="mt-6 bg-white p-4 rounded-md shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Detailed Performance Metrics</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-3 text-left border">Date/Time Period</th>
+                            <th class="p-3 text-left border">Assigned Requests</th>
+                            <th class="p-3 text-left border">Requests Resolved</th>
+                            <th class="p-3 text-left border">Completion Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($this->techStaffMetrics() as $metric)
+                        <tr class="{{ $loop->even ? 'bg-gray-50' : '' }}">
+                            <td class="p-3 border">{{ $metric->date ?? ($metric->year . ' Week ' . $metric->week) }}</td>
+                            <td class="p-3 border">{{ $metric->total_assigned_requests }}</td>
+                            <td class="p-3 border">{{ $metric->total_requests_resolved }}</td>
+                            <td class="p-3 border">{{ $metric->total_assigned_requests > 0 ? round(($metric->total_requests_resolved / $metric->total_assigned_requests) * 100, 2) : 0 }}%</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="p-3 border text-center">No data available for the selected period</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
