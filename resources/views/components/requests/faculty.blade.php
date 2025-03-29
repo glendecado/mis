@@ -1,3 +1,5 @@
+<livewire:assinged-request />
+
 @if($req->status == 'declined')
 <h1 class="text-red-500 text-[16px] text-center border border-red-500 p-2 rounded-md">ⓘ Request Declined.</h1>
 @elseif($req->status == 'waiting')
