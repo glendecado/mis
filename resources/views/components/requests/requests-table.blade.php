@@ -118,25 +118,25 @@
                 x-show="search === '' || 
                 '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
                 @if(session('user')['role'] != 'Faculty')
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ $request->faculty->user->name }}
                     {{request()->query('status')}}
                 </td>
                 @endif
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ $request->created_at->format('m-d-y') }}
                 </td>
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ ucfirst($request->status) }}
                 </td>
-                <td class="table-row-cell truncate" @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell truncate" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ $request->categories->pluck('category.name')->join(', ') }}
                     {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
                 </td>
-                <td class="table-row-cell" @click="Livewire.navigate('/request/{{$request->id }}')">
+                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ $request->concerns }}
                 </td>
-                <td class="table-row-cell text-small">
+                <td class="table-row-cell text-small" @click="$wire.checkPriorityLevel({{$request->id }})">
                     {{ $request->location}}
                 </td>
 
@@ -146,7 +146,15 @@
                     <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})">
                         <x-icons.delete />
                     </div>
+                    @elseif($request->status == 'resolved' && is_null($request->rate) && session('user')['role'] == 'Faculty')
+
+                    ⚠️ Please provide a rate and feedback.
+
+
                     @endif
+
+
+
                 </td>
                 @endif
             </tr>
@@ -159,6 +167,7 @@
     </table>
 </div>
 
+<!-- User Table for Mobile Screens -->
 <!-- User Table for Mobile Screens -->
 <div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openRequest: '', search: '' }">
     <!-- Search Input -->
@@ -173,8 +182,25 @@
     <!-- Mobile View for Table Rows -->
     <div class="space-y-3">
         @foreach ($this->viewRequest() as $request)
+        @php
+            $color = "";
+            switch($request->priorityLevel){
+                case 1:
+                    $color = "bg-red-500/50 hover:bg-red-500/30";
+                    break;
+                case 2:
+                    $color = "bg-yellow/50 hover:bg-yellow/30";
+                    break;
+                case 3:
+                    $color = "bg-green-500/50 hover:bg-green-500/30";
+                    break;
+                default:
+                    $color = "bg-white";
+            }
+        @endphp
+
         <div
-            class="border rounded bg-white shadow-md p-4"
+            class="border rounded shadow-md p-4 {{ session('user')['role'] == 'Technical Staff' ? $color : 'bg-white' }}"
             x-show="search === '' || 
                 '{{ $request->faculty->user->name ?? '' }} {{ $request->status }}'
                     .toLowerCase().includes(search.toLowerCase())">
@@ -196,20 +222,39 @@
                     {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
                 </div>
             </div>
+            @if(session('user')['role'] == 'Technical Staff')
+            <div class="flex justify-between">
+                <div class="font-semibold text-gray-900">Priority:</div>
+                <div class="text-gray-900">
+                    @if($request->priorityLevel == 1)
+                        High
+                    @elseif($request->priorityLevel == 2)
+                        Medium
+                    @elseif($request->priorityLevel == 3)
+                        Low
+                    @endif
+                </div>
+            </div>
+            @endif
 
             <!-- Action Buttons -->
             <div class="mt-4 flex justify-end gap-2">
-                <button @click="Livewire.navigate('/request/{{$request->id}}')"
+                <button @click="$wire.checkPriorityLevel({{$request->id }})"
                     class="text-white text-sm px-4 py-2 rounded-md bg-[#2e5e91]">
                     View
                 </button>
+                @if($request->status == 'waiting')
                 @if(session('user')['role'] == 'Faculty')
                 <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})"
                     class="text-white bg-red-500 p-2 rounded-md text-sm">
                     Delete
                 </button>
                 @endif
+                @endif
             </div>
+            @if($request->status == 'resolved' && is_null($request->rate) && session('user')['role'] == 'Faculty')
+            ⚠️ Please provide a rate and feedback.
+            @endif
         </div>
         @endforeach
     </div>

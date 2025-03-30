@@ -4,7 +4,7 @@
 <div  x-cloak x-data="{ message: '', timer: null }" @success.window="
     message = $event.detail;
     clearTimeout(timer);
-    timer = setTimeout(() => { message = '' }, 2000);
+    timer = setTimeout(() => { message = '' }, 3000);
 ">
     <div x-show="message" 
          x-transition:enter="transition transform duration-300" 
@@ -41,7 +41,7 @@
 <div  x-cloak x-data="{ message: '', timer: null }" @danger.window="
     message = $event.detail;
     clearTimeout(timer);
-    timer = setTimeout(() => { message = '' }, 2000);
+    timer = setTimeout(() => { message = '' }, 3000);
 ">
     <div x-show="message" 
          x-transition:enter="transition transform duration-300" 
