@@ -17,9 +17,8 @@
                     </div>
 
                     <div class="p-2 text-white text-sm rounded-md leading-none flex bg-[#3D8D7A]">
-                        <span class="font-bold">{{ $req->status }}</span>
+                        <span class="font-bold">{{ ucfirst($req->status) }}</span>
                     </div>
-
                 </div>
 
                 @if ($req->status == 'pending' && session('user')['role'] != 'Faculty' && session('user')['role'] != 'Technical Staff')
@@ -33,14 +32,13 @@
                             <div class="mt-2">
                                 @if ($req->status == 'ongoing' || $req->status == 'resolved')
                                     Priority Level:
-
                                     <span class="font-bold px-2 py-1 rounded-md"
                                         style="background-color: 
-                                {{ $req->priorityLevel == 1 ? '#ef4444' : ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
-                                color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
-                                padding: 6px 12px;
-                                border-radius: 6px;
-                                font-size: 14px;">
+                                        {{ $req->priorityLevel == 1 ? '#ef4444' : ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
+                                        color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
+                                        padding: 6px 12px;
+                                        border-radius: 6px;
+                                        font-size: 14px;">
                                         {{ $req->priorityLevel == 3 ? 'Low' : ($req->priorityLevel == 2 ? 'Medium' : 'High') }}
                                     </span>
                                 @elseif($req->status == 'pending')
@@ -48,9 +46,7 @@
                                         <label for="prio">Priority Level</label>
                                         <select id="prio"
                                             class="w-full p-2 border rounded-md transition-all duration-100 ease-in-out
-                        text-white 
-                        bg-red-400 dark:bg-red-500 
-                        focus:outline-none "
+                                            text-white bg-red-400 dark:bg-red-500 focus:outline-none"
                                             wire:change="priorityLevelUpdate($event.target.value)"
                                             :class="{
                                                 'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
@@ -70,9 +66,6 @@
                                                 Low
                                             </option>
                                         </select>
-
-
-
                                     </div>
                                 @endif
                             </div>
@@ -86,7 +79,6 @@
                                 color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
                                 padding: 6px;
                                 border-radius: 6px;">
-
                         @if ($req->priorityLevel == 1)
                             High
                         @elseif($req->priorityLevel == 2)
@@ -97,13 +89,12 @@
                     </div>
                 @endif
 
-                <div class=" mt-4 border rounded-md p-2 text-center">
+                <div class="mt-4 border rounded-md p-2 text-center">
                     <span class="font-bold">
                         Category -
                         {{ $req->categories->pluck('category.name')->join(', ') }}
                         {{ $req->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ') }}
                     </span>
-
                 </div>
 
                 <!-- Location -->
@@ -129,8 +120,10 @@
 
             <!-- RIGHT COLUMN: Task List + Actions -->
             <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
-
                 
+                @if(session('user')['role'] == 'Mis Staff' && $loop->first)
+                    <livewire:assinged-request />
+                @endif
 
                 <div class="mt-2">
                     @switch(session('user')['role'])
@@ -148,10 +141,8 @@
                     @endswitch
                 </div>
 
-                <!-- Add Rate & Feedback Section Here -->
                 @include('components.requests.rateAndFeedback')
             </div>
-
         </div>
     @endforeach
 </div>

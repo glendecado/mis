@@ -1,5 +1,4 @@
 {{--task--}}
-<livewire:assinged-request />
 
 <div class="">
     @switch($req->status)
@@ -29,7 +28,7 @@
     @endif
  
     <div>
-        <p class="text-[24px] text-[#2e5e91] mb-2">Category Task List</p>
+        <p class="text-[16px] text-[#2e5e91]">Category Task List</p>
         <livewire:task-per-requests />
     </div>
 

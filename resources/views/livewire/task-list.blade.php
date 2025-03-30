@@ -110,8 +110,8 @@ $updateList = function ($item, $pos) {
                     {{$list->task}}
                 </span>
 
-                <button type="button" wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="cursor-pointer p-2 border rounded-md border-blue-600">
-                    {{$list->status}}
+                <button type="button" wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="cursor-pointer p-1 border text-[16px] rounded-md border-blue-600">
+                    {{ ucfirst($list->status) }}
                 </button>
 
 

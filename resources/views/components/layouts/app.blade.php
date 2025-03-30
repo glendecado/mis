@@ -38,7 +38,15 @@
 
 
             @if($categoriesWithoutTasks->count() > 0 && session('user')['role'] == 'Mis Staff')
-            <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm">
+            <div 
+                x-data="{ show: true }" 
+                x-show="show" 
+                class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
+            >
+                <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
+                    ✖
+                </button>
+
                 <div class="flex items-start">
                     <div class="flex-shrink-0 text-amber-500 text-xl mt-0.5">
                         ⚠️
@@ -51,7 +59,7 @@
                         <div class="mt-2 text-sm text-amber-700 flex flex-wrap items-center gap-3">
                             <div class="bg-amber-100 px-2 py-1 rounded-md inline-flex items-center">
                                 <span class="max-w-[200px] truncate">
-                                    {{implode(', ', $categoriesWithoutTasks->pluck('name')->toArray())}}
+                                    {{ implode(', ', $categoriesWithoutTasks->pluck('name')->toArray()) }}
                                 </span>
                             </div>
 
@@ -65,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+        @endif
 
 
 
