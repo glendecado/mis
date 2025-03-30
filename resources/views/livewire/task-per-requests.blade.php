@@ -67,6 +67,7 @@ $confirmTask = function () {
     }
 
     $this->dispatch('reqPerTask');
+    $this->dispatch('view-detailed-request');
 };
 
 

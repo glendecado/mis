@@ -24,7 +24,7 @@
     @case('ongoing')    
     @case('resolved')
     
-    @if($req->status == 'pending')
+    @if($req->status == 'pending' && DB::table('task_per_requests')->where('request_id', $req->id)->count())
     @include('components.assigned-request.button')
     @endif
  
