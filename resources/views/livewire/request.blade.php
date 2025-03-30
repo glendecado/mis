@@ -33,12 +33,14 @@ state(['college', 'building', 'room']);
 //for requests
 state(['id', 'concerns', 'priorityLevel', 'request']);
 
+
 state(['category_' => []]);
 
 rules([
     'concerns' => 'required|min:10',
     'category_' => 'required',
 ]);
+
 
 on([
     'resetErrors' => function () {
@@ -118,36 +120,45 @@ mount(function () {
 
     $this->getCachedRequests();
 
-    $this->checkPriorityLevel();
 });
 
 
-$checkPriorityLevel = function () {
-    $requestPrioLvl = $this->viewDetailedRequest()->pluck('priorityLevel')->toArray();
+$checkPriorityLevel = function ($id) {
+
+    $requestPrioLvl = Request::where('id', $id)->pluck('priorityLevel')->toArray();
     $lvl1 =  Request::where('priorityLevel', '1')->where('status', '!=', 'resolved')->get()->count();
     $lvl2 = Request::where('priorityLevel', '2')->where('status', '!=', 'resolved')->get()->count();
 
 
-    if (!empty($requestPrioLvl) && session('user')['role'] == 'Technical Staff') {
+    if (session('user')['role'] == 'Technical Staff') {
 
 
         $num = $requestPrioLvl[0];
 
         switch ($num) {
+            case 1:
+                return $this->redirect('/request/'.$id, navigate: true);
+                break;
             case 2:
                 if ($lvl1 > 0) {
                     //You have unfinished high-priority requests!
-                    return $this->redirect('/request?status=all', navigate: true);
+                   $this->dispatch('danger', 'You have unfinished high-priority requests!');
+                } else {
+                    return $this->redirect('/request/'.$id, navigate: true);
                 }
                 break;
 
             case 3:
-                    //You have unfinished mid-priority requests!
+                //You have unfinished mid-priority requests!
                 if ($lvl1 > 0 || $lvl2 > 0) {
-                    return $this->redirect('/request?status=all', navigate: true);
+                    $this->dispatch('danger', 'You have unfinished mid-priority requests!');
+                }else {
+                    return $this->redirect('/request/'.$id, navigate: true);
                 }
                 break;
         }
+    }else {
+        return $this->redirect('/request/'.$id, navigate: true);
     }
 };
 
@@ -380,22 +391,31 @@ $feedbackAndRate = function ($rating, $feedback) {
 
 
 
-@if(DB::table('requests')
+    @if(DB::table('requests')
     ->where('status', 'resolved')
     ->where('faculty_id', session('user')['id'])
     ->whereNull('rate')
     ->count())
-
-    <div class="bg-yellow border-l-4 border-yellow p-4 mb-4">
+    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer group">
         <div class="flex items-center">
-            <div class="flex-shrink-0">
+            <!-- Animated icon with pulse effect -->
+            <div class="flex-shrink-0 text-amber-500 bg-amber-100/50 rounded-full p-2 animate-pulse group-hover:animate-none group-hover:scale-110 transition-transform duration-300">
                 ⚠️
             </div>
+
             <div class="ml-3">
-                <p class="text-sm text-yellow-700">
+                <!-- Improved text hierarchy with subtle hover effect -->
+                <p class="text-sm text-amber-800 font-medium">
                     You have resolved requests that need rating!
-                    <a class="font-medium underline">Rate now</a>
+                    <a href="/request?status=resolved" class="font-semibold text-amber-600 hover:text-amber-800 underline underline-offset-2 transition-colors duration-200 ml-1">
+                        Rate now →
+                    </a>
                 </p>
+
+                <!-- Optional: Subtle progress indicator -->
+                <div class="mt-1 w-full bg-amber-100 rounded-full h-1">
+                    <div class="bg-amber-400 h-1 rounded-full w-3/4"></div>
+                </div>
             </div>
         </div>
     </div>
