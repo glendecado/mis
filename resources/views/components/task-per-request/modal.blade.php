@@ -1,5 +1,5 @@
   <!-- Open Modal Button -->
-    <button @click="$dispatch('open-modal', 'add-task-modal')" class="p-2 border border-[#2e5e91] text-[18px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
+    <button @click="$dispatch('open-modal', 'add-task-modal')" class="p-2 border border-[#2e5e91] text-[16px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
         Add Task List
     </button>
 

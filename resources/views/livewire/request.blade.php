@@ -396,9 +396,14 @@ $feedbackAndRate = function ($rating, $feedback) {
     ->where('faculty_id', session('user')['id'])
     ->whereNull('rate')
     ->count())
-    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer group">
+    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
+            x-data="{ show: true }" 
+            x-show="show">
         <div class="flex items-center">
-            <!-- Animated icon with pulse effect -->
+            <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
+                    ✖
+            </button>
+
             <div class="flex-shrink-0 text-amber-500 bg-amber-100/50 rounded-full p-2 animate-pulse group-hover:animate-none group-hover:scale-110 transition-transform duration-300">
                 ⚠️
             </div>
