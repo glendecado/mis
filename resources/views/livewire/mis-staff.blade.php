@@ -1,11 +1,13 @@
 <?php
 
+use App\Mail\CreatedAccount;
 use App\Models\Faculty;
 use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
 
 use function Livewire\Volt\{state, mount, on, rules, title};
 
@@ -15,7 +17,7 @@ state(['cacheKey']);
 
 state('roles')->url();
 
-state(['role', 'fname', 'lname', 'email', 'password', 'status'=>'active']);
+state(['role', 'fname', 'lname', 'email', 'password', 'status' => 'active']);
 
 state(['college', 'building', 'room']);
 
@@ -37,7 +39,7 @@ rules([
 
 
 
-mount(function(){
+mount(function () {
 
     session(['page' => 'user?roles=all']);
 });
@@ -73,7 +75,6 @@ $viewUser = function () {
             $user =  User::where('role', 'Technical Staff')->get();
 
             break;
-
     }
 
     return $user;
@@ -132,6 +133,9 @@ $addUser = function () {
 
 
     $this->dispatch('success', 'Added Successfully');
+
+    $user = User::find(1); // Example user
+    Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
 };
 
 $userUpdateUser = function ($id) {

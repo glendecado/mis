@@ -9,7 +9,9 @@
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
-        "livewire/volt": "^1.6"
+        "livewire/volt": "^1.6",
+        "symfony/http-client": "^7.2",
+        "symfony/mailgun-mailer": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
