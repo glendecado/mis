@@ -82,6 +82,7 @@ $viewUser = function () {
 
 //create user
 $addUser = function () {
+
     $this->validate();
     // Create a new User record
     $user = User::create([
@@ -102,7 +103,7 @@ $addUser = function () {
             ]);
             // Associate the User model with the TechnicalStaff model
             $tech->User()->associate($user);
-            Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
+            Mail::to($user->email)->send(new CreatedAccount($user));
             $tech->save();
             break;
 
@@ -116,7 +117,7 @@ $addUser = function () {
             ]);
             // Associate the User model with the Faculty model
             $fac->User()->associate($user);
-            Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
+            Mail::to($user->email)->send(new CreatedAccount($user));
             $fac->save();
             break;
     }
@@ -135,7 +136,6 @@ $addUser = function () {
 
 
     $this->dispatch('success', 'Added Successfully');
-
 };
 
 $userUpdateUser = function ($id) {
@@ -154,9 +154,12 @@ $viewDetailedUser = function () {};
 
 <div class="bg-blue-50 rounded-md shadow-lg shadow-blue-950/20">
 
-    <div wire:loading class="">
-
+    <div wire:loading wire:target="addUser" class="w-full h-dvh">
+        <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
+            <x-loaders.b-square />
+        </div>
     </div>
+
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')
