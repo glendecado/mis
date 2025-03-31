@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
+
 
 use function Livewire\Volt\{mount, state, title};
 
@@ -23,13 +23,9 @@ mount(function () {
 
 
 $viewCategory = function () {
-    if (request()->route()->getName() == 'category') {
+
         return Category::all();
-    } else {
-        return Cache::rememberForever($this->cacheKey . '4', function () {
-            return Category::get();
-        });
-    }
+
 };
 
 

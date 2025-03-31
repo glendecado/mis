@@ -1,32 +1,39 @@
 @if ($taskList->isEmpty())
-
     @if (count($this->notDefault) > 1 || count($this->categories->toArray()) > 2)
         <p class="text-red-500">No default task</p>
         <a x-navigate href="/category" class="underline text-sm"> Proceed to this link to add default task on a
             category</a>
     @endif
+@endif
 
+
+
+
+
+
+
+@if ($taskPerReq->isEmpty())
 
     @if (count($this->notDefault) == 0 && count($this->categories->toArray()) == 1)
         <div class="p-2 border border-red-500 rounded-md">
             <p class="text-[16px] text-center text-red-500">ⓘ No task available for this category.</p>
         </div>
+
+        @include('components.task-per-request.if-others-modal')
+    @elseif(!$taskList->isEmpty())
+        {{-- modal --}}
+        @include('components.task-per-request.modal')
     @endif
 @else
-    @if ($taskPerReq->isEmpty())
-        {{--modal--}}
-        @include('components.task-per-request.modal')
-    @else
-        @foreach ($taskPerReq as $task)
-            <div class="border p-2 rounded-md mb-2 bg-gray-100 text-[16px] font-thin">
-                {{ $task->task }}
-            </div>
-        @endforeach
-
-    @endif
-
+    @foreach ($taskPerReq as $task)
+        <div class="border p-2 rounded-md mb-2 bg-gray-100 text-[16px] font-thin">
+            {{ $task->task }}
+        </div>
+    @endforeach
 
 @endif
+
+
 
 @if ($this->notDefault)
     <div class="border p-2 rounded-md mt-5">

@@ -26,7 +26,7 @@
 }
 
 .table-row-cell {
-    @apply py-3 px-5  text-gray-700 border-gray-200 text-center ;
+    @apply py-3 px-5 text-gray-700 border-gray-200 text-center;
 }
 
 /*forms*/
@@ -69,7 +69,7 @@
 
 /* Flexbox utilities */
 .y {
-    @apply flex flex-col ;
+    @apply flex flex-col;
 }
 
 .md\:y {
@@ -95,11 +95,11 @@
 }
 
 .sidebar-links {
-    @apply cursor-pointer py-1 w-full text-center  mt-2 rounded-md hover:bg-yellow/30 hover:text-blue-2 flex items-center px-2  gap-2;
+    @apply cursor-pointer py-1 w-full text-center mt-2 rounded-md hover:bg-yellow/30 hover:text-blue-2 flex items-center px-2 gap-2;
 }
 
 .sidebar-active {
-    @apply  cursor-pointer py-1 w-full text-center border border-yellow bg-yellow mt-2 rounded-md text-blue-2 flex items-center  gap-2 px-2;
+    @apply cursor-pointer py-1 w-full text-center border border-yellow bg-yellow mt-2 rounded-md text-blue-2 flex items-center gap-2 px-2;
 }
 
 .mini-sidebar {
@@ -107,7 +107,7 @@
 }
 
 .mini-sidebar-label {
-    @apply text-center h-[40px]  bg-blue-700 flex-center text-blue-50;
+    @apply text-center h-[40px] bg-blue-700 flex-center text-blue-50;
 }
 
 .mini-sidebar-items {
@@ -147,7 +147,7 @@
 }
 
 .header-container-logo {
-    @apply text-white  items-center gap-1 cursor-pointer flex;
+    @apply text-white items-center gap-1 cursor-pointer flex;
 }
 
 .header-container-profile {
@@ -177,29 +177,29 @@
 }
 
 .modal-trigger-button {
-    @apply z-50 border-[3px]  p-1  border-blue-500 rounded-full absolute text-blue bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
+    @apply z-50 border-[3px] p-1 border-blue-500 rounded-full absolute text-blue bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
 }
 
-.tooltip{
+.tooltip {
     @apply group-hover:block hidden absolute right-28 bottom-12 text-blue bg-white/90 p-3 rounded-md shadow-md;
 }
 
-.error-login{
+.error-login {
     @apply mt-1 text-xs text-red-600 absolute w-full text-right;
 }
 
 .request-containder {
-    @apply y gap-2  bg-white p-3 rounded-md text-blue-900 shadow-lg shadow-blue-950/20 min-w-[300px];
+    @apply y gap-2 bg-white p-3 rounded-md text-blue-900 shadow-lg shadow-blue-950/20 min-w-[300px];
 }
 
 .request-parent {
-    @apply w-full px-0 md:px-[10%] ;
+    @apply w-full px-0 md:px-[10%];
 
 }
 
 
 #nprogress .bar {
-    background:  #FFCC00 !important; 
+    background: #FFCC00 !important;
     height: 8px;
 }
 
@@ -209,6 +209,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -220,13 +221,49 @@
 
 
 .scrollbar-hidden {
-    @apply overflow-auto; /* Allow scrolling */
-  }
-  
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-  }
-  
-  .scrollbar-hidden {
-    scrollbar-width: none; /* Firefox */
-  }
+    @apply overflow-auto;
+    /* Allow scrolling */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Edge */
+}
+
+.scrollbar-hidden {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+
+@media print {
+    body {
+        visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        width: 100dvw;
+        height: 100dvh;
+    }
+
+    #section-to-print {
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 50px;
+    }
+
+    #showOnPrint {
+        display: block !important;
+    }
+
+    #hideOnPrint {
+        display : none;
+    }
+}
+
+
+#showOnPrint {
+    display : none;
+ }

@@ -68,7 +68,7 @@
 
             <!-- Confirm Button -->
             <div class="mt-4">
-                <button wire:click="confirmTask" class="button text-[16px] w-full">
+                <button @click="$wire.confirmTask()" class="button text-[16px] w-full">
                     Confirm
                 </button>
             </div>

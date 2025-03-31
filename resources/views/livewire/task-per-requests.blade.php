@@ -1,10 +1,9 @@
 <?php
 
-use App\Events\RequestEvent;
+
 use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
-use App\Models\TaskList;
 use App\Models\TaskPerRequest;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +19,7 @@ state('request');
 
 on(['reqPerTask' => function () {
     $this->taskPerReq = DB::table('task_per_requests')->where('request_id', session()->get('requestId'))->get();
-    $this->checked = $this->taskPerReq->where('isCheck', 1)->count();  
-
+    $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 }]);
 
 
@@ -47,24 +45,39 @@ mount(function () {
 
     $this->notDefault = $this->categories
         ->whereNotNull('ifOthers') // Filters out records where 'ifOthers' is NULL
-        ->where('toDefault', '!==', 0) // Filters out records where 'toDefault' is exactly false
+        ->where('toDefault','!==', 0) // Filters out records where 'toDefault' is exactly false
         ->toArray(); // Converts the result to an array
 
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
-
 });
 
 $confirmTask = function () {
 
-    $tasks = DB::table('task_lists')->whereIn('id', $this->selectedTaskList)->get();
-    foreach ($tasks as $task) {
-        $taskPerReq = TaskPerRequest::create([
-            'request_id' => session()->get('requestId'),
-            'task' => $task->task,
-            'status' => 'enable'
-        ]);
-        $taskPerReq->save();
+    $taskList = $this->selectedTaskList;
+    $tasks = DB::table('task_lists')->whereIn('id', $taskList)->get();
+
+
+    if (!$tasks->isEmpty()) {
+
+        foreach ($tasks as $task) {
+            $taskPerReq = TaskPerRequest::create([
+                'request_id' => session()->get('requestId'),
+                'task' => $task->task,
+                'status' => 'enable'
+            ]);
+            $taskPerReq->save();
+        }
+    } else {
+        foreach ($taskList as $list) {
+            $taskPerReq = TaskPerRequest::create([
+                'request_id' => session()->get('requestId'),
+                'task' => $list,
+                'status' => 'enable'
+            ]);
+            $taskPerReq->save();
+        }
     }
+
 
     $this->dispatch('reqPerTask');
     $this->dispatch('view-detailed-request');
@@ -73,7 +86,7 @@ $confirmTask = function () {
 
 
 
-
+//categories-
 $toDefaultCategory = function ($name, $decide) {
 
     $catCollection = Categories::where('ifOthers', $name)->get();
@@ -89,14 +102,15 @@ $toDefaultCategory = function ($name, $decide) {
             $cat->ifOthers = null;
             $cat->save(); // Save each updated record
         }
-        $defCat->save();
         $this->dispatch('success', 'Successfully save as default; you can now set a task list for this category.');
+        $defCat->save();
         return $this->redirect('/category', navigate: true);
     } else {
         foreach ($catCollection as $cat) {
             $cat->toDefault = false;
             $cat->save();
         }
+        $this->dispatch('');
         return $this->redirect('/request/' . session()->get('requestId'), navigate: true);
     }
 };

@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->string('ifOthers')->nullable();
 
-            $table->boolean('toDefault')->default(false)->nullable();
+            $table->boolean('toDefault')->nullable();
 
             $table->timestamps();
         });

@@ -2,12 +2,14 @@
 
 use App\Models\Request;
 use App\Models\TechnicalStaff;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 use function Livewire\Volt\{mount, on, placeholder, state};
 
 state('techStaff');
+state('techStaffDetails');
 state('techId');
 state('date');
 state('totalAssignedRequests');
@@ -26,6 +28,8 @@ $total = function () {
         return;
     }
 
+
+
     $this->totalAssignedRequests = Request::where('assigned_requests.technicalStaff_id', $this->techId)
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
         ->count();
@@ -43,6 +47,8 @@ $total = function () {
     $this->completionRate = $this->totalAssignedRequests > 0
         ? round(($this->totalRequestsCompleted / $this->totalAssignedRequests) * 100, 2)
         : 0;
+
+    $this->techStaffDetails = User::where('id', $this->techId)->get()->first();
 };
 
 mount(function () {
@@ -99,11 +105,11 @@ $techStaffMetrics = function () {
                 ->groupBy(DB::raw("date"))
                 ->orderBy(DB::raw("date"), 'ASC');
             break;
-            case 'this_month':
-                $request->whereBetween('assigned_requests.created_at', [
-                    Carbon::now()->startOfMonth(),
-                    Carbon::now()->endOfMonth()
-                ])
+        case 'this_month':
+            $request->whereBetween('assigned_requests.created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
                 ->select(
                     DB::raw("CONCAT(YEAR(assigned_requests.created_at), '-', LPAD(MONTH(assigned_requests.created_at), 2, '0'), ' week ', 
                     WEEK(assigned_requests.created_at, 0) - 
@@ -115,8 +121,6 @@ $techStaffMetrics = function () {
                 ->groupBy(DB::raw("date"))
                 ->orderBy(DB::raw("date"), 'ASC');
             break;
-            
-                        
     }
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
@@ -155,49 +159,9 @@ $techStaffMetrics = function () {
         </div>
     </div>
 
-    <div class="flex mt-2 justify-center flex-wrap">
-        <!-- Technician Metrics -->
-        <div>
-            <div class="bg-white p-4 rounded-md shadow-md h-full">
-                <h3 class="text-xl font-semibold mb-2">Staff Performance Overview</h3>
-                <div class="space-y-3">
-                    <div><strong>Rate:</strong> {{ $totalRatings }}</div>
-                    <div><strong>Assigned Requests:</strong> {{ $totalAssignedRequests }}</div>
-                    <div><strong>Requests Completed:</strong> {{ $totalRequestsCompleted }}</div>
-                    <div><strong>Completion Rate:</strong> {{ $completionRate }}%</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Chart Display -->
-        <div class="w-full max-w-3xl mx-auto h-fit" x-data="{
-            data: {{ json_encode($this->techStaffMetrics()) }},
-            chartData: { labels: [], assignedData: [], resolvedData: [] },
-            init() {
-                if (window.myChart) window.myChart.destroy();
-                this.chartData.labels = this.data.map(item => item.date ?? ``);
-                this.chartData.assignedData = this.data.map(item => item.total_assigned_requests);
-                this.chartData.resolvedData = this.data.map(item => item.total_requests_resolved);
-                this.createChart();
-            },
-            createChart() {
-                window.myChart = new Chart(this.$refs.chartCanvas, {
-                    type: 'bar',
-                    data: { labels: this.chartData.labels, datasets: [
-                        { label: 'Assigned Requests', data: this.chartData.assignedData, backgroundColor: '#1D77FF' },
-                        { label: 'Requests Resolved', data: this.chartData.resolvedData, backgroundColor: '#FFCC00' }
-                    ]},
-                    options: { responsive: true, scales: { y: { min: 0, ticks: { stepSize: 1 } } } }
-                });
-            }
-        }" x-init="init">
-            <canvas x-ref="chartCanvas" class="mt-2 rounded-mb border"></canvas>
-        </div>
-    </div>
 
     <div class="px-10 py-6">
-
-
         <!-- Performance Summary Table -->
         <div class="mt-6 bg-white p-4 rounded-md shadow-md">
             <h3 class="text-xl font-semibold mb-4">Staff Performance Summary</h3>
@@ -229,36 +193,105 @@ $techStaffMetrics = function () {
             </table>
         </div>
 
-        <!-- Detailed Metrics Table -->
-        <div class="mt-6 bg-white p-4 rounded-md shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Detailed Performance Metrics</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-3 text-left border">Date/Time Period</th>
-                            <th class="p-3 text-left border">Assigned Requests</th>
-                            <th class="p-3 text-left border">Requests Resolved</th>
-                            <th class="p-3 text-left border">Completion Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($this->techStaffMetrics() as $metric)
-                        <tr class="{{ $loop->even ? 'bg-gray-50' : '' }}">
-                            <td class="p-3 border">{{ $metric->date ?? ($metric->year . ' Week ' . $metric->week) }}</td>
-                            <td class="p-3 border">{{ $metric->total_assigned_requests }}</td>
-                            <td class="p-3 border">{{ $metric->total_requests_resolved }}</td>
-                            <td class="p-3 border">{{ $metric->total_assigned_requests > 0 ? round(($metric->total_requests_resolved / $metric->total_assigned_requests) * 100, 2) : 0 }}%</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="p-3 border text-center">No data available for the selected period</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+
+
+
+
+
+        <div x-data="{view : 'table'}">
+
+            <div class="flex mt-11 gap-2 items-center">
+
+                <div :class="view == 'table' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='table'">
+                    <x-icons.table />
+                </div>
+
+                <div :class="view == 'chart' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='chart'">
+                    <x-icons.chart />
+                </div>
+
+
             </div>
+
+            <button class="w-full flex justify-end" @click="window.print()">
+                <x-icons.printer />
+            </button>
+
+
+            <div id="section-to-print">
+
+                <div id="showOnPrint">
+                    <h1 class="text-2xl">
+                        {{$techStaffDetails->name}}
+                    </h1>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
+                <!-- Detailed Metrics Table -->
+                <template x-if="view == 'table'">
+                    <div class="mt-6 bg-white p-4 rounded-md shadow-md">
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="p-3 text-left border">Date/Time Period</th>
+                                        <th class="p-3 text-left border">Assigned Requests</th>
+                                        <th class="p-3 text-left border">Requests Resolved</th>
+                                        <th class="p-3 text-left border">Completion Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($this->techStaffMetrics() as $metric)
+                                    <tr class="{{ $loop->even ? 'bg-gray-50' : '' }}">
+                                        <td class="p-3 border">{{ $metric->date ?? ($metric->year . ' Week ' . $metric->week) }}</td>
+                                        <td class="p-3 border">{{ $metric->total_assigned_requests }}</td>
+                                        <td class="p-3 border">{{ $metric->total_requests_resolved }}</td>
+                                        <td class="p-3 border">{{ $metric->total_assigned_requests > 0 ? round(($metric->total_requests_resolved / $metric->total_assigned_requests) * 100, 2) : 0 }}%</td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="4" class="p-3 border text-center">No data available for the selected period</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="view == 'chart' " id="section-to-print">
+                    <div class="flex mt-2 justify-center flex-wrap">
+                        <!-- Chart Display -->
+                        <div class="w-full max-w-3xl mx-auto h-fit" x-data="{
+            data: {{ json_encode($this->techStaffMetrics()) }},
+            chartData: { labels: [], assignedData: [], resolvedData: [] },
+            init() {
+                if (window.myChart) window.myChart.destroy();
+                this.chartData.labels = this.data.map(item => item.date ?? ``);
+                this.chartData.assignedData = this.data.map(item => item.total_assigned_requests);
+                this.chartData.resolvedData = this.data.map(item => item.total_requests_resolved);
+                this.createChart();
+            },
+            createChart() {
+                window.myChart = new Chart(this.$refs.chartCanvas, {
+                    type: 'bar',
+                    data: { labels: this.chartData.labels, datasets: [
+                        { label: 'Assigned Requests', data: this.chartData.assignedData, backgroundColor: '#1D77FF' },
+                        { label: 'Requests Resolved', data: this.chartData.resolvedData, backgroundColor: '#FFCC00' }
+                    ]},
+                    options: { responsive: true, scales: { y: { min: 0, ticks: { stepSize: 1 } } } }
+                });
+            }
+        }" x-init="init">
+                            <canvas x-ref="chartCanvas" class="mt-2 rounded-mb border"></canvas>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
         </div>
+
+
     </div>
 
 </div>
