@@ -102,6 +102,7 @@ $addUser = function () {
             ]);
             // Associate the User model with the TechnicalStaff model
             $tech->User()->associate($user);
+            Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
             $tech->save();
             break;
 
@@ -115,6 +116,7 @@ $addUser = function () {
             ]);
             // Associate the User model with the Faculty model
             $fac->User()->associate($user);
+            Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
             $fac->save();
             break;
     }
@@ -134,8 +136,6 @@ $addUser = function () {
 
     $this->dispatch('success', 'Added Successfully');
 
-    $user = User::find(1); // Example user
-    Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
 };
 
 $userUpdateUser = function ($id) {
@@ -153,6 +153,10 @@ $viewDetailedUser = function () {};
 ?>
 
 <div class="bg-blue-50 rounded-md shadow-lg shadow-blue-950/20">
+
+    <div wire:loading class="">
+
+    </div>
 
     @include('components.mis.users')
     @include('components.mis.add-user-button')
