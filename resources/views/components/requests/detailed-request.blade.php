@@ -26,68 +26,72 @@
                     <span class="text-sm text-blue">You can now assign a priority level.</span>
                 @endif
 
-                @if (DB::table('requests')->where('id', session()->get('requestId'))->first()->status == 'pending')
-                    @switch(session('user')['role'])
-                        @case('Mis Staff')
-                            <div class="mt-2">
-                                @if ($req->status == 'ongoing' || $req->status == 'resolved')
-                                    Priority Level:
-                                    <span class="font-bold px-2 py-1 rounded-md"
-                                        style="background-color: 
+
+                @switch(session('user')['role'])
+                    @case('Mis Staff')
+                        <div class="mt-2">
+                            @if ($req->status == 'ongoing' || $req->status == 'resolved')
+                                Priority Level:
+                                <span class="font-bold px-2 py-1 rounded-md"
+                                    style="background-color: 
                                         {{ $req->priorityLevel == 1 ? '#ef4444' : ($req->priorityLevel == 2 ? '#facc15' : '#22c55e') }};
                                         color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
                                         padding: 6px 12px;
                                         border-radius: 6px;
                                         font-size: 14px;">
-                                        {{ $req->priorityLevel == 3 ? 'Low' : ($req->priorityLevel == 2 ? 'Medium' : 'High') }}
-                                    </span>
-                                @elseif($req->status == 'pending')
-                                    <div class="mb-2">
-                                        <label for="prio">Priority Level</label>
-                                        <select id="prio"
-                                            class="w-full p-2 border rounded-md transition-all duration-100 ease-in-out
+                                    {{ $req->priorityLevel == 3 ? 'Low' : ($req->priorityLevel == 2 ? 'Medium' : 'High') }}
+                                </span>
+                            @elseif($req->status == 'pending')
+                                <div class="mb-2">
+                                    <label for="prio">Priority Level</label>
+                                    <select id="prio"
+                                        class="w-full p-2 border rounded-md transition-all duration-100 ease-in-out
                                             text-white bg-red-400 dark:bg-red-500 focus:outline-none"
-                                            wire:change="priorityLevelUpdate($event.target.value)"
-                                            :class="{
-                                                'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
-                                                'bg-yellow dark:bg-yellow text-black': {{ $req->priorityLevel }} == 2,
-                                                'bg-green-400 dark:bg-green-500': {{ $req->priorityLevel }} == 3
-                                            }">
-                                            <option value="1" @if ($req->priorityLevel == 1) selected @endif
-                                                class="bg-red-400 text-white hover:bg-red-500">
-                                                High
-                                            </option>
-                                            <option value="2" @if ($req->priorityLevel == 2) selected @endif
-                                                class="bg-yellow text-black hover:bg-yellow-500">
-                                                Medium
-                                            </option>
-                                            <option value="3" @if ($req->priorityLevel == 3) selected @endif
-                                                class="bg-green-400 text-white hover:bg-green-500">
-                                                Low
-                                            </option>
-                                        </select>
-                                    </div>
-                                @endif
-                            </div>
-                        @break
-                    @endswitch
-                @else
-                    Priority Level
-                    <div class="priority-label"
-                        style="background-color:
+                                        wire:change="priorityLevelUpdate($event.target.value)"
+                                        :class="{
+                                            'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
+                                            'bg-yellow dark:bg-yellow text-black': {{ $req->priorityLevel }} == 2,
+                                            'bg-green-400 dark:bg-green-500': {{ $req->priorityLevel }} == 3
+                                        }">
+                                        <option value="1" @if ($req->priorityLevel == 1) selected @endif
+                                            class="bg-red-400 text-white hover:bg-red-500">
+                                            High
+                                        </option>
+                                        <option value="2" @if ($req->priorityLevel == 2) selected @endif
+                                            class="bg-yellow text-black hover:bg-yellow-500">
+                                            Medium
+                                        </option>
+                                        <option value="3" @if ($req->priorityLevel == 3) selected @endif
+                                            class="bg-green-400 text-white hover:bg-green-500">
+                                            Low
+                                        </option>
+                                    </select>
+                                </div>
+                            @endif
+                        </div>
+                    @break
+
+                    @case('Technical Staff')
+                        Priority Level
+                        <div class="priority-label"
+                            style="background-color:
                                 {{ $req->priorityLevel == 1 ? '#EE4E4E' : ($req->priorityLevel == 2 ? '#FFC145' : '#77B254') }};
                                 color: {{ $req->priorityLevel == 2 ? 'black' : 'white' }};
                                 padding: 6px;
                                 border-radius: 6px;">
-                        @if ($req->priorityLevel == 1)
-                            High
-                        @elseif($req->priorityLevel == 2)
-                            Medium
-                        @elseif($req->priorityLevel == 3)
-                            Low
-                        @endif
-                    </div>
-                @endif
+                            @if ($req->priorityLevel == 1)
+                                High
+                            @elseif($req->priorityLevel == 2)
+                                Medium
+                            @elseif($req->priorityLevel == 3)
+                                Low
+                            @endif
+                        </div>
+                    @break
+
+                    
+                @endswitch
+
 
                 <div class="mt-4 border rounded-md p-2 text-center">
                     <span class="font-bold">
@@ -119,9 +123,10 @@
             </div>
 
             <!-- RIGHT COLUMN: Task List + Actions -->
-            <div class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
-                
-                @if(session('user')['role'] == 'Mis Staff' && $loop->first)
+            <div
+                class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
+
+                @if (session('user')['role'] == 'Mis Staff' && $loop->first)
                     <livewire:assinged-request />
                 @endif
 

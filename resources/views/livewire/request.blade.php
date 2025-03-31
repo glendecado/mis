@@ -89,10 +89,7 @@ $reload = function () {
 //what status did the users clicked?
 $whatStatusIsClicked  = function () {
     if (!is_null($this->status)) {
-        Cache::forget('status_' . session('user')['id']);
-        $status = Cache::remember('status_' . session('user')['id'], 60 * 60 * 24, function () {
-            return $this->status;
-        });
+        session(['status' => $this->status]);
     }
 };
 

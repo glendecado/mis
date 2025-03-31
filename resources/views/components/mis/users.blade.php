@@ -1,5 +1,5 @@
 <!-- User Table for Larger Screens -->
-<div class="md:block hidden w-full p-2 rounded-md" x-data="{ search: '' }">
+<div class="md:block hidden w-full p-2 rounded-md select-text" x-data="{ search: '' }">
     <!-- Search Input -->
     <div class="m-0 my-4 relative w-60 flex items-center">
         <input

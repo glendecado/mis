@@ -15,8 +15,9 @@
                     <td class="table-row-cell">
                         <div wire:loading.attr="disabled">
 
-                            <button class="button text-white bg-blue text-[16px]"
-                                wire:click.prevent="assignTask('{{$tech->user->id}}')">Assign</button>
+                            <button type="button" wire:loading.attr="disabled" class="button text-white bg-blue text-[16px]"
+                                wire:click.prevent="assignTask('{{$tech->user->id}}')">Assign
+                            </button>
 
 
                         </div>

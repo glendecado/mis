@@ -81,12 +81,12 @@ $techStaffMetrics = function () {
         case 'today':
             $request->whereDate('assigned_requests.created_at', Carbon::today())
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H') as date"),
+                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%h:%i %p') as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
-                ->groupBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H')"))
-                ->orderBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d %H')"), 'ASC');
+                ->groupBy(DB::raw("date"))
+                ->orderBy(DB::raw("date"), 'ASC');
             break;
 
         case 'this_week':
@@ -96,20 +96,27 @@ $techStaffMetrics = function () {
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
-                ->groupBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d')"))
-                ->orderBy(DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d')"), 'ASC');
+                ->groupBy(DB::raw("date"))
+                ->orderBy(DB::raw("date"), 'ASC');
             break;
-
-        case 'this_month':
-            $request->select(
-                DB::raw("YEAR(assigned_requests.created_at) as year"),
-                DB::raw("WEEK(assigned_requests.created_at) as week"),
-                DB::raw('COUNT(*) as total_assigned_requests'),
-                DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-            )
-                ->groupBy(DB::raw("YEAR(assigned_requests.created_at), WEEK(assigned_requests.created_at)"))
-                ->orderBy(DB::raw("YEAR(assigned_requests.created_at), WEEK(assigned_requests.created_at)"), 'ASC');
+            case 'this_month':
+                $request->whereBetween('assigned_requests.created_at', [
+                    Carbon::now()->startOfMonth(),
+                    Carbon::now()->endOfMonth()
+                ])
+                ->select(
+                    DB::raw("CONCAT(YEAR(assigned_requests.created_at), '-', LPAD(MONTH(assigned_requests.created_at), 2, '0'), ' week ', 
+                    WEEK(assigned_requests.created_at, 0) - 
+                    WEEK(DATE_SUB(assigned_requests.created_at, INTERVAL DAY(assigned_requests.created_at)-1 DAY), 0) + 1
+                    ) AS date"),
+                    DB::raw('COUNT(*) as total_assigned_requests'),
+                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                )
+                ->groupBy(DB::raw("date"))
+                ->orderBy(DB::raw("date"), 'ASC');
             break;
+            
+                        
     }
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
@@ -168,7 +175,7 @@ $techStaffMetrics = function () {
             chartData: { labels: [], assignedData: [], resolvedData: [] },
             init() {
                 if (window.myChart) window.myChart.destroy();
-                this.chartData.labels = this.data.map(item => item.date);
+                this.chartData.labels = this.data.map(item => item.date ?? ``);
                 this.chartData.assignedData = this.data.map(item => item.total_assigned_requests);
                 this.chartData.resolvedData = this.data.map(item => item.total_requests_resolved);
                 this.createChart();

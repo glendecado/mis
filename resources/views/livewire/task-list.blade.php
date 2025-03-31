@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Notifications\RequestStatus;
 use Illuminate\Support\Facades\Cache;
 
-use function Livewire\Volt\{state, mount, rules};
+use function Livewire\Volt\{state, rules};
 
 state(['checked', 'page',]);
 
@@ -20,19 +20,7 @@ rules([
     'task' => 'required'
 ]);
 
-mount(function () {
 
-
-    $this->request = Request::find(session('requestId'));
-
-
-
-    /* 
-    if (session('page') == 'request') {
-        //to get the percentage
-        $this->checked = round($this->request->progress / 100 * count($this->request->category->taskList));
-    } */
-});
 
 $addTaskList = function () {
     $this->validate();

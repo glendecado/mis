@@ -19,6 +19,8 @@ state(['fName', 'lName', 'img', 'email', 'password', 'college', 'building', 'roo
 
 mount(function () {
 
+    
+
     $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
 
 
@@ -94,7 +96,7 @@ $updateProfile = function ($type) {
             break;
     }
 
-    Cache::flush();
+
 
     if ($this->id == session('user')['id']) {
         session()->put('user.img', $this->img);
@@ -111,7 +113,8 @@ $updateProfile = function ($type) {
 ?>
 <div class="w-full h-dvh">
     <div>
-        <a href="/">
+
+        <a href="/{{session('page')}}">
             <div class="border w-fit p-2 mb-2 rounded-md px-4 bg-blue text-white">
                 <x-icons.arrow direction="left" />
             </div>

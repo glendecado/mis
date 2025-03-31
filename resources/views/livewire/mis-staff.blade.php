@@ -19,6 +19,7 @@ state(['role', 'fname', 'lname', 'email', 'password', 'status'=>'active']);
 
 state(['college', 'building', 'room']);
 
+
 rules([
     'role' => 'required|string',
     'fname' => 'required|string|max:100',
@@ -33,6 +34,14 @@ rules([
     'lname.required' => "The Last name field is required."
 
 ]);
+
+
+
+mount(function(){
+
+    session(['page' => 'user?roles=all']);
+});
+
 
 on(['resetErrors' => function () {
     $this->resetErrorBag();
@@ -65,9 +74,6 @@ $viewUser = function () {
 
             break;
 
-        default:
-            # code...
-            break;
     }
 
     return $user;
