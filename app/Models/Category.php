@@ -25,6 +25,6 @@ class Category extends Model
     public function Categories()
     {
 
-        return $this->belongsTo(Categories::class);
+        return $this->hasMany(Categories::class);
     }
 }

@@ -75,9 +75,9 @@ $sessionFacultyLocation = function () {
 
 
 //request in cache
-$getCachedRequests = fn() => Cache::remember('requests', 60 * 3, function () {
-    return Request::with(['categories', 'faculty'])->get();
-}); // Cache for 3 minutes
+$getCachedRequests = fn() => Cache::remember('requests', 60 * 5, function () {
+    return Request::with(['categories','categories.category', 'faculty', 'faculty.user'])->get();
+}); // Cache for 5 minutes
 
 //reload
 $reload = function () {
@@ -183,7 +183,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-    $requests = Cache::get('requests') ?? Request::with(['categories', 'faculty'])->get();
+    $requests = Cache::get('requests') ?? Request::with(['categories','categories.category', 'faculty', 'faculty.user'])->get();
 
     switch (session('user')['role']) {
 
@@ -344,8 +344,9 @@ $updateStatus = function ($status) {
     );
 
 
-    $req = Request::find($this->id)->with('faculty');
+    $req = Request::where('id', $this->id)->with('faculty')->first();
     $req->status = $status;
+
 
 
     $faculty = User::where('id', $req->faculty_id)->first();
