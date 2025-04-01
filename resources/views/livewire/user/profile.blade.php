@@ -2,8 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cach;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 use function Livewire\Volt\{mount, state, title, usesFileUploads};
@@ -159,7 +157,7 @@ $updateProfile = function ($type) {
                 <div class="w-full flex gap-4">
                     <div class="w-full">
                         <label class="block">First Name:</label>
-                        <input :disabled="update" type="text" class="input w-full" x-model="fName" @click="fName = ''">
+                        <input :disabled="update" type="text" class="input w-full" x-model="fName">
                     </div>
                     <div class="w-full">
                         <label class="block">Last Name:</label>
@@ -228,7 +226,7 @@ $updateProfile = function ($type) {
             <div class="mt-4 flex justify-end gap-2">
                 <button class="button float-end mt-2 p-2 rounded-md bg-blue text-white text-[14px]" x-show="update == true" @click="update = false">Update Info</button>
                 <button class="button float-end mt-2 p-2 rounded-md bg-blue text-white text-[14px]" x-show="update == false" @click="$wire.updateProfile('profile'); update= true">Save Changes</button>
-                <button class="float-end mt-2 p-2 rounded-md text-white bg-blue text-[14px] mr-[10px] border-1 border-[#2e5e91]"  x-show="update == false" @click="update= true">Cancel</button>
+                <button class="float-end mt-2 p-2 rounded-md text-white bg-blue text-[14px] mr-[10px] border-1 border-[#2e5e91]"  x-show="update == false" @click="update= true; $wire.$refresh()">Cancel</button>
             </div>
 
         </div>

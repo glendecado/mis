@@ -64,7 +64,7 @@ $assignTask = function ($techId) {
     $this->dispatch('techs');
     $this->dispatch('success', 'Assigned');
     RequestEvent::dispatch($techId);
-    Cache::forget('requests');
+    Cache::forget('request_'.session('requestId'));
 
     $notifUser->notify(new AssingedRequest($request));
 };

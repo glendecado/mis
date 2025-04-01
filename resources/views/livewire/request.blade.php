@@ -75,9 +75,9 @@ $sessionFacultyLocation = function () {
 
 
 //request in cache
-$getCachedRequests = fn() => Cache::rememberForever('requests', function () {
+$getCachedRequests = fn() => Cache::remember('requests', 60 * 3, function () {
     return Request::with(['categories', 'faculty'])->get();
-});
+}); // Cache for 3 minutes
 
 //reload
 $reload = function () {
@@ -116,7 +116,6 @@ mount(function () {
     $this->whatStatusIsClicked();
 
     $this->getCachedRequests();
-
 });
 
 
@@ -134,14 +133,14 @@ $checkPriorityLevel = function ($id) {
 
         switch ($num) {
             case 1:
-                return $this->redirect('/request/'.$id, navigate: true);
+                return $this->redirect('/request/' . $id, navigate: true);
                 break;
             case 2:
                 if ($lvl1 > 0) {
                     //You have unfinished high-priority requests!
-                   $this->dispatch('danger', 'You have unfinished high-priority requests!');
+                    $this->dispatch('danger', 'You have unfinished high-priority requests!');
                 } else {
-                    return $this->redirect('/request/'.$id, navigate: true);
+                    return $this->redirect('/request/' . $id, navigate: true);
                 }
                 break;
 
@@ -149,13 +148,13 @@ $checkPriorityLevel = function ($id) {
                 //You have unfinished mid-priority requests!
                 if ($lvl1 > 0 || $lvl2 > 0) {
                     $this->dispatch('danger', 'You have unfinished mid-priority requests!');
-                }else {
-                    return $this->redirect('/request/'.$id, navigate: true);
+                } else {
+                    return $this->redirect('/request/' . $id, navigate: true);
                 }
                 break;
         }
-    }else {
-        return $this->redirect('/request/'.$id, navigate: true);
+    } else {
+        return $this->redirect('/request/' . $id, navigate: true);
     }
 };
 
@@ -173,7 +172,12 @@ $viewDetailedRequest = function () {
         ->markAsRead(); // Marks the filtered notification as read
 
 
-    return Request::where('id', $this->id)->with('faculty')->get();
+
+    $cache = Cache::rememberForever('request_' . $this->id, function () {
+        return Request::where('id', $this->id)->with(['faculty', 'faculty.user'])->get();
+    });
+
+    return $cache;
 };
 
 //view request with table
@@ -340,7 +344,7 @@ $updateStatus = function ($status) {
     );
 
 
-    $req = Request::where('id', $this->id)->with('faculty')->first();
+    $req = Request::find($this->id)->with('faculty');
     $req->status = $status;
 
 
@@ -348,6 +352,7 @@ $updateStatus = function ($status) {
 
     $faculty->notify(new RequestStatus($req));
     $req->save();
+    Cache::forget('request_'.$this->id);
     $this->reload();
 };
 
@@ -394,11 +399,11 @@ $feedbackAndRate = function ($rating, $feedback) {
     ->whereNull('rate')
     ->count())
     <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
-            x-data="{ show: true }" 
-            x-show="show">
+        x-data="{ show: true }"
+        x-show="show">
         <div class="flex items-center">
             <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
-                    ✖
+                ✖
             </button>
 
             <div class="flex-shrink-0 text-amber-500 bg-amber-100/50 rounded-full p-2 animate-pulse group-hover:animate-none group-hover:scale-110 transition-transform duration-300">

@@ -148,7 +148,7 @@ $checkTask = function ($id) {
 
         $this->request->save();
     }
-    Cache::forget('requests');
+    Cache::forget('request_'.session('requestId'));
     $this->dispatch('view-detailed-request');
 };
 
