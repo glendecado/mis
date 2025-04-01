@@ -68,6 +68,7 @@ mount(function () {
 on([
     'update' => function () {
         $this->total();
+        session(['date' => $this->date]);
     },
 ]);
 
@@ -76,7 +77,7 @@ $techStaffMetrics = function () {
         return collect(); // Return empty collection if no staff selected
     }
 
-    $date = $this->date;
+    $date = session('date') ?? $this->date ?? 'today';
     $id = $this->techId;
     $carbon = Carbon::now();
     $request = Request::query()
@@ -130,8 +131,8 @@ $techStaffMetrics = function () {
 ?>
 
 <div class="px-10 py-6">
-
-    <div name="select">
+    
+    <div name="select" class="flex w-full gap-2">
         <!-- Date Selection -->
         <div class="mb-2">
             <label for="date" class="font-semibold text-lg">Select Date:</label>
