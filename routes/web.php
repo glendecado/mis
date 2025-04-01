@@ -1,8 +1,7 @@
 <?php
 
-use App\Mail\CreatedAccount;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -41,14 +40,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/mail', function(){
-  $user = App\Models\User::find(1);
-
-  if (!$user) {
-      return "User not found!";
-  }
-
-  Mail::to('gbdecado123@gmail.com')->send(new CreatedAccount($user));
-
-  return "Email sent!";
+Route::get('/test', function () {
+ /*  return response()->json(collect(Cache::get('req'))); */
+  dd(Cache::get('requests'));
 });
+
+
+
