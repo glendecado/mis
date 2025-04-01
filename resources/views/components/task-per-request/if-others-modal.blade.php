@@ -1,5 +1,5 @@
 <!-- Primary Action Button -->
-<button @click="$dispatch('open-modal', 'add-task-modal')" class="p-2 border border-[#2e5e91] text-[16px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
+<button @click="$dispatch('open-modal', 'add-task-modal')" class="p-2 mt-2 border border-[#2e5e91] text-[16px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
     Add Task List For This Request
 </button>
 
@@ -12,15 +12,15 @@
         removeInput(index) { if (this.inputs.length > 1) this.inputs.splice(index, 1); },
         saveTasks() { this.task = this.inputs; $wire.confirmTask(); $dispatch('close-modal', 'add-task-modal'); }
     }">
-        <h3 class="text-xl font-semibold text-gray-800 mb-6">Create New Task List</h3>
+        <h3 class="text-[28px] mb-2 font-medium text-[#2e5e91]">Create New Task List</h3>
 
-        <div class="space-y-4 mb-6">
+        <div class="mb-4">
             <template x-for="(input, index) in inputs" :key="index">
                 <div class="flex items-center space-x-3">
                     <input
                         type="text"
                         x-model="inputs[index]"
-                        class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="text-[16px] text-black mb-2 font-thin flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Task item"
                         @keydown.enter="addInput(); $nextTick(() => { $event.target.nextElementSibling?.nextElementSibling?.focus() })">
                     <button

@@ -83,45 +83,48 @@ $techStaffMetrics = function () {
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
         ->where('assigned_requests.technicalStaff_id', $id);
 
-    switch ($date) {
-        case 'today':
-            $request->whereDate('assigned_requests.created_at', Carbon::today())
+        switch ($date) {
+            case 'today':
+                $request->whereDate('assigned_requests.created_at', Carbon::today())
+                    ->select(
+                        DB::raw("strftime('%H:%M %p', assigned_requests.created_at) as date"),
+                        DB::raw('COUNT(*) as total_assigned_requests'),
+                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                    )
+                    ->groupBy(DB::raw("date"))
+                    ->orderBy(DB::raw("date"), 'ASC');
+                break;
+        
+            case 'this_week':
+                $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
+                    ->select(
+                        DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at) as date"),
+                        DB::raw('COUNT(*) as total_assigned_requests'),
+                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                    )
+                    ->groupBy(DB::raw("date"))
+                    ->orderBy(DB::raw("date"), 'ASC');
+                break;
+        
+            case 'this_month':
+                $request->whereBetween('assigned_requests.created_at', [
+                    Carbon::now()->startOfMonth(),
+                    Carbon::now()->endOfMonth()
+                ])
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%h:%i %p') as date"),
+                    DB::raw("strftime('%Y', assigned_requests.created_at) || '-' || 
+                              strftime('%m', assigned_requests.created_at) || 
+                              ' week ' || 
+                              CAST(((julianday(assigned_requests.created_at) - 
+                              julianday(DATE(assigned_requests.created_at, 'start of month'))) / 7) + 1 AS INTEGER) 
+                              AS date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
                 ->groupBy(DB::raw("date"))
                 ->orderBy(DB::raw("date"), 'ASC');
-            break;
-
-        case 'this_week':
-            $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
-                ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d') as date"),
-                    DB::raw('COUNT(*) as total_assigned_requests'),
-                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                )
-                ->groupBy(DB::raw("date"))
-                ->orderBy(DB::raw("date"), 'ASC');
-            break;
-        case 'this_month':
-            $request->whereBetween('assigned_requests.created_at', [
-                Carbon::now()->startOfMonth(),
-                Carbon::now()->endOfMonth()
-            ])
-                ->select(
-                    DB::raw("CONCAT(YEAR(assigned_requests.created_at), '-', LPAD(MONTH(assigned_requests.created_at), 2, '0'), ' week ', 
-                    WEEK(assigned_requests.created_at, 0) - 
-                    WEEK(DATE_SUB(assigned_requests.created_at, INTERVAL DAY(assigned_requests.created_at)-1 DAY), 0) + 1
-                    ) AS date"),
-                    DB::raw('COUNT(*) as total_assigned_requests'),
-                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                )
-                ->groupBy(DB::raw("date"))
-                ->orderBy(DB::raw("date"), 'ASC');
-            break;
-    }
+                break;
+        }
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
@@ -129,7 +132,7 @@ $techStaffMetrics = function () {
 
 ?>
 
-<div class="px-10 py-6">
+<div class="px-2 py-6">
 
     <div name="select">
         <!-- Date Selection -->
@@ -161,7 +164,7 @@ $techStaffMetrics = function () {
 
 
 
-    <div class="px-10 py-6">
+    <div class="px-2 py-6">
         <!-- Performance Summary Table -->
         <div class="mt-6 bg-white p-4 rounded-md shadow-md">
             <h3 class="text-xl font-semibold mb-4">Staff Performance Summary</h3>
@@ -200,22 +203,31 @@ $techStaffMetrics = function () {
 
         <div x-data="{view : 'table'}">
 
-            <div class="flex mt-11 gap-2 items-center">
-
-                <div :class="view == 'table' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='table'">
+        <div class="flex mt-11 mb-4 gap-2 items-center justify-between w-full">
+            <div class="flex gap-2 p-2">
+                <!-- Table Icon -->
+                <div 
+                    class="p-2 rounded-md cursor-pointer"
+                    :class="view == 'table' ? 'border-blue-600 bg-blue-50' : ''"
+                    @click="view='table'">
                     <x-icons.table />
                 </div>
 
-                <div :class="view == 'chart' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='chart'">
+                <!-- Chart Icon -->
+                <div 
+                    class="p-2 rounded-md cursor-pointer"
+                    :class="view == 'chart' ? 'border-blue-600 bg-blue-50' : ''"
+                    @click="view='chart'">
                     <x-icons.chart />
                 </div>
-
-
             </div>
 
-            <button class="w-full flex justify-end" @click="window.print()">
+
+            <button class="p-2 border-blue-600 bg-blue-50 rounded-md" @click="window.print()">
                 <x-icons.printer />
             </button>
+        </div>
+
 
 
             <div id="section-to-print">
@@ -226,10 +238,10 @@ $techStaffMetrics = function () {
                     </h1>
                 </div>
 
-                <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
+                <h3 class="text-xl font-semibold mb-2" id="hideOnPrint">Detailed Performance Metrics</h3>
                 <!-- Detailed Metrics Table -->
                 <template x-if="view == 'table'">
-                    <div class="mt-6 bg-white p-4 rounded-md shadow-md">
+                    <div class="bg-white p-4 rounded-md shadow-md">
                         <div class="overflow-x-auto">
                             <table class="w-full border-collapse">
                                 <thead>
