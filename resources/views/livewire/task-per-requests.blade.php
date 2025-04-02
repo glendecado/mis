@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
@@ -13,148 +12,111 @@ state('categories', []);
 state('taskList', []);
 state('selectedTaskList', []);
 state('taskPerReq', []);
-state('notDefault');
-state('checked');
-state('request');
+state('notDefault', []);
+state('checked', 0);
+state('request', null);
 
 on(['reqPerTask' => function () {
-    $this->taskPerReq = DB::table('task_per_requests')->where('request_id', session()->get('requestId'))->get();
+    $requestId = session()->get('requestId');
+    $this->taskPerReq = DB::table('task_per_requests')->where('request_id', $requestId)->get();
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 }]);
 
-
 mount(function () {
-
     $requestId = session('requestId');
 
     $this->categories = DB::table('categories')
         ->where('request_id', $requestId)
-        ->select('id', 'category_id', 'ifOthers', 'toDefault') // Select multiple columns
+        ->select('id', 'category_id', 'ifOthers', 'toDefault')
         ->get();
 
-
     $categoriesId = $this->categories->pluck('category_id')->toArray();
-
-
 
     $this->taskList = DB::table('task_lists')->whereIn('category_id', $categoriesId)
         ->where('status', 'enabled')
         ->pluck('task', 'id');
 
-    $this->taskPerReq = DB::table('task_per_requests')->where('request_id', session()->get('requestId'))->get();
+    $this->taskPerReq = DB::table('task_per_requests')->where('request_id', $requestId)->get();
 
     $this->notDefault = $this->categories
-        ->whereNotNull('ifOthers') // Filters out records where 'ifOthers' is NULL
-        ->where('toDefault','!==', 0) // Filters out records where 'toDefault' is exactly false
-        ->toArray(); // Converts the result to an array
+        ->whereNotNull('ifOthers')
+        ->where('toDefault', '!=', 0)
+        ->toArray();
 
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 });
 
 $confirmTask = function () {
-
     $taskList = $this->selectedTaskList;
-    $tasks = DB::table('task_lists')->whereIn('id', $taskList)->get();
+    $requestId = session()->get('requestId');
 
+    if (!empty($taskList)) {
+        foreach ($taskList as $taskId) {
+            $task = DB::table('task_lists')->where('id', $taskId)->first();
 
-    if (!$tasks->isEmpty()) {
-
-        foreach ($tasks as $task) {
-            $taskPerReq = TaskPerRequest::create([
-                'request_id' => session()->get('requestId'),
-                'task' => $task->task,
-                'status' => 'enable'
+            TaskPerRequest::create([
+                'request_id' => $requestId,
+                'task' => $task ? $task->task : $taskId,
+                'status' => 'enabled'
             ]);
-            $taskPerReq->save();
-        }
-    } else {
-        foreach ($taskList as $list) {
-            $taskPerReq = TaskPerRequest::create([
-                'request_id' => session()->get('requestId'),
-                'task' => $list,
-                'status' => 'enable'
-            ]);
-            $taskPerReq->save();
         }
     }
-
 
     $this->dispatch('reqPerTask');
     $this->dispatch('view-detailed-request');
 };
 
-
-
-
-//categories-
 $toDefaultCategory = function ($name, $decide) {
-
     $catCollection = Categories::where('ifOthers', $name)->get();
 
     if ($decide) {
-        $defCat = Category::create([
-            'name' => $name
-        ]);
+        $defCat = Category::create(['name' => $name]);
 
-        //remove the name and then put the category with name
         foreach ($catCollection as $cat) {
-            $cat->category_id = $defCat->id;
-            $cat->ifOthers = null;
-            $cat->save(); // Save each updated record
+            $cat->update(['category_id' => $defCat->id, 'ifOthers' => null]);
         }
-        $this->dispatch('success', 'Successfully save as default; you can now set a task list for this category.');
-        $defCat->save();
-        return $this->redirect('/category', navigate: true);
+
+        $this->dispatch('success', 'Successfully saved as default; you can now set a task list for this category.');
+        return redirect('/category');
     } else {
         foreach ($catCollection as $cat) {
-            $cat->toDefault = false;
-            $cat->save();
+            $cat->update(['toDefault' => false]);
         }
-        $this->dispatch('');
-        return $this->redirect('/request/' . session()->get('requestId'), navigate: true);
+        return redirect('/request/' . session()->get('requestId'));
     }
 };
 
 $checkTask = function ($id) {
-
+    $requestId = session('requestId');
     $taskPerReq = TaskPerRequest::find($id);
 
     if ($taskPerReq) {
-        // Toggle isCheck value
-        $taskPerReq->isCheck = !$taskPerReq->isCheck;
-        $taskPerReq->save();
+        $taskPerReq->update(['isCheck' => !$taskPerReq->isCheck]);
 
-        // Update checked count
-        $this->taskPerReq = TaskPerRequest::where('request_id', session('requestId'))->get();
+        $this->taskPerReq = TaskPerRequest::where('request_id', $requestId)->get();
         $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 
         $this->dispatch('reqPerTask');
     }
 
-    // Fetch request model
-    $this->request = Request::find(session('requestId'));
+    $this->request = Request::find($requestId);
 
     if ($this->request && $this->taskPerReq->count() > 0) {
         $part = $this->checked;
         $whole = $this->taskPerReq->count();
-
-        // Ensure percentage is a whole number
         $totalPercent = ($whole > 0) ? round(($part / $whole) * 100) : 0;
-        $this->request->progress = $totalPercent;
 
-        if ($totalPercent === 100.0) {
-            $this->request->status = 'resolved';
-        }
-
-        $this->request->save();
+        $this->request->update([
+            'progress' => $totalPercent,
+            'status' => $totalPercent === 100 ? 'resolved' : $this->request->status
+        ]);
     }
-    Cache::forget('request_'.session('requestId'));
+
+    Cache::forget('request_' . $requestId);
     $this->dispatch('view-detailed-request');
 };
 
 ?>
-
-
 
 <div>
     @include('components.task-per-request.view')
