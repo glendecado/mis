@@ -27,7 +27,7 @@ mount(function () {
 
     $this->categories = DB::table('categories')
         ->where('request_id', $requestId)
-        ->select('id', 'category_id', 'ifOthers', 'toDefault')
+        ->select('id', 'category_id', 'ifOthers', 'isDefault')
         ->get();
 
     $categoriesId = $this->categories->pluck('category_id')->toArray();
@@ -38,20 +38,24 @@ mount(function () {
 
     $this->taskPerReq = DB::table('task_per_requests')->where('request_id', $requestId)->get();
 
+
+    //meaning it is not accepted as default
     $this->notDefault = $this->categories
         ->whereNotNull('ifOthers')
-        ->where('toDefault', '!=', 0)
+        ->whereNull('isDefault')
         ->toArray();
 
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
 });
 
 $confirmTask = function () {
+
     $taskList = $this->selectedTaskList;
     $requestId = session()->get('requestId');
 
     if (!empty($taskList)) {
         foreach ($taskList as $taskId) {
+
             $task = DB::table('task_lists')->where('id', $taskId)->first();
 
             TaskPerRequest::create([
@@ -61,7 +65,7 @@ $confirmTask = function () {
             ]);
         }
     }
-
+    $this->dispatch('close-modal', 'add-task-modal');
     $this->dispatch('reqPerTask');
     $this->dispatch('view-detailed-request');
 };
@@ -79,9 +83,12 @@ $toDefaultCategory = function ($name, $decide) {
         $this->dispatch('success', 'Successfully saved as default; you can now set a task list for this category.');
         return redirect('/category');
     } else {
+
         foreach ($catCollection as $cat) {
-            $cat->update(['toDefault' => false]);
+            $cat->update(['isDefault' => 0]);
+   
         }
+        $this->dispatch('success', 'Successfully saved as default; you can now set a task list for this category.');
         return redirect('/request/' . session()->get('requestId'));
     }
 };

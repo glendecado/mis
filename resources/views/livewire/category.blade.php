@@ -13,11 +13,12 @@ mount(function () {
     if (request()->route()->getName() == 'category') {
         session(['page' => 'category']);
     }
-    $this->cacheKey = 'categories_';
+
+
 });
 
 $viewCategory = function () {
-    return Category::orderBy('name')->get();
+    return Category::with('taskList')->get();
 };
 
 $addCategory = function ($categoryName) {

@@ -9,6 +9,7 @@ class Categories extends Model
     protected $fillable = [
         'request_id',
         'category_id',
+        'isDefault',
         'ifOthers'
     ];
 
