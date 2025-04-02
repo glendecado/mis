@@ -91,48 +91,46 @@ $techStaffMetrics = function () {
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
         ->where('assigned_requests.technicalStaff_id', $id);
 
-        switch ($date) {
-            case 'today':
-                $request->whereDate('assigned_requests.created_at', Carbon::today())
-                    ->select(
-                        DB::raw("strftime('%H:%M %p', assigned_requests.created_at) as date"),
-                        DB::raw('COUNT(*) as total_assigned_requests'),
-                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                    )
-                    ->groupBy(DB::raw("date"))
-                    ->orderBy(DB::raw("date"), 'ASC');
-                break;
-        
-            case 'this_week':
-                $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
-                    ->select(
-                        DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at) as date"),
-                        DB::raw('COUNT(*) as total_assigned_requests'),
-                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                    )
-                    ->groupBy(DB::raw("date"))
-                    ->orderBy(DB::raw("date"), 'ASC');
-                break;
-        
-            case 'this_month':
-                $request->whereBetween('assigned_requests.created_at', [
-                    Carbon::now()->startOfMonth(),
-                    Carbon::now()->endOfMonth()
-                ])
+    switch ($date) {
+        case '':
+        case 'today':
+            $request->whereDate('assigned_requests.created_at', Carbon::today())
                 ->select(
-                    DB::raw("strftime('%Y', assigned_requests.created_at) || '-' || 
-                              strftime('%m', assigned_requests.created_at) || 
-                              ' week ' || 
-                              CAST(((julianday(assigned_requests.created_at) - 
-                              julianday(DATE(assigned_requests.created_at, 'start of month'))) / 7) + 1 AS INTEGER) 
-                              AS date"),
+                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%h:%i %p') as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
                 ->groupBy(DB::raw("date"))
                 ->orderBy(DB::raw("date"), 'ASC');
-                break;
-        }
+            break;
+
+        case 'this_week':
+            $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
+                ->select(
+                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d') as date"),
+                    DB::raw('COUNT(*) as total_assigned_requests'),
+                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                )
+                ->groupBy(DB::raw("date"))
+                ->orderBy(DB::raw("date"), 'ASC');
+            break;
+        case 'this_month':
+            $request->whereBetween('assigned_requests.created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+                ->select(
+                    DB::raw("CONCAT(YEAR(assigned_requests.created_at), '-', LPAD(MONTH(assigned_requests.created_at), 2, '0'), ' week ', 
+                    WEEK(assigned_requests.created_at, 0) - 
+                    WEEK(DATE_SUB(assigned_requests.created_at, INTERVAL DAY(assigned_requests.created_at)-1 DAY), 0) + 1
+                    ) AS date"),
+                    DB::raw('COUNT(*) as total_assigned_requests'),
+                    DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
+                )
+                ->groupBy(DB::raw("date"))
+                ->orderBy(DB::raw("date"), 'ASC');
+            break;
+    }
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
@@ -140,9 +138,18 @@ $techStaffMetrics = function () {
 
 ?>
 
-<div class="px-2 py-6">
+<div class="px-10 py-6">
 
-    <div name="select">
+
+    <div wire:loading wire:target="addUser" class="w-full h-dvh">
+        <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
+            <x-loaders.b-square />
+        </div>
+    </div>
+
+
+
+    <div name="select" class="flex w-full gap-2">
         <!-- Date Selection -->
 
         <!-- Tech Staff Selection -->
@@ -163,36 +170,38 @@ $techStaffMetrics = function () {
 
 
 
-    <div class="py-6">
-        <!-- Performance Summary Table -->
-        <div class="mt-2 bg-white p-4 rounded-md shadow-md">
-            <h3 class="text-xl font-semibold mb-4">Staff Performance Summary</h3>
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="p-3 text-left border">Metric</th>
-                        <th class="p-3 text-left border">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="p-3 border"><strong>Average Rating</strong></td>
-                        <td class="p-3 border">{{ number_format($totalRatings, 1) }} / 5</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="p-3 border"><strong>Total Assigned Requests</strong></td>
-                        <td class="p-3 border">{{ $totalAssignedRequests }}</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 border"><strong>Requests Completed</strong></td>
-                        <td class="p-3 border">{{ $totalRequestsCompleted }}</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="p-3 border"><strong>Completion Rate</strong></td>
-                        <td class="p-3 border">{{ $completionRate }}%</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="px-10 py-6">
+       <!-- Performance Summary Cards -->
+<div class="mt-8">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6 px-2">Staff Performance Overview</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5" x-data="{ loaded: false }" 
+         x-init="setTimeout(() => loaded = true, 100)">
+        
+        <!-- Average Rating Card -->
+        <div x-show="loaded" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Average Rating</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ number_format($totalRatings, 1) }}<span class="text-lg text-gray-500">/5</span></h3>
+                    </div>
+                    <div class="p-3 rounded-full bg-blue-50 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-yellow-400 h-2 rounded-full" style="width: {{ ($totalRatings/5)*100 }}%"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Total Assigned Requests Card -->
@@ -200,7 +209,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-100"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl mt-4 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -227,7 +236,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-200"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl mt-2 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -253,7 +262,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-300"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl mt-2 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -286,31 +295,33 @@ $techStaffMetrics = function () {
 
         <div x-data="{view : 'table'}">
 
-        <div class="flex mt-11 mb-4 gap-2 items-center justify-between w-full">
-            <div class="flex gap-2 p-2">
-                <!-- Table Icon -->
-                <div 
-                    class="p-2 rounded-md cursor-pointer"
-                    :class="view == 'table' ? 'border-blue-600 bg-blue-50' : ''"
-                    @click="view='table'">
+            <div class="flex mt-11 gap-2 items-center">
+
+                <div :class="view == 'table' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='table'">
                     <x-icons.table />
                 </div>
 
-                <!-- Chart Icon -->
-                <div 
-                    class="p-2 rounded-md cursor-pointer"
-                    :class="view == 'chart' ? 'border-blue-600 bg-blue-50' : ''"
-                    @click="view='chart'">
+                <div :class="view == 'chart' ? 'border-2 rounded-md border-blue-700 p-1' : ''" @click="view='chart'">
                     <x-icons.chart />
                 </div>
+                <div class="mb-2 w-full">
+                    <div class="float-left">
+                        <label for="date" class="font-semibold text-lg">Select Date:</label>
+                        <select wire:model.change="date" name="date" id="date" class="input w-full"
+                            @change="$dispatch('update')">
+                            <option value="today">Today</option>
+                            <option value="this_week">This Week</option>
+                            <option value="this_month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+
+
             </div>
 
-
-            <button class="p-2 border-blue-600 bg-blue-50 rounded-md" @click="window.print()">
+            <button class="w-full flex justify-end" @click="window.print()">
                 <x-icons.printer />
             </button>
-        </div>
-
 
 
             <div id="section-to-print" class="h-[500px]">
@@ -321,10 +332,10 @@ $techStaffMetrics = function () {
                     </h1>
                 </div>
 
-                <h3 class="text-xl font-semibold mb-2" id="hideOnPrint">Detailed Performance Metrics</h3>
+                <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
                 <!-- Detailed Metrics Table -->
                 <template x-if="view == 'table'">
-                    <div class="bg-white p-4 rounded-md shadow-md">
+                    <div class="mt-6 bg-white p-4 rounded-md shadow-md">
                         <div class="overflow-x-auto">
                             <table class="w-full border-collapse">
                                 <thead>
