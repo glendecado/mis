@@ -75,9 +75,9 @@ $sessionFacultyLocation = function () {
 
 
 //request in cache
-$getCachedRequests = fn() => Cache::remember('requests', 60 * 5, function () {
+$getCachedRequests = fn() => Cache::flexible('requests', [5, 10], function () {
     return Request::with(['categories','categories.category', 'faculty', 'faculty.user'])->get();
-}); // Cache for 5 minutes
+}); 
 
 //reload
 $reload = function () {
