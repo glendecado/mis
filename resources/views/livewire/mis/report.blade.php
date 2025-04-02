@@ -77,7 +77,7 @@ $techStaffMetrics = function () {
         return collect(); // Return empty collection if no staff selected
     }
 
-    $date = session('date') ?? $this->date ?? 'today';
+    $date = session('date') ?? $this->date;
     $id = $this->techId;
     $carbon = Carbon::now();
     $request = Request::query()
@@ -85,6 +85,7 @@ $techStaffMetrics = function () {
         ->where('assigned_requests.technicalStaff_id', $id);
 
     switch ($date) {
+        case '':
         case 'today':
             $request->whereDate('assigned_requests.created_at', Carbon::today())
                 ->select(
@@ -219,7 +220,7 @@ $techStaffMetrics = function () {
             </button>
 
 
-            <div id="section-to-print">
+            <div id="section-to-print" class="h-[500px]">
 
                 <div id="showOnPrint">
                     <h1 class="text-2xl">

@@ -1,4 +1,4 @@
-@if (count($this->notDefault) > 0 && $this->taskList->isEmpty())
+@if (count($this->notDefault) == 0 && $this->taskList->isEmpty())
 <p class="text-red-500">No default task</p>
 <a x-navigate href="/category" class="underline text-sm"> Proceed to this link to add default task on a
     category</a>
