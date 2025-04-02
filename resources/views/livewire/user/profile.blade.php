@@ -124,7 +124,7 @@ $updateProfile = function ($type) {
                         </svg>
                     </div>
                 </div>
-                <div>
+                <div class="">
                     <h1 class="text-2xl font-bold text-white" x-text="fName + ' ' + lName"></h1>
                     <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-400 text-white" x-text="role"></span>
                 </div>
