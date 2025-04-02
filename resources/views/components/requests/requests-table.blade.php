@@ -1,261 +1,261 @@
-<!-- User Table for Larger Screens -->
-<div class="table-container md:block hidden w-full p-2 rounded-md"
-    style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);" x-data="{ search: '' }">
-    <!-- Search Input -->
+<!-- Request Management Dashboard -->
+<div class="w-full" x-data="{ search: '', statusDropdownOpen: false }">
+    <!-- Search and Filter Bar -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-2">
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <input
+                type="text"
+                x-model="search"
+                placeholder="Search requests..."
+                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 placeholder-gray-400 transition duration-150" />
+        </div>
 
-    <div class="m-0 my-4 relative w-60 flex items-center">
-        <input
-            type="text"
-            placeholder="Search..."
-            x-model="search"
-            class="w-full rounded p-2 pl-3 pr-10 input relative" />
+        <!-- Status Filter (Mobile) -->
+        <div class="md:hidden w-full">
+            <button
+                @click="statusDropdownOpen = !statusDropdownOpen"
+                class="flex items-center justify-between w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm">
+                <span>Filter by Status</span>
+                <svg :class="{'rotate-180': statusDropdownOpen}" class="h-4 w-4 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
 
-        <!-- Search Icon/Text Inside Input -->
-        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B7B7B7">
-                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-            </svg>
-        </span>
-    </div>
-
-    <table class="table-container w-full text-[100%] break-words" x-data="{ openRequest: false }">
-        <thead class="table-header rounded-md hidden md:table-header-group bg-[#2e5e91]">
-            <tr>
-                @if(session('user')['role'] != 'Faculty')
-                <th class="table-header-cell">Name</th>
-                @endif
-                <th class="table-header-cell">Date</th>
-                <th class="table-header-cell relative">
-                    <div @click="status = !status" x-data="{ status: false }" class="flex flex-row items-center justify-center cursor-pointer flex-wrap">
-                        <span>Status</span>
-                        <!-- Arrow Icons -->
-                        <div class="relative">
-                            <div x-show="status" x-cloak>
-                                <x-icons.arrow direction="up" />
-                            </div>
-                            <div x-show="status == false" x-cloak>
-                                <x-icons.arrow direction="down" />
-                            </div>
-                        </div>
-
-                        <!-- Dropdown -->
-                        <div
-                            x-show="status"
-                            @click.away="status = false"
-                            class="dropdown absolute top-full"
-                            style="display: none;">
-                            <ul class="text-sm text-gray-700 w-full">
-                                <li class="dropdown-open-items 
-                                {{ request()->input('status') == 'all' ? 'bg-blue text-white' : '' }}">
-                                    <a wire:navigate href="/request?status=all" class="w-full p-5">All</a>
-                                </li>
-
-                                @if(session('user')['role'] != 'Technical Staff')
-
-                                <li class="dropdown-open-items 
-                                 {{ request()->input('status') == 'waiting' ? 'bg-blue text-white' : '' }}">
-                                    <a wire:navigate href="/request?status=waiting" class="w-full p-5">Waiting</a>
-                                </li>
-
-                                @endif
-
-                                <li class="dropdown-open-items 
-                                {{ request()->input('status') == 'pending' ? 'bg-blue text-white' : '' }}">
-                                    <a wire:navigate href="/request?status=pending" class="w-full p-5">Pending</a>
-                                </li>
-
-
-                                <li class="dropdown-open-items 
-                                {{ request()->input('status') == 'ongoing' ? 'bg-blue text-white' : '' }}">
-                                    <a wire:navigate href="/request?status=ongoing" class="w-full p-5">Ongoing</a>
-                                </li>
-
-
-                                <li class="dropdown-open-items 
-                                {{ request()->input('status') == 'resolved' ? 'bg-blue text-white' : '' }}">
-                                    <a wire:navigate href="/request?status=resolved" class="w-full p-5">Resolved</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </th>
-                <th class="table-header-cell">Category</th>
-                <th class="table-header-cell w-[20%]">Concerns</th>
-                <th class="table-header-cell">Location</th>
-                @if(session('user')['role'] == 'Faculty')
-                <th class="table-header-cell">Action</th>
-                @endif
-            </tr>
-        </thead>
-        <tbody>
-            @if($this->viewRequest()->isEmpty())
-            <tr class="text-center">
-                <td colspan="6">No items found.</td>
-            </tr>
-            @else
-            @foreach ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
-
-            @php
-            $color = "";
-            switch($request->priorityLevel){
-            case 1:
-            $color = "bg-red-500/50 hover:bg-red-500/30";
-            break;
-            case 2:
-            $color = "bg-yellow/50 hover:bg-yellow/30";
-            break;
-            case 3:
-            $color = "bg-green-500/50 hover:bg-green-500/30";
-            break;
-            }
-
-            @endphp
-
-            <tr
-                class="{{session('user')['role'] == 'Technical Staff' ? $color : 'hover:bg-blue-100'}} table-row-cell  hover:border-y-blue-600 cursor-pointer hidden md:table-row"
-                {{--Search--}}
-                x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college}} {{ $request->faculty->building}} {{ $request->faculty->room}}'.toLowerCase().includes(search.toLowerCase())">
-                @if(session('user')['role'] != 'Faculty')
-                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ $request->faculty->user->name }}
-                    {{request()->query('status')}}
-                </td>
-                @endif
-                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ $request->created_at->format('m-d-y') }}
-                </td>
-                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ ucfirst($request->status) }}
-                </td>
-                <td class="table-row-cell truncate" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ $request->categories->pluck('category.name')->join(', ') }}
-                    {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
-                </td>
-                <td class="table-row-cell" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ $request->concerns }}
-                </td>
-                <td class="table-row-cell text-small" @click="$wire.checkPriorityLevel({{$request->id }})">
-                    {{ $request->location}}
-                </td>
-
-                @if(session('user')['role'] == 'Faculty')
-                <td class="table-row-cell flex items-center justify-center">
-                    @if($request->status == 'waiting')
-                    <div @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})">
-                        <x-icons.delete />
-                    </div>
-                    @elseif($request->status == 'resolved' && is_null($request->rate) && session('user')['role'] == 'Faculty')
-
-                    ⚠️ Please provide a rate and feedback.
-
-
+            <!-- Mobile Status Dropdown -->
+            <div
+                x-show="statusDropdownOpen"
+                x-transition:enter="transition ease-out duration-100"
+                x-transition:enter-start="transform opacity-0 scale-95"
+                x-transition:enter-end="transform opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-75"
+                x-transition:leave-start="transform opacity-100 scale-100"
+                x-transition:leave-end="transform opacity-0 scale-95"
+                class="mt-1 w-full bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                <div class="py-1">
+                    <a wire:navigate href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
+                    @if(session('user')['role'] != 'Technical Staff')
+                    <a wire:navigate href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
                     @endif
-
-
-
-                </td>
-                @endif
-            </tr>
-
-
-
-            @endforeach
-            @endif
-        </tbody>
-    </table>
-</div>
-
-<!-- User Table for Mobile Screens -->
-<!-- User Table for Mobile Screens -->
-<div class="table-container md:hidden w-full h-auto p-2 rounded-md" x-data="{ openRequest: '', search: '' }">
-    <!-- Search Input -->
-    <div class="mb-4">
-        <input
-            type="text"
-            placeholder="Search..."
-            x-model="search"
-            class="border rounded p-2 w-full text-gray-900" />
+                    <a wire:navigate href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
+                    <a wire:navigate href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
+                    <a wire:navigate href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
+                    <a wire:navigate href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Mobile View for Table Rows -->
-    <div class="space-y-3">
-        @foreach ($this->viewRequest() as $request)
-        @php
-            $color = "";
-            switch($request->priorityLevel){
-                case 1:
-                    $color = "bg-red-500/50 hover:bg-red-500/30";
-                    break;
-                case 2:
-                    $color = "bg-yellow/50 hover:bg-yellow/30";
-                    break;
-                case 3:
-                    $color = "bg-green-500/50 hover:bg-green-500/30";
-                    break;
-                default:
-                    $color = "bg-white";
-            }
-        @endphp
+    <!-- Desktop Table -->
+    <div class="hidden md:block bg-white rounded-xl shadow-sm border border-gray-100 ">
+        <div class="">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue text-white">
+                    <tr>
+                        @if(session('user')['role'] != 'Faculty')
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Requester</th>
+                        @endif
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+                            <div class="flex items-center group">
+                                <span>Status</span>
+                                <div x-data="{ open: false }" class="relative ml-1">
+                                    <button @click="open = !open" class="text-gray-400 hover:text-gray-500">
+                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <div
+                                        x-show="open"
+                                        @click.away="open = false"
+                                        class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200">
+                                        <a wire:navigate href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
+                                        @if(session('user')['role'] != 'Technical Staff')
+                                        <a wire:navigate href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
+                                        @endif
+                                        <a wire:navigate href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
+                                        <a wire:navigate href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
+                                        <a wire:navigate href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
+                                        <a wire:navigate href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Category</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Concerns</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Location</th>
+                        @if(session('user')['role'] == 'Technical Staff')
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Priority</th>
+                        @endif
 
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
+                    <tr
+                             @click="$wire.checkPriorityLevel({{ $request->id }})"
+                        x-show="search === '' || 
+                            '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college ?? '' }} {{ $request->faculty->building ?? '' }} {{ $request->faculty->room ?? '' }}'.toLowerCase().includes(search.toLowerCase())"
+                        class="hover:bg-gray-50 transition-colors duration-150 cursor-pointer select-none">
+                        @if(session('user')['role'] != 'Faculty')
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="{{ asset('storage/'.$request->faculty->user->img ?? '') }}" alt="{{ $request->faculty->user->name ?? '' }}">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ $request->faculty->user->name ?? '' }}</div>
+                                    <div class="text-sm text-gray-500">{{ $request->faculty->department ?? '' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        @endif
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $request->created_at->format('M d, Y') }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ $request->status == 'waiting' ? 'bg-gray-100 text-gray-800' : '' }}
+                                {{ $request->status == 'pending' ? 'bg-blue-100 text-blue-800' : '' }}
+                                {{ $request->status == 'ongoing' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                {{ $request->status == 'resolved' ? 'bg-green-100 text-green-800' : '' }}
+                                {{ $request->status == 'declined' ? 'bg-red-100 text-red-800' : '' }}">
+                                {{ ucfirst($request->status) }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500 max-w-xs">
+                            <div class="line-clamp-2">
+                                {{ $request->categories->pluck('category.name')->join(', ') }}
+                                {{ $request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ') }}
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <div class="line-clamp-2">{{ $request->concerns }}</div>
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $request->location }}
+                        </td>
+
+                        @if(session('user')['role'] == 'Technical Staff')
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if($request->priorityLevel)
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ $request->priorityLevel == 1 ? 'bg-red-100 text-red-800' : '' }}
+                                {{ $request->priorityLevel == 2 ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                {{ $request->priorityLevel == 3 ? 'bg-green-100 text-green-800' : '' }}">
+                                {{ $request->priorityLevel == 1 ? 'High' : ($request->priorityLevel == 2 ? 'Medium' : 'Low') }}
+                            </span>
+                            @endif
+                        </td>
+                        @endif
+
+                     
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="{{ session('user')['role'] == 'Faculty' ? 6 : (session('user')['role'] == 'Technical Staff' ? 8 : 7) }}" class="px-6 py-4 text-center text-sm text-gray-500">
+                            No requests found
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="md:hidden space-y-3">
+        @forelse ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
         <div
-            class="border rounded shadow-md p-4 {{ session('user')['role'] == 'Technical Staff' ? $color : 'bg-white' }}"
             x-show="search === '' || 
-                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }}'
-                    .toLowerCase().includes(search.toLowerCase())">
-            <div class="flex justify-between">
-                <div class="font-semibold text-gray-900">Name:</div>
-                <div class="text-gray-900">{{ $request->faculty->user->name  }}</div>
-            </div>
-            <div class="flex justify-between">
-                <div class="font-semibold text-gray-900">Date:</div>
-                <div class="text-gray-900">{{ $request->created_at->format('m-d-y') }}</div>
-            </div>
-            <div class="flex justify-between">
-                <div class="font-semibold text-gray-900">Status:</div>
-                <div class="text-gray-900">{{ ucfirst($request->status) }}</div>
-            </div>
-            <div class="flex justify-between">
-                <div class="font-semibold text-gray-900">Category:</div>
-                <div class="text-gray-900">{{ $request->categories->pluck('category.name')->join(', ') }}
-                    {{$request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ');}}
-                </div>
-            </div>
-            @if(session('user')['role'] == 'Technical Staff')
-            <div class="flex justify-between">
-                <div class="font-semibold text-gray-900">Priority:</div>
-                <div class="text-gray-900">
-                    @if($request->priorityLevel == 1)
-                        High
-                    @elseif($request->priorityLevel == 2)
-                        Medium
-                    @elseif($request->priorityLevel == 3)
-                        Low
+                '{{ $request->faculty->user->name ?? '' }} {{ $request->status }} {{ $request->concerns }} {{ $request->faculty->college ?? '' }} {{ $request->faculty->building ?? '' }} {{ $request->faculty->room ?? '' }}'.toLowerCase().includes(search.toLowerCase())"
+            class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden p-4 transition-all hover:shadow-md">
+            <div class="flex items-start space-x-4">
+                @if(session('user')['role'] != 'Faculty')
+                <img class="h-12 w-12 rounded-full" src="{{ asset('storage/'.$request->faculty->user->img ?? '') }}" alt="{{ $request->faculty->user->name ?? '' }}">
+                @endif
+                <div class="flex-1 min-w-0">
+                    @if(session('user')['role'] != 'Faculty')
+                    <p class="text-sm font-medium text-gray-900 truncate">{{ $request->faculty->user->name ?? '' }}</p>
+                    <p class="text-sm text-gray-500 truncate">{{ $request->faculty->department ?? '' }}</p>
                     @endif
+                    <p class="text-sm text-gray-500 mt-1">{{ $request->created_at->format('M d, Y') }}</p>
+
+                    <div class="mt-2 flex items-center">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            {{ $request->status == 'waiting' ? 'bg-gray-100 text-gray-800' : '' }}
+                            {{ $request->status == 'pending' ? 'bg-blue-100 text-blue-800' : '' }}
+                            {{ $request->status == 'ongoing' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                            {{ $request->status == 'resolved' ? 'bg-green-100 text-green-800' : '' }}
+                            {{ $request->status == 'declined' ? 'bg-red-100 text-red-800' : '' }}">
+                            {{ ucfirst($request->status) }}
+                        </span>
+
+                        @if(session('user')['role'] == 'Technical Staff' && $request->priorityLevel)
+                        <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            {{ $request->priorityLevel == 1 ? 'bg-red-100 text-red-800' : '' }}
+                            {{ $request->priorityLevel == 2 ? 'bg-yellow-100 text-yellow-800' : '' }}
+                            {{ $request->priorityLevel == 3 ? 'bg-green-100 text-green-800' : '' }}">
+                            {{ $request->priorityLevel == 1 ? 'High' : ($request->priorityLevel == 2 ? 'Medium' : 'Low') }}
+                        </span>
+                        @endif
+                    </div>
                 </div>
+            </div>
+
+            <div class="mt-3">
+                <p class="text-sm font-medium text-gray-900">Category:</p>
+                <p class="text-sm text-gray-500">
+                    {{ $request->categories->pluck('category.name')->join(', ') }}
+                    {{ $request->categories->whereNotNull('ifOthers')->pluck('ifOthers')->join(', ') }}
+                </p>
+            </div>
+
+            <div class="mt-2">
+                <p class="text-sm font-medium text-gray-900">Concerns:</p>
+                <p class="text-sm text-gray-500 line-clamp-2">{{ $request->concerns }}</p>
+            </div>
+
+            <div class="mt-2">
+                <p class="text-sm font-medium text-gray-900">Location:</p>
+                <p class="text-sm text-gray-500">{{ $request->location }}</p>
+            </div>
+
+            @if($request->status == 'resolved' && is_null($request->rate) && session('user')['role'] == 'Faculty')
+            <div class="mt-2 p-2 bg-yellow-50 rounded text-yellow-800 text-xs">
+                ⚠️ Please provide a rate and feedback
             </div>
             @endif
 
-            <!-- Action Buttons -->
             <div class="mt-4 flex justify-end gap-2">
-                <button @click="$wire.checkPriorityLevel({{$request->id }})"
-                    class="text-white text-sm px-4 py-2 rounded-md bg-[#2e5e91]">
+                <button
+                    @click="$wire.checkPriorityLevel({{ $request->id }})"
+                    class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                     View
                 </button>
-                @if($request->status == 'waiting')
-                @if(session('user')['role'] == 'Faculty')
-                <button @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})"
-                    class="text-white bg-red-500 p-2 rounded-md text-sm">
+                @if($request->status == 'waiting' && session('user')['role'] == 'Faculty')
+                <button
+                    @click="if (confirm('Are you sure you want to delete this request?')) $wire.deleteRequest({{ $request->id }})"
+                    class="px-3 py-1 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-white hover:bg-red-50">
                     Delete
                 </button>
                 @endif
-                @endif
             </div>
-            @if($request->status == 'resolved' && is_null($request->rate) && session('user')['role'] == 'Faculty')
-            ⚠️ Please provide a rate and feedback.
-            @endif
         </div>
-        @endforeach
+        @empty
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center text-sm text-gray-500">
+            No requests found
+        </div>
+        @endforelse
     </div>
 </div>

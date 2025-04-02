@@ -11,6 +11,27 @@
 }
 
 
+body {
+    overscroll-behavior-y: contain;
+  }
+  
+  .refresh-indicator {
+    position: fixed;
+    top: -50px;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+  }
+  
+  .refreshing .refresh-indicator {
+    transform: translateY(50px);
+  }
+
+
 
 /* Custom styles for table components */
 .table-container {
@@ -177,11 +198,11 @@
 }
 
 .modal-trigger-button {
-    @apply z-50 border-[3px] p-1 border-blue-500 rounded-full absolute text-blue bottom-2 right-2 md:bottom-10 md:right-10 bg-blue-100 shadow-md shadow-blue-900/40;
+    @apply  p-1  absolute right-2 md:bottom-10 md:right-10   shadow-blue-900/40;
 }
 
 .tooltip {
-    @apply group-hover:block hidden absolute right-28 bottom-12 text-blue bg-white/90 p-3 rounded-md shadow-md;
+    @apply group-hover:block hidden absolute right-20 bottom-1 text-blue bg-white/90 p-3 rounded-md shadow-md;
 }
 
 .error-login {
@@ -245,6 +266,7 @@
         justify-items: center;
         width: 100dvw;
         height: 100dvh;
+
     }
 
     #section-to-print {
@@ -267,3 +289,5 @@
 #showOnPrint {
     display : none;
  }
+
+ 

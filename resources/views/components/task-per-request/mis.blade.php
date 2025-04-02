@@ -1,12 +1,14 @@
-@if (count($this->notDefault) == 0 && $this->taskList->isEmpty())
+
+
+
+@if ($taskPerReq->isEmpty())
+
+@if (count($this->notDefault) === 0 && $this->taskList->isEmpty())
 <p class="text-red-500">No default task</p>
 <a x-navigate href="/category" class="underline text-sm"> Proceed to this link to add default task on a
     category</a>
 @endif
 
-
-
-@if ($taskPerReq->isEmpty())
 
 @if (count($this->notDefault) > 0 && count($this->categories->toArray()) < 1)
 <div class="p-2 border border-red-500 rounded-md">

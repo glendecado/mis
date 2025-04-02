@@ -12,6 +12,7 @@
 <body class="font-geist relative  h-svh overflow-hidden flex flex-col">
 
 
+
     <div class="h-[64px]">
         <x-header />
     </div>
@@ -26,23 +27,22 @@
         <div class="h-[100%] w-full overflow-auto p-4 rounded-sm">
 
             @php
-                $categoriesWithoutTasks = session('user')['role'] == 'Mis Staff'
-                ? DB::table('category')
-                ->leftJoin('task_lists', 'category.id', '=', 'task_lists.category_id')
-                ->select('category.id', 'category.name')
-                ->groupBy('category.id', 'category.name')
-                ->havingRaw('COUNT(task_lists.id) = 0')
-                ->get()
-                : collect(); // Use an empty collection instead of an empty string
+            $categoriesWithoutTasks = session('user')['role'] == 'Mis Staff'
+            ? DB::table('category')
+            ->leftJoin('task_lists', 'category.id', '=', 'task_lists.category_id')
+            ->select('category.id', 'category.name')
+            ->groupBy('category.id', 'category.name')
+            ->havingRaw('COUNT(task_lists.id) = 0')
+            ->get()
+            : collect(); // Use an empty collection instead of an empty string
             @endphp
 
 
             @if($categoriesWithoutTasks->count() > 0 && session('user')['role'] == 'Mis Staff')
-            <div 
-                x-data="{ show: true }" 
-                x-show="show" 
-                class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
-            >
+            <div
+                x-data="{ show: true }"
+                x-show="show"
+                class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative">
                 <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
                     ✖
                 </button>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+            @endif
 
 
 
