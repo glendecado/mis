@@ -133,15 +133,9 @@ $techStaffMetrics = function () {
 
 ?>
 
-<<<<<<< HEAD
 <div class="px-2 py-6">
 
     <div name="select">
-=======
-<div class="px-10 py-6">
-    
-    <div name="select" class="flex w-full gap-2">
->>>>>>> upstream
         <!-- Date Selection -->
         <div class="mb-2">
             <label for="date" class="font-semibold text-lg">Select Date:</label>
