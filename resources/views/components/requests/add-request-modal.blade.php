@@ -1,5 +1,5 @@
 <x-modal name="add-request-modal" class="max-w-lg p-6">
-    <h1 class="text-[#2e5e91] text-2xl font-semibold text-center mb-4">Service Request Form</h1>
+    <h1 class="text-[#2e5e91] text-[28px] text-center font-medium mb-4">Service Request Form</h1>
 
     <div class="space-y-5" x-data="{ category : @entangle('category_'), concerns : @entangle('concerns'), message: '' }">
         @include('components.requests.confirm-location')

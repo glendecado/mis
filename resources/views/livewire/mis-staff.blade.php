@@ -152,7 +152,7 @@ $viewDetailedUser = function () {};
 
 ?>
 
-<div class="bg-blue-50 rounded-md shadow-lg shadow-blue-950/20">
+<div class="">
 
     <div wire:loading wire:target="addUser" class="w-full h-dvh">
         <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">

@@ -12,7 +12,7 @@
 
         @include('components.requests.add-request-modal')
 
-        <div class="tooltip text-[#2e5e91]">
+        <div class="tooltip text-[#2e5e91] w-auto whitespace-nowrap">
             Create Request
         </div>
     </div>

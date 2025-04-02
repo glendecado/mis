@@ -1,7 +1,7 @@
 <!-- Request Management Dashboard -->
 <div class="w-full" x-data="{ search: '', statusDropdownOpen: false }">
     <!-- Search and Filter Bar -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-2">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
         <!-- Search Input -->
         <div class="relative w-full md:w-80">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -58,7 +58,7 @@
                 <thead class="bg-blue text-white">
                     <tr>
                         @if(session('user')['role'] != 'Faculty')
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Requester</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Requestor</th>
                         @endif
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">Date</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">

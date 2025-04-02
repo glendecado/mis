@@ -12,7 +12,5 @@
 
     @include('components.mis.add-user-modal')
 
-    <div class="tooltip text-[#2e5e91]">
-        Add User
-    </div>
+    <div class="tooltip text-[#2e5e91] w-auto whitespace-nowrap">Add User</div>
 </div>

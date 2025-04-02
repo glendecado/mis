@@ -91,7 +91,6 @@ $techStaffMetrics = function () {
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
         ->where('assigned_requests.technicalStaff_id', $id);
 
-<<<<<<< HEAD
         switch ($date) {
             case 'today':
                 $request->whereDate('assigned_requests.created_at', Carbon::today())
@@ -120,12 +119,6 @@ $techStaffMetrics = function () {
                     Carbon::now()->startOfMonth(),
                     Carbon::now()->endOfMonth()
                 ])
-=======
-    switch ($date) {
-        case '':
-        case 'today':
-            $request->whereDate('assigned_requests.created_at', Carbon::today())
->>>>>>> upstream
                 ->select(
                     DB::raw("strftime('%Y', assigned_requests.created_at) || '-' || 
                               strftime('%m', assigned_requests.created_at) || 
@@ -147,24 +140,9 @@ $techStaffMetrics = function () {
 
 ?>
 
-<<<<<<< HEAD
 <div class="px-2 py-6">
 
     <div name="select">
-=======
-<div class="px-10 py-6">
-
-
-    <div wire:loading wire:target="addUser" class="w-full h-dvh">
-        <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
-            <x-loaders.b-square />
-        </div>
-    </div>
-
-
-
-    <div name="select" class="flex w-full gap-2">
->>>>>>> upstream
         <!-- Date Selection -->
 
         <!-- Tech Staff Selection -->
@@ -185,10 +163,9 @@ $techStaffMetrics = function () {
 
 
 
-<<<<<<< HEAD
-    <div class="px-2 py-6">
+    <div class="py-6">
         <!-- Performance Summary Table -->
-        <div class="mt-6 bg-white p-4 rounded-md shadow-md">
+        <div class="mt-2 bg-white p-4 rounded-md shadow-md">
             <h3 class="text-xl font-semibold mb-4">Staff Performance Summary</h3>
             <table class="w-full border-collapse">
                 <thead>
@@ -216,40 +193,6 @@ $techStaffMetrics = function () {
                     </tr>
                 </tbody>
             </table>
-=======
-    <div class="px-10 py-6">
-       <!-- Performance Summary Cards -->
-<div class="mt-8">
-    <h3 class="text-2xl font-semibold text-gray-800 mb-6 px-2">Staff Performance Overview</h3>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5" x-data="{ loaded: false }" 
-         x-init="setTimeout(() => loaded = true, 100)">
-        
-        <!-- Average Rating Card -->
-        <div x-show="loaded" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-4"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Average Rating</p>
-                        <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ number_format($totalRatings, 1) }}<span class="text-lg text-gray-500">/5</span></h3>
-                    </div>
-                    <div class="p-3 rounded-full bg-blue-50 text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-yellow-400 h-2 rounded-full" style="width: {{ ($totalRatings/5)*100 }}%"></div>
-                    </div>
-                </div>
-            </div>
->>>>>>> upstream
         </div>
 
         <!-- Total Assigned Requests Card -->
@@ -257,7 +200,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-100"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl mt-4 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -284,7 +227,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-200"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl mt-2 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -310,7 +253,7 @@ $techStaffMetrics = function () {
              x-transition:enter="transition ease-out duration-300 delay-300"
              x-transition:enter-start="opacity-0 translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+             class="bg-white rounded-xl mt-2 mb-2 shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -360,22 +303,6 @@ $techStaffMetrics = function () {
                     @click="view='chart'">
                     <x-icons.chart />
                 </div>
-<<<<<<< HEAD
-=======
-                <div class="mb-2 w-full">
-                    <div class="float-left">
-                        <label for="date" class="font-semibold text-lg">Select Date:</label>
-                        <select wire:model.change="date" name="date" id="date" class="input w-full"
-                            @change="$dispatch('update')">
-                            <option value="today">Today</option>
-                            <option value="this_week">This Week</option>
-                            <option value="this_month">This Month</option>
-                        </select>
-                    </div>
-                </div>
-
-
->>>>>>> upstream
             </div>
 
 
