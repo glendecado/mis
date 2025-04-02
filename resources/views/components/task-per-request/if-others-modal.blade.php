@@ -1,4 +1,7 @@
-
+<!-- Primary Action Button -->
+<button @click="$dispatch('open-modal', 'add-others-task-modal')" class="p-2 mt-2 border border-[#2e5e91] text-[16px] text-[#2e5e91] hover:bg-[#2e5e91] duration-200 hover:text-white rounded-md w-full">
+    Add Task List For This Request
+</button>
 
 <!-- Modal Component -->
 <x-modal name="add-others-task-modal" maxWidth="lg">
