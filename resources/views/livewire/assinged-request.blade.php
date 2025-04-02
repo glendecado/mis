@@ -16,7 +16,7 @@ state(['id', 'AssignedRequest']);
 
 on(['techs' => function () {
 
-    $this->AssignedRequest = AssignedRequest::where('request_id', $this->id)->get();
+    $this->AssignedRequest = AssignedRequest::where('request_id', $this->id)->with('request')->get();
 }]);
 
 mount(function () {

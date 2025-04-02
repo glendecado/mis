@@ -1,18 +1,13 @@
 <?php
 
 use App\Models\Category;
-
-
 use function Livewire\Volt\{mount, state, title};
 
-title('Category');
+title('Categories');
 
 state('tab')->url();
-
 state('cacheKey');
-
 state(['category_' => []])->modelable();
-
 
 mount(function () {
     if (request()->route()->getName() == 'category') {
@@ -21,88 +16,92 @@ mount(function () {
     $this->cacheKey = 'categories_';
 });
 
-
 $viewCategory = function () {
-
-        return Category::all();
-
+    return Category::orderBy('name')->get();
 };
 
-
-
-$addCategory = function ($category) {
-    if (empty($category)) {
-        $this->dispatch('error', 'No input');
+$addCategory = function ($categoryName) {
+    $categoryName = trim($categoryName);
+    
+    if (empty($categoryName)) {
+        $this->dispatch('error', 'Category name cannot be empty');
         return;
     }
 
-    $existingCategory = Category::where('name', ucfirst(strtolower($category)))->first();
-
-    if (!$existingCategory) {
-        $create = Category::create([
-            "name" => ucfirst(strtolower($category))
-        ]);
-        $create->save();
-        $this->dispatch('success', 'New Category successfully created.');
-    } else {
-        $this->dispatch('danger', 'Category already exists.');
+    $formattedName = ucfirst(strtolower($categoryName));
+    
+    if (Category::where('name', $formattedName)->exists()) {
+        $this->dispatch('danger', 'Category already exists');
+        return;
     }
 
+    Category::create(['name' => $formattedName]);
+    $this->dispatch('success', 'Category created successfully');
     $this->redirect('/category', navigate: true);
 };
 
-
-
 ?>
 
-
-<div class="basis-full">
-
-    <div x-data="{ selectedCategoryId: null }" class="h-full p-2 table-container rounded-md"> <!-- Removed overflow-auto -->
-        <div class="p-4 transition-all space-y-"> <!-- Improved spacing between categories -->
-            @foreach($this->viewCategory() as $category)
-            <div :class="selectedCategoryId === {{ $category->id }} ? 'rounded-lg border-r-2 border-b-2 border-l-2 h-fit border-[#2e5e91] mt-2 rounded-b-md' : 'mt-2'">
-                <div
-                    class="p-2 text-white cursor-pointer select-none flex justify-between items-center bg-[#2e5e91]"
-                    :class="selectedCategoryId === {{ $category->id }} ? 'rounded-t-md' : 'rounded-md'"
-                    @click="selectedCategoryId = selectedCategoryId === {{ $category->id }} ? null : {{ $category->id }}">
-
-
-
-                    <!-- Category Name -->
-                    <span class="flex-grow text-center text-md">{{$category->name}}</span>
-
-                    <!-- Toggle Arrow Icon -->
-                    <span x-show="selectedCategoryId !== {{ $category->id }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
-                            <path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z" />
-                        </svg>
-                    </span>
-                    <span x-show="selectedCategoryId === {{ $category->id }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF">
-                            <path d="M480-525 291-336l-51-51 240-240 240 240-51 51-189-189Z" />
-                        </svg>
-                    </span>
-                </div>
-
-                <div x-show="selectedCategoryId === {{ $category->id }}" class="pt-4 p-2 relative">
-                    {{-- TaskList --}}
-                    <livewire:task-list :category="$category->id" />
-
-                </div>
-            </div>
-            @endforeach
-            <div x-data="{ input: '' }" class="mt-4 flex flex-row items-center justify-start">
-                <div class="relative w-full max-w-xs">
-                    <input type="text" x-model="input" class="input pr-20 p-3 w-full h-[50px]" placeholder="Enter category...">
-                </div>
+<div class="max-w-3xl mx-auto p-4">
+    <div class="space-y-3">
+        <!-- Category List -->
+        @foreach($this->viewCategory() as $category)
+        <div x-data="{ isOpen: false }" class="transition-all duration-200">
+            <!-- Category Header -->
+            <div
+                @click="isOpen = !isOpen"
+                class="flex items-center justify-between p-3 bg-blue text-white cursor-pointer select-none rounded-lg hover:bg-blue-800 transition-colors"
+                :class="{ 'rounded-b-none': isOpen }"
+            >
+                <span class="font-medium text-lg">{{ $category->name }}</span>
                 
-                <button type="button" :disabled="!input" @click="$wire.addCategory(input)" class="px-4 text-white rounded-md m-2 bg-[#3E7B27] h-[50px] cursor-pointer">
-                        Submit
-                </button>
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    class="h-5 w-5 transition-transform duration-200" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                    :class="{ 'rotate-180': isOpen }"
+                >
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
 
+            <!-- Category Content -->
+            <div 
+                x-show="isOpen"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95"
+                class="p-4 bg-white border border-t-0 border-blue-600 rounded-b-lg"
+            >
+                <livewire:task-list :category="$category->id" wire:key="task-list-{{ $category->id }}" />
             </div>
         </div>
+        @endforeach
 
+        <!-- Add Category Form -->
+        <div x-data="{ input: '' }" class="mt-6 flex gap-2">
+            <div class="flex-1">
+                <input 
+                    type="text" 
+                    x-model="input" 
+                    @keyup.enter="$wire.addCategory(input)"
+                    placeholder="New category name..." 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                >
+            </div>
+            
+            <button 
+                type="button" 
+                @click="$wire.addCategory(input)"
+                :disabled="!input.trim()"
+                class="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            >
+                Add
+            </button>
+        </div>
     </div>
 </div>
