@@ -69,12 +69,6 @@ $addCategory = function ($categoryName) {
             <!-- Category Content -->
             <div 
                 x-show="isOpen"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95"
                 class="p-4 bg-white border border-t-0 border-blue-600 rounded-b-lg"
             >
                 <livewire:task-list :category="$category->id" wire:key="task-list-{{ $category->id }}" />

@@ -71,7 +71,7 @@ $viewCategories = function () {
 
     <!-- Label and Input Field for "Others" -->
     <div class="mt-2" x-show="openSuggest">
-        <label class="block font-medium mb-1 text-gray-700">Specify Category</label>
+        <label class="block font-medium mb-1 text-gray-700">Specific Other Category</label>
         <input type="text" class="input w-full" placeholder="Enter category..."
             x-model="otherCategory"
             @input="otherCategory = otherCategory.trimStart().replace(/^\s+/, '');

@@ -1,7 +1,7 @@
 <!-- User Management Dashboard -->
 <div class="w-full" x-data="{ search: '', activeDropdown: null }">
     <!-- Search and Filters Bar -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-2">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
         <!-- Search Input -->
         <div class="relative w-full md:w-80">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -41,7 +41,7 @@
                 <a href="/user?roles=faculty" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Faculty</a>
             </div>
             <div x-show="activeDropdown === 'status'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
-                <button wire:click="$set('status', 'all')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Statuses</button>
+                <button wire:click="$set('status', 'all')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Status</button>
                 <button  class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Active</button>
                 <button wire:click="$set('status', 'inactive')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Inactive</button>
             </div>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block bg-white rounded-xl shadow-sm border border-gray-100 ">
+    <div class="hidden md:block rounded-xl shadow-sm border border-gray-100 ">
         <div class="">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-blue">
@@ -82,7 +82,7 @@
                                         </svg>
                                     </button>
                                     <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1">
-                                        <button wire:click="$set('status', 'all')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Statuses</button>
+                                        <button wire:click="$set('status', 'all')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Status</button>
                                         <button wire:click="$set('status', 'active')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Active</button>
                                         <button wire:click="$set('status', 'inactive')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Inactive</button>
                                     </div>
@@ -124,14 +124,16 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
-                                <button @click="Livewire.navigate('/profile/{{$user->id}}')" class="text-blue-600 hover:text-blue-900">View</button>
+                                <button @click="Livewire.navigate('/profile/{{$user->id}}')" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">View</button>
                                 <button 
                                     @click="
                                         if (confirm('Are you sure you want to {{ $user->status === 'active' ? 'deactivate' : 'activate' }} this user?')) {
                                             $wire.userUpdateUser({{$user->id}});
                                         }
                                     "
-                                    class="{{ $user->status === 'active' ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900' }}">
+                                    class="{{ $user->status === 'active' ? 'text-sm px-3 py-1 border rounded-md 
+                            border-red-300 text-red-700 bg-white hover:bg-red-50' : 'text-sm px-3 py-1 border rounded-md 
+                            border-green-300 text-green-700 bg-white hover:bg-green-50' }}">
                                     {{ $user->status === 'active' ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </div>
