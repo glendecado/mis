@@ -391,7 +391,7 @@ $feedbackAndRate = function ($rating, $feedback) {
 
 
 ?>
-<div>
+<div wire:poll>
 
 
 

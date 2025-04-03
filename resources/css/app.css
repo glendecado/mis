@@ -198,7 +198,7 @@ body {
 }
 
 .modal-trigger-button {
-    @apply  p-1  absolute right-2 md:bottom-10 md:right-10   shadow-blue-900/40;
+    @apply  p-1  absolute right-2 bottom-2 md:bottom-10 md:right-10   shadow-blue-900/40;
 }
 
 .tooltip {
