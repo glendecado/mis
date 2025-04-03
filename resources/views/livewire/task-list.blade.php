@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\Cache;
 use function Livewire\Volt\{state, rules};
 
 state(['checked', 'page']);
-state(['category', 'task', 'request']);
+state(['category', 'task', 'request', 'editingId' => null, 'editedTask' => '']);
 
 rules([
-    'task' => 'required'
+    'task' => 'required',
+    'editedTask' => 'required'
 ]);
 
 $addTaskList = function () {
-    $this->validate();
+    $this->validate(['task' => 'required']);
 
     $existingTask = TaskList::where('category_id', $this->category)
         ->where('task', $this->task)
@@ -37,7 +38,7 @@ $addTaskList = function () {
     ]);
 
     $taskList->save();
-    $this->reset();
+    $this->reset('task');
     $this->category = $taskList->category_id;
     $this->dispatch('success', 'Task Successfully added');
 };
@@ -51,6 +52,30 @@ $updateStatus = function ($id) {
     }
 };
 
+$editTask = function ($id) {
+    $this->editingId = $id;
+    $task = TaskList::find($id);
+    $this->editedTask = $task->task;
+};
+
+$updateTask = function ($id) {
+    $this->validate(['editedTask' => 'required']);
+    
+    $task = TaskList::find($id);
+    if ($task) {
+        $task->task = $this->editedTask;
+        $task->save();
+        $this->cancelEdit();
+        $this->dispatch('success', 'Task updated successfully');
+    }
+};
+
+$cancelEdit = function () {
+    $this->editingId = null;
+    $this->editedTask = '';
+};
+
+
 $viewTaskList = function () {
     return TaskList::where('category_id', $this->category)->get();
 };
@@ -62,12 +87,36 @@ $viewTaskList = function () {
         <li class="text-blue-950 text-lg">
             <div style="border: 1px solid #2e5e91; border-radius: 6px; padding: 8px; margin-bottom: 8px;"
                 class="flex flex-wrap items-center justify-between gap-2 {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
-                <span class="whitespace-normal break-words flex-1 text-sm font-medium">
-                    {{$list->task}}
-                </span>
-                <button type="button" wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                    {{ ucfirst($list->status) }}
-                </button>
+                @if($editingId === $list->id)
+                    <div class="flex-1">
+                        <input type="text" wire:model="editedTask" class="input w-full text-sm border bg-white">
+                        @error('editedTask')
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="flex gap-2">
+                        <button wire:click="updateTask({{$list->id}})" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Save
+                        </button>
+                        <button wire:click="cancelEdit" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Cancel
+                        </button>
+                    </div>
+                @else
+                    <span class="whitespace-normal break-words flex-1 text-sm font-medium">
+                        {{$list->task}}
+                    </span>
+                    <div class="flex gap-2">
+                        <button type="button" wire:loading.attr="disabled" @click="$wire.updateStatus({{$list->id}})" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            {{ ucfirst($list->status) }}
+                        </button>
+                        @if(session('page') === 'category')
+                            <button wire:click="editTask({{$list->id}})" class="text-sm px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Edit
+                            </button>
+                        @endif
+                    </div>
+                @endif
             </div>
         </li>
         @endforeach

@@ -174,7 +174,7 @@
     </div>
 
     <!-- Mobile Cards -->
-    <div class="md:hidden space-y-3">
+    <div class="md:hidden space-y-3"  x-data="{ search: '', statusDropdownOpen: false }">
         @forelse ($this->status == 'resolved' ? $this->viewRequest()->where('status', 'resolved') : $this->viewRequest()->where('status' , '!=', 'resolved') as $request)
         <div
             x-show="search === '' || 
