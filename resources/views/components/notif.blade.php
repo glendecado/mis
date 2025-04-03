@@ -50,7 +50,7 @@ $opened = function ($id, $req) {
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 translate-y-1"
         @click.outside="notif = false"
-        class="absolute right-0 mt-3 w-80 md:w-96 bg-white rounded-xl shadow-xl ring-1 ring-gray-200 overflow-hidden z-50 max-h-[32rem] flex flex-col"
+        class="absolute right-1 translate-x-24 mt-3 w-72 md:w-96 bg-white rounded-xl shadow-xl ring-1 ring-gray-200 overflow-hidden z-50 max-h-[32rem] flex flex-col"
         x-init="Echo.private('App.Models.User.' + {{session('user')['id']}}).notification((notification) => {
             $wire.$refresh();
         });"
