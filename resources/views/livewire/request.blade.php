@@ -76,8 +76,8 @@ $sessionFacultyLocation = function () {
 
 //request in cache
 $getCachedRequests = fn() => Cache::flexible('requests', [5, 10], function () {
-    return Request::with(['categories','categories.category', 'faculty', 'faculty.user'])->get();
-}); 
+    return Request::with(['categories', 'categories.category', 'faculty', 'faculty.user'])->get();
+});
 
 //reload
 $reload = function () {
@@ -183,7 +183,7 @@ $viewDetailedRequest = function () {
 //view request with table
 $viewRequest = function () {
 
-    $requests = Cache::get('requests') ?? Request::with(['categories','categories.category', 'faculty', 'faculty.user'])->get();
+    $requests = Cache::get('requests') ?? Request::with(['categories', 'categories.category', 'faculty', 'faculty.user'])->get();
 
     switch (session('user')['role']) {
 
@@ -325,7 +325,6 @@ $confirmLocation = function () {
     ]);
 
     $this->dispatch('success', 'Location Updated');
-
 };
 
 
@@ -353,8 +352,8 @@ $updateStatus = function ($status) {
 
     $faculty->notify(new RequestStatus($req));
     $req->save();
-    RequestEvent::dispatch(1);//mis
-    Cache::forget('request_'.$this->id);
+    RequestEvent::dispatch(1); //mis
+    Cache::forget('request_' . $this->id);
     $this->reload();
 };
 
@@ -382,7 +381,7 @@ $feedbackAndRate = function ($rating, $feedback) {
     Notification::send($users, new FeedbackRating($req));
     $req->save();
 
-    Cache::forget('request_'.$this->id);
+    Cache::forget('request_' . $this->id);
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
     $this->reload();
@@ -434,14 +433,22 @@ $feedbackAndRate = function ($rating, $feedback) {
     @include('components.requests.view')
 
     <div
-        x-init="Echo.private('request-channel.{{session('user')['id']}}')
+        x-data="{ userId: '{{ session('user')['id'] }}' }"
+        x-init="
+        let channel = Echo.private(`request-channel.${userId}`)
             .listen('RequestEvent', (e) => {
                 $wire.$refresh();
                 console.log('connected');
             });
-     ">
 
+        // Cleanup when component is destroyed
+        $el.addEventListener('alpine:destroy', () => {
+            channel.stopListening('RequestEvent');
+            console.log('disconnected');
+        });
+    ">
     </div>
+
 
 
 </div>
