@@ -150,6 +150,7 @@
 
                 @case('Faculty')
                 @include('components.requests.faculty')
+                @include('components.requests.rateAndFeedback')
                 @break
 
                 @case('Technical Staff')
@@ -158,7 +159,6 @@
                 @endswitch
             </div>
 
-            @include('components.requests.rateAndFeedback')
         </div>
     </div>
     @endforeach

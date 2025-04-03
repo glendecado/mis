@@ -382,7 +382,7 @@ $feedbackAndRate = function ($rating, $feedback) {
     Notification::send($users, new FeedbackRating($req));
     $req->save();
 
-
+    Cache::forget('request_'.$this->id);
     $this->dispatch('success', 'Rate and Feedback successfuly sent');
     $this->dispatch('close-modal', 'rateFeedback');
     $this->reload();

@@ -20,4 +20,5 @@
     @if($req->progress == 100 && $req->rate == null)
         @include('components.requests.button-rate')
     @endif
+
 @endif
