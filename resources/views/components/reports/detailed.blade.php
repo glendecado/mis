@@ -37,6 +37,8 @@
         </h1>
     </div>
 
+
+
     <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
     <!-- Detailed Metrics Table -->
     <template x-if="view == 'table'">

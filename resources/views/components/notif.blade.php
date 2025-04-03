@@ -56,7 +56,7 @@ $opened = function ($id, $req) {
         });"
     >
         <!-- Header -->
-        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+        <div class="px-4 py-3 bg-blue text-white">
             <div class="flex items-center justify-between">
                 <h3 class="font-semibold text-lg">Notifications</h3>
                 @if($user->unreadNotifications->count() > 0)

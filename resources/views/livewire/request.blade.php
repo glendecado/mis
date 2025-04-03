@@ -370,8 +370,6 @@ $priorityLevelUpdate = function ($level) {
 
 $feedbackAndRate = function ($rating, $feedback) {
     $req = Request::where('id', $this->id)->with('assignedRequest')->first();
-    //find all tehcnical staff
-    $technicalStaffIds = $req->assignedRequest->pluck('technicalStaff_id')->all();
 
     $req->rate = $rating;
     $req->feedback = $feedback;

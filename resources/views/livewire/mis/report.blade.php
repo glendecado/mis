@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\AssignedRequest;
+use App\Models\Category;
 use App\Models\Request;
+use App\Models\TaskPerRequest;
 use App\Models\TechnicalStaff;
 use App\Models\User;
 use Carbon\Carbon;
@@ -18,6 +21,9 @@ state('totalRequestsCompleted');
 state('completionRate');
 state('totalRatings');
 state('feedback');
+state('categories');
+state('categoryCounts');
+state('categoryForMonth');
 
 placeholder('<div class="rounded-md w-full h-full z-50 flex items-center justify-center"><x-loaders.b-square /></div>');
 
@@ -61,6 +67,70 @@ $total = function () {
         : 0;
 
     $this->techStaffDetails = User::where('id', $this->techId)->get()->first();
+
+    $ctgry = Request::where('assigned_requests.technicalStaff_id', $this->techId)
+
+        ->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
+
+        ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')->with(['categories', 'categories.category'])->get();
+
+
+    $ctgryMonth = Request::where('assigned_requests.technicalStaff_id', $this->techId)
+        ->whereBetween('assigned_requests.created_at', [
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        ])
+        ->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
+
+        ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')->with(['categories', 'categories.category'])->get();
+            
+    $categoryIds = collect($ctgry)
+        ->pluck('categories')
+        ->collapse()
+        ->pluck('category_id')
+        ->filter() // Remove nulls (optional)
+        ->unique()
+        ->values();
+
+    $categories = Category::whereIn('id', $categoryIds)
+        ->pluck('name', 'id') // [id => name] mapping
+        ->toArray();
+
+    // Count categories, replacing null/empty with "Others" and IDs with names
+    $this->categoryCounts = collect($ctgry)
+        ->pluck('categories')
+        ->collapse()
+        ->pluck('category_id')
+        ->map(function ($id) use ($categories) {
+            // Treat empty string as null
+            if ($id === "" || $id === null) {
+                return 'Others';
+            }
+            // Return category name if exists, otherwise 'Unknown'
+            return $categories[$id] ?? 'Unknown';
+        })
+        ->countBy()
+        ->all();
+
+    $cMonth = collect($ctgryMonth)
+        ->pluck('categories')
+        ->collapse()
+        ->pluck('category_id')
+        ->map(function ($id) use ($categories) {
+            // Treat empty string as null
+            if ($id === "" || $id === null) {
+                return 'Others';
+            }
+            // Return category name if exists, otherwise 'Unknown'
+            return $categories[$id] ?? 'Unknown';
+        })
+        ->countBy()
+        ->all();
+
+    $this->categoryForMonth = $cMonth;
+
+    $this->categories = $this->categoryCounts;
+    
 };
 
 mount(function () {
@@ -149,6 +219,7 @@ $techStaffMetrics = function () {
                     )
                     ->groupBy(DB::raw("date"))
                     ->orderBy(DB::raw("date"), 'ASC');
+
                 break;
 
             case 'this_week':
@@ -219,13 +290,23 @@ $techStaffMetrics = function () {
 
 
 
+
+
+
     <div class="px-10 py-6">
 
+
         @include('components.reports.summary')
+
+        <div class="p-2 border mt-3 pb-5 rounded-md bg-gray-200">
+            @include('components.reports.total-ass-cat')
+        </div>
+
+
 
         @include('components.reports.detailed')
 
         @include('components.reports.feedback')
 
 
-</div>
+    </div>
