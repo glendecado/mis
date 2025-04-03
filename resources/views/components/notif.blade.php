@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 use function Livewire\Volt\{computed, mount, on, state};
 
@@ -12,15 +13,14 @@ mount(function () {
 });
 
 $opened = function ($id, $req) {
+    
+    $notification = Cache::flexible('unread_notif_'.$id, [5, 10], function() use ($id) {
+        return $this->user->unreadNotifications->firstWhere('id', $id);
+    });
 
-    $notification = $this->user->unreadNotifications->firstWhere('id', $id);
-
-    // Check if the notification exists
     if ($notification) {
         $notification->markAsRead();
-    } else {
-        // Handle error if needed
-        // Log::error("Notification with ID {$id} not found.");
+        Cache::forget('unread_notif_'.$id);
     }
 
     $this->redirect($req);
@@ -28,212 +28,71 @@ $opened = function ($id, $req) {
 
 ?>
 @volt
-<div x-data="{notif: false}">
-
-    <div @click="notif = !notif" class="relative" @click.outside="notif = false">
-
+<div x-data="{notif: false}" class="relative">
+    <!-- Notification Bell -->
+    <button @click="notif = !notif" class="relative p-2 rounded-full transition-all hover:bg-white/10 focus:outline-none">
+        <x-icons.bell class="size-7 text-white" />
         @if($user->unreadNotifications->count() > 0)
-        <!-- check notif responsiveness -->
-        <div class="bg-red-500 rounded-full w-4 h-4 p-1 ml-2 text-white absolute right-[2px] top-[2px] flex justify-center items-center -translate-y-1 translate-x-1 transition-all">
-            <span class="text-sm font-thin p-1">{{$user->unreadNotifications->count()}}</span>
-        </div>
+        <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white shadow-md animate-pulse">
+            {{$user->unreadNotifications->count()}}
+        </span>
         @endif
-        <x-icons.bell class="size-9 text-white border-2 rounded-full" />
-    </div>
+    </button>
 
-
-    <div id="ntf" x-cloak x-show="notif" class="dropdown w-72 md:w-96 absolute flex  flex-col gap-2 top-16 h-96 scrollbar-hidden right-2 pt-5 p-1"
+    <!-- Notification Panel -->
+    <div 
+        x-cloak
+        x-show="notif"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-1"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-1"
+        @click.outside="notif = false"
+        class="absolute right-0 mt-3 w-80 md:w-96 bg-white rounded-xl shadow-xl ring-1 ring-gray-200 overflow-hidden z-50 max-h-[32rem] flex flex-col"
         x-init="Echo.private('App.Models.User.' + {{session('user')['id']}}).notification((notification) => {
             $wire.$refresh();
-            console.log(notification);
-            });">
-
-
-
-
-        {{--Unread--}}
-        @foreach ($user->unreadNotifications as $notification)
-
-        @switch($notification->type)
-
-        @case('App\Notifications\NewRequest')
-        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
-                <span class="text-wrap">{{$notification->data['name']}}</span>
-                <span>Sent a Request</span>
-                <div>Concerns:{{$notification->data['concerns']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
-        </div>
-
-
-        @break
-
-        @case('App\Notifications\RequestStatus')
-        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4 font-bold" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <span class="rounded-full text-[30px] ml-3">
-                    🕒
+        });"
+    >
+        <!-- Header -->
+        <div class="px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+            <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Notifications</h3>
+                @if($user->unreadNotifications->count() > 0)
+                <span class="px-2 py-0.5 bg-white/20 rounded-full text-xs">
+                    {{$user->unreadNotifications->count()}} new
                 </span>
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden">
-                <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
-
-
-                <span>
-                    @if($notification->data['status'] == 'declined' || $notification->data['status'] == 'resolved')
-                    has been
-                    @elseif( $notification->data['status'] == 'waiting')
-                    is currently
-                    @else
-                    is
-                    @endif
-                    {{$notification->data['status']}}.
-                </span>
-                
-                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-
-
-            </div>
-            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
-        </div>
-        @break
-
-        @case('App\Notifications\FeedbackRating')
-        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
-                <span class="text-wrap">{{$notification->data['name']}} sent rate and feedback</span>
-                <div>rate: {{$notification->data['rate']}}</div>
-                <div>Feedback:{{$notification->data['feedback']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
-        </div>
-        @break
-
-
-        @case('App\Notifications\AssingedRequest')
-        <div class="font-bold relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full  " wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-[64px] md:h-[64px] h-[32px]">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
-                <span>You have been assigned</span>
-                <span> to handle</span>
-                <span class="text-wrap">{{$notification->data['name']}} 's</span>
-                <span>request.</span>
-                <div>Category:{{$notification->data['category']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-            <div class="w-4 h-4 rounded-full bg-blue absolute top-2 right-2"></div>
-        </div>
-        @break
-
-        @endswitch
-
-        @endforeach
-
-
-
-
-
-
-
-
-
-        {{--read--}}
-        @foreach ($user->readNotifications as $notification)
-
-        @switch($notification->type)
-
-        @case('App\Notifications\NewRequest')
-        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden">
-                <span class="text-wrap">{{$notification->data['name']}}</span>
-                <span>Sent a Request</span>
-                <span class="truncate">Concerns: {{$notification->data['concerns']}}</span>
-                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
+                @endif
             </div>
         </div>
-        @break
 
-        @case('App\Notifications\RequestStatus')
-        <div class="relative flex items-center rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" @click="Livewire.navigate('{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <span class="rounded-full text-[30px] ml-3">
-                    🕒
-                </span>
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden">
-                <span class="text-wrap">Your request, made on {{\Carbon\Carbon::parse($notification->data['date'])->format('F j, Y g:i A')}} </span>
+        <!-- Notification List -->
+        <div class="overflow-y-auto divide-y divide-gray-100">
+            @if($user->notifications->count() === 0)
+                <div class="p-6 text-center text-gray-500">
+                    <p>No notifications yet</p>
+                </div>
+            @else
+                <!-- Unread Notifications -->
+                @foreach ($user->unreadNotifications as $notification)
+                    @include('components.notification-item', [
+                        'notification' => $notification,
+                        'isUnread' => true,
+                        'wireClick' => "opened('{$notification->id}', '{$notification->data['redirect']}')"
+                    ])
+                @endforeach
 
-                <span>
-                    @if($notification->data['status'] == 'declined' || $notification->data['status'] == 'resolved')
-                    has been
-                    @elseif( $notification->data['status'] == 'waiting')
-                    is currently
-                    @else
-                    is
-                    @endif
-                    {{$notification->data['status']}}.
-                </span>
-
-                <div class="text-sm text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
+                <!-- Read Notifications -->
+                @foreach ($user->readNotifications as $notification)
+                    @include('components.notification-item', [
+                        'notification' => $notification,
+                        'isUnread' => false,
+                        'wireClick' => "opened('{$notification->id}', '{$notification->data['redirect']}')"
+                    ])
+                @endforeach
+            @endif
         </div>
-        @break
-
-        @case('App\Notifications\FeedbackRating')
-        <div class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full p-4" wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-14 h-14 ml-3">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
-                <span class="text-wrap">{{$notification->data['name']}} sent rate and feedback</span>
-                <div>rate: {{$notification->data['rate']}}</div>
-                <div>Feedback:{{$notification->data['feedback']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-        </div>
-        @break
-
-        @case('App\Notifications\AssingedRequest')
-        <div class="relative flex items-center  rounded-md pl-2 bg-blue/10 h hover:bg-blue/20 w-full  " wire:click="opened('{{$notification->id}}', '{{$notification->data['redirect']}}')">
-            <div class="rounded-full p-3">
-                <img src="{{asset('storage/'. $notification->data['img'])}}" alt=""
-                    class="rounded-full w-[64px] md:h-[64px] h-[32px]">
-            </div>
-            <div class="flex w-60 flex-col overflow-hidden truncate ">
-                <span>You have been assigned</span>
-                <span> to handle</span>
-                <span class="text-wrap">{{$notification->data['name']}} 's</span>
-                <span>request.</span>
-                <div>Category:{{$notification->data['category']}}</div>
-                <div class="text-sm hidden md:block text-blue">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</div>
-            </div>
-
-        </div>
-        @break
-
-        @endswitch
-
-        @endforeach
-
     </div>
 </div>
 @endvolt

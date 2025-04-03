@@ -6,7 +6,6 @@ use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\User;
-use App\Notifications\FeedbackRating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Notifications\NewRequest;
@@ -373,12 +372,10 @@ $feedbackAndRate = function ($rating, $feedback) {
     $req = Request::where('id', $this->id)->with('assignedRequest')->first();
     //find all tehcnical staff
     $technicalStaffIds = $req->assignedRequest->pluck('technicalStaff_id')->all();
-    // Find users with those IDs
-    $users = User::whereIn('id', $technicalStaffIds)->get();
 
     $req->rate = $rating;
     $req->feedback = $feedback;
-    Notification::send($users, new FeedbackRating($req));
+
     $req->save();
 
     Cache::forget('request_' . $this->id);
