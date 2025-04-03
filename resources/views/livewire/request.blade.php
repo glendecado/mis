@@ -133,14 +133,14 @@ $checkPriorityLevel = function ($id) {
 
         switch ($num) {
             case 1:
-                return $this->redirect('/request/' . $id, navigate: true);
+                return $this->redirect('/request/' . $id);
                 break;
             case 2:
                 if ($lvl1 > 0) {
                     //You have unfinished high-priority requests!
                     $this->dispatch('danger', 'You have unfinished high-priority requests!');
                 } else {
-                    return $this->redirect('/request/' . $id, navigate: true);
+                    return $this->redirect('/request/' . $id);
                 }
                 break;
 
@@ -149,12 +149,12 @@ $checkPriorityLevel = function ($id) {
                 if ($lvl1 > 0 || $lvl2 > 0) {
                     $this->dispatch('danger', 'You have unfinished mid-priority requests!');
                 } else {
-                    return $this->redirect('/request/' . $id, navigate: true);
+                    return $this->redirect('/request/' . $id);
                 }
                 break;
         }
     } else {
-        return $this->redirect('/request/' . $id, navigate: true);
+        return $this->redirect('/request/' . $id);
     }
 };
 
