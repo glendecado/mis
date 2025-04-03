@@ -79,7 +79,7 @@ $viewCategories = function () {
                         otherCategory = otherCategory.substring(0, otherCategoryMaxLength);
                     }
                     category = [...selectedCategories.map(Number), ...(openSuggest && otherCategory ? [otherCategory] : [])]"
-            wire:model.live="category"
+            wire:model.live="category_"
             :maxlength="otherCategoryMaxLength"
             required>
         <p class="text-sm text-gray-500" x-text="`${otherCategory.length}/${otherCategoryMaxLength} characters`"></p>
