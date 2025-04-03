@@ -325,7 +325,7 @@ $confirmLocation = function () {
     ]);
 
     $this->dispatch('success', 'Location Updated');
-    $this->reload();
+
 };
 
 
@@ -353,6 +353,7 @@ $updateStatus = function ($status) {
 
     $faculty->notify(new RequestStatus($req));
     $req->save();
+    RequestEvent::dispatch(1);//mis
     Cache::forget('request_'.$this->id);
     $this->reload();
 };

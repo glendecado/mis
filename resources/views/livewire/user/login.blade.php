@@ -86,7 +86,7 @@ $login = function () {
                     <div class="">
                         <label for="email" class="block text-sm text-white font-thin">Email Address</label>
                         <input wire:model.lazy="email" type="text" id="email"
-                            class="rounded-md block w-full px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow 
+                            class="rounded-md block w-full px-2 py-3 bg-blue-100 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow-500
                         {{ $emailError ? 'border border-red-500' : '' }}" />
                         @if ($emailError)
                         <div class="text-red-500 text-xs mt-1">{{ $emailError }}</div>
@@ -132,7 +132,7 @@ $login = function () {
                     @endif
                     <div class="float-right w-24 group mt-4">
                         <button type="submit"
-                            class="text-blue-500 font-geist w-full rounded-md bg-blue-50 px-3 py-2 focus:bg-yellow focus:outline-none hover:bg-yellow hover:text-black transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-950/50">
+                            class="text-blue-500 font-geist w-full rounded-md bg-blue-50 px-3 py-2 focus:bg-yellow-500 focus:outline-none hover:bg-yellow hover:text-black transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-950/50">
                             Sign in
                         </button>
                     </div>

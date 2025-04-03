@@ -51,7 +51,7 @@
                         wire:change="priorityLevelUpdate($event.target.value)"
                         :class="{
                                             'bg-red-400 dark:bg-red-500': {{ $req->priorityLevel }} == 1,
-                                            'bg-yellow dark:bg-yellow text-black': {{ $req->priorityLevel }} == 2,
+                                            'bg-yellow-500 dark:bg-yellow500 text-black': {{ $req->priorityLevel }} == 2,
                                             'bg-green-400 dark:bg-green-500': {{ $req->priorityLevel }} == 3
                                         }">
                         <option value="1" @if ($req->priorityLevel == 1) selected @endif
@@ -59,7 +59,7 @@
                             High
                         </option>
                         <option value="2" @if ($req->priorityLevel == 2) selected @endif
-                            class="bg-yellow text-black hover:bg-yellow-500">
+                            class="bg-yellow-500 text-black hover:bg-yellow-500">
                             Medium
                         </option>
                         <option value="3" @if ($req->priorityLevel == 3) selected @endif

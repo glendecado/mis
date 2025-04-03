@@ -113,14 +113,16 @@ $checkTask = function ($id) {
         $whole = $this->taskPerReq->count();
         $totalPercent = ($whole > 0) ? round(($part / $whole) * 100) : 0;
 
+
         $this->request->update([
             'progress' => $totalPercent,
-            'status' => $totalPercent === 100 ? 'resolved' : $this->request->status
+            'status' => $totalPercent === 100.0 ? 'resolved' : $this->request->status
         ]);
     }
 
-    Cache::forget('request_' . $requestId);
+
     $this->dispatch('view-detailed-request');
+    Cache::forget('request_' . $requestId);
 };
 
 ?>

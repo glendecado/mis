@@ -1,7 +1,7 @@
 <!-- remove padding top -->
 <div x-cloak :class="sidebar ? 'w-52 absolute md:relative px-4' : 'w-14 relative px-2'"
-    class="h-full text-yellow z-30 bg-blue-2 transition-all flex flex-col gap-3"
-    class="h-full text-yellow z-30 bg-blue-2 transition-all flex flex-col gap-3"
+    class="h-full text-yellow-500 z-30 bg-blue-2 transition-all flex flex-col gap-3"
+    class="h-full text-yellow-500 z-30 bg-blue-2 transition-all flex flex-col gap-3"
 
     x-data="{ 
         sidebar: $persist(window.innerWidth >= 700).using(sessionStorage),

@@ -21,7 +21,7 @@ class RequestEvent implements ShouldBroadcast
      */
     public function __construct(public int $id)
     {
-        Cache::forget('requests');
+        
     }
 
     /**

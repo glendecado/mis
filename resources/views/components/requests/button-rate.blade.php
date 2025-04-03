@@ -21,7 +21,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" 
                                  class="h-12 w-12 cursor-pointer transition-transform duration-100 hover:scale-110"
                                  :class="{
-                                     'text-yellow': star <= (hoverRating || rating),
+                                     'text-yellow-500': star <= (hoverRating || rating),
                                      'text-gray-300': star > (hoverRating || rating)
                                  }"
                                  fill="currentColor" viewBox="0 0 20 20"
