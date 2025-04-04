@@ -107,9 +107,7 @@
                 <h1 class="font-semibold">Location</h1>
                 <div class="border p-2 rounded-md">
                     <div class="flex gap-4">
-                        <div>College: <span class="font-bold">{{ $req->faculty->college }}</span></div>
-                        <div>Building: <span class="font-bold">{{ $req->faculty->building }}</span></div>
-                        <div>Room: <span class="font-bold">{{ $req->faculty->room }}</span></div>
+                    {{$req->location}}
                     </div>
                 </div>
             </div>
