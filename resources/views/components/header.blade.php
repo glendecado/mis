@@ -32,12 +32,12 @@
             </div>
 
             {{--arrow--}}
-            <div x-show="open ?? ''== false">
+            <div x-show="open == false">
                 <x-icons.arrow direction="down" />
             </div>
 
             {{--open dropdown--}}
-            <div x-show="open ?? '' == true" x-cloak @click.outside="open = false">
+            <div x-show="open == true" x-cloak @click.outside="open = false">
 
                 <x-icons.arrow direction="up" />
 

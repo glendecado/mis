@@ -8,6 +8,7 @@ use function Livewire\Volt\{state};
 //
 
 $logout = function () {
+    cache(['online-'.session('user')['id'] => '0']);
     Auth::logout();
     Session::flush();
     return redirect()->route('login');
