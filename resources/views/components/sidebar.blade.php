@@ -23,7 +23,7 @@
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
                 class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('request') || request()->routeIs('request-table') ? 'sidebar-active' : 'sidebar-links' }}">
                 <x-icons.request class="size-5" />
-                <span x-show="sidebar" class="whitespace-nowrap">Request</span>
+                <span x-show="sidebar" class="whitespace-nowrap">REQUEST</span>
             </div>
         </a>
         <!-- Category -->
@@ -31,7 +31,7 @@
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
                 class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('category') ? 'sidebar-active' : 'sidebar-links' }}">
                 <x-icons.category class="size-5" />
-                <span x-show="sidebar" class="whitespace-nowrap">Category</span>
+                <span x-show="sidebar" class="whitespace-nowrap">CATEGORY</span>
             </div>
         </a>
         <!-- Users -->
@@ -39,7 +39,7 @@
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
                 class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('user') ? 'sidebar-active' : 'sidebar-links' }}">
                 <x-icons.user class="size-5" />
-                <span x-show="sidebar" class="whitespace-nowrap">Users</span>
+                <span x-show="sidebar" class="whitespace-nowrap">USERS</span>
             </div>
         </a>
         <!-- Reports -->
@@ -47,7 +47,7 @@
             <div :class="sidebar ? 'justify-start' : 'justify-center'"
                 class="flex items-center gap-2 p-2 rounded-lg text-sm {{ request()->routeIs('reports') ? 'sidebar-active' : 'sidebar-links' }}">
                 <x-icons.reports class="size-5" />
-                <span x-show="sidebar" class="whitespace-nowrap">Reports</span>
+                <span x-show="sidebar" class="whitespace-nowrap">REPORTS</span>
             </div>
         </a>
     </nav>

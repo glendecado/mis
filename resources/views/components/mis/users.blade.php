@@ -101,8 +101,8 @@
                         class="hover:bg-gray-50 transition-colors duration-150">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full" src="{{ asset('storage/'.$user->img)}}" alt="{{ $user->name }}">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
+                                    <img class="h-full w-full object-cover" src="{{ asset('storage/'.$user->img) }}" alt="{{ $user->name }}">
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
