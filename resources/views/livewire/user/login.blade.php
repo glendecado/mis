@@ -3,6 +3,7 @@
 use function Livewire\Volt\{layout, state, title};
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -17,6 +18,13 @@ $login = function () {
     $this->passwordError = null;
 
     $user = User::where('email', $this->email)->first();
+
+
+
+    if (Cache::get('online-' . $user->id) === 1) {
+        $this->emailError = 'This account is already logged in elsewhere';
+        return;
+    }
 
     //remove try catch if password is already hashed
     try {
@@ -53,6 +61,14 @@ $login = function () {
                         'email' => $user->email,
                     ]);
                 }
+                if (Cache::has('online-' . $user->id, 1)) {
+                    Cache::put('online-' . $user->id, 1);
+                } else {
+                    Cache::rememberForever('online-' . $user->id, 1, function(){
+                        return 1;
+                    });
+                }
+
 
                 return redirect('/dashboard');
             }

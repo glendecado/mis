@@ -28,6 +28,7 @@
                     class="rounded-full size-10 object-cover aspect-square">
             </div>
 
+
             {{-- Arrow Down (default) --}}
             <div x-show="!open">
                 <x-icons.arrow direction="down" />
@@ -35,6 +36,16 @@
 
             {{-- Arrow Up (on click) --}}
             <div x-show="open" x-cloak>
+
+            {{--arrow--}}
+            <div x-show="open == false">
+                <x-icons.arrow direction="down" />
+            </div>
+
+            {{--open dropdown--}}
+            <div x-show="open == true" x-cloak @click.outside="open = false">
+
+
                 <x-icons.arrow direction="up" />
             </div>
 
