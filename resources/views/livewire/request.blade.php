@@ -427,22 +427,21 @@ $feedbackAndRate = function ($rating, $feedback) {
 
     @include('components.requests.view')
 
-    <div
-        x-data="{ userId: '{{ session('user')['id'] }}' }"
-        x-init="
-        let channel = Echo.private(`request-channel.${userId}`)
+    @script
+    <script>
+        let userId = {{session('user')['id']}};
+        Echo.private(`request-channel.${userId}`)
             .listen('RequestEvent', (e) => {
                 $wire.$refresh();
                 console.log('connected');
+                console.log('disconnected');
             });
 
-        // Cleanup when component is destroyed
-        $el.addEventListener('alpine:destroy', () => {
-            channel.stopListening('RequestEvent');
-            console.log('disconnected');
-        });
-    ">
-    </div>
+            Echo.leaveChannel(`request-channel.${userId}`);
+    </script>
+
+    @endscript
+
 
 
 

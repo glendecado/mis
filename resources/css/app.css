@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 [x-cloak] {
-    display: none;
+    display: none !important;
 }
+
+.loading-transition {
+    transition: opacity 0.3s ease-in-out;
+}
+
 
 .html {
     @apply h-dvh overflow-hidden;

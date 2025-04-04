@@ -6,7 +6,7 @@
     clearTimeout(timer);
     timer = setTimeout(() => { message = '' }, 3000);
 ">
-    <div x-show="message" 
+    <div x-show="message ?? ''" 
          x-transition:enter="transition transform duration-300" 
          x-transition:enter-start="translate-y-full opacity-0" 
          x-transition:enter-end="translate-y-0 opacity-100" 
@@ -43,7 +43,7 @@
     clearTimeout(timer);
     timer = setTimeout(() => { message = '' }, 3000);
 ">
-    <div x-show="message" 
+    <div x-show="message ?? ''" 
          x-transition:enter="transition transform duration-300" 
          x-transition:enter-start="translate-y-full opacity-0" 
          x-transition:enter-end="translate-y-0 opacity-100" 
