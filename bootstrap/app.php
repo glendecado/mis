@@ -3,6 +3,7 @@
 use App\Http\Middleware\EditProfileMiddleware;
 use App\Http\Middleware\RequestMiddleware;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\UserActivity;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,7 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-
+        $middleware->web([
+            // ... other middleware
+            UserActivity::class,
+        ]);
 
         $middleware->trustProxies(at: '*');
 

@@ -36,8 +36,14 @@
                         class="hover:bg-gray-50 transition-colors duration-150">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
-                                    <img class="h-full w-full object-cover" src="{{ asset('storage/'. $tech->user->img) }}" alt="{{ $tech->user->name }}">
+                                <div class="relative">
+                                    @if($tech->user->isOnline())
+                                    <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 ring-2 ring-white"></span>
+                                    @endif
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
+                                        <img class="h-full w-full object-cover" src="{{ asset('storage/'. $tech->user->img) }}" alt="{{ $tech->user->name }}">
+                                    </div>
+
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $tech->user->name }}</div>
@@ -75,9 +81,10 @@
                 <div class="flex items-center space-x-4">
 
                     <div class="relative">
-                        @if(Cache::get('online-' . $tech->user->id) == 1)
+                        @if($tech->user->isOnline())
                         <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 ring-2 ring-white"></span>
                         @endif
+
                         <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden ">
                             <img class="h-full w-full object-cover" src="{{ asset('storage/'.$tech->user->img) }}" alt="{{ $tech->user->name }}">
                         </div>

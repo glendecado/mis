@@ -45,6 +45,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             //'password' => 'hashed',
+            'last_seen' => 'datetime',
         ];
     }
 
@@ -61,5 +62,11 @@ class User extends Authenticatable
     public function Faculty()
     {
         return $this->hasOne(Faculty::class, 'faculty_id');
+    }
+
+
+    public function isOnline() : bool
+    {
+        return $this->last_seen && $this->last_seen->gt(now()->subMinutes(5));
     }
 }
