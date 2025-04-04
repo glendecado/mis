@@ -258,7 +258,7 @@ $techStaffMetrics = function () {
 
 ?>
 
-<div class="px-10 py-6">
+<div class="px-4 py-4">
 
 
     <div wire:loading wire:target="addUser" class="w-full h-dvh">
@@ -273,8 +273,8 @@ $techStaffMetrics = function () {
         <!-- Date Selection -->
 
         <!-- Tech Staff Selection -->
-        <div class="">
-            <label for="techId" class="font-semibold text-lg">Select Technical Staff:</label>
+        <div class="px-4">
+            <label for="techId" class="block font-semibold text-gray-700 mb-1">Select Technical Staff:</label>
             <select wire:model.change="techId" name="techId" id="techId" class="input w-full"
                 @change="$dispatch('update')" {{ empty($techStaff) ? 'disabled' : '' }}>
                 @if ($techStaff->isNotEmpty())
@@ -293,12 +293,12 @@ $techStaffMetrics = function () {
 
 
 
-    <div class="px-10 py-6">
+    <div class="px-4 py-4">
 
 
         @include('components.reports.summary')
 
-        <div class="p-2 border mt-3 pb-5 rounded-md bg-gray-200">
+        <div class="mt-3 pb-5 rounded-md">
             @include('components.reports.total-ass-cat')
         </div>
 

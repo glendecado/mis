@@ -1,5 +1,5 @@
 <div class="mt-8">
-    <h3 class="text-2xl font-semibold text-gray-800 mb-6 px-2">Request Categories Overview</h3>
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Request Categories Overview</h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5" x-data="{ loaded: false }"
         x-init="setTimeout(() => loaded = true, 100)">

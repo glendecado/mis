@@ -1,4 +1,4 @@
-<div class="w-full mx-auto p-6 bg-white rounded-xl shadow-lg h-96 overflow-y-auto space-y-4 ">
+<div class="w-full mx-auto p-6 bg-white rounded-xl shadow-md h-96 overflow-y-auto space-y-4 mb-4">
     <div class="sticky top-0 bg-white pb-4 border-b border-gray-100">
         <h1 class="text-2xl font-bold text-gray-800 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

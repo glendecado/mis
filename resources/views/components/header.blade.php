@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <img src="{{ asset('storage/' . session('user')['img']) }}" alt=""
-                    class="rounded-full size-10">
+                class="rounded-full size-10 object-cover aspect-square">
 
             </div>
 
