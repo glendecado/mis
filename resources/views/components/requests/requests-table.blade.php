@@ -38,14 +38,14 @@
                 x-transition:leave-end="transform opacity-0 scale-95"
                 class="mt-1 w-full bg-white rounded-md shadow-lg border border-gray-200 z-10">
                 <div class="py-1">
-                    <a wire:navigate href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
+                    <a wire:navigate.hover href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
                     @if(session('user')['role'] != 'Technical Staff')
-                    <a wire:navigate href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
+                    <a wire:navigate.hover href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
                     @endif
-                    <a wire:navigate href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
-                    <a wire:navigate href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
-                    <a wire:navigate href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
-                    <a wire:navigate href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
+                    <a wire:navigate.hover href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
+                    <a wire:navigate.hover href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
+                    <a wire:navigate.hover href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
+                    <a wire:navigate.hover href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
                 </div>
             </div>
         </div>
@@ -74,14 +74,14 @@
                                         x-show="open"
                                         @click.away="open = false"
                                         class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200">
-                                        <a wire:navigate href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
+                                        <a wire:navigate.hover href="/request?status=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Requests</a>
                                         @if(session('user')['role'] != 'Technical Staff')
-                                        <a wire:navigate href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
+                                        <a wire:navigate.hover href="/request?status=waiting" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Waiting</a>
                                         @endif
-                                        <a wire:navigate href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
-                                        <a wire:navigate href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
-                                        <a wire:navigate href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
-                                        <a wire:navigate href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
+                                        <a wire:navigate.hover href="/request?status=pending" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pending</a>
+                                        <a wire:navigate.hover href="/request?status=ongoing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ongoing</a>
+                                        <a wire:navigate.hover href="/request?status=resolved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Resolved</a>
+                                        <a wire:navigate.hover href="/request?status=declined" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Declined</a>
                                     </div>
                                 </div>
                             </div>

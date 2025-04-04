@@ -13,7 +13,7 @@
 
 
 
-    <div class="h-[64px]" x-data="{notif : ''}">
+    <div class="h-[64px]" x-data="{notif : '', open : ''}">
         <x-header />
     </div>
 
@@ -76,7 +76,7 @@
             @endif
 
 
-            <div x-data="{ search: '', statusDropdownOpen: ''}">
+            <div x-data="{ search: '', statusDropdownOpen: '', open : ''}">
                 {{$slot}}
             </div>
 

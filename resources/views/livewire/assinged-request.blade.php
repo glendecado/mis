@@ -31,7 +31,7 @@ mount(function () {
     }
 
     // Cache the query result for 10 minutes
-    $this->AssignedRequest = Cache::rememberForever($cacheKey, function () {
+    $this->AssignedRequest = Cache::flexible($cacheKey,[5, 10], function () {
         return AssignedRequest::where('request_id', $this->id)->get();
     });
 });

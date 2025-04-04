@@ -13,76 +13,75 @@ layout('components.layouts.guest');
 state(['email', 'password', 'emailError', 'passwordError']);
 
 $login = function () {
-    $this->resetErrorBag(); // Reset any previous error messages
-    $this->emailError = null;
-    $this->passwordError = null;
+    $this->resetErrorBag();
 
-    $user = User::where('email', $this->email)->first();
-
-
-
-    if (Cache::get('online-' . $user->id) === 1) {
-        $this->emailError = 'This account is already logged in elsewhere';
+    // Validation checks
+    if (empty($this->email)) {
+        $this->emailError = 'Email field is required';
         return;
     }
 
-    //remove try catch if password is already hashed
-    try {
-        if (empty($this->email)) {
-            $this->emailError = 'Email field is required';
-        } elseif (empty($user->email)) {
-            $this->emailError = 'User not found';
-        } elseif ($this->password == $user->password || Hash::check($this->password, $user->password)) {
+    $user = User::where('email', $this->email)->first();
 
-
-            if ($user->status !== 'active') {
-                $this->emailError = 'Your account is inactive. Contact support.';
-                return;
-            } else {
-                Auth::login($user);
-
-                if ($user->role == 'Faculty') {
-                    Session::put('user', [
-                        'id' => $user->id,
-                        'img' => $user->img,
-                        'name' => $user->name,
-                        'role' => $user->role,
-                        'email' => $user->email,
-                        'college' => $user->faculty->college,
-                        'building' => $user->faculty->building,
-                        'room' => $user->faculty->room
-                    ]);
-                } else {
-                    Session::put('user', [
-                        'id' => $user->id,
-                        'img' => $user->img,
-                        'name' => $user->name,
-                        'role' => $user->role,
-                        'email' => $user->email,
-                    ]);
-                }
-                if (Cache::has('online-' . $user->id, 1)) {
-                    Cache::put('online-' . $user->id, 1);
-                } else {
-                    Cache::rememberForever('online-' . $user->id, 1, function(){
-                        return 1;
-                    });
-                }
-
-
-                return redirect('/dashboard');
-            }
-        } else {
-            $this->passwordError = 'Incorrect password';
-        }
-    } catch (Throwable $e) {
-        $this->passwordError = 'Incorrect password';
+    if (!$user) {
+        $this->emailError = 'User not found';
+        return;
     }
+
+    // Check account status
+    if ($user->status !== 'active') {
+        $this->emailError = 'Your account is inactive. Contact support.';
+        return;
+    }
+
+    // Check password
+    try{
+        if (!Hash::check($this->password, $user->password)) {
+            $this->passwordError = 'Incorrect password';
+            return;
+        }
+    }
+    catch(Throwable $e){
+
+        if ($this->password !== $user->password) {
+            $this->passwordError = 'Incorrect password';
+            return;
+        }
+    }
+
+
+    // Check existing session
+    
+
+    // Login and session setup
+    Auth::login($user);
+
+    $sessionData = [
+        'id' => $user->id,
+        'img' => $user->img,
+        'name' => $user->name,
+        'role' => $user->role,
+        'email' => $user->email,
+    ];
+
+    if ($user->role === 'Faculty' && $user->faculty) {
+        $sessionData['college'] = $user->faculty->college;
+        $sessionData['building'] = $user->faculty->building;
+        $sessionData['room'] = $user->faculty->room;
+    }
+
+    Session::put('user', $sessionData);
+
+
+
+    return redirect('/dashboard');
 };
 
 ?>
 
 <div class="w-full h-screen flex flex-col items-center justify-center bg-blue-50 px-4">
+
+
     <div class="w-full flex justify-center m-4"> <!-- Changed justify-end to justify-center -->
         <div
             class="relative w-full md:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 bg-[#2e5e91]">
