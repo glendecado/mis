@@ -127,7 +127,7 @@ $addCategory = function ($categoryName) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($this->viewCategory() as $category)
         <div
-            x-data="{ isOpen: false }"
+            x-data="{ isOpen: false, shown : '' }"
             class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all h-fit"
             :class="{ 
                 'ring-2 ring-blue-400': isOpen, 

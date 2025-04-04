@@ -11,7 +11,7 @@
     {{--profile--}}
     <div class="x gap-2 items-center cursor-pointer select-none">
 
-        <x-notif />
+        <livewire:notif wire:key="notif" />
 
         <div class="flex h-[50px] px-2 items-center gap-4 justify-between text-white border border-gray-100 rounded-md" x-data="{open : false}" @click="open = !open">
             <div class="flex items-center gap-2 ">
@@ -32,12 +32,12 @@
             </div>
 
             {{--arrow--}}
-            <div x-show="open == false">
+            <div x-show="open ?? ''== false">
                 <x-icons.arrow direction="down" />
             </div>
 
             {{--open dropdown--}}
-            <div x-show="open == true" x-cloak @click.outside="open = false">
+            <div x-show="open ?? '' == true" x-cloak @click.outside="open = false">
 
                 <x-icons.arrow direction="up" />
 
