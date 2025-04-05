@@ -1,38 +1,59 @@
-# Stage 1: Base PHP image
-FROM php:8.2-fpm-alpine
+# Use the official PHP image with FPM
+FROM php:8.2-fpm
 
-# Install system dependencies
-RUN apk add --no-cache \
-    git \
+# Set working directory
+WORKDIR /var/www
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
     unzip \
+    git \
+    curl \
+    libonig-dev \
     libzip-dev \
-    postgresql-dev \
-    supervisor \
-    # Required for pcntl and sockets
-    $PHPIZE_DEPS \
-    && docker-php-ext-install zip pdo pdo_mysql pdo_pgsql pcntl sockets \
-    && pecl install swoole \
-    && docker-php-ext-enable swoole
+    libpq-dev \
+    supervisor
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+
+# Install Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set up application
-WORKDIR /var/www
+# Copy existing application directory contents
 COPY . .
 
-# Install PHP dependencies (no dev packages)
-RUN composer install --optimize-autoloader --no-dev \
-    && php artisan optimize:clear \
-    && chown -R www-data:www-data storage bootstrap/cache
+# Copy supervisor configuration for Reverb
+COPY docker/supervisor/reverb.conf /etc/supervisor/conf.d/reverb.conf
 
-# Configure Supervisor for multiple processes
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install PHP dependencies
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Health check for Render
-HEALTHCHECK --interval=30s --timeout=10s \
-    CMD curl -f http://localhost:8000 || exit 1
+# Install npm dependencies and build assets
+RUN npm install && npm run build
 
-# Runtime configuration
-EXPOSE 8000 8080
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Expose the port Reverb runs on
+EXPOSE 8080
+
+# Start supervisor to run Reverb and PHP-FPM
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
