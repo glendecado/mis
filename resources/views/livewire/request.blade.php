@@ -222,7 +222,7 @@
             });
         }
     
-        return $query->orderBy('created_at', 'desc')->paginate(10);
+        return $query->orderBy('created_at', 'desc')->paginate(7);
     };
     
 
@@ -428,11 +428,7 @@
 
         @script
         <script>
-            let userId = {
-                {
-                    session('user')['id']
-                }
-            };
+            let userId = {{session('user')['id']}};
             Echo.private(`request-channel.${userId}`)
                 .listen('RequestEvent', (e) => {
                     $wire.$refresh();
