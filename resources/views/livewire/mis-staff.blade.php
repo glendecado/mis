@@ -62,7 +62,7 @@ on(['resetErrors' => function () {
 $viewUser = function () {
     switch ($this->roles) {
         case 'all':
-            $user = User::where('role', '!=', 'Mis Staff')->get();
+            $user = User::all();
 
             break;
 

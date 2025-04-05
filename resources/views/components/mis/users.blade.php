@@ -47,6 +47,12 @@
         </div>
     </div>
 
+
+    @php
+    $users = $status === 'all'
+    ? $this->viewUser()
+    : $this->viewUser()->where('status', $status)->where('role', '!=', 'Mis Staff');
+    @endphp
     <!-- Desktop Table -->
     <div class="hidden md:block rounded-xl shadow-sm border border-gray-100 ">
         <div class="">
@@ -92,7 +98,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach ($this->viewUser()->when($status !== 'all', fn($query) => $query->where('status', $status)) as $user)
+                    @foreach ($users as $user)
                     <tr
                         x-show="search === '' || 
                             '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
@@ -153,7 +159,7 @@
 
     <!-- Mobile Cards -->
     <div class="md:hidden space-y-3">
-        @foreach ($this->viewUser() as $user)
+        @foreach ($users as $user)
         <div
             x-show="search === '' || 
                 '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
