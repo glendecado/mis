@@ -77,6 +77,7 @@
                 <div class="y relative mt-2" x-data="{ show: false }"> <!-- Added padding here -->
                     <label for="password" class="label mb-2">Password <span class="text-red-500">*</span></label>
                     <input :type="show ? 'text' : 'password'"
+                        class="input"
                         id="password"
                         name="password"
                         x-model="password"

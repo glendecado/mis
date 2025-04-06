@@ -34,12 +34,12 @@
 
         <!-- Mobile Dropdowns -->
         <div class="md:hidden w-full space-y-2" x-show="activeDropdown">
-            <div x-show="activeDropdown === 'role'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
+            <div x-cloak x-show="activeDropdown === 'role'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
                 <a href="/user?roles=all" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Roles</a>
                 <a href="/user?roles=technicalStaff" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Technical Staff</a>
                 <a href="/user?roles=faculty" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Faculty</a>
             </div>
-            <div x-show="activeDropdown === 'status'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
+            <div x-cloak x-show="activeDropdown === 'status'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
                 <button wire:click="$set('status', 'all')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Status</button>
                 <button class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Active</button>
                 <button wire:click="$set('status', 'inactive')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Inactive</button>
@@ -69,7 +69,7 @@
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
-                                    <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1">
+                                    <div x-cloak x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1">
                                         <a href="/user?roles=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Roles</a>
                                         <a href="/user?roles=technicalStaff" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technical Staff</a>
                                         <a href="/user?roles=faculty" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Faculty</a>
@@ -86,7 +86,7 @@
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
-                                    <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1">
+                                    <div x-cloak x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-48 bg-white rounded-md shadow-lg py-1">
                                         <button wire:click="$set('status', 'all')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Status</button>
                                         <button wire:click="$set('status', 'active')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Active</button>
                                         <button wire:click="$set('status', 'inactive')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Inactive</button>
@@ -100,6 +100,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($users as $user)
                     <tr
+                        x-cloak
                         x-show="search === '' || 
                             '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
                                 .toLowerCase().includes(search.toLowerCase())"
@@ -161,6 +162,7 @@
     <div class="md:hidden space-y-3">
         @foreach ($users as $user)
         <div
+            x-cloak
             x-show="search === '' || 
                 '{{ $user->id }} {{ $user->name }} {{ $user->role }} {{ $user->email }}'
                     .toLowerCase().includes(search.toLowerCase())"
