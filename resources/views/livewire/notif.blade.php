@@ -28,7 +28,7 @@ $opened = function ($id, $req) {
 
 ?>
 
-<div x-data="{notif: false }" class="relative" wire:poll>
+<div x-data="{notif: false }" class="relative">
     <!-- Notification Bell -->
     <button @click="notif = !notif" class="relative p-2 rounded-full transition-all hover:bg-white/10 focus:outline-none">
         <x-icons.bell class="size-7 text-white" />
