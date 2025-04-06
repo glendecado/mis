@@ -28,15 +28,7 @@ class DatabaseSeeder extends Seeder
       ]);
     }
 
-    $facultyUsers = User::factory(5)->create(['role' => 'Faculty']);
-    foreach ($facultyUsers as $facultyUser) {
-      Faculty::factory()->create(['faculty_id' => $facultyUser->id]);
-    }
 
-    $technicalStaffUsers = User::factory(5)->create(['role' => 'Technical Staff']);
-    foreach ($technicalStaffUsers as $technicalStaffUser) {
-      TechnicalStaff::factory()->create(['technicalStaff_id' => $technicalStaffUser->id]);
-    }
 
     // Seeding categories
     Category::create(['name' => 'Computer/Laptop/Printer']);
