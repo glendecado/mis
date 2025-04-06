@@ -388,7 +388,7 @@
 
 
     ?>
-    <div wire:poll>
+    <div>
 
 
 
