@@ -15,7 +15,7 @@
 
 
         @if(session('user')['role'] == 'Mis Staff')
-         @if(DB::table('requests')->where('id', session('requestId'))->first()->status  == 'pending' )
+         @if($ifPending)
 
         <button @click="$wire.removeTask({{$tech->user->id}})" wire:loading.attr="disabled" class="border h-full absolute right-0 flex items-center px-10 hover:bg-blue-100/50 cursor-pointer bg-white" wire:loading.class="bg-blue-100/50 cursor-progress">
             <x-icons.delete />

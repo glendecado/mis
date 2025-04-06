@@ -4,6 +4,8 @@ use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
 use App\Models\TaskPerRequest;
+use App\Models\User;
+use App\Notifications\RequestStatus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use function Livewire\Volt\{mount, on, state};
@@ -118,8 +120,14 @@ $checkTask = function ($id) {
             'progress' => $totalPercent,
             'status' => $totalPercent === 100.0 ? 'resolved' : $this->request->status
         ]);
-    }
 
+        if ($totalPercent === 100.0) {
+            $faculty = User::find($this->request->faculty_id);  // Fetch the faculty
+            $faculty->notify(new RequestStatus($this->request));  // Send notification
+        }
+        
+    }
+   ;
 
     $this->dispatch('view-detailed-request');
     Cache::forget('request_' . $requestId);

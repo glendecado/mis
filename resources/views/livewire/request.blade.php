@@ -61,6 +61,7 @@
 
 
 
+
     //sessions
     $sessionPage = fn() => session(['page' => 'request']);
     $sessionRequestId = fn() => session(['requestId' => $this->id ?? null]);
@@ -183,6 +184,7 @@
 
     //view request with table
     $viewRequest = function () {
+
         $query = Request::with(['categories', 'categories.category', 'faculty', 'faculty.user']);
     
         switch (session('user')['role']) {
@@ -197,11 +199,12 @@
                 // Add other roles if needed
         }
     
-        // Filter by status if not "all"
         if ($this->status !== 'all') {
             $query->where('status', $this->status);
+        } else {
+            $query->where('status', '!=', 'resolved');
         }
-    
+        
         // Add search functionality
         if (!empty($this->search)) {
             $searchTerm = '%' . $this->search . '%';
@@ -341,6 +344,7 @@
         );
 
 
+
         $req = Request::where('id', $this->id)->with('faculty')->first();
         $req->status = $status;
 
@@ -431,14 +435,13 @@
             let userId = {{session('user')['id']}};
             Echo.private(`request-channel.${userId}`)
                 .listen('RequestEvent', (e) => {
-                    $wire.$refresh();
-                    console.log('connected');
-                    console.log('disconnected');
+                    Livewire.dispatch('refresh');
+                    Livewire.dispatch('ass-pending');
+
                 });
 
             Echo.leaveChannel(`request-channel.${userId}`);
         </script>
-
         @endscript
 
 

@@ -7,16 +7,25 @@ use App\Models\TechnicalStaff;
 use App\Models\User;
 use App\Notifications\AssingedRequest;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\DB;
 
 use function Livewire\Volt\{computed, mount, on, state};
 
 //
 state(['id', 'AssignedRequest']);
 
+state(['ifPending']);
+
 on(['techs' => function () {
 
     $this->AssignedRequest = AssignedRequest::where('request_id', $this->id)->with('request')->get();
+
+
+}]);
+
+
+on(['ass-pending' => function () {
+    $this->ifPending = DB::table('requests')->where('id', session('requestId'))->first()->status  == 'pending';
 }]);
 
 mount(function () {
@@ -34,6 +43,8 @@ mount(function () {
     $this->AssignedRequest = Cache::flexible($cacheKey,[5, 10], function () {
         return AssignedRequest::where('request_id', $this->id)->get();
     });
+
+    $this->ifPending = DB::table('requests')->where('id', session('requestId'))->first()->status  == 'pending';
 });
 
 
@@ -90,4 +101,5 @@ $viewAssigned = function () {
 
     @include('components.assigned-request.view-assigned-request')
 
+ 
 </div>

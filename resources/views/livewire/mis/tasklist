@@ -9,6 +9,7 @@
         $req->status = 'resolved';
         $faculty = User::find($req->faculty_id);
         $faculty->notify(new RequestStatus($req));
+        $this->dispatch('view-request');
     }
 
     $req->save();
