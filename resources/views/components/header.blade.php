@@ -30,20 +30,20 @@
 
 
             {{-- Arrow Down (default) --}}
-            <div x-show="!open">
+            <div x-cloak x-show="!open">
                 <x-icons.arrow direction="down" />
             </div>
 
             {{-- Arrow Up (on click) --}}
-            <div x-show="open" x-cloak>
+            <div x-cloak x-show="open" x-cloak>
 
             {{--arrow--}}
-            <div x-show="open == false">
+            <div x-cloak x-show="open == false">
                 <x-icons.arrow direction="down" />
             </div>
 
             {{--open dropdown--}}
-            <div x-show="open == true" x-cloak @click.outside="open = false">
+            <div x-cloak x-show="open == true" x-cloak @click.outside="open = false">
 
 
                 <x-icons.arrow direction="up" />
