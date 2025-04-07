@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -21,20 +20,13 @@ class CreatedAccount extends Mailable
         //
     }
 
-    public function build()
-    {
-        return $this->subject('Welcome to Our Platform')
-                    ->view('emails.created-account')
-                    ->with(['user' => $this->user]);
-    }
-    
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Created Account',
+            subject: 'Welcome to Our Platform', // Consistent subject with build()
         );
     }
 
@@ -45,15 +37,12 @@ class CreatedAccount extends Mailable
     {
         return new Content(
             view: 'emails.created-account',
+            with: ['user' => $this->user] // Moved from build()
         );
     }
 
-
-
     /**
      * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
