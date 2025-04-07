@@ -49,10 +49,7 @@ $login = function () {
         }
     }
 
-    if($user->isOnline()){
-        $this->passwordError = 'Account already login';
-        return;
-    }
+
 
     // Check existing session
     

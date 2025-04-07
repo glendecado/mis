@@ -67,6 +67,6 @@ class User extends Authenticatable
 
     public function isOnline() : bool
     {
-        return $this->last_seen && $this->last_seen->gt(now()->subSecond(5));
+        return $this->last_seen && $this->last_seen->gt(now()->subSecond(10));
     }
 }
