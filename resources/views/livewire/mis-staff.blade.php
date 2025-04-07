@@ -103,7 +103,6 @@ $addUser = function () {
             ]);
             // Associate the User model with the TechnicalStaff model
             $tech->User()->associate($user);
-            Mail::to($user->email)->send(new CreatedAccount($user));
             $tech->save();
             break;
 
