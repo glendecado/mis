@@ -117,7 +117,7 @@ $addUser = function () {
             ]);
             // Associate the User model with the Faculty model
             $fac->User()->associate($user);
-            Mail::to($user->email)->queue(new CreatedAccount($user));
+
             $fac->save();
             break;
     }
@@ -133,7 +133,7 @@ $addUser = function () {
         'room'
     ]);
     $this->dispatch('close-modal', 'add-user-modal');
-
+    Mail::to($user->email)->queue(new CreatedAccount($user));
 
     $this->dispatch('success', 'Added Successfully');
 };
