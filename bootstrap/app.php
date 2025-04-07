@@ -21,7 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
             UserActivity::class,
         ]);
 
-        $middleware->trustProxies(at: '*');
+        $middleware->trustProxies(at: 
+        ['68.183.225.118']);
 
         $middleware->alias([
             'role' => RoleMiddleware::class,
