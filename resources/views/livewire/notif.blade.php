@@ -7,6 +7,10 @@ use function Livewire\Volt\{computed, mount, on, state};
 
 state(['user']);
 
+on(['new-notif' => function(){
+    $this->user = User::find(session('user')['id']);
+}]);
+
 mount(function () {
 
     $this->user = User::find(session('user')['id']);
@@ -14,9 +18,8 @@ mount(function () {
 
 $opened = function ($id, $req) {
 
-    $notification = Cache::flexible('unread_notif_' . $id, [5, 10], function () use ($id) {
-        return $this->user->unreadNotifications->firstWhere('id', $id);
-    });
+    $notification = $this->user->unreadNotifications->firstWhere('id', $id);
+
 
     if ($notification) {
         $notification->markAsRead();
@@ -97,7 +100,7 @@ $opened = function ($id, $req) {
         let userId = {{session('user')['id']}}
         Echo.private(`App.Models.User.${userId}`)
             .notification((notification) => {
-                $wire.$refresh();
+                Livewire.dispatch('new-notif');
                 
             });
             Echo.leaveChannel(`App.Models.User.${userId}`); 
