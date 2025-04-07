@@ -83,6 +83,12 @@
         </div>
     </div>
 
+    <div wire:loading class="w-full h-dvh">
+        <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
+            <x-loaders.b-square />
+        </div>
+    </div>
+
     @livewireScriptConfig
 
     <x-alerts />
