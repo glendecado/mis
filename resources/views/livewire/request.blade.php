@@ -356,6 +356,7 @@
 
         $faculty->notify(new RequestStatus($req));
         $req->save();
+        RequestEvent::dispatch($faculty->id);
         RequestEvent::dispatch(1); //mis
         Cache::forget('request_' . $this->id);
         $this->reload();
