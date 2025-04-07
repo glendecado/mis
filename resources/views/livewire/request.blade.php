@@ -59,7 +59,9 @@
         $this->viewDetailedRequest();
     }]);
 
-
+    on(['view-request' => function () {
+        $this->viewRequest();
+    }]);
 
 
     //sessions
@@ -435,8 +437,10 @@
             let userId = {{session('user')['id']}};
             Echo.private(`request-channel.${userId}`)
                 .listen('RequestEvent', (e) => {
-                    Livewire.dispatch('refresh');
+                    Livewire.dispatch('view-request');
+                    Livewire.dispatch('view-detailed-request');
                     Livewire.dispatch('ass-pending');
+
 
                 });
 

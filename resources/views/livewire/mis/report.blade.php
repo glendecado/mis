@@ -83,7 +83,7 @@ $total = function () {
         ->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
 
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')->with(['categories', 'categories.category'])->get();
-            
+
     $categoryIds = collect($ctgry)
         ->pluck('categories')
         ->collapse()
@@ -130,10 +130,12 @@ $total = function () {
     $this->categoryForMonth = $cMonth;
 
     $this->categories = $this->categoryCounts;
-    
 };
 
 mount(function () {
+
+
+
     $this->date = $this->date ?? 'today'; // Default date
 
     $this->techStaff = TechnicalStaff::with('user')->get();
@@ -294,6 +296,7 @@ $techStaffMetrics = function () {
 
 
     <div class="px-4 py-4">
+        @if(!$this->techStaffMetrics()->isEmpty())
 
 
         @include('components.reports.summary')
@@ -302,11 +305,13 @@ $techStaffMetrics = function () {
             @include('components.reports.total-ass-cat')
         </div>
 
-
-
         @include('components.reports.detailed')
-
         @include('components.reports.feedback')
+        @else
+        <div class="col-span-full text-center py-8 text-gray-500">
+            No technical staff metrics data available
+        </div>
+        @endif
 
 
     </div>
