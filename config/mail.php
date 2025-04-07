@@ -44,8 +44,15 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => 30, // Increase timeout to 30 seconds
+            'timeout' => 30,  # Increased timeout
             'auth_mode' => null,
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
