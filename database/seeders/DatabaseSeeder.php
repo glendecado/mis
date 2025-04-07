@@ -2,8 +2,6 @@
 
 use App\Models\User;
 use App\Models\MisStaff;
-use App\Models\Faculty;
-use App\Models\TechnicalStaff;
 use App\Models\Category; // <-- Add this line
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
