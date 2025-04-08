@@ -315,6 +315,7 @@
         $req->delete();
         $this->dispatch('success', 'deleted Successfully');
         $this->reload();
+        $this->redirect('/', navigate: true);
     };
 
     //confirm location
