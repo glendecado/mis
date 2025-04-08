@@ -79,7 +79,7 @@ $assignTask = function ($techId) {
 
     $notifUser->notify(new AssingedRequest($request));
 
-    return redirect('/request/'.session('requestId'));
+    return $this->redirect('/request/'.session('requestId'), navigate : true);
 };
 
 $removeTask = function ($techId) {
