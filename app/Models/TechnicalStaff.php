@@ -10,7 +10,7 @@ class TechnicalStaff extends Model
     use HasFactory;
 
     protected $primaryKey = 'technicalStaff_id';
-    protected $fillable = ['technicalStaff_id', 'tatalTask', 'totalRate'];
+    protected $fillable = ['technicalStaff_id'];
     public function User()
     {
         return $this->belongsTo(User::class, 'technicalStaff_id');
