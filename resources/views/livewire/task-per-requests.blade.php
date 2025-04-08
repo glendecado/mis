@@ -70,6 +70,7 @@ $confirmTask = function () {
     $this->dispatch('close-modal', 'add-task-modal');
     $this->dispatch('reqPerTask');
     $this->dispatch('view-detailed-request');
+    return redirect('/request/' . session()->get('requestId'));
 };
 
 $toDefaultCategory = function ($name, $decide) {

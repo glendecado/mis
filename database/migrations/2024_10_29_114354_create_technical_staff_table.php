@@ -17,15 +17,6 @@ return new class extends Migration
 
             $table->foreign('technicalStaff_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('totalPendingTask')->default(0);
-
-            $table->integer('totalOngoingTask')->default(0);
-
-            $table->integer('totalResolveTask')->default(0);
-
-            $table->integer('totalRejectedTask')->default(0);
-
-            $table->integer('totalRate')->default(0);
             
             $table->timestamps();
         });
