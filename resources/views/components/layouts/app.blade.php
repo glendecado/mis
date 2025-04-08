@@ -89,9 +89,10 @@
         </div>
     </div>
 
-    @livewireScriptConfig
+
 
     <x-alerts />
+    @livewireScripts
 </body>
 
 </html>
