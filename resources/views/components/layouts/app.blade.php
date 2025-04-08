@@ -76,7 +76,7 @@
             @endif
 
 
-            <div x-data="{ search: '', statusDropdownOpen: '', open : '', college : '', building: '', room: '', concerns : '', selectedCategories : '', openSuggest : '', otherCategoryMaxLength : '', maxSelection : '', otherCategory : ''}">
+            <div>
                 {{$slot}}
             </div>
 
