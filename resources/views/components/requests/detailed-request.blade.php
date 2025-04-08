@@ -1,4 +1,4 @@
-<div class="w-full bg-blue-50 rounded-md p-4 shadow-md">
+<div class="w-full bg-blue-50 rounded-md p-4 shadow-md ">
     @foreach ($this->viewDetailedRequest() as $req)
 
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -123,7 +123,7 @@
 
         <!-- RIGHT COLUMN: Task List + Actions -->
         <div
-            class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto">
+            class="bg-white px-4 rounded-md shadow text-2xl text-blue font-semibold h-[100vh] flex flex-col overflow-auto relative">
 
             @if(session('user')['role'] === 'Faculty' )
             @if($req->status === 'declined' || $req->status === 'waiting')
