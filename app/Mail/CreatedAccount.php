@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -7,30 +8,33 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Resend\Laravel\Facades\Resend;
-
 
 class CreatedAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
-
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct(public $user)
     {
-        $this->user = $user;
+        //
     }
 
+    public function build()
+    {
+        return $this->subject('Welcome to Our Platform')
+                    ->view('emails.created-account')
+                    ->with(['user' => $this->user]);
+    }
+    
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to Our Platform',
+            subject: 'Created Account',
         );
     }
 
@@ -41,32 +45,18 @@ class CreatedAccount extends Mailable
     {
         return new Content(
             view: 'emails.created-account',
-            with: ['user' => $this->user],
         );
     }
 
+
+
     /**
      * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
         return [];
-    }
-
-    /**
-     * Send the email via Resend.
-     */
-    public function build(): self
-    {
-        // Send email using Resend
-        Resend::emails()->send([
-            'from' => 'no-reply@update.isatuservice.space',  // From email from .env
-            'to' => $this->user->email,          // To email from the user
-            'subject' => $this->envelope()->subject,  // Subject
-            'text' => 'Welcome to our platform, ' . $this->user->name,  // Plain text content
-            'html' => view('emails.created-account', ['user' => $this->user])->render(), // Render HTML view
-        ]);
-
-        return $this; // Return the Mailable object to continue the chain
     }
 }
