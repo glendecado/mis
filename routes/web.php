@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/test', function () {
   Resend::emails()->send([
-    'from' => 'no-reply@isatuservice.space', // Use a valid email address here
+    'from' => 'no-reply@update.isatuservice.space', // Use a valid email address here
     'to' => 'gbdecado123@gmail.com',
     'subject' => 'hello world',
     'text' => 'hey', // Plain text content
