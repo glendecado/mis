@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/test', function () {
   Resend::emails()->send([
-    'from' => 'Acme <onboarding@resend.dev>',
+    'from' => 'isatuservice.space',
     'to' => 'gbdecado123@gmail.com',
     'subject' => 'hello world',
     'text' => 'hey', // Plain text content
