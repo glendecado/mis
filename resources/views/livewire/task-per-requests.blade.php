@@ -52,8 +52,8 @@ mount(function () {
 });
 
 $confirmTask = function () {
-    
-    $this->dispatch('close-modal', 'add-task-modal');
+
+ 
     $taskList = $this->selectedTaskList;
     $requestId = session()->get('requestId');
 
@@ -72,6 +72,7 @@ $confirmTask = function () {
 
     $this->dispatch('reqPerTask');
     $this->dispatch('view-detailed-request');
+    $this->redirect('/request/'.session('requestId'), navigate:true);
 
 };
 
