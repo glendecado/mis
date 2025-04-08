@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Resend\Laravel\Facades\Resend;
 
 
-class CreatedAccount extends Mailable implements ShouldQueue
+class CreatedAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -60,7 +60,7 @@ class CreatedAccount extends Mailable implements ShouldQueue
     {
         // Send email using Resend
         Resend::emails()->send([
-            'from' => env('RESEND_FROM_EMAIL'),  // From email from .env
+            'from' => 'no-reply@update.isatuservice.space',  // From email from .env
             'to' => $this->user->email,          // To email from the user
             'subject' => $this->envelope()->subject,  // Subject
             'text' => 'Welcome to our platform, ' . $this->user->name,  // Plain text content
