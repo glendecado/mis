@@ -21,6 +21,11 @@ class UserActivity
 
 
             User::where('id', Auth::user()->id)->update(['last_seen' => now()]);
+
+            if(Auth::user()->status == 'inactive'){
+                Auth::logout();
+                return redirect('/');
+            }
         }
 
         return $next($request);

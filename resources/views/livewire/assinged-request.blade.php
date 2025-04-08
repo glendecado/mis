@@ -78,6 +78,8 @@ $assignTask = function ($techId) {
     Cache::forget('request_'.session('requestId'));
 
     $notifUser->notify(new AssingedRequest($request));
+
+    return redirect('/request/'.session('requestId'));
 };
 
 $removeTask = function ($techId) {
