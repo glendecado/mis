@@ -99,8 +99,7 @@ $addUser = function () {
         case 'Technical Staff':
             $tech = TechnicalStaff::create([
                 'technicalStaff_id' => $user->id,
-                'totalRate' => 0,
-                'totalTask' => 0,
+              
             ]);
             // Associate the User model with the TechnicalStaff model
             $tech->User()->associate($user);
