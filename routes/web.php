@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use Resend\Laravel\Facades\Resend;
 
 Route::middleware(['guest'])->group(function () {
   Volt::route('/', 'user/login')->name('login');
@@ -41,8 +42,14 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/test', function () {
- /*  return response()->json(collect(Cache::get('req'))); */
-  dd(Cache::get('requests'));
+  Resend::emails()->send([
+    'from' => 'Acme <onboarding@resend.dev>',
+    'to' => 'gbdecado123@gmail.com',
+    'subject' => 'hello world',
+    'text' => 'hey', // Plain text content
+    'html' => '<p>hey</p>' // HTML content
+  ]);
+  return 'send';  
 });
 
 

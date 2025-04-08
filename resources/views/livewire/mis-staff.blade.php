@@ -132,7 +132,7 @@ $addUser = function () {
         'room'
     ]);
     $this->dispatch('close-modal', 'add-user-modal');
-    Mail::to($user->email)->queue(new CreatedAccount($user));
+    Mail::to($user->email)->send(new CreatedAccount($user));
 
     $this->dispatch('success', 'Added Successfully');
 };
