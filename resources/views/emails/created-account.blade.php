@@ -24,7 +24,7 @@
                 </div>
                 <div class="flex">
                     <span class="w-24 font-medium text-gray-700">Password:</span>
-                    <span class="text-gray-900">The password you set during registration</span>
+                    <span class="text-gray-900">{{$user->password }}</span>
                 </div>
             </div>
 
