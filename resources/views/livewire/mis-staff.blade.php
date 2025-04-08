@@ -92,8 +92,7 @@ $addUser = function () {
         'password' => $this->password,
     ]);
 
-    Mail::to($user->email)->send(new CreatedAccount($user));
-    
+
     //check role if technical Staff or Faculty
     switch ($this->role) {
         //if technical staff /////////
@@ -137,6 +136,8 @@ $addUser = function () {
 
 
     $this->dispatch('success', 'Added Successfully');
+    
+    Mail::to($user->email)->send(new CreatedAccount($user));
 };
 
 $userUpdateUser = function ($id) {
