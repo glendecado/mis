@@ -86,9 +86,11 @@ $viewTaskList = function () {
         @foreach($this->viewTaskList() as $list)
         <li class="text-blue-950 text-lg">
             <div style="border: 1px solid #2e5e91; border-radius: 6px; padding: 8px; margin-bottom: 8px;"
-                class="flex flex-wrap items-center justify-between gap-2 {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
+                class="flex w-full flex-col md:flex-row items-center justify-between gap-2 {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
+
+
                 @if($editingId === $list->id)
-                    <div class="flex-1">
+                    <div class="flex flex-col">
                         <input type="text" wire:model="editedTask" class="input w-full text-sm border bg-white">
                         @error('editedTask')
                         <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
@@ -103,7 +105,11 @@ $viewTaskList = function () {
                         </button>
                     </div>
                 @else
-                    <span class="whitespace-normal break-words flex-1 text-sm font-medium">
+
+
+
+
+                    <span class="whitespace-normal break-words flex-1 text-sm font-medium relative truncate w-full ">
                         {{$list->task}}
                     </span>
                     <div class="flex gap-2">
@@ -125,8 +131,8 @@ $viewTaskList = function () {
     @switch(session('page'))
     @case('category')
     <div class="md:x y gap-2 flex items-center justify-between">
-        <div class="flex flex-row items-start gap-2 w-[100%] md:w-full">
-            <div class="w-[80%] md:w-full">
+        <div class="flex flex-col md:flex-row items-start gap-2 w-[100%] md:w-full ">
+            <div class="w-full md:w-[80%]">
                 <input type="text" wire:model="task" class="input w-full text-sm border bg-[#2e5e91]" placeholder="Enter task item...">
                 @error('task')
                 <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
@@ -138,6 +144,11 @@ $viewTaskList = function () {
         </div>
     </div>
     @break
+
+
+
+
+
 
     @case('request')
     @if($this->viewTaskList()->isEmpty())
