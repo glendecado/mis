@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RequestEvent;
 use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
@@ -126,7 +127,7 @@ $checkTask = function ($id) {
             $faculty = User::find($this->request->faculty_id);  // Fetch the faculty
             $faculty->notify(new RequestStatus($this->request));  // Send notification
         }
-        
+        RequestEvent::dispatch($this->request->faculty_id);
     }
    ;
 
