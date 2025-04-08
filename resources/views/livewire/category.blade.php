@@ -44,7 +44,7 @@ $addCategory = function ($categoryName) {
 
 ?>
 
-<div  class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
     <!-- Enhanced scroll-to-top listener with smooth transitions -->
     <div x-data="{
         scrollToTop() {
@@ -72,7 +72,7 @@ $addCategory = function ($categoryName) {
             x-transition:enter-end="opacity-100">Categories</h1>
 
         <!-- Add Category Form - Floating Button Trigger -->
-        <div  x-data="{ showForm: false }" class="relative mt-6 mb:mt-0">
+        <div x-data="{ showForm: false }" class="relative mt-6 mb:mt-0">
             <button
                 @click="showForm = true"
                 class="px-5 py-3 bg-blue text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all flex items-center space-x-2">
@@ -94,7 +94,7 @@ $addCategory = function ($categoryName) {
                 x-transition:leave-end="opacity-0 translate-y-1"
                 @click.away="showForm = false"
                 class="absolute right-0 mt-2 w-72 z-10">
-                <div class="bg-white p-4 rounded-xl shadow-xl border border-gray-100" >
+                <div class="bg-white p-4 rounded-xl shadow-xl border border-gray-100">
                     <div x-data="{ input: '' }" class="space-y-3">
                         <h3 class="font-medium text-gray-700">Create New Category</h3>
                         <input
@@ -148,12 +148,14 @@ $addCategory = function ($categoryName) {
             <div
 
                 @click="isOpen = !isOpen"
-                class="p-5 cursor-pointer flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-white">
+                class="p-5 cursor-pointer flex justify-between items-center ">
+                <div class="flex items-center w-full">
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-white flex-none">
                         {{ strtoupper(substr($category->name, 0, 1)) }}
                     </div>
-                    <h3 class="font-semibold text-gray-800">{{ $category->name }}</h3>
+                    <h3 class="font-semibold text-gray-800 truncate w-[100%] ml-3">
+                        {{ $category->name }}
+                    </h3>
                 </div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
