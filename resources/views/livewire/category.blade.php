@@ -72,10 +72,21 @@ $addCategory = function ($categoryName) {
             x-transition:enter-end="opacity-100">Categories</h1>
 
         <!-- Add Category Form - Floating Button Trigger -->
-        <div x-data="{ showForm: false }" class="relative mt-6 mb:mt-0">
+        <div x-cloak x-data="{ showForm: false }" class="relative mt-6 mb:mt-0"
+        
+        
+        >
             <button
                 @click="showForm = true"
-                class="px-5 py-3 bg-blue text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all flex items-center space-x-2">
+                class="px-5 py-3 bg-blue text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all flex items-center space-x-2"
+                x-data="{ shown: false }"
+                x-init="setTimeout(() => shown = true, 150)"
+                x-show="shown"
+                x-transition:enter="transition-opacity duration-500"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                
+                >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>

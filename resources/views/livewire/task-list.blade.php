@@ -86,12 +86,12 @@ $viewTaskList = function () {
         @foreach($this->viewTaskList() as $list)
         <li class="text-blue-950 text-lg">
             <div style="border: 1px solid #2e5e91; border-radius: 6px; padding: 8px; margin-bottom: 8px;"
-                class="flex w-full flex-col md:flex-row items-center justify-between gap-2 {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
+                class="flex w-full flex-col md:flex-row items-end md:items-center justify-between gap-2 {{$list->status == 'disabled' ? 'bg-slate-300 hover:bg-slate-400' : 'hover:bg-blue-50'}}">
 
 
                 @if($editingId === $list->id)
-                    <div class="flex flex-col">
-                        <input type="text" wire:model="editedTask" class="input w-full text-sm border bg-white">
+                    <div class="flex flex-wrap w-full">
+                        <input type="text" wire:model="editedTask" class="p-2 rounded-md w-full text-sm border bg-white">
                         @error('editedTask')
                         <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                         @enderror
@@ -109,7 +109,7 @@ $viewTaskList = function () {
 
 
 
-                    <span class="whitespace-normal break-words flex-1 text-sm font-medium relative truncate w-full ">
+                    <span class="whitespace-normal break-words flex-1 text-sm font-medium relative truncate w-full input ">
                         {{$list->task}}
                     </span>
                     <div class="flex gap-2">
