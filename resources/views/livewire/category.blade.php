@@ -62,7 +62,7 @@ $addCategory = function ($categoryName) {
         @scroll-to-top.window="scrollToTop()"
         class="contents"></div>
 
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-wrap justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 transition-opacity duration-500 "
             x-data="{ shown: false }"
             x-init="setTimeout(() => shown = true, 150)"
@@ -72,7 +72,7 @@ $addCategory = function ($categoryName) {
             x-transition:enter-end="opacity-100">Categories</h1>
 
         <!-- Add Category Form - Floating Button Trigger -->
-        <div  x-data="{ showForm: false }" class="relative">
+        <div  x-data="{ showForm: false }" class="relative mt-6 mb:mt-0">
             <button
                 @click="showForm = true"
                 class="px-5 py-3 bg-blue text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all flex items-center space-x-2">
@@ -157,7 +157,7 @@ $addCategory = function ($categoryName) {
                 </div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 text-gray-500 transition-transform duration-300"
+                    class="h-5 w-5 text-gray-500 transition-transform duration-300 absolute right-2"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     :class="{ 'hidden': isOpen }">

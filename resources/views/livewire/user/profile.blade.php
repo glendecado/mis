@@ -90,7 +90,7 @@ $updateProfile = function ($type) {
 }
 
 ?>
-<div class="min-h-screen bg-gray-50 p-4 md:p-6">
+<div class="min-h-screen bg-gray-50 p-2 md:p-6">
     <!-- Back Button -->
     <a href="/{{ session('page') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors mb-6">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -113,7 +113,7 @@ $updateProfile = function ($type) {
         role: @entangle('role')
     }" class="bg-white rounded-xl shadow-md overflow-hidden">
         <!-- Profile Header -->
-        <div class="bg-blue p-6 flex flex-col md:flex-row items-center justify-between">
+        <div class="bg-blue p-2 mb:p-6 flex flex-col md:flex-row items-center justify-between">
             <div class="flex items-center space-x-4">
                 <div class="relative group">
                     <img src="{{ asset('storage/'. $this->img) }}" alt="Profile" class="h-20 w-20 rounded-full border-4 border-white/80 object-cover shadow-md">
@@ -132,7 +132,7 @@ $updateProfile = function ($type) {
         </div>
 
         <!-- Profile Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2 mb:p-6">
             <!-- Profile Picture Section -->
             <div class="lg:col-span-1 bg-gray-50 rounded-lg p-6 shadow-inner">
                 <div class="flex flex-col items-center">
@@ -155,7 +155,7 @@ $updateProfile = function ($type) {
                     <div class="flex gap-2 w-full items-center justify-center mt-2">
                         <!-- Loading state during save -->
                         <div wire:loading wire:target="updateProfile('img')" class="flex items-center justify-center px-4 py-2 bg-blue-600 rounded-md text-white">
-                    
+
                             Saving...
                         </div>
 
@@ -198,7 +198,7 @@ $updateProfile = function ($type) {
 
             <!-- Profile Information Section -->
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="bg-white rounded-lg shadow-sm p-2 md:p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b">Personal Information</h2>
 
                     <div class="space-y-4">
@@ -242,12 +242,30 @@ $updateProfile = function ($type) {
                             <div class="relative">
                                 <input :disabled="update" x-model="password" :type="showPassword ? 'text' : 'password'" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors pr-10">
                                 <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <template x-if="!showPassword">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </template>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
+                                    <template x-if="showPassword">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                                <path
+                                                    d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                                <path
+                                                    d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                                <path
+                                                    d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                            </svg>
+                                        </div>
+                                    </template>
+                                    <template x-if="!showPassword">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </template>
                                 </button>
                             </div>
                         </div>
