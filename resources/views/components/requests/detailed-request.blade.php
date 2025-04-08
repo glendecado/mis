@@ -128,7 +128,7 @@
             @if(session('user')['role'] === 'Faculty' )
             @if($req->status === 'declined' || $req->status === 'waiting')
 
-            <div class="mt-5">
+            <div class="mt-5" @click="$wire.deleteRequest({{$req->id}})">
                 <div class="border border-red-500 w-fit float-right p-2 rounded-md">
                     <x-icons.delete />
                 </div>
