@@ -442,7 +442,7 @@
                     Livewire.dispatch('view-detailed-request');
                     Livewire.dispatch('ass-pending');
                     Livewire.dispatch('reqPerTask');
-                    $wire.refresh();
+                    Livewire.refresh();
 
                 });
 
