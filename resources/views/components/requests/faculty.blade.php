@@ -25,6 +25,10 @@
     </button>
 </div>
 
+@endif
+
+@endif
+
 <x-modal name="rateFeedback" maxWidth="xl">
     <div class="p-4 w-full">
         <div class="text-center mb-4">
@@ -76,6 +80,3 @@
         </div>
     </div>
 </x-modal>
-@endif
-
-@endif
