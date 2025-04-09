@@ -177,7 +177,7 @@
 
 
 
-        $cache = Cache::rememberForever('request_' . $this->id, function () {
+        $cache = Cache::flexible('request_' . $this->id,[5,10] ,function () {
             return Request::where('id', $this->id)->with(['faculty', 'faculty.user'])->get();
         });
 
@@ -187,7 +187,7 @@
     //view request with table
     $viewRequest = function () {
 
-        $query = Request::with(['categories', 'categories.category', 'faculty', 'faculty.user']);
+        $query = Request::with(['categories', 'categories.category', 'faculty', 'faculty.user'])->orderBy('created_at', 'desc')->paginate(7);
     
         switch (session('user')['role']) {
             case 'Faculty':
@@ -227,7 +227,7 @@
             });
         }
     
-        return $query->orderBy('created_at', 'desc')->paginate(7);
+        return $query;
     };
     
 
