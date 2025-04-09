@@ -177,9 +177,9 @@
 
 
 
-            $cache = Cache::flexible('request_' . $this->id,[5,10] ,function () {
-                return Request::where('id', $this->id)->with(['faculty', 'faculty.user'])->get();
-            });
+        $cache = Cache::flexible('request_' . $this->id, [5, 10], function () {
+            return Request::where('id', $this->id)->with(['faculty', 'faculty.user'])->get();
+        });
         return $cache;
     };
 
@@ -187,7 +187,7 @@
     $viewRequest = function () {
 
         $query = Request::with(['categories', 'categories.category', 'faculty', 'faculty.user']);
-    
+
         switch (session('user')['role']) {
             case 'Faculty':
                 $query->where('faculty_id', session('user')['id']);
@@ -199,17 +199,17 @@
                 break;
                 // Add other roles if needed
         }
-    
+
         if ($this->status !== 'all') {
             $query->where('status', $this->status);
         } else {
             $query->where('status', '!=', 'resolved');
         }
-        
+
         // Add search functionality
         if (!empty($this->search)) {
             $searchTerm = '%' . $this->search . '%';
-    
+
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('concerns', 'like', $searchTerm)
                     ->orWhere('status', 'like', $searchTerm)
@@ -225,10 +225,10 @@
                     });
             });
         }
-    
+
         return $query->orderBy('created_at', 'desc')->paginate(7);
     };
-    
+
 
 
 
@@ -395,45 +395,90 @@
 
 
 
-        @if(DB::table('requests')
+        @php
+        $pendingRatings = DB::table('requests')
         ->where('status', 'resolved')
         ->where('faculty_id', session('user')['id'])
         ->whereNull('rate')
-        ->count())
-        <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
-            x-data="{ show: true }"
-            x-show="show">
-            <div class="flex items-center">
-                <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
-                    ✖
-                </button>
+        ->get();
+        @endphp
 
-                <div class="flex-shrink-0 text-amber-500 bg-amber-100/50 rounded-full p-2 animate-pulse group-hover:animate-none group-hover:scale-110 transition-transform duration-300">
-                    ⚠️
+        @if($pendingRatings->count())
+        <div x-data="{ show: true, showModal: false }">
+            <!-- Notification -->
+            <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-4 cursor-pointer hover:bg-amber-100 transition-colors duration-200 shadow-sm relative"
+                x-show="show">
+                <div class="flex items-center">
+                    <button @click="show = false" class="absolute top-2 right-2 text-amber-600 hover:text-amber-800 transition-colors">
+                        ✖
+                    </button>
+
+                    <div class="flex-shrink-0 text-amber-500 bg-amber-100/50 rounded-full p-2 animate-pulse">
+                        ⚠️
+                    </div>
+
+                    <div class="ml-3">
+                        <p class="text-sm text-amber-800 font-medium">
+                            You have resolved requests that need rating!
+                            <a href="#" @click.prevent="showModal = true"
+                                class="font-semibold text-amber-600 hover:text-amber-800 underline underline-offset-2 transition-colors duration-200 ml-1">
+                                Rate now →
+                            </a>
+                        </p>
+
+                        <div class="mt-1 w-full bg-amber-100 rounded-full h-1">
+                            <div class="bg-amber-400 h-1 rounded-full w-3/4"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="ml-3">
-                    <!-- Improved text hierarchy with subtle hover effect -->
-                    <p class="text-sm text-amber-800 font-medium">
-                        You have resolved requests that need rating!
-                        <a href="/request?status=resolved" class="font-semibold text-amber-600 hover:text-amber-800 underline underline-offset-2 transition-colors duration-200 ml-1">
-                            Rate now →
-                        </a>
-                    </p>
+            <!-- Modal with Pending Ratings -->
+            <div x-show="showModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div @click.outside="showModal = false"
+                    class="bg-white rounded-xl p-6 max-w-2xl w-full shadow-xl transition-all transform"
+                    x-transition>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Pending Ratings</h2>
 
-                    <!-- Optional: Subtle progress indicator -->
-                    <div class="mt-1 w-full bg-amber-100 rounded-full h-1">
-                        <div class="bg-amber-400 h-1 rounded-full w-3/4"></div>
+                    <ul class="divide-y divide-gray-200 max-h-[300px] overflow-y-auto mb-4">
+                        @foreach($pendingRatings as $request)
+                        <li class="py-2">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700 w-60 truncate ">
+                                        {{ $request->concerns }}
+                                    </p>
+                                    <p class="text-xs text-gray-500">Resolved at {{ \Carbon\Carbon::parse($request->updated_at)->format('M d, Y') }}</p>
+                                </div>
+                                <a href="/request/{{$request->id}}"
+                                    class="text-amber-600 hover:text-amber-800 text-sm underline underline-offset-2">
+                                    Rate →
+                                </a>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="text-right">
+                        <button @click="showModal = false"
+                            class="text-sm px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-
         @endif
+
+
+
+
+
+
 
         @include('components.requests.view')
 
-        @script
+        @script 
         <script>
             let userId = {{session('user')['id']}};
             Echo.private(`request-channel.${userId}`)
