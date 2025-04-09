@@ -1,8 +1,125 @@
 <x-modal name="add-user-modal">
-    <div class="p-2"> <!-- Added padding here -->
-        <h1 class="text-[#2e5e91] text-[28px] text-center font-medium">Create New User Account</h1>
-        <form wire:submit.prevent="addUser">
-            <div class='y gap-2 p-2' x-data="{ <!-- Added padding here -->
+    <div class="p-4" x-data="userForm()">
+        <template x-if="step === 1">
+            <div class="space-y-6 text-center">
+                <h1 class="text-2xl font-semibold text-[#2e5e91]">Select User Role</h1>
+                <p class="text-gray-500">Choose the type of account you want to create.</p>
+                <div class="grid gap-4 md:grid-cols-3">
+                    <button type="button" @click="selectRole('Faculty')" class="rounded-xl border px-6 py-4 transition-all bg-white border-gray-300 hover:border-[#2e5e91] hover:bg-[#2e5e91] hover:text-white shadow-sm">
+                        Faculty
+                    </button>
+                    <button type="button" @click="selectRole('Technical Staff')" class="rounded-xl border px-6 py-4 transition-all bg-white border-gray-300 hover:border-[#2e5e91] hover:bg-[#2e5e91] hover:text-white shadow-sm">
+                        Technical Staff
+                    </button>
+                    <button type="button" @click="selectRole('Mis Staff')" class="rounded-xl border px-6 py-4 transition-all bg-white border-gray-300 hover:border-[#2e5e91] hover:bg-[#2e5e91] hover:text-white shadow-sm">
+                        MIS Staff
+                    </button>
+                </div>
+            </div>
+        </template>
+
+        <template x-if="step === 2">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-semibold text-[#2e5e91]">Create <span x-text="role"></span> Account</h1>
+                    <button type="button" @click="step = 1" class="text-sm text-gray-500 hover:text-[#2e5e91] transition-all">&larr; Back</button>
+                </div>
+
+                <form wire:submit.prevent="addUser" class="space-y-4">
+                    <!-- First Name -->
+                    <div>
+                        <label class="block mb-1 font-medium">First Name <span class="text-red-500">*</span></label>
+                        <input type="text" class="input w-full" x-model="fname">
+                        @error('fname') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Last Name -->
+                    <div>
+                        <label class="block mb-1 font-medium">Last Name <span class="text-red-500">*</span></label>
+                        <input type="text" class="input w-full" x-model="lname">
+                        @error('lname') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Faculty-only fields -->
+                    <template x-if="role === 'Faculty'">
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block mb-1 font-medium">College <span class="text-red-500">*</span></label>
+                                <select class="input w-full" x-model="college">
+                                    <option value="">Select</option>
+                                    <option value="CAS">CAS</option>
+                                    <option value="CIT">CIT</option>
+                                    <option value="COE">COE</option>
+                                    <option value="CEA">CEA</option>
+                                </select>
+                                @error('college') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="block mb-1 font-medium">Building <span class="text-red-500">*</span></label>
+                                <input type="text" class="input w-full" x-model="building">
+                                @error('building') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="block mb-1 font-medium">Room <span class="text-red-500">*</span></label>
+                                <input type="text" class="input w-full" x-model="room">
+                                @error('room') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block mb-1 font-medium">Email <span class="text-red-500">*</span></label>
+                        <input type="email" class="input w-full" x-model="email" autocomplete="username">
+                        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div x-data="{ show: false }" class="relative">
+                        <label class="block mb-1 font-medium">Password <span class="text-red-500">*</span></label>
+                        <input :type="show ? 'text' : 'password'" class="input w-full pr-10" x-model="password" autocomplete="new-password">
+                        <div class="absolute right-2 bottom-2 cursor-pointer">
+                            <template x-if="show">
+                                <div>
+                                    <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                        <path
+                                            d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+                                        <path
+                                            d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+                                        <path
+                                            d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+                                    </svg>
+                                </div>
+                            </template>
+                            <template x-if="!show">
+                                <div>
+                                    <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" fill="currentColor" class="size-6 text-blue-950">
+                                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        <path fill-rule="evenodd"
+                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </template>
+                        </div>
+                        @error('password') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+                    </div>
+
+                    <button type="submit" class="w-full mt-4 py-2 bg-[#2e5e91] text-white rounded-md hover:bg-[#234a75] transition">Create User</button>
+                </form>
+            </div>
+        </template>
+    </div>
+
+
+
+
+    <script>
+        function userForm() {
+            return {
+                step: @entangle('step'),
                 role: @entangle('role'),
                 fname: @entangle('fname'),
                 lname: @entangle('lname'),
@@ -10,91 +127,13 @@
                 password: @entangle('password'),
                 college: @entangle('college'),
                 building: @entangle('building'),
-                room: @entangle('room')
-            }">
+                room: @entangle('room'),
+                selectRole(selected) {
+                    this.role = selected;
+                    this.step = 2;
+                }
+            }
+        }
+    </script>
 
-                {{-- Role --}}
-                <div class="y mt-2"> <!-- Added padding here -->
-                    <label for="role" class="label mb-2">Role</label>
-                    <select name="role" id="role" class="input" x-model="role">
-                        <option value="Technical Staff">Technical Staff</option>
-                        <option value="Faculty">Faculty</option>
-                    </select>
-                    @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
-                </div>
-
-                {{-- First Name and Last Name --}}
-                <div class='md:x y gap-2 mt-2'> <!-- Added padding here -->
-                    <div class='y basis-1/2'>
-                        <label for="fname" class="label mb-2">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="fname" class="input" x-model="fname">
-                        @error('fname') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
-                    </div>
-                    <div class='y basis-1/2'>
-                        <label for="lname" class="label mb-2">Last Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="lname" class="input" x-model="lname">
-                        @error('lname') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                {{-- Faculty-Specific Fields --}}
-                <div class="flex flex-col md:flex-row gap-4 mt-2" x-show="role == 'Faculty'">
-                    <!-- College -->
-                    <div class="w-full">
-                        <label for="college" class="label mb-2">College <span class="text-red-500">*</span></label>
-                        <select id="college" class="input w-full p-2 border border-gray-300 rounded-md" x-model="college">
-                            <option value="CAS">CAS</option>
-                            <option value="CIT">CIT</option>
-                            <option value="COE">COE</option>
-                            <option value="CEA">CEA</option>
-                        </select>
-                        @error('college') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
-
-                    <!-- Building -->
-                    <div class="w-full">
-                        <label for="building" class="label mb-2">Building <span class="text-red-500">*</span></label>
-                        <input type="text" id="building" class="input w-full p-2 border border-gray-300 rounded-md" x-model="building">
-                        @error('building') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
-
-                    <!-- Room -->
-                    <div class="w-full">
-                        <label for="room" class="label mb-2">Room <span class="text-red-500">*</span></label>
-                        <input type="text" id="room" class="input w-full p-2 border border-gray-300 rounded-md" x-model="room">
-                        @error('room') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                {{-- Email --}}
-                <div class="y mt-2"> <!-- Added padding here -->
-                    <label for="email" class="label mb-2">Email <span class="text-red-500">*</span></label>
-                    <input type="text" id="email" class="input" x-model="email" aria-describedby="email-error"  aria-required="true"  autocomplete="username">
-                    @error('email') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
-                </div>
-
-                {{-- Password --}}
-                <div class="y relative mt-2" x-data="{ show: false }"> <!-- Added padding here -->
-                    <label for="password" class="label mb-2">Password <span class="text-red-500">*</span></label>
-                    <input :type="show ? 'text' : 'password'"
-                        class="input"
-                        id="password"
-                        name="password"
-                        x-model="password"
-                        autocomplete="current-password"
-                        required
-                        aria-describedby="password-help">
-                    <svg @click="show = !show" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6" style="position: absolute; top: 37px; right: 10px;">
-                        <path x-show="!show" stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                        <path x-show="show" stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                        <path x-show="show" stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                    @error('password') <span class="text-red-500 text-sm mt-2">{{ $message }}</span> @enderror
-                </div>
-
-                <button type="submit" class="button mt-2 text-white bg-[#2e5e91]">Create User</button> <!-- Added padding here -->
-            </div>
-        </form>
-    </div>
 </x-modal>

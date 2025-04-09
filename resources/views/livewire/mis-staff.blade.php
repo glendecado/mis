@@ -2,6 +2,7 @@
 
 use App\Mail\CreatedAccount;
 use App\Models\Faculty;
+use App\Models\MisStaff;
 use App\Models\TechnicalStaff;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,7 @@ state(['role', 'fname', 'lname', 'email', 'password', 'status' => 'active']);
 
 state(['college', 'building', 'room']);
 
+state('step');
 
 rules([
     'role' => 'required|string',
@@ -47,7 +49,8 @@ mount(function () {
 
 on(['resetErrors' => function () {
     $this->resetErrorBag();
-    $this->role = 'Technical Staff';
+    $this->step = 1;
+    $this->role = '';
     $this->reset('fname');
     $this->reset('lname');
     $this->reset('email');
@@ -62,7 +65,7 @@ on(['resetErrors' => function () {
 $viewUser = function () {
     switch ($this->roles) {
         case 'all':
-            $user = User::all();
+            $user = User::all()->where('role', '!=', 'Mis Staff');
 
             break;
 
@@ -74,6 +77,12 @@ $viewUser = function () {
         case 'technicalStaff':
             $user =  User::where('role', 'Technical Staff')->get();
 
+            break;
+        case 'misStaff':
+            $user = User::where('role', 'Mis Staff')->get();
+            break;
+        default:
+            $user = User::all()->where('role', '!=', 'Mis Staff');
             break;
     }
 
@@ -119,6 +128,16 @@ $addUser = function () {
 
             $fac->save();
             break;
+
+        case 'Mis Staff':
+                $mis = MisStaff::Create([
+                    'misStaff_id' => $user->id,
+                ]);
+                $mis->save();
+            break;
+        default:
+                return collect();
+        break;
     }
     //to reset the form 
     $this->reset([

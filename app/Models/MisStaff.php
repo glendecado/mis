@@ -9,6 +9,7 @@ class MisStaff extends Model
 {
     use HasFactory;
     protected $primaryKey = 'misStaff_id';
+    protected $fillable = ['misStaff_id'];
 
     public function User()
     {

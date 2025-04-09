@@ -38,6 +38,7 @@
                 <a href="/user?roles=all" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Roles</a>
                 <a href="/user?roles=technicalStaff" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Technical Staff</a>
                 <a href="/user?roles=faculty" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">Faculty</a>
+                <a href="/user?roles=misStaff" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">MIS Staff</a>
             </div>
             <div x-cloak x-show="activeDropdown === 'status'" class="bg-white border border-gray-200 rounded-lg shadow-lg p-2">
                 <button wire:click="$set('status', 'all')" class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">All Status</button>
@@ -50,8 +51,8 @@
 
     @php
     $users = $status === 'all'
-    ? $this->viewUser()->where('role', '!=', 'Mis Staff')
-    : $this->viewUser()->where('status', $status)->where('role', '!=', 'Mis Staff');
+    ? $this->viewUser()
+    : $this->viewUser()->where('status', $status);
     @endphp
     <!-- Desktop Table -->
     <div class="hidden md:block rounded-xl shadow-sm border border-gray-100 ">
@@ -73,6 +74,7 @@
                                         <a href="/user?roles=all" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Roles</a>
                                         <a href="/user?roles=technicalStaff" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technical Staff</a>
                                         <a href="/user?roles=faculty" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Faculty</a>
+                                        <a href="/user?roles=misStaff" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">MIS Staff</a>
                                     </div>
                                 </div>
                             </div>
