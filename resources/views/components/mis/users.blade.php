@@ -50,7 +50,7 @@
 
     @php
     $users = $status === 'all'
-    ? $this->viewUser()
+    ? $this->viewUser()->where('role', '!=', 'Mis Staff')
     : $this->viewUser()->where('status', $status)->where('role', '!=', 'Mis Staff');
     @endphp
     <!-- Desktop Table -->
