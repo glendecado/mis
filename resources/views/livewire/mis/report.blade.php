@@ -296,8 +296,7 @@ $techStaffMetrics = function () {
 
 
     <div class="px-4 py-4">
-        @if(!$this->techStaffMetrics()->isEmpty())
-
+        @if(!$this->techStaff->isEmpty())
 
         @include('components.reports.summary')
 
