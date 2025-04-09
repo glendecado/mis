@@ -441,6 +441,7 @@
                     Livewire.dispatch('view-request');
                     Livewire.dispatch('view-detailed-request');
                     Livewire.dispatch('ass-pending');
+                    Livewire.dispatch('reqPerTask');
 
 
                 });
