@@ -17,6 +17,10 @@
             </div>
         </div>
 
+        @php
+            $techs = $this->viewTechStaff();
+        @endphp
+
         <!-- Desktop Table -->
         <div class="hidden md:block rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
@@ -27,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($this->viewTechStaff() as $tech)
+                    @foreach($techs as $tech)
                     @if(!in_array($tech->technicalStaff_id, $this->viewAssigned()))
                     <tr
                         x-show="search === '' || 
@@ -57,7 +61,8 @@
                                     type="button"
                                     wire:loading.attr="disabled"
                                     class="text-sm px-3 py-1 bg-blue text-white rounded-md hover:bg-blue-700 transition-colors"
-                                    wire:click.prevent="assignTask('{{$tech->user->id}}')">
+                                    wire:click.prevent="assignTask('{{$tech->user->id}}')"
+                            wire:confirm="Are you sure you want to assign this technical Staff?">
                                     Assign
                                 </button>
                             </div>
@@ -71,7 +76,7 @@
 
         <!-- Mobile Cards -->
         <div class="md:hidden space-y-3">
-            @foreach($this->viewTechStaff() as $tech)
+            @foreach($techs as $tech)
             @if(!in_array($tech->technicalStaff_id, $this->viewAssigned()))
             <div
                 x-show="search === '' || 
@@ -104,7 +109,9 @@
                             type="button"
                             wire:loading.attr="disabled"
                             class="text-sm px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                            wire:click.prevent="assignTask('{{$tech->user->id}}')">
+
+                            wire:click.prevent="assignTask('{{$tech->user->id}}')"
+                            wire:confirm="Are you sure you want to assign this technical Staff?">
                             Assign
                         </button>
                     </div>
