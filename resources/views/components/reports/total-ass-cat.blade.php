@@ -34,7 +34,7 @@
                             <p class="text-sm font-medium text-gray-500">{{ $category }}</p>
                             <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ $count }}</h3>
                         </div>
-                        <div class="p-3 rounded-full {{ $categoryStyles[$category]['bg'] }} {{ $categoryStyles[$category]['text'] }}">
+                        <div class="p-3 rounded-full">
                           
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="flex items-center">
                             <span class="text-xs font-medium text-gray-500 mr-2">{{ $totalRequests > 0 ? round(($count/$totalRequests)*100) : 0 }}%</span>
                             <div class="flex-1 h-2 bg-gray-200 rounded-full">
-                                <div class="h-2 rounded-full {{ $categoryStyles[$category]['progress'] }}" style="width: {{ $totalRequests > 0 ? ($count/$totalRequests)*100 : 0 }}%"></div>
+                                <div class="h-2 rounded-full" style="width: {{ $totalRequests > 0 ? ($count/$totalRequests)*100 : 0 }}%"></div>
                             </div>
                         </div>
                     </div>
