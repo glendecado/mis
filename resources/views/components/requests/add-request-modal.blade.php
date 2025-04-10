@@ -9,11 +9,11 @@
             <div class="space-y-3">
                 <livewire:categories wire:model="category_" />
                 @error('category_')
-                    <span class="text-red-500 text-sm">{{$message}}</span>
+                <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
                 <textarea x-model="concerns" class="input w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-[#2e5e91]" placeholder="Describe your concerns..."></textarea>
                 @error('concerns')
-                    <span class="text-red-500 text-sm">{{$message}}</span>
+                <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
         </fieldset>
@@ -25,23 +25,25 @@
 </x-modal>
 
 <x-modal name="edit-loc" class="max-w-lg p-6">
-    <div class="space-y-4" x-data="{ college: @entangle('college'), building: @entangle('building'), room: @entangle('room') }">
+    <div class="space-y-4" x-data="{ site: @entangle('site'), officeOrBuilding: @entangle('officeOrBuilding'),}">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label for="college" class="block text-sm font-medium text-gray-700">College</label>
-                <input x-model="college" type="text" class="input w-full p-2 border border-gray-300 rounded-md uppercase focus:ring focus:ring-[#2e5e91]" />
+                <label class="block text-sm font-medium text-gray-700 mb-1">Site</label>
+                <select  x-model="site" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="New Site">New Site</option>
+                    <option value="Old Site">Old Site</option>
+                </select>
+                @error('site') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+
             </div>
             <div>
-                <label for="building" class="block text-sm font-medium text-gray-700">Building</label>
-                <input x-model="building" type="text" class="input w-full p-2 border border-gray-300 rounded-md uppercase focus:ring focus:ring-[#2e5e91]" />
+                <label for="officeOrBuilding" class="block text-sm font-medium text-gray-700">Office/Building</label>
+                <input x-model="officeOrBuilding" type="text" class="input w-full p-2 border border-gray-300 rounded-md uppercase focus:ring focus:ring-[#2e5e91]" />
             </div>
-            <div>
-                <label for="room" class="block text-sm font-medium text-gray-700">Room</label>
-                <input x-model="room" type="text" class="input w-full p-2 border border-gray-300 rounded-md uppercase focus:ring focus:ring-[#2e5e91]" />
-            </div>
+
         </div>
 
-        <button class="w-full bg-[#2e5e91] text-white py-2 px-4 rounded-lg hover:bg-[#1e4b72] transition disabled:opacity-50" :disabled="!college || !building || !room" @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
+        <button class="w-full bg-[#2e5e91] text-white py-2 px-4 rounded-lg hover:bg-[#1e4b72] transition disabled:opacity-50" :disabled="!site || !officeOrBuilding " @click="$wire.confirmLocation(); $dispatch('close-modal', 'edit-loc')">
             Update Location
         </button>
     </div>
