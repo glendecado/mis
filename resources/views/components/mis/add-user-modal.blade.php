@@ -6,7 +6,7 @@
                 <p class="text-gray-500">Choose the type of account you want to create.</p>
                 <div class="grid gap-4 md:grid-cols-3">
                     <button type="button" @click="selectRole('Faculty')" class="rounded-xl border px-6 py-4 transition-all bg-white border-gray-300 hover:border-[#2e5e91] hover:bg-[#2e5e91] hover:text-white shadow-sm">
-                        Faculty
+                        Faculty Staff
                     </button>
                     <button type="button" @click="selectRole('Technical Staff')" class="rounded-xl border px-6 py-4 transition-all bg-white border-gray-300 hover:border-[#2e5e91] hover:bg-[#2e5e91] hover:text-white shadow-sm">
                         Technical Staff
