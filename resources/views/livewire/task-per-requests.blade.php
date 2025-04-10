@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\RequestEvent;
+use App\Models\AssignedRequest;
 use App\Models\Categories;
 use App\Models\Category;
 use App\Models\Request;
@@ -132,6 +133,11 @@ $checkTask = function ($id) {
         RequestEvent::dispatch($this->request->faculty_id);
     }
    ;
+   $ass = AssignedRequest::where('request_id', session('requestId'))->pluck('technicalStaff_id')->toArray();
+
+   foreach($ass as $f){
+       RequestEvent::dispatch($f);
+   }
 
     $this->dispatch('view-detailed-request');
     Cache::forget('request_' . $requestId);
