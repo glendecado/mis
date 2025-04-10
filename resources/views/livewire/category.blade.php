@@ -46,30 +46,13 @@ $addCategory = function ($categoryName) {
 
 <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
     <!-- Enhanced scroll-to-top listener with smooth transitions -->
-    <div x-data="{
-        scrollToTop() {
-            // First make page transparent
-            document.body.style.opacity = '0';
-            // Scroll instantly to top (no animation yet)
-            window.scrollTo({ top: 0 });
-            // After scroll completes, fade in content
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-                document.body.style.transition = 'opacity 300ms ease-in-out';
-            }, 50);
-        }
-    }"
-        @scroll-to-top.window="scrollToTop()"
+    <div 
         class="contents"></div>
 
     <div class="flex flex-wrap justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 transition-opacity duration-500 "
             x-data="{ shown: false }"
-            x-init="setTimeout(() => shown = true, 150)"
-            x-show="shown"
-            x-transition:enter="transition-opacity duration-500"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100">Categories</h1>
+           >Categories</h1>
 
         <!-- Add Category Form - Floating Button Trigger -->
         <div x-cloak x-data="{ showForm: false }" class="relative mt-6 mb:mt-0"
@@ -83,7 +66,7 @@ $addCategory = function ($categoryName) {
                 x-init="setTimeout(() => shown = true, 150)"
                 x-show="shown"
                 x-transition:enter="transition-opacity duration-500"
-                x-transition:enter-start="opacity-0"
+                x-transition:enter-start="opacity-100"
                 x-transition:enter-end="opacity-100"
                 
                 >
@@ -98,11 +81,11 @@ $addCategory = function ($categoryName) {
 
                 x-show="showForm"
                 x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="opacity-0 translate-y-1"
+                x-transition:enter-start="opacity-100 translate-y-1"
                 x-transition:enter-end="opacity-100 translate-y-0"
                 x-transition:leave="transition ease-in duration-500"
                 x-transition:leave-start="opacity-100 translate-y-0"
-                x-transition:leave-end="opacity-0 translate-y-1"
+                x-transition:leave-end="opacity-100 translate-y-1"
                 @click.away="showForm = false"
                 class="absolute right-0 mt-2 w-72 z-10">
                 <div class="bg-white p-4 rounded-xl shadow-xl border border-gray-100">
@@ -135,7 +118,7 @@ $addCategory = function ($categoryName) {
     </div>
 
     <!-- Category Grid with staggered animations -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div x-cloak class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($this->viewCategory() as $category)
         <div
             x-data="{ isOpen: false, shown : '' }"
@@ -145,15 +128,7 @@ $addCategory = function ($categoryName) {
                 'translate-y-4': !shown,
                 'relative': !isOpen
             }"
-            x-init="
-                shown = false;
-                setTimeout(() => {
-                    shown = true;
-                    $el.style.transform = 'translateY(0)';
-                    $el.style.opacity = '1';
-                }, {{ $loop->index * 75 + 200 }});
-            "
-            style="opacity: 0; transform: translateY(20px); transition: all 0.4s ease-out;"
+
             @keydown.escape.window="isOpen = false">
             <!-- Category Header -->
             <div
@@ -192,11 +167,11 @@ $addCategory = function ($categoryName) {
             <div
                 x-show="isOpen"
                 x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-start="opacity-100 scale-95"
                 x-transition:enter-end="opacity-100 scale-100"
                 x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95"
+                x-transition:leave-end="opacity-100 scale-95"
                 class="border-t border-gray-100 px-5 py-4 bg-gray-50">
                 <livewire:task-list :category="$category->id" wire:key="task-list-{{ $category->id }}" />
 
