@@ -44,26 +44,18 @@
                     <template x-if="role === 'Faculty'">
                         <div class="grid md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block mb-1 font-medium">College <span class="text-red-500">*</span></label>
-                                <select class="input w-full" x-model="college">
+                                <label class="block mb-1 font-medium">Site <span class="text-red-500">*</span></label>
+                                <select class="input w-full" x-model="site">
                                     <option value="">Select</option>
-                                    <option value="CAS">CAS</option>
-                                    <option value="CIT">CIT</option>
-                                    <option value="COE">COE</option>
-                                    <option value="CEA">CEA</option>
-                                    <option value="CCI">CCI</option>
+                                    <option value="New Site">New Site</option>
+                                    <option value="Old Site">Old Site</option>
                                 </select>
-                                @error('college') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                @error('site') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="block mb-1 font-medium">Building <span class="text-red-500">*</span></label>
-                                <input type="text" class="input w-full" x-model="building">
-                                @error('building') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                            </div>
-                            <div>
-                                <label class="block mb-1 font-medium">Room <span class="text-red-500">*</span></label>
-                                <input type="text" class="input w-full" x-model="room">
-                                @error('room') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                <label class="block mb-1 font-medium">Office/Building <span class="text-red-500">*</span></label>
+                                <input uppercase type="text" class="input w-full" x-model="officeOrBuilding">
+                                @error('officeOrBuilding') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>
                         </div>
                     </template>
@@ -126,9 +118,8 @@
                 lname: @entangle('lname'),
                 email: @entangle('email'),
                 password: @entangle('password'),
-                college: @entangle('college'),
-                building: @entangle('building'),
-                room: @entangle('room'),
+                site: @entangle('site'),
+                officeOrBuilding: @entangle('officeOrBuilding'),
                 selectRole(selected) {
                     this.role = selected;
                     this.step = 2;
