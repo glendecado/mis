@@ -9,7 +9,9 @@
                 </svg>
             </div>
         </button>
-
+        <span class="visible md:invisible text-[#2e5e91] relative md:absolute">
+        Create Request
+        </span>
         @include('components.requests.add-request-modal')
 
         <div class="tooltip text-[#2e5e91] w-auto whitespace-nowrap">
