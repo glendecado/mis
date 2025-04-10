@@ -9,14 +9,7 @@
             $othersCount = $categoryCounts['Others'] ?? null;
             unset($categoryCounts['Others']);
             
-            // Define color schemes for each category
-            $categoryStyles = [
-                'Computer/Laptop/Printer' => ['bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'progress' => 'bg-blue-500'],
-                'Network' => ['bg' => 'bg-green-50', 'text' => 'text-green-600', 'progress' => 'bg-green-500'],
-                'Telephone' => ['bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'progress' => 'bg-purple-500'],
-                'Software' => ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-600', 'progress' => 'bg-yellow-500'],
-                'Others' => ['bg' => 'bg-gray-50', 'text' => 'text-gray-600', 'progress' => 'bg-gray-500']
-            ];
+ 
             
             // Calculate total requests for percentage
             $totalRequests = array_sum($categoryCounts) + ($othersCount ?? 0);
