@@ -202,9 +202,7 @@
 
         if ($this->status !== 'all') {
             $query->where('status', $this->status);
-        } else {
-            $query->where('status', '!=', 'resolved');
-        }
+        } 
 
         // Add search functionality
         if (!empty($this->search)) {
