@@ -51,6 +51,7 @@
                                     <option value="CIT">CIT</option>
                                     <option value="COE">COE</option>
                                     <option value="CEA">CEA</option>
+                                    <option value="CCI">CCI</option>
                                 </select>
                                 @error('college') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>
