@@ -13,6 +13,7 @@
     use Illuminate\Support\Facades\Notification;
     use Illuminate\Support\Facades\RateLimiter;
     use Livewire\WithPagination;
+use PhpParser\Node\Expr\Assign;
 
     use function Livewire\Volt\{title, mount, on, placeholder, rules, state, usesPagination,};
 
@@ -29,7 +30,7 @@
     state(['tab', 'status'])->url();
 
     //location
-    state(['college', 'building', 'room']);
+    state(['site', 'officeOrBuilding',]);
 
     //for requests
     state(['id', 'concerns', 'priorityLevel', 'request']);
@@ -48,9 +49,8 @@
             $this->resetErrorBag();
 
             if (session('user')['role'] == 'Faculty') {
-                $this->college = session('user')['college'];
-                $this->building = session('user')['building'];
-                $this->room = session('user')['room'];
+                $this->site = session('user')['site'];
+                $this->officeOrBuilding = session('user')['officeOrBuilding'];
             }
         },
     ]);
@@ -69,9 +69,8 @@
     $sessionRequestId = fn() => session(['requestId' => $this->id ?? null]);
     $sessionFacultyLocation = function () {
         if (session('user')['role'] == 'Faculty') {
-            $this->college = session('user')['college'];
-            $this->building = session('user')['building'];
-            $this->room = session('user')['room'];
+            $this->site = session('user')['site'];
+            $this->officeOrBuilding = session('user')['officeOrBuilding'];
         }
     };
 
@@ -250,7 +249,7 @@
 
 
 
-        $location = strtoupper($this->college) . ' ' . strtoupper($this->building) . ' ' . strtoupper($this->room);
+        $location = strtoupper($this->site) . ',  ' . strtoupper($this->officeOrBuilding) . ' ';
 
         $req = Request::create([
             'faculty_id' => session('user')['id'],
@@ -320,9 +319,8 @@
 
 
         session([
-            'user.college' => strtoupper($this->college),
-            'user.building' => strtoupper($this->building),
-            'user.room' =>  strtoupper($this->room),
+            'user.site' => strtoupper($this->site),
+            'user.officeOrBuilding' => strtoupper($this->officeOrBuilding),
         ]);
 
         $this->dispatch('success', 'Location Updated');
@@ -348,7 +346,11 @@
         $req = Request::where('id', $this->id)->with('faculty')->first();
         $req->status = $status;
 
+        $ass = AssignedRequest::where('request_id', $req->id)->pluck('technicalStaff_id')->toArray();
 
+        foreach($ass as $f){
+            RequestEvent::dispatch($f);
+        }
 
         $faculty = User::where('id', $req->faculty_id)->first();
 
