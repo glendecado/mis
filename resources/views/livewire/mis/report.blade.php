@@ -168,7 +168,7 @@ $techStaffMetrics = function () {
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
         ->where('assigned_requests.technicalStaff_id', $id);
 
-    if (DB::connection()->getName() == 'mysql') {
+ 
         switch ($date) {
             case '':
             case 'today':
@@ -209,50 +209,7 @@ $techStaffMetrics = function () {
                     ->orderBy(DB::raw("date"), 'ASC');
                 break;
         }
-    } else {
-        switch ($date) {
-            case '':
-            case 'today':
-                $request->whereDate('assigned_requests.created_at', Carbon::today())
-                    ->select(
-                        DB::raw("strftime('%H:%M', assigned_requests.created_at) as date"),
-                        DB::raw('COUNT(*) as total_assigned_requests'),
-                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                    )
-                    ->groupBy(DB::raw("date"))
-                    ->orderBy(DB::raw("date"), 'ASC');
-
-                break;
-
-            case 'this_week':
-                $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
-                    ->select(
-                        DB::raw("strftime('%Y-%m-%d', assigned_requests.created_at) as date"),
-                        DB::raw('COUNT(*) as total_assigned_requests'),
-                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                    )
-                    ->groupBy(DB::raw("date"))
-                    ->orderBy(DB::raw("date"), 'ASC');
-                break;
-
-            case 'this_month':
-                $request->whereBetween('assigned_requests.created_at', [
-                    Carbon::now()->startOfMonth(),
-                    Carbon::now()->endOfMonth()
-                ])
-                    ->select(
-                        DB::raw("strftime('%Y-%m', assigned_requests.created_at) || ' week ' || 
-                            (strftime('%W', assigned_requests.created_at) - 
-                            strftime('%W', date(assigned_requests.created_at, 'start of month')) + 1
-                            ) AS date"),
-                        DB::raw('COUNT(*) as total_assigned_requests'),
-                        DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
-                    )
-                    ->groupBy(DB::raw("date"))
-                    ->orderBy(DB::raw("date"), 'ASC');
-                break;
-        }
-    }
+    
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
