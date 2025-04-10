@@ -5,6 +5,7 @@ use App\Models\Faculty;
 use App\Models\MisStaff;
 use App\Models\TechnicalStaff;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -15,174 +16,102 @@ use function Livewire\Volt\{state, mount, on, rules, title};
 title('Users');
 
 state(['cacheKey']);
-
 state('roles')->url();
-
 state(['role', 'fname', 'lname', 'email', 'password', 'status' => 'active']);
-
-state(['college', 'building', 'room']);
-
-state('step');
+state(['site', 'officeOrBuilding']);
+state('step', 1);
 
 rules([
-    'role' => 'required|string',
+    'role' => 'required|string|in:Faculty,Technical Staff,Mis Staff',
     'fname' => 'required|string|max:100',
     'lname' => 'required|string|max:100',
-    'email' => 'required|email|unique:users,email', // Adjust table name if necessary
-    'password' => 'required|min:6',
-    'college' => 'nullable|string|max:100',
-    'building' => 'nullable|string|max:100',
-    'room' => 'nullable|string|max:50',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required|min:6|max:50',
+    'site' => 'required_if:role,Faculty|string|max:100|nullable',
+    'officeOrBuilding' => 'required_if:role,Faculty|string|max:100|nullable',
 ])->messages([
     'fname.required' => "The first name field is required.",
-    'lname.required' => "The Last name field is required."
-
+    'lname.required' => "The last name field is required.",
+    'role.in' => "Please select a valid role.",
+    'email.unique' => "This email is already registered.",
 ]);
 
-
-
 mount(function () {
-
     session(['page' => 'user?roles=all']);
 });
-
 
 on(['resetErrors' => function () {
     $this->resetErrorBag();
     $this->step = 1;
-    $this->role = '';
-    $this->reset('fname');
-    $this->reset('lname');
-    $this->reset('email');
-    $this->reset('password');
-    $this->reset('college');
-    $this->reset('building');
-    $this->reset('room');
+    $this->reset(['role', 'fname', 'lname', 'email', 'password', 'site', 'officeOrBuilding']);
 }]);
 
-
-//view user
 $viewUser = function () {
-    switch ($this->roles) {
-        case 'all':
-            $user = User::all()->where('role', '!=', 'Mis Staff');
-
-            break;
-
-        case 'faculty':
-            $user = User::where('role', 'Faculty')->get();
-
-            break;
-
-        case 'technicalStaff':
-            $user =  User::where('role', 'Technical Staff')->get();
-
-            break;
-        case 'misStaff':
-            $user = User::where('role', 'Mis Staff')->get();
-            break;
-        default:
-            $user = User::all()->where('role', '!=', 'Mis Staff');
-            break;
-    }
-
-    return $user;
+    return match ($this->roles) {
+        'faculty' => User::where('role', 'Faculty')->get(),
+        'technicalStaff' => User::where('role', 'Technical Staff')->get(),
+        'misStaff' => User::where('role', 'Mis Staff')->get(),
+        default => User::where('role', '!=', 'Mis Staff')->get(),
+    };
 };
 
-//create user
 $addUser = function () {
-
-    $this->validate();
-    // Create a new User record
+    $validated = $this->validate();
+    
     $user = User::create([
         'role' => $this->role,
-        'name' => $this->fname . ' ' . $this->lname,
+        'name' => trim($this->fname . ' ' . $this->lname),
         'email' => $this->email,
         'password' => $this->password,
+        'status' => 'active',
     ]);
 
+    match ($this->role) {
+        'Technical Staff' => TechnicalStaff::create(['technicalStaff_id' => $user->id]),
+        'Faculty' => Faculty::create([
+            'faculty_id' => $user->id,
+            'site' => $this->site,
+            'officeOrBuilding' => $this->officeOrBuilding,
+        ]),
+        'Mis Staff' => MisStaff::create(['misStaff_id' => $user->id]),
+        default => null,
+    };
 
-    //check role if technical Staff or Faculty
-    switch ($this->role) {
-        //if technical staff /////////
-        case 'Technical Staff':
-            $tech = TechnicalStaff::create([
-                'technicalStaff_id' => $user->id,
-              
-            ]);
-            // Associate the User model with the TechnicalStaff model
-            $tech->User()->associate($user);
-            $tech->save();
-            break;
-
-        //if faculty ///////////
-        case 'Faculty':
-            $fac = Faculty::create([
-                'faculty_id' => $user->id,
-                'college' => $this->college ?? 'CAS',
-                'building' => $this->building,
-                'room' => $this->room,
-            ]);
-            // Associate the User model with the Faculty model
-            $fac->User()->associate($user);
-
-            $fac->save();
-            break;
-
-        case 'Mis Staff':
-                $mis = MisStaff::Create([
-                    'misStaff_id' => $user->id,
-                ]);
-                $mis->save();
-            break;
-        default:
-                return collect();
-        break;
-    }
-    //to reset the form 
     $this->reset([
-        'role',
-        'fname',
-        'lname',
-        'email',
-        'password',
-        'college',
-        'building',
-        'room'
+        'role', 'fname', 'lname', 'email', 'password', 
+        'site', 'officeOrBuilding'
     ]);
-    $this->dispatch('close-modal', 'add-user-modal');
-
-
-    $this->dispatch('success', 'Added Successfully');
     
-    Mail::to($user->email)->send(new CreatedAccount($user));
+    $this->dispatch('close-modal', 'add-user-modal');
+    $this->dispatch('success', 'User added successfully');
+    
+    try {
+        Mail::to($user->email)->send(new CreatedAccount($user));
+    } catch (\Exception $e) {
+        // Log email error if needed
+    }
 };
 
 $userUpdateUser = function ($id) {
-    $user = User::find($id); // No need for ->first(), find() already returns a single model or null
-
-    if ($user) { // Check if user exists to prevent errors
-        $user->status = $user->status === 'active' ? 'inactive' : 'active';
-        $user->save();
+    $user = User::find($id);
+    if ($user) {
+        $user->update(['status' => $user->status === 'active' ? 'inactive' : 'active']);
     }
 };
 
-
-$viewDetailedUser = function () {};
+$viewDetailedUser = function ($id) {
+    // Implementation for viewing detailed user info
+};
 
 ?>
 
-<div class="">
-
+<div>
     <div wire:loading wire:target="addUser" class="w-full h-dvh">
         <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
             <x-loaders.b-square />
         </div>
     </div>
 
-
     @include('components.mis.users')
     @include('components.mis.add-user-button')
-
-
 </div>

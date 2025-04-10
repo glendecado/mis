@@ -15,83 +15,109 @@ usesFileUploads();
 state(['id']);
 state('photo');
 
-state(['fName', 'lName', 'img', 'email', 'password', 'college', 'building', 'room', 'role']);
+state(['fName', 'lName', 'img', 'email', 'password', 'site', 'officeOrBuilding', 'role']);
 
 mount(function () {
-    $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
+    try {
+        $this->user = (object) User::where('id', $this->id)->with('faculty')->first()->makeVisible('password');
+        // Process full name
+        $fullName = $this->user->name;
+        $cleanName = preg_replace('/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s+/i', '', $fullName);
+        $cleanName = preg_replace('/\s+(Jr\.|Sr\.|II|III|IV|V)$/i', '', $cleanName);
+        $nameParts = explode(' ', $cleanName);
 
-    // Process full name
-    $fullName = $this->user->name;
-    $cleanName = preg_replace('/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s+/i', '', $fullName);
-    $cleanName = preg_replace('/\s+(Jr\.|Sr\.|II|III|IV|V)$/i', '', $cleanName);
-    $nameParts = explode(' ', $cleanName);
+        $last = count($nameParts) - 1;
+        $first = array_slice($nameParts, 0, $last, ' ');
 
-    $last = count($nameParts) - 1;
-    $first = array_slice($nameParts, 0, $last, ' ');
+        $this->fName = implode(' ', $first);
+        $this->lName = $nameParts[$last];
+        $this->id = $this->user->id;
+        $this->img = $this->user->img;
+        $this->email = $this->user->email;
+        $this->role = $this->user->role;
+        $this->password = $this->user->password ?? Auth::user()->password;
 
-    $this->fName = implode(' ', $first);
-    $this->lName = $nameParts[$last];
-    $this->id = $this->user->id;
-    $this->img = $this->user->img;
-    $this->email = $this->user->email;
-    $this->role = $this->user->role;
-    $this->password = $this->user->password ?? Auth::user()->password;
-
-    if ($this->user->role == 'Faculty') {
-        $this->college = $this->user->faculty->college;
-        $this->building = $this->user->faculty->building;
-        $this->room = $this->user->faculty->room;
+        if ($this->user->role == 'Faculty') {
+            $this->site = $this->user->faculty->site;
+            $this->officeOrBuilding = $this->user->faculty->officeOrBuilding;
+        }
+    } catch (Throwable $e) {
+        return $this->redirect('/', navigate: true);
     }
 });
 
 $updateProfile = function ($type) {
     $updateUser = User::where('id', $this->id)->with('faculty')->first();
 
-    switch ($type) {
-        case 'profile':
-            $updateUser->name = $this->fName . ' ' . $this->lName;
-            $updateUser->email = $this->email;
-            $updateUser->password = $this->password;
+    if ($type === 'profile') {
+        $validated = $this->validate([
+            'fName' => 'required|string|max:255',
+            'lName' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $this->id,
+            'password' => 'required|string|min:8',
+            'site' => 'required|string|max:255',
+            'officeOrBuilding' => 'required|string|max:255',
+        ], [
+            'fName.required' => 'First name is required.',
+            'lName.required' => 'Last name is required.',
+            'email.required' => 'Email is required.',
+            'email.email' => 'Enter a valid email address.',
+            'email.unique' => 'This email is already taken.',
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters.',
+        ]);
 
-            if ($updateUser->faculty) {
-                $updateUser->faculty->college = $this->college;
-                $updateUser->faculty->building = $this->building;
-                $updateUser->faculty->room = $this->room;
-                $updateUser->faculty->save();
-            }
+        $updateUser->name = $this->fName . ' ' . $this->lName;
+        $updateUser->email = $this->email;
+        $updateUser->password = $this->password;
 
-            $updateUser->save();
-            $this->dispatch('success', 'Profile updated successfully');
-            break;
+        if ($updateUser->faculty) {
+            $updateUser->faculty->site = $this->site;
+            $updateUser->faculty->officeOrBuilding = $this->officeOrBuilding;
+            $updateUser->faculty->save();
+        }
 
-        case 'img':
-            $img = $this->img;
-            $imageName = $this->photo->store('profile_images', 'public');
-            $updateUser->img = $imageName;
+        $updateUser->save();
 
-            if (Storage::disk('public')->exists($img) && $img != 'profile_images/default/default.png') {
-                Storage::disk('public')->delete($img);
-            }
-
-            $updateUser->save();
-            $this->img = $imageName;
-            $this->dispatch('success', 'Profile image updated');
-            $this->redirect('/profile/' . $updateUser->id, navigate: true);
-            break;
+        $this->dispatch('success', 'Profile updated successfully');
     }
 
+    if ($type === 'img') {
+        $this->validate([
+            'photo' => 'required|image|max:2048', // Max 2MB
+        ], [
+            'photo.required' => 'Please select a photo.',
+            'photo.image' => 'The file must be an image.',
+            'photo.max' => 'The image may not be greater than 2MB.',
+        ]);
+
+        $img = $this->img;
+        $imageName = $this->photo->store('profile_images', 'public');
+        $updateUser->img = $imageName;
+
+        if (Storage::disk('public')->exists($img) && $img != 'profile_images/default/default.png') {
+            Storage::disk('public')->delete($img);
+        }
+
+        $updateUser->save();
+        $this->img = $imageName;
+        $this->dispatch('success', 'Profile image updated');
+        $this->redirect('/profile/' . $updateUser->id, navigate: true);
+    }
+
+    // Update session info
     if ($this->id == session('user')['id']) {
         session()->put('user.img', $this->img);
         session()->put('user.name', $this->lName . ' ' . $this->fName);
         session()->put('user.email', $this->email);
         session()->put('user.password', $this->password);
-        session()->put('user.college', $this->college);
-        session()->put('user.building', $this->building);
-        session()->put('user.room', $this->room);
+        session()->put('user.site', $this->site);
+        session()->put('user.officeOrBuilding', $this->officeOrBuilding);
     }
 
     Mail::to($updateUser->email)->send(new UpdateAccount($updateUser));
-}
+};
+
 
 ?>
 <div class="min-h-screen bg-gray-50 p-2 md:p-6">
@@ -111,9 +137,8 @@ $updateProfile = function ($type) {
         img: @entangle('img'),
         email: @entangle('email'),
         password: @entangle('password'),
-        college: @entangle('college'),
-        building: @entangle('building'),
-        room: @entangle('room'),
+        site: @entangle('site'),
+        officeOrBuilding: @entangle('officeOrBuilding'),
         role: @entangle('role')
     }" class="bg-white rounded-xl shadow-md overflow-hidden">
         <!-- Profile Header -->
@@ -168,6 +193,7 @@ $updateProfile = function ($type) {
                             <button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 transition-colors">
                                 <label for="photo" class="cursor-pointer">Change</label>
                                 <input id="photo" type="file" wire:model="photo" class="hidden">
+                                @error('photo') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                             </button>
                             <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition-colors" @click="$wire.updateProfile('img');">
                                 Save
@@ -194,6 +220,7 @@ $updateProfile = function ($type) {
                     <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition-colors mt-2">
                         <label for="photo" class="cursor-pointer">Update Photo</label>
                         <input id="photo" type="file" wire:model="photo" class="hidden">
+                        @error('photo') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </button>
                     @endif
 
@@ -211,10 +238,12 @@ $updateProfile = function ($type) {
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                                 <input :disabled="update" type="text" x-model="fName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('fname') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
                                 <input :disabled="update" type="text" x-model="lName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('lName') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                             </div>
                         </div>
 
@@ -222,22 +251,26 @@ $updateProfile = function ($type) {
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                             <input :disabled="update" type="email" x-model="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                            @error('email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                         </div>
 
                         <!-- Faculty Fields -->
                         <div x-show="role == 'Faculty'" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">College</label>
-                                <input :disabled="update" type="text" x-model="college" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Site</label>
+                                <select :disabled="update" x-model="site" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                    <option value="New Site">New Site</option>
+                                    <option value="Old Site">Old Site</option>
+                                </select>
+                                @error('site') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Building</label>
-                                <input :disabled="update" type="text" x-model="building" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Office/Building</label>
+                                <input :disabled="update" type="text" x-model="officeOrBuilding" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('officeOrBuilding') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Room</label>
-                                <input :disabled="update" type="text" x-model="room" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                            </div>
+
                         </div>
 
                         <!-- Password Field -->
@@ -245,6 +278,7 @@ $updateProfile = function ($type) {
                             <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                             <div class="relative">
                                 <input :disabled="update" x-model="password" :type="showPassword ? 'text' : 'password'" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors pr-10">
+                                @error('password') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                 <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700">
                                     <template x-if="showPassword">
                                         <div>
@@ -284,7 +318,7 @@ $updateProfile = function ($type) {
         if (confirm('Are you sure you want to update')) {
             $wire.updateProfile('profile'); update = true;
         }"
-         class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors">
+                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors">
                             Save Changes
                         </button>
                         <button x-show="!update" @click="update = true; $wire.$refresh()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors">

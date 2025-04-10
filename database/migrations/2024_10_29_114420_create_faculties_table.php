@@ -17,11 +17,10 @@ return new class extends Migration
 
             $table->foreign('faculty_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('college')->nullable();
+            $table->enum('site', ['New Site', 'Old Site']);
 
-            $table->string('building')->nullable();
+            $table->string('officeOrBuilding');
 
-            $table->string('room')->nullable();
             
             $table->timestamps();
         });

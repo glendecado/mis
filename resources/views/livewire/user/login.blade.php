@@ -66,9 +66,8 @@ $login = function () {
     ];
 
     if ($user->role === 'Faculty' && $user->faculty) {
-        $sessionData['college'] = $user->faculty->college;
-        $sessionData['building'] = $user->faculty->building;
-        $sessionData['room'] = $user->faculty->room;
+        $sessionData['site'] = $user->faculty->site;
+        $sessionData['officeOrBuilding'] = $user->faculty->officeOrBuilding;
     }
 
     Session::put('user', $sessionData);
