@@ -13,9 +13,9 @@ class Faculty extends Model
 
     protected $fillable = [
         'faculty_id',
-        'college',
-        'building',
-        'room'
+        'site',
+        'officeOrBuilding',
+
     ];
 
     public function user()
