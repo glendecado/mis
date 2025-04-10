@@ -1,7 +1,9 @@
 <?php
 
+use App\Mail\UpdateAccount;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 use function Livewire\Volt\{mount, state, title, usesFileUploads};
@@ -87,6 +89,8 @@ $updateProfile = function ($type) {
         session()->put('user.building', $this->building);
         session()->put('user.room', $this->room);
     }
+
+    Mail::to($updateUser->email)->send(new UpdateAccount($updateUser));
 }
 
 ?>
@@ -276,7 +280,11 @@ $updateProfile = function ($type) {
                         <button x-show="update" @click="update = false" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors">
                             Edit Profile
                         </button>
-                        <button x-show="!update" @click="$wire.updateProfile('profile'); update = true" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors">
+                        <button x-show="!update" @click.prevent="
+        if (confirm('Are you sure you want to update')) {
+            $wire.updateProfile('profile'); update = true;
+        }"
+         class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors">
                             Save Changes
                         </button>
                         <button x-show="!update" @click="update = true; $wire.$refresh()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors">
