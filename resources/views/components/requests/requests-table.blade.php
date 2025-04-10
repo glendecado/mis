@@ -58,7 +58,7 @@
     </div>
 
     @php
-    $requests = $this->status == 'resolved' ? $this->viewRequest() : $this->viewRequest()->where('status', '!=', 'resolved');
+    $requests =  $this->viewRequest();
     @endphp
 
     @if ($requests->isEmpty())
