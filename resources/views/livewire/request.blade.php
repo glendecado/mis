@@ -87,6 +87,9 @@ use PhpParser\Node\Expr\Assign;
 
         Cache::forget('requests');
         $this->mount();
+        $this->viewDetailedRequest();
+        $this->viewRequest();
+        
     };
 
     //what status did the users clicked?
