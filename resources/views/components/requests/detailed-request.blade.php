@@ -170,7 +170,7 @@
 
                     Livewire.dispatch('view-detailed-request');
                     Livewire.dispatch('reqPerTask');
-                    
+                    location.reload();
 
                 });
 
