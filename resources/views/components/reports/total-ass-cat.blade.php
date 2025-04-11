@@ -9,8 +9,6 @@
             $othersCount = $categoryCounts['Others'] ?? null;
             unset($categoryCounts['Others']);
             
- 
-            
             // Calculate total requests for percentage
             $totalRequests = array_sum($categoryCounts) + ($othersCount ?? 0);
         @endphp
