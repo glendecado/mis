@@ -377,9 +377,6 @@
                 .listen('RequestEvent', (e) => {
                     Livewire.dispatch('view-request');
                     Livewire.dispatch('ass-pending');
-                    Livewire.dispatch('reqPerTask');
-
-
                 });
 
             Echo.leaveChannel(`request-channel.${userId}`);
