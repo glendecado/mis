@@ -87,9 +87,6 @@ use PhpParser\Node\Expr\Assign;
 
         Cache::forget('requests');
         $this->mount();
-        $this->viewDetailedRequest();
-        $this->viewRequest();
-        
     };
 
     //what status did the users clicked?
@@ -389,6 +386,8 @@ use PhpParser\Node\Expr\Assign;
         $this->dispatch('success', 'Rate and Feedback successfuly sent');
         $this->dispatch('close-modal', 'rateFeedback');
         $this->reload();
+
+        $this->redirect('/request/'.$this->id, navigate: true);
     };
 
 
