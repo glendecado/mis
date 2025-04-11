@@ -169,7 +169,7 @@
                 .listen('RequestEvent', (e) => {
 
                     Livewire.dispatch('view-detailed-request');
-
+                    
 
                 });
 
