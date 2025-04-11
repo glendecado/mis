@@ -154,7 +154,6 @@
 
                         @case('Technical Staff')
                             @include('components.requests.technicalStaff')
-                            @include('components.requests.rateAndFeedback')
                         @break
                     @endswitch
                 </div>
