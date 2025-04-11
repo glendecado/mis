@@ -26,7 +26,5 @@ class AssignedRequest extends Model
         return $this->belongsTo(Request::class);
     }
 
-    public function rate(){
-        return $this->hasOne(Rate::class, 'assignedRequest_id');
-    }
+    
 }

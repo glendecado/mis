@@ -39,7 +39,7 @@ $total = function () {
     $this->feedback = Request::join('assigned_requests', 'requests.id', '=', 'assigned_requests.request_id')
         ->where('assigned_requests.technicalStaff_id', $this->techId)
         ->whereNotNull('feedback')
-        ->orderBy('requests.created_at', 'desc') 
+        ->orderBy('requests.created_at', 'desc')
         ->select(['feedback'])
         ->get();
 
@@ -68,6 +68,7 @@ $total = function () {
         : 0;
 
     $this->techStaffDetails = User::where('id', $this->techId)->get()->first();
+
 
     $ctgry = Request::where('assigned_requests.technicalStaff_id', $this->techId)
 
@@ -157,6 +158,16 @@ on([
     },
 ]);
 
+
+$requests = function () {
+    $taskIds = AssignedRequest::where('technicalStaff_id', $this->techId)
+        ->pluck('request_id');
+
+    $requests = Request::whereIn('id', $taskIds)->where('status', 'resolved')->with('categories')->get();
+
+    return $requests;
+};
+
 $techStaffMetrics = function () {
     if (!$this->techId) {
         return collect(); // Return empty collection if no staff selected
@@ -214,11 +225,9 @@ $techStaffMetrics = function () {
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
-
-
 ?>
 
-<div class="px-4 py-4">
+<div class="px-4 py-4 bg-slate-100 rounded-md">
 
 
     <div wire:loading wire:target="addUser" class="w-full h-dvh">
@@ -258,17 +267,36 @@ $techStaffMetrics = function () {
 
         @include('components.reports.summary')
 
-        <div class="mt-3 pb-5 rounded-md">
-            @include('components.reports.total-ass-cat')
+
+
+
+
+
+        <div class="flex flex-col lg:flex-row gap-6 mt-6 mb-8 ">
+            <!-- Chart Section -->
+            <div class="h-[400px]">
+                @include('components.reports.cat')
+            </div>
+
+            <!-- Table or Completed Section -->
+            <div class="h-[400px] overflow-y-auto w-full">
+                @include('components.reports.completed')
+            </div>
         </div>
 
         @include('components.reports.detailed')
+
         @include('components.reports.feedback')
+
+
         @else
         <div class="col-span-full text-center py-8 text-gray-500">
             No technical staff metrics data available
         </div>
         @endif
+
+
+
 
 
     </div>
