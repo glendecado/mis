@@ -147,5 +147,18 @@ $checkTask = function ($id) {
 ?>
 
 <div>
+    @if(DB::table('requests')->where('request_id', session('requestId')->first()->status === 'ongoing'))
+        @script 
+            <script>
+                let userId = {{session('user')['id']}};
+                Echo.private(`request-channel.${userId}`)
+                    .listen('RequestEvent', (e) => {
+                        location.reload();
+                    });
+
+                Echo.leaveChannel(`request-channel.${userId}`);
+            </script>
+        @endscript     
+    @endif
     @include('components.task-per-request.view')
 </div>
