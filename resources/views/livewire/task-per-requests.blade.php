@@ -146,6 +146,16 @@ $checkTask = function ($id) {
 
 ?>
 
-<div>
+<div  x-init="
+        let userId = {{ session('user')['id'] }};
+        let channel = Echo.private(`request-channel.${userId}`)
+            .listen('RequestEvent', (e) => {
+                $wire.refresh()
+            });
+
+       
+            Echo.leaveChannel(`request-channel.${userId}`);
+
+     ">>
     @include('components.task-per-request.view')
 </div>
