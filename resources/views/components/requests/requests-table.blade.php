@@ -369,3 +369,19 @@
         {{ $this->viewRequest()->links() }}
     </div>
 </div>
+
+@script 
+        <script>
+            let userId = {{session('user')['id']}};
+            Echo.private(`request-channel.${userId}`)
+                .listen('RequestEvent', (e) => {
+                    Livewire.dispatch('view-request');
+                    Livewire.dispatch('ass-pending');
+                    Livewire.dispatch('reqPerTask');
+
+
+                });
+
+            Echo.leaveChannel(`request-channel.${userId}`);
+        </script>
+@endscript
