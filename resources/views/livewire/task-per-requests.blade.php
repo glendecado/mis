@@ -24,6 +24,7 @@ on(['reqPerTask' => function () {
     $requestId = session()->get('requestId');
     $this->taskPerReq = DB::table('task_per_requests')->where('request_id', $requestId)->get();
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
+    $this->mount();
 }]);
 
 mount(function () {
