@@ -39,6 +39,7 @@ $total = function () {
     $this->feedback = Request::join('assigned_requests', 'requests.id', '=', 'assigned_requests.request_id')
         ->where('assigned_requests.technicalStaff_id', $this->techId)
         ->whereNotNull('feedback')
+        ->orderBy('requests.created_at', 'desc') 
         ->select(['feedback'])
         ->get();
 
