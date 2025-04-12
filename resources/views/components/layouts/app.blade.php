@@ -24,7 +24,7 @@
             <x-sidebar />
         </div>
         @endif
-        <div class="h-[100%] w-full overflow-auto p-4 rounded-sm">
+        <div class="h-[100%] w-full overflow-auto p-0 md:p-4 rounded-sm">
 
             @php
             $categoriesWithoutTasks = session('user')['role'] == 'Mis Staff'
@@ -82,14 +82,6 @@
 
         </div>
     </div>
-
-    <div wire:loading class="w-full h-dvh">
-        <div class="fixed inset-0 w-full h-svh bg-black/50 z-[100] flex items-center justify-center">
-            <x-loaders.b-square />
-        </div>
-    </div>
-
-
 
     <x-alerts />
     @livewireScripts
