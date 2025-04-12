@@ -24,7 +24,7 @@
             <x-sidebar />
         </div>
         @endif
-        <div class="h-[100%] w-full overflow-auto p-0 md:p-4 rounded-sm">
+        <div class="h-[100%] w-full overflow-auto p-1 md:p-4 rounded-sm">
 
             @php
             $categoriesWithoutTasks = session('user')['role'] == 'Mis Staff'
