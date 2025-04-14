@@ -116,9 +116,9 @@
         <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
         
         <!-- Grid layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[500px]">
             <!-- Table (left side) -->
-            <div class="bg-white p-4 rounded-md shadow-md h-[500px] overflow-y-auto">
+            <div class="bg-white p-4 rounded-md shadow-md  overflow-y-auto">
                 <div class="overflow-x-auto ">
                     <table class="w-full border-collapse">
                         <thead>
