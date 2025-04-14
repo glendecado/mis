@@ -1,30 +1,67 @@
 <div x-data="{
-    data: {{ json_encode($this->techStaffMetrics()) }},
-    chartData: { labels: [], assignedData: [], resolvedData: [] },
+    categories: {{ json_encode($this->categories) }},
     init() {
-        this.updateChartData();
-    },
-    updateChartData() {
-        this.chartData.labels = this.data.map(item => item.date ?? ``);
-        this.chartData.assignedData = this.data.map(item => item.total_assigned_requests);
-        this.chartData.resolvedData = this.data.map(item => item.total_requests_resolved);
         this.createChart();
     },
     createChart() {
-        if (window.myChart) window.myChart.destroy();
-        window.myChart = new Chart(this.$refs.chartCanvas, {
+        if (window.categoryChart) window.categoryChart.destroy();
+        
+        const labels = Object.keys(this.categories);
+        const data = Object.values(this.categories);
+        
+        window.categoryChart = new Chart(this.$refs.chartCanvas, {
             type: 'bar',
             data: { 
-                labels: this.chartData.labels, 
-                datasets: [
-                    { label: 'Assigned Requests', data: this.chartData.assignedData, backgroundColor: '#1D77FF' },
-                    { label: 'Requests Resolved', data: this.chartData.resolvedData, backgroundColor: '#FFCC00' }
-                ]
+                labels: labels,
+                datasets: [{
+                    label: 'Total Assigned',
+                    data: data,
+                    backgroundColor: labels.map(() => {
+                        // Generate random RGBA color
+                        const r = Math.floor(Math.random() * 256);
+                        const g = Math.floor(Math.random() * 256);
+                        const b = Math.floor(Math.random() * 256);
+                        return `rgba(${r}, ${g}, ${b}, 0.7)`;
+                    })
+                }]
             },
             options: { 
+
                 responsive: true, 
                 maintainAspectRatio: false,
-                scales: { y: { min: 0, ticks: { stepSize: 1 } } } 
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Total Assigned: ${context.raw}`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Most Assigned Category',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
+                    }
+                },
+                scales: { 
+                    y: { 
+                        beginAtZero: true,
+                        ticks: { 
+                            precision: 0,
+                            stepSize: 1 
+                        } 
+                    } 
+                } 
             }
         });
     }
