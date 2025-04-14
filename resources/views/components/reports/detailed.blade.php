@@ -19,7 +19,7 @@
                     backgroundColor: labels.map(() => {
                         // Generate random RGBA color
                         const r = Math.floor(Math.random() * 256);
-                        const g = Math.floor(Math.random() * 256);
+                        const g = Math.floor(Math.random() * 256);  
                         const b = Math.floor(Math.random() * 256);
                         return `rgba(${r}, ${g}, ${b}, 0.7)`;
                     })
@@ -41,7 +41,7 @@
                         }
                     },
                     title: {
-                        display: true,
+                        display: true,  
                         text: 'Most Assigned Category',
                         font: {
                             size: 16,
@@ -53,7 +53,21 @@
                         }
                     }
                 },
-                scales: { 
+                scales: {
+                    x:{
+                        ticks:{
+                            font:{
+                                size: 12
+                            },
+                            maxRotation: 0,
+                            minRotation: 0,
+                            autoSkip: false,
+                            padding: 10
+                        },
+                        grid:{
+                            display: false
+                        }
+                    },
                     y: { 
                         beginAtZero: true,
                         ticks: { 
@@ -102,10 +116,10 @@
         <h3 class="text-xl font-semibold mb-4" id="hideOnPrint">Detailed Performance Metrics</h3>
         
         <!-- Grid layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
             <!-- Table (left side) -->
-            <div class="bg-white p-4 rounded-md shadow-md">
-                <div class="overflow-x-auto">
+            <div class="bg-white p-4 rounded-md shadow-md h-[500px] overflow-y-auto">
+                <div class="overflow-x-auto ">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-gray-100">
@@ -135,7 +149,7 @@
 
             <!-- Chart (right side) -->
             <div class="bg-white p-4 rounded-md shadow-md">
-                <canvas x-ref="chartCanvas" class="w-full" style="height: 300px;"></canvas>
+                <canvas x-ref="chartCanvas" class="w-full"></canvas>
             </div>
         </div>
     </div>
