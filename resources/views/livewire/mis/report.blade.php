@@ -273,7 +273,7 @@ $techStaffMetrics = function () {
 
 
         <div class="mt-4">
-            @include('components.reports.cat')
+            @include('components.reports.completed')
 
         </div>
 
