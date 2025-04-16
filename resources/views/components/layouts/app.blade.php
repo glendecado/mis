@@ -86,14 +86,5 @@
     <x-alerts />
     @livewireScripts
 </body>
-<script src="https://cdn.jsdelivr.net/npm/pulltorefreshjs@2.0.0/dist/pulltorefresh.min.js"></script>
-<script>
-  PullToRefresh.init({
-    mainElement: 'body',  // or the element where you want the pull-to-refresh
-    onRefresh: function() {
-      // Your refresh logic, e.g., re-fetch content
-      console.log("Refreshing data...");
-    }
-  });
-</script>
+
 </html>
