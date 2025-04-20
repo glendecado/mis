@@ -163,7 +163,9 @@ $requests = function () {
     $taskIds = AssignedRequest::where('technicalStaff_id', $this->techId)
         ->pluck('request_id');
 
-    $requests = Request::whereIn('id', $taskIds)->where('status', 'resolved')->with('categories')->get();
+    $requests = Request::whereIn('id', $taskIds)->where('status', 'resolved')->with('categories')->whereMonth('requests.created_at', Carbon::now()->month)
+    ->whereYear('requests.created_at', Carbon::now()->year)
+    ->get();
 
     return $requests;
 };
