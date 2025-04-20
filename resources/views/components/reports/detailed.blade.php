@@ -69,10 +69,25 @@
     },
     createChart() {
         if (window.categoryChart) window.categoryChart.destroy();
+
+        // Convert to array and sort using Insertion Sort (descending order)
+        const entries = Object.entries(this.categories);
         
-        const labels = Object.keys(this.categories);
-        const data = Object.values(this.categories);
-        
+        // Insertion Sort implementation (high to low)
+        for (let i = 1; i < entries.length; i++) {
+            const current = entries[i];
+            let j = i - 1;
+            
+            while (j >= 0 && entries[j][1] < current[1]) {  // Compare values (descending)
+                entries[j + 1] = entries[j];
+                j--;
+            }
+            entries[j + 1] = current;
+        }
+
+        const labels = entries.map(entry => entry[0]);
+        const data = entries.map(entry => entry[1]);
+
         window.categoryChart = new Chart(this.$refs.chartCanvas, {
             type: 'bar',
             data: { 
@@ -81,7 +96,6 @@
                     label: 'Total Assigned',
                     data: data,
                     backgroundColor: labels.map(() => {
-                        // Generate random RGBA color
                         const r = Math.floor(Math.random() * 256);
                         const g = Math.floor(Math.random() * 256);  
                         const b = Math.floor(Math.random() * 256);
@@ -89,49 +103,33 @@
                     })
                 }]
             },
-            options: { 
-
-                responsive: true, 
+            options: {
+                responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
-                                return `Total Assigned: ${context.raw}`;
-                            }
+                            label: (context) => `Total Assigned: ${context.raw}`
                         }
                     },
                     title: {
-                        display: true,  
+                        display: true,
                         text: 'Most Assigned Category',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        },
-                        padding: {
-                            top: 10,
-                            bottom: 20
-                        }
+                        font: { size: 16, weight: 'bold' },
+                        padding: { top: 10, bottom: 20 }
                     }
                 },
                 scales: {
-                    x:{
-                        ticks:{
-                            font:{
-                                size: 12
-                            },
-                                autoSkip: false,
-                                padding: 0,
-                                maxRotation: 90, 
-                                minRotation: 0 
-                            
+                    x: {
+                        ticks: {
+                            font: { size: 12 },
+                            autoSkip: true,
+                            padding: 5,
+                            maxRotation: 45,
+                            minRotation: 0
                         },
-                        grid:{
-                            display: false
-                        }
+                        grid: { display: false }
                     },
                     y: { 
                         beginAtZero: true,
@@ -139,8 +137,8 @@
                             precision: 0,
                             stepSize: 1 
                         } 
-                    } 
-                } 
+                    }
+                }
             }
         });
     }
