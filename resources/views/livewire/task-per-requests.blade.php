@@ -24,6 +24,12 @@ on(['reqPerTask' => function () {
     $requestId = session()->get('requestId');
     $this->taskPerReq = DB::table('task_per_requests')->where('request_id', $requestId)->get();
     $this->checked = $this->taskPerReq->where('isCheck', 1)->count();
+    
+    if(session('user')['role'] == 'Mis Staff'){
+        return $this->redirect('/request/' . session()->get('requestId'), navigate:true);
+    }
+     
+
 
 }]);
 
