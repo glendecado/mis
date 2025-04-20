@@ -36,6 +36,7 @@ $total = function () {
         return;
     }
 
+    // Get the feedback for the selected technical staff
     $this->feedback = Request::join('assigned_requests', 'requests.id', '=', 'assigned_requests.request_id')
         ->where('assigned_requests.technicalStaff_id', $this->techId)
         ->whereNotNull('feedback')
@@ -43,12 +44,15 @@ $total = function () {
         ->select(['feedback'])
         ->get();
 
+    //Get the total assigned requests
     $this->totalAssignedRequests = Cache::flexible("assigned_requests_count_{$this->techId}", [5, 10], function () {
         return Request::where('assigned_requests.technicalStaff_id', $this->techId)
             ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
             ->count();
     });
 
+
+    // Get the count of completed requests
     $this->totalRequestsCompleted = Cache::flexible("completed_requests_count_{$this->techId}", [5, 10], function () {
         return Request::where('assigned_requests.technicalStaff_id', $this->techId)
             ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
@@ -56,6 +60,8 @@ $total = function () {
             ->count();
     });
 
+
+    // Get the average ratings
     $this->totalRatings = Cache::flexible("average_ratings_{$this->techId}", [5, 10], function () {
         return Request::where('assigned_requests.technicalStaff_id', $this->techId)
             ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')
@@ -63,29 +69,22 @@ $total = function () {
             ->avg('rate') ?? 0;
     });
 
+
+    // Get the average feedback ratings
     $this->completionRate = $this->totalAssignedRequests > 0
         ? round(($this->totalRequestsCompleted / $this->totalAssignedRequests) * 100, 2)
         : 0;
 
+    // Get the technical staff details
     $this->techStaffDetails = User::where('id', $this->techId)->get()->first();
 
 
+    // Get the categories for the selected technical staff
     $ctgry = Request::where('assigned_requests.technicalStaff_id', $this->techId)
-
-        ->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
-
         ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')->with(['categories', 'categories.category'])->get();
 
 
-    $ctgryMonth = Request::where('assigned_requests.technicalStaff_id', $this->techId)
-        ->whereBetween('assigned_requests.created_at', [
-            Carbon::now()->startOfMonth(),
-            Carbon::now()->endOfMonth()
-        ])
-        ->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
-
-        ->join('assigned_requests', 'assigned_requests.request_id', '=', 'requests.id')->with(['categories', 'categories.category'])->get();
-
+    // Get the category IDs from the categories relationship
     $categoryIds = collect($ctgry)
         ->pluck('categories')
         ->collapse()
@@ -94,6 +93,7 @@ $total = function () {
         ->unique()
         ->values();
 
+    // Get the category names from the Category model
     $categories = Category::whereIn('id', $categoryIds)
         ->pluck('name', 'id') // [id => name] mapping
         ->toArray();
@@ -114,24 +114,11 @@ $total = function () {
         ->countBy()
         ->all();
 
-    $cMonth = collect($ctgryMonth)
-        ->pluck('categories')
-        ->collapse()
-        ->pluck('category_id')
-        ->map(function ($id) use ($categories) {
-            // Treat empty string as null
-            if ($id === "" || $id === null) {
-                return 'Others';
-            }
-            // Return category name if exists, otherwise 'Unknown'
-            return $categories[$id] ?? 'Unknown';
-        })
-        ->countBy()
-        ->all();
 
-    $this->categoryForMonth = $cMonth;
+
 
     $this->categories = $this->categoryCounts;
+  
 };
 
 mount(function () {
