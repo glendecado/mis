@@ -123,10 +123,11 @@
                             font:{
                                 size: 12
                             },
-                            maxRotation: 0,
-                            minRotation: 0,
-                            autoSkip: false,
-                            padding: 10
+                                autoSkip: false,
+                                padding: 0,
+                                maxRotation: 90, 
+                                minRotation: 0 
+                            
                         },
                         grid:{
                             display: false
@@ -146,7 +147,7 @@
 }">
 
             <!-- Chart (right side) -->
-            <div class="bg-white p-4 rounded-md shadow-md">
+            <div class="bg-white p-4 rounded-md shadow-md h-full">
                 <canvas x-ref="chartCanvas" class="w-full"></canvas>
             </div>
         </div>
