@@ -14,7 +14,7 @@ use function Livewire\Volt\{mount, on, placeholder, state};
 
 state('techStaff');
 state('techStaffDetails');
-state('techId');
+state('techId')->url();
 state('date');
 state('totalAssignedRequests');
 state('totalRequestsCompleted');
@@ -118,7 +118,6 @@ $total = function () {
 
 
     $this->categories = $this->categoryCounts;
-  
 };
 
 mount(function () {
@@ -141,7 +140,6 @@ mount(function () {
 on([
     'update' => function () {
         $this->total();
-        session(['date' => $this->date]);
     },
 ]);
 
@@ -151,8 +149,8 @@ $requests = function () {
         ->pluck('request_id');
 
     $requests = Request::whereIn('id', $taskIds)->where('status', 'resolved')->with('categories')->whereMonth('requests.created_at', Carbon::now()->month)
-    ->whereYear('requests.created_at', Carbon::now()->year)
-    ->get();
+        ->whereYear('requests.created_at', Carbon::now()->year)
+        ->get();
 
     return $requests;
 };
@@ -162,7 +160,7 @@ $techStaffMetrics = function () {
         return collect(); // Return empty collection if no staff selected
     }
 
-    $date = session('date') ?? $this->date;
+    $date = $this->date;
     $id = $this->techId;
     $carbon = Carbon::now();
     $request = Request::query()
@@ -214,7 +212,13 @@ $techStaffMetrics = function () {
 
     return $request->whereBetween('assigned_requests.created_at', [$carbon->startOfMonth()->toDateTimeString(), $carbon->endOfMonth()->toDateTimeString()])->get();
 };
+
+$selectedTech = function() {
+    return $this->redirect('/reports?techId='.$this->techId, navigate:true);
+}
 ?>
+
+
 
 <div class="px-0 md:px-4 py-4 bg-slate-100 rounded-md">
 
@@ -233,7 +237,8 @@ $techStaffMetrics = function () {
         <!-- Tech Staff Selection -->
         <div class="px-4">
             <label for="techId" class="block font-semibold text-gray-700 mb-1">Select Technical Staff:</label>
-            <select wire:model.change="techId" name="techId" id="techId" class="input w-full"
+            <select wire:model="techId"
+                wire:change.prevent="selectedTech" name="techId" id="techId" class="input w-full"
                 @change="$dispatch('update')" {{ empty($techStaff) ? 'disabled' : '' }}>
                 @if ($techStaff->isNotEmpty())
                 @foreach ($techStaff as $staff)
