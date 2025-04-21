@@ -62,7 +62,7 @@
                 </table>
             </div>
         </div>
-        <div x-data="{
+        <div wire:ignore x-data="{
     categories: {{ json_encode($this->categories) }},
     init() {
         this.createChart();
