@@ -3,7 +3,7 @@
     {{--Logo--}}
     <div class="header-container-logo" @click="Livewire.navigate('/request?status=all')">
         <x-logo />
-        <span class="ml-2 md:block hidden">MIS Service Request Portal</span>
+        <span class="ml-2 md:block hidden">SERVICE CONNECT IT: REQUEST AND SUPPORT SYSTEM</span>
     </div>
 
     {{--Profile--}}

@@ -173,7 +173,7 @@ $techStaffMetrics = function () {
         case 'today':
             $request->whereDate('assigned_requests.created_at', Carbon::today())
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%h:%i %p') as date"),
+                    DB::raw("STRFTIME(assigned_requests.created_at, '%h:%i %p') as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )
@@ -184,7 +184,7 @@ $techStaffMetrics = function () {
         case 'this_week':
             $request->where('assigned_requests.created_at', '>=', Carbon::now()->subWeek())
                 ->select(
-                    DB::raw("DATE_FORMAT(assigned_requests.created_at, '%Y-%m-%d') as date"),
+                    DB::raw("STRFTIME(assigned_requests.created_at, '%Y-%m-%d') as date"),
                     DB::raw('COUNT(*) as total_assigned_requests'),
                     DB::raw('SUM(CASE WHEN requests.status = "resolved" THEN 1 ELSE 0 END) as total_requests_resolved')
                 )

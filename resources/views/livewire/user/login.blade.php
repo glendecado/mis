@@ -87,7 +87,7 @@ $login = function () {
             class="relative w-full sm:w-96 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-md sm:px-10 bg-[#2e5e91]">
             <div class="flex items-center gap-2 justify-center mb-2">
                 <img src="{{ asset('storage/profile_images/default/ISAT-U-logo.png') }}" alt="ISAT-U Logo" class="size-10">
-                <p class="text-white font-medium text-xl font-geist">MIS Service Request Portal</p>
+                <p class="text-white font-medium text-xl font-geist">SERVICE CONNECT IT: REQUEST AND SUPPORT SYSTEM</p>
             </div>
 
             <hr>
